@@ -642,7 +642,7 @@
         "card_khxby6": {
           "type": "card",
           "settings": {
-            "cat_id": "cat2",
+            "cat_id": "cat1",
             "image": "shopify://shop_images/ceramic-min_c6855de1-b4bc-4ad4-8545-880b3ec41164.webp",
             "badge_text": "FOREVER CHEMICALS",
             "badge_bg": "",
@@ -654,7 +654,7 @@
         "card_68YLXk": {
           "type": "card",
           "settings": {
-            "cat_id": "cat2",
+            "cat_id": "cat1",
             "image": "shopify://shop_images/ceramic-min_c6855de1-b4bc-4ad4-8545-880b3ec41164.webp",
             "badge_text": "FOREVER CHEMICALS",
             "badge_bg": "",
