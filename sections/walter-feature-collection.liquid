@@ -201,7 +201,6 @@
 
   /* Slider Track Styles */
   #best-sellers-{{ section.id }} .best-sellers__track {
-    margin: 0 -10px; /* Offset for card padding */
     opacity: 0; /* Hidden until loaded to prevent CLS */
     transition: opacity 0.4s ease;
   }
@@ -321,7 +320,6 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      margin: 0 -16px; /* Bleed to edge */
       padding: 0 16px 20px 16px; /* Spacing for shadow/scrollbar */
       gap: 12px;
     }
