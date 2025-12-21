@@ -297,7 +297,7 @@
         "badge_bg": "#932933",
         "badge_fg": "#c8beab",
         "padding_top": 28,
-        "padding_bottom": 32
+        "padding_bottom": 76
       }
     },
     "walter_auto_scrolling_KCKiNG": {
@@ -416,22 +416,20 @@
       "settings": {
         "slides_desktop": 3,
         "slides_mobile": 1.2,
-        "variable_width_mobile": true,
         "card_gap": 16,
         "show_stars": true,
         "star_size": 32,
-        "star_color": "#B57C46",
+        "star_color": "#b57c46",
         "heading": "Trusted By <strong>550,000+</strong> Kitchens",
         "title_size_d": 48,
         "title_size_m": 32,
-        "hide_nav_mobile": true,
         "bg_color": "#121212",
         "text_color": "#f6f4f0",
         "heading_color": "#ffffff",
         "highlight_color": "#bca588",
-        "nav_border_color": "#D4C7B4",
-        "nav_arrow_color": "#D4C7B4",
-        "nav_bg_active": "#A3835F",
+        "nav_border_color": "#d4c7b4",
+        "nav_arrow_color": "#d4c7b4",
+        "nav_bg_active": "#a3835f",
         "nav_arrow_active": "#121212",
         "pill_bg": "#b57c46",
         "pill_text": "#ffffff",
