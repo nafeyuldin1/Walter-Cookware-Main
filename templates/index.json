@@ -251,14 +251,14 @@
         "@media screen and (min-width: 750px) {h2 {margin: auto; }}",
         ".title-wrapper-with-link {padding: 0px 20px; display: flex; flex-wrap: nowrap; line-height: 1;}",
         ".title-wrapper-with-link h2 {line-height: 1;}",
-        "svg{display: none;}"
+        "svg {display: none;}"
       ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
         "title": "Shop By Category",
         "heading_size": "h0",
         "grid_gap": 26,
-        "card_radius": 16,
+        "card_radius": 22,
         "enable_overlay": true,
         "overlay_opacity": 90,
         "image_ratio": "square",
