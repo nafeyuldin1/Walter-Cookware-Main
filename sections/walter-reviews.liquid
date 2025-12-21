@@ -1,6 +1,6 @@
 {% comment %}
   Section: Custom Reviews Slider
-  Features: Dynamic Slide Count, Tabs Filtering, Custom Icons
+  Settings: Desktop/Mobile Item Counts, Icons, Colors, Tabs
 {% endcomment %}
 
 {%- style -%}
@@ -43,7 +43,8 @@
   #shopify-section-{{ section.id }} .review-tabs {
     display: flex;
     gap: 0;
-    flex: 1; /* Allow tabs to take space */
+    /* On mobile, full width. On desktop, auto width */
+    width: auto; 
   }
 
   #shopify-section-{{ section.id }} .review-tabs .tab {
@@ -51,8 +52,7 @@
     background: {{ section.settings.bg_color }};
     color: {{ section.settings.tab_text_inactive }};
     border: 1.5px solid {{ section.settings.border_color }};
-    /* max-width: 300px; */
-    flex: 1; /* Distribute space evenly */
+    min-width: 120px;
     font-size: 20px;
     font-weight: 500;
     line-height: 1.4;
@@ -86,7 +86,7 @@
   }
   #shopify-section-{{ section.id }} .arrows button:hover { opacity: 0.8; }
 
-  /* Icon Colors */
+  /* Icon Styling */
   #shopify-section-{{ section.id }} .prev-arrow rect { stroke: {{ section.settings.arrow_border }}; fill: transparent; }
   #shopify-section-{{ section.id }} .prev-arrow path { stroke: {{ section.settings.arrow_icon }}; }
   
@@ -102,7 +102,7 @@
     margin: 0 auto;
   }
   
-  /* Reset margin on larger screens if needed */
+  /* Large Screen Margin Logic */
   @media (min-width: 1800px) {
      #shopify-section-{{ section.id }} .reviews-slider { margin-left: auto; margin-right: auto; }
   }
@@ -120,7 +120,6 @@
     display: flex !important;
     flex-direction: column;
     height: auto;
-    /* Min height to keep cards uniform */
     min-height: 240px; 
   }
 
@@ -164,7 +163,7 @@
     #shopify-section-{{ section.id }} .arrows.desktop-arrows { display: none; }
     #shopify-section-{{ section.id }} .arrows.mobile-arrows { display: flex; }
     
-    #shopify-section-{{ section.id }} .review-tabs { flex-wrap: wrap; }
+    #shopify-section-{{ section.id }} .review-tabs { width: 100%; flex-wrap: wrap; }
     #shopify-section-{{ section.id }} .review-tabs .tab { 
       font-size: 14px; 
       width: 50%; 
@@ -173,14 +172,13 @@
       border: 1.5px solid {{ section.settings.border_color }};
     }
     
-    /* Mobile Grid Tabs Logic (2x2) */
+    /* Mobile 2x2 Grid Tab Borders */
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(odd) { border-right: 0; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(1) { border-radius: 12px 0 0 0; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(2) { border-radius: 0 12px 0 0; border-left: 1.5px solid {{ section.settings.border_color }}; border-right: 1.5px solid {{ section.settings.border_color }}; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(3) { border-radius: 0 0 0 12px; border-top: 0; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(4) { border-radius: 0 0 12px 0; border-top: 0; border-left: 1.5px solid {{ section.settings.border_color }}; border-right: 1.5px solid {{ section.settings.border_color }}; }
 
-    /* Fix slide width on mobile */
     #shopify-section-{{ section.id }} .reviews-slider { padding-left: 16px; }
   }
 {%- endstyle -%}
@@ -255,13 +253,13 @@
 
   <div class="arrows mobile-arrows">
     <button class="prev-arrow js-prev-{{ section.id }}">
-      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
+      <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
         <rect x="1" y="1" width="48" height="48" rx="12" stroke-width="1.5"></rect>
         <path d="M27.5 20L22.5 25L27.5 30" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
       </svg>
     </button>
     <button class="next-arrow js-next-{{ section.id }}">
-      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12"></rect>
         <path d="M21.5 19L26.5 24L21.5 29" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
       </svg>
@@ -279,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var $slider    = $container.find('.js-reviews-slider-' + SECTION_ID);
   var $tabs      = $container.find('.review-tabs .tab');
 
-  // Dynamic Settings
+  // Dynamic Settings from Schema
   var desktopSlides = parseInt($slider.attr('data-desktop')) || 3;
   var mobileSlides  = parseFloat($slider.attr('data-mobile')) || 1.1;
 
@@ -288,7 +286,7 @@ document.addEventListener("DOMContentLoaded", function () {
       infinite: true,
       slidesToShow: desktopSlides,
       slidesToScroll: 1,
-      variableWidth: false, // Turned off to respect exact slide count
+      variableWidth: false,
       arrows: false,
       dots: false,
       responsive: [
@@ -299,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
         {
           breakpoint: 999,
           settings: {
-            slidesToShow: mobileSlides, // Use decimal for peeking
+            slidesToShow: mobileSlides,
             variableWidth: false
           }
         }
@@ -313,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
   $container.find('.js-prev-' + SECTION_ID).on('click', function(){ $slider.slick('slickPrev'); });
   $container.find('.js-next-' + SECTION_ID).on('click', function(){ $slider.slick('slickNext'); });
 
-  // Initial Filter (First Tab)
+  // Initial Filter
   var firstCat = $tabs.first().attr('data-category');
   if (firstCat) {
     $slider.slick('slickUnfilter');
@@ -322,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Tab Click Event
+  // Tab Click
   $tabs.on("click", function () {
     var $this = $(this);
     var category = $this.attr("data-category");
@@ -340,7 +338,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Theme Editor Re-init
   document.addEventListener('shopify:section:load', function(e){
     if(e.detail.sectionId === SECTION_ID) {
       $slider.slick('setPosition');
@@ -367,26 +364,26 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       "type": "header",
-      "content": "Slider Settings"
+      "content": "Slide Count Settings"
     },
     {
       "type": "range",
       "id": "slides_desktop",
       "min": 1,
-      "max": 4,
+      "max": 5,
       "step": 1,
-      "label": "Cards to show (Desktop)",
+      "label": "Cards to Show (Desktop)",
       "default": 3
     },
     {
       "type": "range",
       "id": "slides_mobile",
       "min": 1,
-      "max": 2,
+      "max": 3,
       "step": 0.1,
-      "label": "Cards to show (Mobile)",
-      "default": 1.1,
-      "info": "Use decimals (e.g. 1.2) to show part of the next card."
+      "label": "Cards to Show (Mobile)",
+      "default": 1.2,
+      "info": "Use decimals like 1.2 to show part of the next card."
     },
     {
       "type": "range",
@@ -444,7 +441,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       "type": "header",
-      "content": "Arrow Style"
+      "content": "Arrow Icons"
     },
     {
       "type": "color",
@@ -575,7 +572,7 @@ document.addEventListener("DOMContentLoaded", function () {
         {
           "type": "text",
           "id": "title",
-          "label": "Tab Name",
+          "label": "Tab Label",
           "default": "Wellness"
         },
         {
