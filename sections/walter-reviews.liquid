@@ -1,6 +1,8 @@
 {% comment %}
-  Section: Custom Reviews Slider
-  Settings: Desktop/Mobile Item Counts, Icons, Colors, Tabs
+  Section: Reviews Slider Custom (Fixed Alignment & Settings)
+  - Mobile: Left Aligned, Dynamic Item Count
+  - Desktop: Dynamic Item Count
+  - Arrows: Visible & Functional
 {% endcomment %}
 
 {%- style -%}
@@ -29,7 +31,7 @@
     font-weight: 400;
   }
 
-  /* Header Layout (Tabs + Arrows) */
+  /* Header Layout */
   #shopify-section-{{ section.id }} .tabs-and-arrows {
     display: flex;
     justify-content: space-between;
@@ -39,12 +41,11 @@
     gap: 20px;
   }
 
-  /* TABS */
+  /* Tabs */
   #shopify-section-{{ section.id }} .review-tabs {
     display: flex;
     gap: 0;
-    /* On mobile, full width. On desktop, auto width */
-    width: auto; 
+    flex: 1; /* Allow tabs to grow */
   }
 
   #shopify-section-{{ section.id }} .review-tabs .tab {
@@ -52,7 +53,7 @@
     background: {{ section.settings.bg_color }};
     color: {{ section.settings.tab_text_inactive }};
     border: 1.5px solid {{ section.settings.border_color }};
-    min-width: 120px;
+    flex: 1;
     font-size: 20px;
     font-weight: 500;
     line-height: 1.4;
@@ -71,7 +72,7 @@
     border-color: {{ section.settings.tab_bg_active }};
   }
 
-  /* ARROWS (Icons) */
+  /* Arrows */
   #shopify-section-{{ section.id }} .arrows button {
     background: transparent;
     padding: 0;
@@ -86,7 +87,6 @@
   }
   #shopify-section-{{ section.id }} .arrows button:hover { opacity: 0.8; }
 
-  /* Icon Styling */
   #shopify-section-{{ section.id }} .prev-arrow rect { stroke: {{ section.settings.arrow_border }}; fill: transparent; }
   #shopify-section-{{ section.id }} .prev-arrow path { stroke: {{ section.settings.arrow_icon }}; }
   
@@ -96,13 +96,13 @@
   #shopify-section-{{ section.id }} .arrows.desktop-arrows { display: flex; gap: 12px; }
   #shopify-section-{{ section.id }} .arrows.mobile-arrows { display: none; margin-top: 32px; justify-content: center; gap: 16px; }
 
-  /* SLIDER CONTAINER */
+  /* Slider Container */
   #shopify-section-{{ section.id }} .reviews-slider {
     max-width: {{ section.settings.max_width }}px;
     margin: 0 auto;
+    /* IMPORTANT: No left padding on desktop to keep it aligned with max-width */
   }
   
-  /* Large Screen Margin Logic */
   @media (min-width: 1800px) {
      #shopify-section-{{ section.id }} .reviews-slider { margin-left: auto; margin-right: auto; }
   }
@@ -110,7 +110,7 @@
   #shopify-section-{{ section.id }} .slick-list { margin: 0 -{{ section.settings.card_gap }}px; }
   #shopify-section-{{ section.id }} .slick-slide { margin: 0 {{ section.settings.card_gap }}px; }
 
-  /* REVIEW CARD */
+  /* Review Card */
   #shopify-section-{{ section.id }} .review-slide {
     background: {{ section.settings.card_bg }};
     color: {{ section.settings.card_text }};
@@ -121,6 +121,7 @@
     flex-direction: column;
     height: auto;
     min-height: 240px; 
+    /* Remove fixed widths here to allow Slick to control width */
   }
 
   #shopify-section-{{ section.id }} .review-slide-top-wrapper { display: flex; gap: 12px; align-items: center; }
@@ -145,7 +146,7 @@
     margin-bottom: 0;
   }
 
-  /* RESPONSIVE MOBILE */
+  /* Responsive Mobile */
   @media (max-width: 999px) {
     #shopify-section-{{ section.id }} .reviews-slider-section {
       padding-top: {{ section.settings.pt_m }}px;
@@ -163,7 +164,7 @@
     #shopify-section-{{ section.id }} .arrows.desktop-arrows { display: none; }
     #shopify-section-{{ section.id }} .arrows.mobile-arrows { display: flex; }
     
-    #shopify-section-{{ section.id }} .review-tabs { width: 100%; flex-wrap: wrap; }
+    #shopify-section-{{ section.id }} .review-tabs { flex-wrap: wrap; }
     #shopify-section-{{ section.id }} .review-tabs .tab { 
       font-size: 14px; 
       width: 50%; 
@@ -172,14 +173,23 @@
       border: 1.5px solid {{ section.settings.border_color }};
     }
     
-    /* Mobile 2x2 Grid Tab Borders */
+    /* 2x2 Grid Tabs Logic */
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(odd) { border-right: 0; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(1) { border-radius: 12px 0 0 0; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(2) { border-radius: 0 12px 0 0; border-left: 1.5px solid {{ section.settings.border_color }}; border-right: 1.5px solid {{ section.settings.border_color }}; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(3) { border-radius: 0 0 0 12px; border-top: 0; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(4) { border-radius: 0 0 12px 0; border-top: 0; border-left: 1.5px solid {{ section.settings.border_color }}; border-right: 1.5px solid {{ section.settings.border_color }}; }
 
-    #shopify-section-{{ section.id }} .reviews-slider { padding-left: 16px; }
+    /* Left Align Logic for Mobile */
+    #shopify-section-{{ section.id }} .reviews-slider { 
+      padding-left: 16px; /* Adds left padding to container */
+      width: 100%;
+    }
+    
+    #shopify-section-{{ section.id }} .review-slide {
+      /* Removed fixed width so settings control it */
+      margin-right: 12px;
+    }
   }
 {%- endstyle -%}
 
@@ -253,13 +263,13 @@
 
   <div class="arrows mobile-arrows">
     <button class="prev-arrow js-prev-{{ section.id }}">
-      <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
         <rect x="1" y="1" width="48" height="48" rx="12" stroke-width="1.5"></rect>
         <path d="M27.5 20L22.5 25L27.5 30" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
       </svg>
     </button>
     <button class="next-arrow js-next-{{ section.id }}">
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12"></rect>
         <path d="M21.5 19L26.5 24L21.5 29" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
       </svg>
@@ -277,8 +287,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var $slider    = $container.find('.js-reviews-slider-' + SECTION_ID);
   var $tabs      = $container.find('.review-tabs .tab');
 
-  // Dynamic Settings from Schema
-  var desktopSlides = parseInt($slider.attr('data-desktop')) || 3;
+  // Dynamic Settings
+  var desktopSlides = parseFloat($slider.attr('data-desktop')) || 3;
   var mobileSlides  = parseFloat($slider.attr('data-mobile')) || 1.1;
 
   function initSlick() {
@@ -286,32 +296,35 @@ document.addEventListener("DOMContentLoaded", function () {
       infinite: true,
       slidesToShow: desktopSlides,
       slidesToScroll: 1,
-      variableWidth: false,
+      variableWidth: false, /* Force width calculation based on slidesToShow */
       arrows: false,
       dots: false,
       responsive: [
         {
-          breakpoint: 1200,
-          settings: { slidesToShow: 3 }
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: Math.min(desktopSlides, 3) 
+          }
         },
         {
           breakpoint: 999,
           settings: {
-            slidesToShow: mobileSlides,
-            variableWidth: false
+            slidesToShow: mobileSlides, /* e.g. 1.2 for peek */
+            variableWidth: false 
           }
         }
       ]
     });
   }
 
+  // Init Slider
   initSlick();
 
-  // Custom Arrows Binding
+  // Bind Custom Arrows
   $container.find('.js-prev-' + SECTION_ID).on('click', function(){ $slider.slick('slickPrev'); });
   $container.find('.js-next-' + SECTION_ID).on('click', function(){ $slider.slick('slickNext'); });
 
-  // Initial Filter
+  // Initial Filter (First Tab)
   var firstCat = $tabs.first().attr('data-category');
   if (firstCat) {
     $slider.slick('slickUnfilter');
@@ -320,7 +333,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Tab Click
+  // Tab Filtering Logic
   $tabs.on("click", function () {
     var $this = $(this);
     var category = $this.attr("data-category");
@@ -338,6 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // Theme Editor Re-init
   document.addEventListener('shopify:section:load', function(e){
     if(e.detail.sectionId === SECTION_ID) {
       $slider.slick('setPosition');
@@ -370,9 +384,9 @@ document.addEventListener("DOMContentLoaded", function () {
       "type": "range",
       "id": "slides_desktop",
       "min": 1,
-      "max": 5,
+      "max": 4,
       "step": 1,
-      "label": "Cards to Show (Desktop)",
+      "label": "Cards to show (Desktop)",
       "default": 3
     },
     {
@@ -381,9 +395,9 @@ document.addEventListener("DOMContentLoaded", function () {
       "min": 1,
       "max": 3,
       "step": 0.1,
-      "label": "Cards to Show (Mobile)",
+      "label": "Cards to show (Mobile)",
       "default": 1.2,
-      "info": "Use decimals like 1.2 to show part of the next card."
+      "info": "Use decimal (e.g. 1.2) to make next slide visible."
     },
     {
       "type": "range",
@@ -393,7 +407,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "step": 1,
       "unit": "px",
       "label": "Gap Between Cards",
-      "default": 10
+      "default": 16
     },
     {
       "type": "header",
@@ -441,7 +455,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       "type": "header",
-      "content": "Arrow Icons"
+      "content": "Arrow Style"
     },
     {
       "type": "color",
@@ -572,7 +586,7 @@ document.addEventListener("DOMContentLoaded", function () {
         {
           "type": "text",
           "id": "title",
-          "label": "Tab Label",
+          "label": "Tab Name",
           "default": "Wellness"
         },
         {
