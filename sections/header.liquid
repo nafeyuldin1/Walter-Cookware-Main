@@ -303,7 +303,40 @@
       </a>
     </div>
   </header>
-</{{ header_tag }}>
+
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'bottom_menu' and block.settings.bottom_nav != blank -%}
+      <div class="header-bottom-menu small-hide medium-hide color-{{ block.settings.color_scheme }} gradient" {{ block.shopify_attributes }}>
+        <div class="page-width">
+          <ul class="list-menu list-menu--inline center-aligned-menu" role="list">
+            {%- for link in block.settings.bottom_nav.links -%}
+              <li class="list-menu__item">
+                <a href="{{ link.url }}" class="header__menu-item list-menu__item link link--text focus-inset" style="font-size: {{ block.settings.font_size }}px; font-weight: bold; padding-top: 10px; padding-bottom: 10px;">
+                  {{ link.title | escape }}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+      <style>
+        .header-bottom-menu {
+          border-top: 1px solid rgba(var(--color-foreground), 0.08);
+          display: block;
+          width: 100%;
+        }
+        .center-aligned-menu {
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+        .header-bottom-menu .list-menu__item a {
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      </style>
+    {%- endif -%}
+  {%- endfor -%}
+  </{{ header_tag }}>
 
 {%- if settings.cart_type == 'notification' -%}
   {%- render 'cart-notification',
@@ -652,6 +685,34 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "bottom_menu",
+      "name": "Desktop Bottom Menu",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "bottom_nav",
+          "label": "Select Menu"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color Scheme",
+          "default": "scheme-1"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size",
+          "default": 14
+        }
+      ]
     }
   ]
 }
