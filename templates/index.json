@@ -290,14 +290,81 @@
         "title_size_desktop": 48,
         "title_size_mobile": 30,
         "bg_color": "#121212",
-        "text_color": "#BCA588",
+        "text_color": "#bca588",
         "card_bg": "#121212",
-        "card_text": "#F6F4F0",
-        "price_color": "#F6F4F0",
+        "card_text": "#f6f4f0",
+        "price_color": "#f6f4f0",
         "badge_bg": "#932933",
         "badge_fg": "#c8beab",
         "padding_top": 28,
         "padding_bottom": 32
+      }
+    },
+    "walter_auto_scrolling_KCKiNG": {
+      "type": "walter-auto-scrolling",
+      "blocks": {
+        "benefit_kt7rby": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shopify://shop_images/icons.png",
+            "text": "Sustainable"
+          }
+        },
+        "benefit_rYar4w": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shopify://shop_images/icons_1_438d954c-e905-4307-a3e3-a7e3914450fc.png",
+            "text": "Free Returns"
+          }
+        },
+        "benefit_b6DU3g": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shopify://shop_images/icons_13.png",
+            "text": "Certified"
+          }
+        },
+        "benefit_LREDqa": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shopify://shop_images/icons_12.png",
+            "text": "100% TOXIN-FREE"
+          }
+        },
+        "benefit_pdfnEU": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shopify://shop_images/icons_12.png",
+            "text": "PFAS-FREE"
+          }
+        },
+        "benefit_rtfxiY": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shopify://shop_images/icons_14.png",
+            "text": "ANTIBACTERIAL"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_kt7rby",
+        "benefit_rYar4w",
+        "benefit_b6DU3g",
+        "benefit_LREDqa",
+        "benefit_pdfnEU",
+        "benefit_rtfxiY"
+      ],
+      "name": "Auto Scrolling Marquee",
+      "settings": {
+        "bg_color": "#03231a",
+        "text_color": "#ede6da",
+        "icon_height": 40,
+        "font_size_desktop": 20,
+        "font_size_mobile": 14,
+        "padding_y": 32,
+        "speed": 20,
+        "gap_desktop": 100,
+        "gap_mobile": 48
       }
     }
   },
@@ -306,6 +373,7 @@
     "video_banner_XqAVct",
     "featured_product_FLpjec",
     "collection_list_jM7Nq3",
-    "walter_feature_collection_mAfcVP"
+    "walter_feature_collection_mAfcVP",
+    "walter_auto_scrolling_KCKiNG"
   ]
 }
