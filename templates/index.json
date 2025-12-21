@@ -205,7 +205,7 @@
           "settings": {
             "collection": "bundles",
             "custom_image": "shopify://shop_images/first_top-min.webp",
-            "badge_text": "",
+            "badge_text": "Up To 55% OFF",
             "badge_bg": "#d42a2a",
             "badge_color": "#ffffff"
           }
@@ -215,7 +215,7 @@
           "settings": {
             "collection": "bundles",
             "custom_image": "shopify://shop_images/2_christmas-min.jpg",
-            "badge_text": "",
+            "badge_text": "55% OFF",
             "badge_bg": "#d42a2a",
             "badge_color": "#ffffff"
           }
@@ -225,7 +225,7 @@
           "settings": {
             "collection": "bundles",
             "custom_image": "shopify://shop_images/3_xmas-min.jpg",
-            "badge_text": "",
+            "badge_text": "Up To 55% OFF",
             "badge_bg": "#d42a2a",
             "badge_color": "#ffffff"
           }
@@ -235,7 +235,7 @@
           "settings": {
             "collection": "bundles",
             "custom_image": "shopify://shop_images/board-min_33fdc77c-269a-4cc5-84ec-06c41c4bb2d3.jpg",
-            "badge_text": "",
+            "badge_text": "Up To 55% OFF",
             "badge_bg": "#d42a2a",
             "badge_color": "#ffffff"
           }
@@ -254,7 +254,7 @@
       "settings": {
         "title": "Shop By Category",
         "heading_size": "h0",
-        "grid_gap": 8,
+        "grid_gap": 4,
         "card_radius": 16,
         "enable_overlay": true,
         "overlay_opacity": 90,
@@ -264,7 +264,7 @@
         "show_view_all": true,
         "view_all_text": "Shop All",
         "view_all_mobile_pos": "bottom",
-        "columns_mobile": "1",
+        "columns_mobile": "2",
         "swipe_on_mobile": false,
         "padding_top": 36,
         "padding_bottom": 36
