@@ -366,6 +366,84 @@
         "gap_desktop": 100,
         "gap_mobile": 48
       }
+    },
+    "walter_review_slider_zxr3GT": {
+      "type": "walter-review-slider",
+      "blocks": {
+        "card_NCUGkM": {
+          "type": "card",
+          "settings": {
+            "pill_text": "TITANIUM PAN",
+            "video": "shopify://files/videos/Amazon.com Plateful Titanium Pan For Cooking 12 - Pure No Coatin.mp4",
+            "video_url": "",
+            "title": "Fantastic!",
+            "quote": "Best pan I have ever used.",
+            "author": "John Doe"
+          }
+        },
+        "card_HCyaDP": {
+          "type": "card",
+          "settings": {
+            "pill_text": "TITANIUM PAN",
+            "video": "shopify://files/videos/istockphoto-802972818-640_adpp_is.mp4",
+            "video_url": "",
+            "title": "Fantastic!",
+            "quote": "Best pan I have ever used.",
+            "author": "John Doe"
+          }
+        },
+        "card_JYqxFd": {
+          "type": "card",
+          "settings": {
+            "pill_text": "TITANIUM PAN",
+            "video": "shopify://files/videos/8e2184d2bfc6463c89ac775fec60d5d5.mp4",
+            "video_url": "",
+            "title": "Fantastic!",
+            "quote": "Best pan I have ever used.",
+            "author": "John Doe"
+          }
+        }
+      },
+      "block_order": [
+        "card_NCUGkM",
+        "card_HCyaDP",
+        "card_JYqxFd"
+      ],
+      "name": "Reviews Hero Slider",
+      "settings": {
+        "slides_desktop": 3,
+        "slides_mobile": 1.1,
+        "variable_width_mobile": true,
+        "card_gap": 16,
+        "show_stars": true,
+        "star_size": 32,
+        "star_color": "#B57C46",
+        "heading": "Trusted By <strong>550,000+</strong> Kitchens",
+        "title_size_d": 48,
+        "title_size_m": 32,
+        "hide_nav_mobile": true,
+        "bg_color": "#121212",
+        "text_color": "#f6f4f0",
+        "heading_color": "#ffffff",
+        "highlight_color": "#bca588",
+        "nav_border_color": "#D4C7B4",
+        "nav_arrow_color": "#D4C7B4",
+        "nav_bg_active": "#A3835F",
+        "nav_arrow_active": "#121212",
+        "pill_bg": "#b57c46",
+        "pill_text": "#ffffff",
+        "card_title_color": "#f7f7f7",
+        "card_title_size": 20,
+        "card_text_color": "#b0b0b0",
+        "card_quote_size": 14,
+        "max_width": 1800,
+        "pt_d": 120,
+        "pb_d": 120,
+        "pad_x_d": 80,
+        "pt_m": 60,
+        "pb_m": 60,
+        "pad_x_m": 16
+      }
     }
   },
   "order": [
@@ -374,6 +452,7 @@
     "featured_product_FLpjec",
     "collection_list_jM7Nq3",
     "walter_feature_collection_mAfcVP",
-    "walter_auto_scrolling_KCKiNG"
+    "walter_auto_scrolling_KCKiNG",
+    "walter_review_slider_zxr3GT"
   ]
 }
