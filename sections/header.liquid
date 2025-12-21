@@ -74,6 +74,17 @@
       padding-top: 0.5rem;
     }
   }
+
+  /* BLUR EFFECT CSS FOR STICKY HEADER */
+  {% if section.settings.enable_sticky_blur %}
+    .shopify-section-header-sticky .header-wrapper {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      /* Forces transparency on the background color of the chosen scheme */
+      background-color: rgba(var(--color-background), {{ section.settings.sticky_opacity | divided_by: 100.0 }}) !important;
+    }
+  {% endif %}
+
 </style>
 
 {%- style -%}
@@ -622,6 +633,23 @@
       ],
       "default": "on-scroll-up",
       "label": "t:sections.header.settings.sticky_header_type.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_blur",
+      "default": true,
+      "label": "Enable Blur on Sticky Header"
+    },
+    {
+      "type": "range",
+      "id": "sticky_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Sticky Header Opacity",
+      "default": 85,
+      "info": "Lower value means more transparent."
     },
     {
       "type": "checkbox",
