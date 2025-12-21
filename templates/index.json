@@ -288,7 +288,7 @@
         ],
         "items_desktop": 4,
         "title_size_desktop": 48,
-        "title_size_mobile": 24,
+        "title_size_mobile": 30,
         "bg_color": "#121212",
         "text_color": "#BCA588",
         "card_bg": "#121212",
@@ -296,8 +296,8 @@
         "price_color": "#F6F4F0",
         "badge_bg": "#932933",
         "badge_fg": "#c8beab",
-        "padding_top": 64,
-        "padding_bottom": 80
+        "padding_top": 28,
+        "padding_bottom": 32
       }
     }
   },
