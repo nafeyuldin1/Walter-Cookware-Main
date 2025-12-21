@@ -851,8 +851,9 @@
           "type": "review",
           "settings": {
             "cat_id": "wellness",
+            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
             "name": "Sarah",
-            "text": "Great for my health."
+            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
           }
         },
         "review_mDRMtb": {
