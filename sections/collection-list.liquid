@@ -127,7 +127,7 @@
 
         {% comment %} Mobile View All - Top Right Option {% endcomment %}
         {%- if section.settings.show_view_all and section.settings.view_all_mobile_pos == 'top' -%}
-             <a href="{{ routes.collections_url }}" class="view-all-mobile-link button medium-hide large-up-hide ">
+             <a style="text-decoration: none;" href="{{ routes.collections_url }}" class="view-all-mobile-link button medium-hide large-up-hide ">
               {{ section.settings.view_all_text | default: 'View all' }}
             </a>
         {%- endif -%}
