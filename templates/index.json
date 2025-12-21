@@ -111,11 +111,11 @@
         "btn_text": "#ffffff",
         "show_stars": true,
         "review_text": "4.9 (550,000+ Customers)",
-        "marquee_bg": "#0000004d",
+        "marquee_bg": "rgba(0,0,0,0)",
         "marquee_speed": 30,
-        "logo_height": 24,
-        "logo_opacity": 80,
-        "logo_filter": "brightness(0) invert(1)"
+        "logo_height": 100,
+        "logo_opacity": 100,
+        "logo_filter": "none"
       }
     }
   },
