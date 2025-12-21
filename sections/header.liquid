@@ -308,7 +308,7 @@
     {%- if block.type == 'bottom_menu' and block.settings.bottom_nav != blank -%}
       <div class="header-bottom-menu small-hide medium-hide color-{{ block.settings.color_scheme }} gradient" {{ block.shopify_attributes }}>
         <div class="page-width">
-          <ul class="list-menu list-menu--inline center-aligned-menu" role="list">
+          <ul style="width: 100%;" class="list-menu list-menu--inline center-aligned-menu" role="list">
             {%- for link in block.settings.bottom_nav.links -%}
               <li class="list-menu__item">
                 <a href="{{ link.url }}" class="header__menu-item list-menu__item link link--text focus-inset" style="font-size: {{ block.settings.font_size }}px; font-weight: bold; padding-top: 10px; padding-bottom: 10px;">
