@@ -445,6 +445,44 @@
         "pb_m": 60,
         "pad_x_m": 16
       }
+    },
+    "walter_behind_scene_FizBeJ": {
+      "type": "walter-behind-scene",
+      "name": "Behind The Scenes",
+      "settings": {
+        "bg_color": "#121212",
+        "max_width": 1600,
+        "layout_flip": true,
+        "col_gap": 48,
+        "heading": "Prioritizing Your Health In Everything We Create.",
+        "heading_color": "#FFFFFF",
+        "heading_size_d": 48,
+        "heading_size_m": 24,
+        "text": "<p>Titanium has long been used in medical & aerospace industries.</p>",
+        "body_color": "#B0B0B0",
+        "body_size_d": 16,
+        "body_size_m": 14,
+        "quote": "Health Is The Most Valuable Thing We Have.",
+        "quote_color": "#E9E2D8",
+        "quote_size_d": 24,
+        "quote_size_m": 16,
+        "founder_name": "Paul S., Founder",
+        "founder_color": "#B0B0B0",
+        "founder_size_d": 20,
+        "founder_size_m": 20,
+        "sig_width_d": 120,
+        "sig_width_m": 100,
+        "video_url_mp4": "",
+        "video_radius": 0,
+        "overlay_opacity": 30,
+        "pt_d": 80,
+        "pb_d": 80,
+        "pl_d": 0,
+        "pr_d": 80,
+        "pt_m": 64,
+        "pb_m": 64,
+        "pad_x_m": 16
+      }
     }
   },
   "order": [
@@ -454,6 +492,7 @@
     "collection_list_jM7Nq3",
     "walter_feature_collection_mAfcVP",
     "walter_auto_scrolling_KCKiNG",
-    "walter_review_slider_zxr3GT"
+    "walter_review_slider_zxr3GT",
+    "walter_behind_scene_FizBeJ"
   ]
 }
