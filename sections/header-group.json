@@ -96,7 +96,7 @@
         "padding_m": 10,
         "show_close": true,
         "autoplay": true,
-        "autoplay_speed": 4,
+        "autoplay_speed": 2,
         "speed": 1000
       }
     }
