@@ -127,7 +127,7 @@
 
         {% comment %} Mobile View All - Top Right Option {% endcomment %}
         {%- if section.settings.show_view_all and section.settings.view_all_mobile_pos == 'top' -%}
-             <a href="{{ routes.collections_url }}" class="view-all-mobile-link medium-hide large-up-hide link underlined-link">
+             <a href="{{ routes.collections_url }}" class="view-all-mobile-link button medium-hide large-up-hide ">
               {{ section.settings.view_all_text | default: 'View all' }}
             </a>
         {%- endif -%}
@@ -136,7 +136,7 @@
           <a
             href="{{ routes.collections_url }}"
             id="ViewAll-{{ section.id }}"
-            class="button large-up-hide {% if section.settings.view_all_mobile_pos == 'top' %} hidden {% endif %} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            class="link underlined-link large-up-hide {% if section.settings.view_all_mobile_pos == 'top' %} hidden {% endif %} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
             aria-labelledby="ViewAll-{{ section.id }} SectionHeading-{{ section.id }}"
           >
             {{- section.settings.view_all_text | default: 'View all' -}}
