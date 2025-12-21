@@ -35,6 +35,7 @@
         "heading",
         "button"
       ],
+      "disabled": true,
       "settings": {
         "image_overlay_opacity": 40,
         "image_height": "large",
@@ -47,9 +48,64 @@
         "mobile_content_alignment": "center",
         "show_text_below": false
       }
+    },
+    "video_banner_XqAVct": {
+      "type": "video-banner",
+      "blocks": {
+        "logo_YP6U6H": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_R8RNhH": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_KGPDxC": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_NbnmLX": {
+          "type": "logo",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "logo_YP6U6H",
+        "logo_R8RNhH",
+        "logo_KGPDxC",
+        "logo_NbnmLX"
+      ],
+      "name": "Hero Video & Logos",
+      "settings": {
+        "enable_overlap": true,
+        "height_desktop": 90,
+        "height_mobile": 80,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "video_desktop": "shopify://files/videos/Untitled design (4).mp4",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "kicker": "🎁 LIMITED HOLIDAY DEALS 🎁",
+        "heading": "The Biggest Sale Of The Year!",
+        "heading_size": 48,
+        "text": "<p>No Toxins. No Bacteria. No Chemicals. <strong>Save Up To 55%</strong></p>",
+        "btn_label": "Shop Now",
+        "btn_link": "",
+        "text_color": "#ffffff",
+        "btn_bg": "#932933",
+        "btn_text": "#ffffff",
+        "show_stars": true,
+        "review_text": "4.9 (550,000+ Customers)",
+        "marquee_bg": "rgba(0,0,0,0.3)",
+        "marquee_speed": 30,
+        "logo_height": 24,
+        "logo_opacity": 80,
+        "logo_filter": "brightness(0) invert(1)"
+      }
     }
   },
   "order": [
-    "image_banner"
+    "image_banner",
+    "video_banner_XqAVct"
   ]
 }
