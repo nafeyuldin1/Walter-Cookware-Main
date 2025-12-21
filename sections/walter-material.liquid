@@ -1,6 +1,8 @@
 {% comment %}
-  Section: Materials Comparison Tabs
-  Description: Dynamic tabs with filtering slider.
+  Section: Materials Comparison Tabs (Fully Dynamic)
+  Updates: 
+  - Added 'Cards per row' settings for Desktop & Mobile.
+  - Fixed Range Steps to prevent errors.
 {% endcomment %}
 
 {%- style -%}
@@ -38,8 +40,8 @@
   /* Tabs Navigation */
   #shopify-section-{{ section.id }} .materials__tabs {
     display: grid;
-    /* Columns set dynamically via JS/CSS logic or hardcoded grid for simplicity */
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    /* Auto-fit columns based on content count usually, but handled by grid-template-columns below */
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     border: 1.5px solid {{ section.settings.border_color }};
     border-radius: 12px;
     overflow: hidden;
@@ -168,10 +170,6 @@
     #shopify-section-{{ section.id }} .materials__tab:nth-last-child(-n+2) {
        border-bottom: 0;
     }
-
-    #shopify-section-{{ section.id }} .comp-card {
-      /* Mobile card specific tweaks if needed */
-    }
   }
 {%- endstyle -%}
 
@@ -246,6 +244,10 @@ document.addEventListener('DOMContentLoaded', function(){
   var $slider    = $wrap.find('.js-materials-slider-' + SECTION_ID);
   var $cards     = $slider.children('.comp-card');
   
+  // Variables from Schema
+  var colsDesktop = {{ section.settings.cols_desktop }};
+  var colsMobile  = {{ section.settings.cols_mobile }}; // Can be float e.g. 1.2
+
   // Find first category ID to set active initially
   var $firstTab = $wrap.find('.materials__tab').first();
   var activeCat = $firstTab.length ? $firstTab.attr('data-cat') : 'cat1';
@@ -259,25 +261,29 @@ document.addEventListener('DOMContentLoaded', function(){
     if (maxH > 0) $slider.find('.comp-card').css('height', maxH + 'px');
   }
 
-  function initSlick(colsWide, colsDesk){
+  function initSlick(itemsToShowDesktop) {
     if ($slider.hasClass('slick-initialized')) return;
+    
     $slider.slick({
       arrows: false,
       dots: false,
       infinite: false,
-      slidesToShow: colsWide,
+      slidesToShow: itemsToShowDesktop,
       slidesToScroll: 1,
       swipeToSlide: true,
       variableWidth: false,
       responsive: [
-        { breakpoint: 1600, settings: { slidesToShow: colsDesk } },
-        { breakpoint: 1200, settings: { slidesToShow: 3 } },
-        { breakpoint: 900,  settings: { slidesToShow: 2 } },
         { 
-          breakpoint: 750,  
+          breakpoint: 1024, 
           settings: { 
-            slidesToShow: 1, 
-            variableWidth: true,
+            slidesToShow: Math.min(itemsToShowDesktop, 3) 
+          } 
+        },
+        { 
+          breakpoint: 768,  
+          settings: { 
+            slidesToShow: colsMobile, 
+            variableWidth: false,
             centerMode: false 
           } 
         }
@@ -294,21 +300,17 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
-  function computeCols(count){
-    var colsWide = Math.min(count, 4);
-    var colsDesk = Math.min(count, 4);
-    return { wide: Math.max(colsWide, 1), desk: Math.max(colsDesk, 1) };
-  }
-
   function showCategory(cat){
     destroySlick();
     // Filter logic
     var $visible = $cards.hide().filter('[data-cat="'+cat+'"]').show();
     
-    // Determine responsive columns based on count
-    var cols = computeCols($visible.length);
+    // Determine responsive columns: Don't exceed available items
+    var actualCols = Math.min($visible.length, colsDesktop);
+    // Ensure at least 1
+    actualCols = Math.max(actualCols, 1);
     
-    initSlick(cols.wide, cols.desk);
+    initSlick(actualCols);
     
     // Reset position
     if ($slider.hasClass('slick-initialized')) {
@@ -365,6 +367,29 @@ document.addEventListener('DOMContentLoaded', function(){
 {
   "name": "Materials Comparison",
   "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "cols_desktop",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Cards per row (Desktop)",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "cols_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 0.1,
+      "label": "Cards per row (Mobile)",
+      "default": 1.1,
+      "info": "Use decimals (e.g. 1.2) to show part of the next card."
+    },
     {
       "type": "header",
       "content": "Section Colors"
