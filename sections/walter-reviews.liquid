@@ -1,6 +1,6 @@
 {% comment %}
-  Section: Custom Reviews Slider with Tabs
-  Description: Dynamic tabs filtering slick slider.
+  Section: Custom Reviews Slider
+  Features: Dynamic Slide Count, Tabs Filtering, Custom Icons
 {% endcomment %}
 
 {%- style -%}
@@ -15,39 +15,44 @@
     max-width: {{ section.settings.max_width }}px;
     margin: 0 auto;
     padding-right: 16px;
+    {% if section.settings.center_heading %}text-align: center;{% endif %}
   }
 
+  /* Heading */
   #shopify-section-{{ section.id }} .reviews-header h2 {
     color: {{ section.settings.heading_color }};
     font-size: {{ section.settings.heading_size_d }}px;
     line-height: 1.3;
     text-transform: capitalize;
     margin-top: 0;
-    margin-bottom: 48px;
+    margin-bottom: 40px;
     font-weight: 400;
   }
 
-  /* Tabs & Arrows Layout */
+  /* Header Layout (Tabs + Arrows) */
   #shopify-section-{{ section.id }} .tabs-and-arrows {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 48px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
   }
 
+  /* TABS */
   #shopify-section-{{ section.id }} .review-tabs {
     display: flex;
     gap: 0;
-    width: 100%;
+    flex: 1; /* Allow tabs to take space */
   }
 
   #shopify-section-{{ section.id }} .review-tabs .tab {
-    padding: 10px 20px;
+    padding: 12px 24px;
     background: {{ section.settings.bg_color }};
     color: {{ section.settings.tab_text_inactive }};
     border: 1.5px solid {{ section.settings.border_color }};
-    max-width: 343px;
-    width: 100%;
+    /* max-width: 300px; */
+    flex: 1; /* Distribute space evenly */
     font-size: 20px;
     font-weight: 500;
     line-height: 1.4;
@@ -60,58 +65,63 @@
   #shopify-section-{{ section.id }} .review-tabs .tab:first-child { border-radius: 12px 0 0 12px; }
   #shopify-section-{{ section.id }} .review-tabs .tab:last-child { border-radius: 0 12px 12px 0; border-left: 0; }
   
-  /* Active Tab */
   #shopify-section-{{ section.id }} .review-tabs .tab.active {
     background: {{ section.settings.tab_bg_active }};
     color: {{ section.settings.tab_text_active }};
     border-color: {{ section.settings.tab_bg_active }};
   }
 
-  /* Arrows */
+  /* ARROWS (Icons) */
   #shopify-section-{{ section.id }} .arrows button {
     background: transparent;
     padding: 0;
     border: none;
     cursor: pointer;
-    height: 48px;
-    width: 48px;
+    height: 50px;
+    width: 50px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    transition: opacity 0.3s;
   }
-  
-  #shopify-section-{{ section.id }} .prev-arrow rect { stroke: {{ section.settings.arrow_border }}; }
+  #shopify-section-{{ section.id }} .arrows button:hover { opacity: 0.8; }
+
+  /* Icon Colors */
+  #shopify-section-{{ section.id }} .prev-arrow rect { stroke: {{ section.settings.arrow_border }}; fill: transparent; }
   #shopify-section-{{ section.id }} .prev-arrow path { stroke: {{ section.settings.arrow_icon }}; }
   
-  #shopify-section-{{ section.id }} .next-arrow rect { fill: {{ section.settings.arrow_bg_active }}; }
+  #shopify-section-{{ section.id }} .next-arrow rect { fill: {{ section.settings.arrow_bg_active }}; stroke: none; }
   #shopify-section-{{ section.id }} .next-arrow path { stroke: {{ section.settings.arrow_icon_active }}; }
 
   #shopify-section-{{ section.id }} .arrows.desktop-arrows { display: flex; gap: 12px; }
   #shopify-section-{{ section.id }} .arrows.mobile-arrows { display: none; margin-top: 32px; justify-content: center; gap: 16px; }
 
-  /* Slider Content */
+  /* SLIDER CONTAINER */
   #shopify-section-{{ section.id }} .reviews-slider {
     max-width: {{ section.settings.max_width }}px;
     margin: 0 auto;
-    padding-left: 0; /* Reset */
   }
   
-  @media (min-width: 1801px) {
-     #shopify-section-{{ section.id }} .reviews-slider { margin-left: 120px; }
+  /* Reset margin on larger screens if needed */
+  @media (min-width: 1800px) {
+     #shopify-section-{{ section.id }} .reviews-slider { margin-left: auto; margin-right: auto; }
   }
 
+  #shopify-section-{{ section.id }} .slick-list { margin: 0 -{{ section.settings.card_gap }}px; }
+  #shopify-section-{{ section.id }} .slick-slide { margin: 0 {{ section.settings.card_gap }}px; }
+
+  /* REVIEW CARD */
   #shopify-section-{{ section.id }} .review-slide {
-    width: 323.2px;
     background: {{ section.settings.card_bg }};
     color: {{ section.settings.card_text }};
     border-radius: 16px;
-    padding: 20px;
-    margin-right: 16px;
+    padding: 24px;
     box-sizing: border-box;
     display: flex !important;
     flex-direction: column;
     height: auto;
-    min-height: 238px; /* Default height */
+    /* Min height to keep cards uniform */
+    min-height: 240px; 
   }
 
   #shopify-section-{{ section.id }} .review-slide-top-wrapper { display: flex; gap: 12px; align-items: center; }
@@ -120,7 +130,7 @@
   
   #shopify-section-{{ section.id }} .review-name {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 600;
     color: {{ section.settings.name_color }};
     margin: 0 0 4px 0;
   }
@@ -129,44 +139,49 @@
   #shopify-section-{{ section.id }} .review-stars svg path { fill: {{ section.settings.star_color }}; }
 
   #shopify-section-{{ section.id }} .ctm-review-text {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.5;
     color: {{ section.settings.card_text }};
     margin-top: 16px;
     margin-bottom: 0;
   }
 
-  /* Responsive Mobile */
+  /* RESPONSIVE MOBILE */
   @media (max-width: 999px) {
     #shopify-section-{{ section.id }} .reviews-slider-section {
       padding-top: {{ section.settings.pt_m }}px;
       padding-bottom: {{ section.settings.pb_m }}px;
     }
-    #shopify-section-{{ section.id }} .reviews-header h2 { font-size: {{ section.settings.heading_size_m }}px; text-align: center; }
     
     #shopify-section-{{ section.id }} .reviews-header { padding: 0 16px; }
-    #shopify-section-{{ section.id }} .reviews-slider { padding-left: 16px; }
+    #shopify-section-{{ section.id }} .reviews-header h2 { 
+      font-size: {{ section.settings.heading_size_m }}px; 
+      text-align: center; 
+      margin-bottom: 30px;
+    }
     
+    #shopify-section-{{ section.id }} .tabs-and-arrows { justify-content: center; }
     #shopify-section-{{ section.id }} .arrows.desktop-arrows { display: none; }
     #shopify-section-{{ section.id }} .arrows.mobile-arrows { display: flex; }
     
     #shopify-section-{{ section.id }} .review-tabs { flex-wrap: wrap; }
     #shopify-section-{{ section.id }} .review-tabs .tab { 
-      font-size: 14px; width: 50%; max-width: none; 
-      border-radius: 0; border: 1.5px solid {{ section.settings.border_color }};
+      font-size: 14px; 
+      width: 50%; 
+      flex: auto;
+      border-radius: 0; 
+      border: 1.5px solid {{ section.settings.border_color }};
     }
     
-    /* Logic for 2x2 grid tabs on mobile */
+    /* Mobile Grid Tabs Logic (2x2) */
+    #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(odd) { border-right: 0; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(1) { border-radius: 12px 0 0 0; }
-    #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(2) { border-radius: 0 12px 0 0; border-left: 0; }
+    #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(2) { border-radius: 0 12px 0 0; border-left: 1.5px solid {{ section.settings.border_color }}; border-right: 1.5px solid {{ section.settings.border_color }}; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(3) { border-radius: 0 0 0 12px; border-top: 0; }
-    #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(4) { border-radius: 0 0 12px 0; border-top: 0; border-left: 0; }
+    #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(4) { border-radius: 0 0 12px 0; border-top: 0; border-left: 1.5px solid {{ section.settings.border_color }}; border-right: 1.5px solid {{ section.settings.border_color }}; }
 
-    #shopify-section-{{ section.id }} .review-slide {
-      width: 260px !important;
-      margin-right: 12px;
-      min-height: 240px;
-    }
+    /* Fix slide width on mobile */
+    #shopify-section-{{ section.id }} .reviews-slider { padding-left: 16px; }
   }
 {%- endstyle -%}
 
@@ -190,14 +205,14 @@
       </div>
 
       <div class="arrows desktop-arrows">
-        <button class="prev-arrow js-prev-{{ section.id }}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
+        <button class="prev-arrow js-prev-{{ section.id }}" aria-label="Previous">
+          <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
             <rect x="1" y="1" width="48" height="48" rx="12" stroke-width="1.5"></rect>
             <path d="M27.5 20L22.5 25L27.5 30" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
           </svg>
         </button>
-        <button class="next-arrow js-next-{{ section.id }}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <button class="next-arrow js-next-{{ section.id }}" aria-label="Next">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
             <rect width="48" height="48" rx="12"></rect>
             <path d="M21.5 19L26.5 24L21.5 29" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
           </svg>
@@ -206,7 +221,9 @@
     </div>
   </div>
 
-  <div class="reviews-slider js-reviews-slider-{{ section.id }}">
+  <div class="reviews-slider js-reviews-slider-{{ section.id }}" 
+       data-desktop="{{ section.settings.slides_desktop }}" 
+       data-mobile="{{ section.settings.slides_mobile }}">
     {%- for block in section.blocks -%}
       {%- if block.type == 'review' -%}
         <div class="review-slide" data-category="{{ block.settings.cat_id }}" {{ block.shopify_attributes }}>
@@ -223,8 +240,8 @@
               <div class="review-stars">
                 {%- for i in (1..5) -%}
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14">
-                    <path d="M9.96647 8.50197L12.5407 6.00355L8.99056 5.48205L7.40039 2.26789L5.81022 5.48205L2.26006 6.00355L4.83372 8.50197L4.21947 12.044L7.40039 10.3698L10.5726 12.044L9.96647 8.50197Z" fill="#B57C46"/>
-                    <path d="M14.4004 5.49838C14.4004 5.62205 14.3275 5.7568 14.1816 5.90264L11.1273 8.88055L11.8506 13.0876C11.8594 13.1832 11.8594 13.2561 11.8594 13.2561C11.8594 13.5361 11.7445 13.6761 11.5146 13.6761C11.4079 13.6761 11.2959 13.6429 11.1781 13.5758L7.40039 11.5896L3.62272 13.5752C3.49906 13.6423 3.38706 13.6761 3.28614 13.6761C3.16831 13.6761 3.08022 13.6353 3.02131 13.5536C2.96055 13.4664 2.92947 13.3618 2.93264 13.2556L3.67347 8.88055L0.610974 5.90205C0.470391 5.75097 0.400391 5.6168 0.400391 5.49838C0.400391 5.2913 0.557891 5.1618 0.871724 5.11164L5.09506 4.49739L6.98797 0.669552C7.09472 0.439135 7.23181 0.324219 7.40039 0.324219C7.56897 0.324219 7.70606 0.439135 7.81281 0.669552L9.70572 4.49739L13.9291 5.11164C14.2435 5.1618 14.4004 5.2913 14.4004 5.49838Z" fill="#B57C46"/>
+                    <path d="M9.96647 8.50197L12.5407 6.00355L8.99056 5.48205L7.40039 2.26789L5.81022 5.48205L2.26006 6.00355L4.83372 8.50197L4.21947 12.044L7.40039 10.3698L10.5726 12.044L9.96647 8.50197Z" fill="currentColor"/>
+                    <path d="M14.4004 5.49838C14.4004 5.62205 14.3275 5.7568 14.1816 5.90264L11.1273 8.88055L11.8506 13.0876C11.8594 13.1832 11.8594 13.2561 11.8594 13.2561C11.8594 13.5361 11.7445 13.6761 11.5146 13.6761C11.4079 13.6761 11.2959 13.6429 11.1781 13.5758L7.40039 11.5896L3.62272 13.5752C3.49906 13.6423 3.38706 13.6761 3.28614 13.6761C3.16831 13.6761 3.08022 13.6353 3.02131 13.5536C2.96055 13.4664 2.92947 13.3618 2.93264 13.2556L3.67347 8.88055L0.610974 5.90205C0.470391 5.75097 0.400391 5.6168 0.400391 5.49838C0.400391 5.2913 0.557891 5.1618 0.871724 5.11164L5.09506 4.49739L6.98797 0.669552C7.09472 0.439135 7.23181 0.324219 7.40039 0.324219C7.56897 0.324219 7.70606 0.439135 7.81281 0.669552L9.70572 4.49739L13.9291 5.11164C14.2435 5.1618 14.4004 5.2913 14.4004 5.49838Z" fill="currentColor"/>
                   </svg>
                 {%- endfor -%}
               </div>
@@ -262,14 +279,35 @@ document.addEventListener("DOMContentLoaded", function () {
   var $slider    = $container.find('.js-reviews-slider-' + SECTION_ID);
   var $tabs      = $container.find('.review-tabs .tab');
 
-  // Initialize Slick
-  $slider.slick({
-    infinite: true,
-    slidesToScroll: 1,
-    variableWidth: true,
-    arrows: false, // We use custom arrows
-    responsive: [{ breakpoint: 999, settings: { arrows: false } }]
-  });
+  // Dynamic Settings
+  var desktopSlides = parseInt($slider.attr('data-desktop')) || 3;
+  var mobileSlides  = parseFloat($slider.attr('data-mobile')) || 1.1;
+
+  function initSlick() {
+    $slider.slick({
+      infinite: true,
+      slidesToShow: desktopSlides,
+      slidesToScroll: 1,
+      variableWidth: false, // Turned off to respect exact slide count
+      arrows: false,
+      dots: false,
+      responsive: [
+        {
+          breakpoint: 1200,
+          settings: { slidesToShow: 3 }
+        },
+        {
+          breakpoint: 999,
+          settings: {
+            slidesToShow: mobileSlides, // Use decimal for peeking
+            variableWidth: false
+          }
+        }
+      ]
+    });
+  }
+
+  initSlick();
 
   // Custom Arrows Binding
   $container.find('.js-prev-' + SECTION_ID).on('click', function(){ $slider.slick('slickPrev'); });
@@ -289,12 +327,11 @@ document.addEventListener("DOMContentLoaded", function () {
     var $this = $(this);
     var category = $this.attr("data-category");
 
-    // UI Update
     $tabs.removeClass("active");
     $this.addClass("active");
 
-    // Slider Filter
     $slider.slick('slickUnfilter');
+    
     if (category) {
       $slider.slick('slickFilter', function () {
         return $(this).attr('data-category') === category;
@@ -323,8 +360,47 @@ document.addEventListener("DOMContentLoaded", function () {
       "default": "5,000+ 5-Star Reviews"
     },
     {
+      "type": "checkbox",
+      "id": "center_heading",
+      "label": "Center Align Heading",
+      "default": false
+    },
+    {
       "type": "header",
-      "content": "Colors"
+      "content": "Slider Settings"
+    },
+    {
+      "type": "range",
+      "id": "slides_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Cards to show (Desktop)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "slides_mobile",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Cards to show (Mobile)",
+      "default": 1.1,
+      "info": "Use decimals (e.g. 1.2) to show part of the next card."
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Gap Between Cards",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Global Colors"
     },
     {
       "type": "color",
@@ -340,12 +416,12 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       "type": "header",
-      "content": "Tab Colors"
+      "content": "Tab Style"
     },
     {
       "type": "color",
       "id": "border_color",
-      "label": "Tab Border Color",
+      "label": "Border Color",
       "default": "#454545"
     },
     {
@@ -368,35 +444,35 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       "type": "header",
-      "content": "Arrow Colors"
+      "content": "Arrow Style"
     },
     {
       "type": "color",
       "id": "arrow_border",
-      "label": "Arrow Border",
+      "label": "Border (Inactive)",
       "default": "#454545"
     },
     {
       "type": "color",
       "id": "arrow_icon",
-      "label": "Arrow Icon",
+      "label": "Icon (Inactive)",
       "default": "#454545"
     },
     {
       "type": "color",
       "id": "arrow_bg_active",
-      "label": "Next Arrow BG",
+      "label": "Background (Active)",
       "default": "#A3835F"
     },
     {
       "type": "color",
       "id": "arrow_icon_active",
-      "label": "Next Arrow Icon",
+      "label": "Icon (Active)",
       "default": "#121212"
     },
     {
       "type": "header",
-      "content": "Card Styles"
+      "content": "Card Style"
     },
     {
       "type": "color",
@@ -407,13 +483,13 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       "type": "color",
       "id": "card_text",
-      "label": "Card Text Color",
+      "label": "Review Text Color",
       "default": "#252525"
     },
     {
       "type": "color",
       "id": "name_color",
-      "label": "Name/Date Color",
+      "label": "Name Color",
       "default": "#2C1F1C"
     },
     {
@@ -424,13 +500,13 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "Layout Spacing"
     },
     {
       "type": "range",
       "id": "max_width",
       "min": 1000,
-      "max": 2200,
+      "max": 2400,
       "step": 20,
       "label": "Max Width",
       "default": 1680
@@ -499,7 +575,7 @@ document.addEventListener("DOMContentLoaded", function () {
         {
           "type": "text",
           "id": "title",
-          "label": "Tab Label",
+          "label": "Tab Name",
           "default": "Wellness"
         },
         {
@@ -507,7 +583,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "id": "cat_id",
           "label": "Category ID",
           "default": "cat1",
-          "info": "Match this ID in the Review cards below."
+          "info": "Match this with the ID in Review Cards."
         }
       ]
     },
@@ -520,7 +596,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "id": "cat_id",
           "label": "Category ID",
           "default": "cat1",
-          "info": "Must match a Tab ID above."
+          "info": "Must match a Tab ID."
         },
         {
           "type": "image_picker",
