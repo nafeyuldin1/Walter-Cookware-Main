@@ -55,10 +55,55 @@
         "padding_top": 20,
         "padding_bottom": 20
       }
+    },
+    "walter_announcement_bar_dbQwJc": {
+      "type": "walter-announcement-bar",
+      "blocks": {
+        "announcement_pyLwHe": {
+          "type": "announcement",
+          "settings": {
+            "text": "FREE SHIPPING | LIFETIME WARRANTY",
+            "link_text": "Shop Now",
+            "link_url": "",
+            "left_text": ""
+          }
+        },
+        "announcement_6mTRfX": {
+          "type": "announcement",
+          "settings": {
+            "text": "HOLIDAY SALE - BIGGEST DEALS 🔥",
+            "link_text": "Shop Now",
+            "link_url": "",
+            "left_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_pyLwHe",
+        "announcement_6mTRfX"
+      ],
+      "name": "Walter Announcement Bar",
+      "settings": {
+        "bg_color": "#937d61",
+        "text_color": "#c8beab",
+        "font_size_desktop": 14,
+        "font_size_mobile": 12,
+        "font_weight": 500,
+        "text_transform": true,
+        "link_color": "#c8beab",
+        "link_hover_color": "#ebd7b5",
+        "padding_y": 10,
+        "padding_m": 10,
+        "show_close": true,
+        "autoplay": true,
+        "autoplay_speed": 4,
+        "speed": 1000
+      }
     }
   },
   "order": [
     "announcement-bar",
-    "header"
+    "header",
+    "walter_announcement_bar_dbQwJc"
   ]
 }
