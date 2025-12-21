@@ -708,6 +708,127 @@
         "pb_m": 64,
         "pad_x_m": 16
       }
+    },
+    "walter_health_feature_qpWqYq": {
+      "type": "walter-health-feature",
+      "blocks": {
+        "feature_pBzmUg": {
+          "type": "feature",
+          "settings": {
+            "text": "No Toxins",
+            "position": "left",
+            "icon_svg": ""
+          }
+        },
+        "feature_HJY7z8": {
+          "type": "feature",
+          "settings": {
+            "text": "Biocompatible",
+            "position": "left",
+            "icon_svg": ""
+          }
+        },
+        "feature_V4zXeL": {
+          "type": "feature",
+          "settings": {
+            "text": "Extremely Hygienic",
+            "position": "left",
+            "icon_svg": ""
+          }
+        },
+        "feature_axcwQY": {
+          "type": "feature",
+          "settings": {
+            "text": "Mold Resistant",
+            "position": "left",
+            "icon_svg": ""
+          }
+        },
+        "feature_Lwf3NX": {
+          "type": "feature",
+          "settings": {
+            "text": "No Cross-Contamination",
+            "position": "left",
+            "icon_svg": ""
+          }
+        },
+        "feature_ATGzbk": {
+          "type": "feature",
+          "settings": {
+            "text": "No Heavy Metals",
+            "position": "right",
+            "icon_svg": ""
+          }
+        },
+        "feature_GPbaHP": {
+          "type": "feature",
+          "settings": {
+            "text": "Safe At Any Temperature",
+            "position": "right",
+            "icon_svg": ""
+          }
+        },
+        "feature_8jd3ch": {
+          "type": "feature",
+          "settings": {
+            "text": "Effortless To Clean",
+            "position": "right",
+            "icon_svg": ""
+          }
+        },
+        "feature_w6wwp3": {
+          "type": "feature",
+          "settings": {
+            "text": "Never Breaks Down",
+            "position": "right",
+            "icon_svg": ""
+          }
+        },
+        "feature_tUdPap": {
+          "type": "feature",
+          "settings": {
+            "text": "Sustainable By Design",
+            "position": "right",
+            "icon_svg": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_pBzmUg",
+        "feature_HJY7z8",
+        "feature_V4zXeL",
+        "feature_axcwQY",
+        "feature_Lwf3NX",
+        "feature_ATGzbk",
+        "feature_GPbaHP",
+        "feature_8jd3ch",
+        "feature_w6wwp3",
+        "feature_tUdPap"
+      ],
+      "name": "Health Features",
+      "settings": {
+        "heading": "The Kitchenware Your Body Deserves",
+        "heading_color": "#BCA588",
+        "heading_size_d": 48,
+        "heading_size_m": 24,
+        "image_desktop": "shopify://shop_images/homepage_new_pan-min.webp",
+        "bg_color": "#03231A",
+        "text_item": "#D4C7B4",
+        "text_muted": "#B9B2A8",
+        "icon_color": "#C9AD8E",
+        "active_text_color": "#FFFFFF",
+        "active_icon_color": "#FFFFFF",
+        "item_size_d": 24,
+        "item_size_m": 14,
+        "item_size_m_active": 20,
+        "max_width": 1920,
+        "pt_d": 80,
+        "pb_d": 80,
+        "pad_x_d": 160,
+        "pt_m": 56,
+        "pb_m": 56,
+        "pad_x_m": 16
+      }
     }
   },
   "order": [
@@ -720,6 +841,7 @@
     "walter_review_slider_zxr3GT",
     "walter_behind_scene_FizBeJ",
     "walter_scroll_text_fade_VVKey4",
-    "walter_material_E66app"
+    "walter_material_E66app",
+    "walter_health_feature_qpWqYq"
   ]
 }
