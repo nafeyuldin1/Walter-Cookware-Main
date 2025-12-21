@@ -84,9 +84,9 @@
       ],
       "name": "Walter Announcement Bar",
       "settings": {
-        "bg_color": "#937d61",
-        "text_color": "#c8beab",
-        "font_size_desktop": 14,
+        "bg_color": "#962b34",
+        "text_color": "#ffffff",
+        "font_size_desktop": 16,
         "font_size_mobile": 12,
         "font_weight": 500,
         "text_transform": true,
