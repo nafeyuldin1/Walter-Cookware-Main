@@ -125,10 +125,81 @@
         "logo_opacity": 100,
         "logo_filter": "none"
       }
+    },
+    "featured_product_FLpjec": {
+      "type": "featured-product",
+      "blocks": {
+        "text_Qi4cEe": {
+          "type": "text",
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_Bq63nH": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_Y7eW3D": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_AKwmpC": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector_Wi7P8x": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_ELqRiw": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_LpQjKk": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_Qi4cEe",
+        "title_Bq63nH",
+        "price_Y7eW3D",
+        "variant_picker_AKwmpC",
+        "quantity_selector_Wi7P8x",
+        "buy_buttons_ELqRiw",
+        "share_LpQjKk"
+      ],
+      "name": "t:sections.featured-product.presets.name",
+      "settings": {
+        "product": "",
+        "color_scheme": "",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "image_banner",
-    "video_banner_XqAVct"
+    "video_banner_XqAVct",
+    "featured_product_FLpjec"
   ]
 }
