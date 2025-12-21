@@ -116,13 +116,22 @@
   if section.settings.sticky_header_type != 'none'
     assign header_tag = 'sticky-header'
   endif
+
+  # LOGIC FOR DIFFERENT COLOR SCHEMES
+  assign header_color_scheme = section.settings.color_scheme
+  
+  if request.page_type == 'index'
+    assign header_color_scheme = section.settings.color_scheme_home
+  endif
 %}
 
 <{{ header_tag }}
   {% if header_tag == 'sticky-header' %}
     data-sticky-type="{{ section.settings.sticky_header_type }}"
+    data-default-color-scheme="color-{{ header_color_scheme }}"
+    data-sticky-color-scheme="color-{{ section.settings.color_scheme_sticky }}"
   {% endif %}
-  class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}"
+  class="header-wrapper color-{{ header_color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}"
 >
   {%- liquid
     assign social_links = false
@@ -403,10 +412,12 @@
 
       if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
         this.header.classList.add('scrolled-past-header');
+        this.updateStickyColor(true); // Switch to Sticky Color
         if (this.preventHide) return;
         requestAnimationFrame(this.hide.bind(this));
       } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
         this.header.classList.add('scrolled-past-header');
+        this.updateStickyColor(true); // Switch to Sticky Color
         if (!this.preventReveal) {
           requestAnimationFrame(this.reveal.bind(this));
         } else {
@@ -420,10 +431,27 @@
         }
       } else if (scrollTop <= this.headerBounds.top) {
         this.header.classList.remove('scrolled-past-header');
+        this.updateStickyColor(false); // Revert to Default Color
         requestAnimationFrame(this.reset.bind(this));
       }
 
       this.currentScrollTop = scrollTop;
+    }
+
+    // New Function to Handle Color Scheme Change
+    updateStickyColor(isSticky) {
+      const defaultScheme = this.getAttribute('data-default-color-scheme');
+      const stickyScheme = this.getAttribute('data-sticky-color-scheme');
+      
+      if (!defaultScheme || !stickyScheme) return;
+
+      if (isSticky) {
+        this.classList.remove(defaultScheme);
+        this.classList.add(stickyScheme);
+      } else {
+        this.classList.remove(stickyScheme);
+        this.classList.add(defaultScheme);
+      }
     }
 
     hide() {
@@ -608,8 +636,21 @@
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
+      "label": "Default/Other Pages Color",
       "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_home",
+      "label": "Home Page Color",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_sticky",
+      "label": "Sticky Header Color",
+      "default": "scheme-1",
+      "info": "Only applies if sticky header is enabled."
     },
     {
       "type": "color_scheme",
