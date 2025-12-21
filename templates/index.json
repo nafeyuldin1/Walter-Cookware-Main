@@ -263,7 +263,7 @@
         "color_scheme": "scheme-b3f8229f-cced-4870-bc9d-de6cca2e47b3",
         "show_view_all": true,
         "view_all_text": "Shop All",
-        "view_all_mobile_pos": "bottom",
+        "view_all_mobile_pos": "top",
         "columns_mobile": "2",
         "swipe_on_mobile": false,
         "padding_top": 36,
