@@ -619,33 +619,48 @@
           "type": "card",
           "settings": {
             "cat_id": "cat1",
+            "image": "shopify://shop_images/non_stick-min.jpg",
             "badge_text": "FOREVER CHEMICALS",
             "badge_bg": "",
             "badge_text_color": "",
-            "title": "Teflon",
-            "text": "Toxic PFAS exposure."
+            "title": "Non-Stick Coated / Teflon",
+            "text": "Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins."
           }
         },
         "card_jA6dHG": {
           "type": "card",
           "settings": {
             "cat_id": "cat1",
-            "badge_text": "FOREVER CHEMICALS",
+            "image": "shopify://shop_images/steel-min_ffa0915f-a72e-44ed-84d6-12d76921a216.webp",
+            "badge_text": "Stainless Steel",
             "badge_bg": "",
             "badge_text_color": "",
             "title": "Stainless Steel",
-            "text": "Sticks easily."
+            "text": "Requires lots of oil to prevent sticking, and reacts with acidic foods - altering taste and potentially leaching metals in lower-quality pans. Tougher to clean, high effort to maintain."
           }
         },
         "card_khxby6": {
           "type": "card",
           "settings": {
             "cat_id": "cat2",
+            "image": "shopify://shop_images/ceramic-min_c6855de1-b4bc-4ad4-8545-880b3ec41164.webp",
             "badge_text": "FOREVER CHEMICALS",
             "badge_bg": "",
             "badge_text_color": "",
-            "title": "Plastic",
-            "text": "Microplastics."
+            "title": "Ceramic",
+            "text": "Ceramic coatings are very fragile, once chipped, they expose toxic aluminum base. Most only last 1- 2 years before losing their non-stick. Expensive to replace, unreliable\nlong-term."
+          }
+        },
+        "card_68YLXk": {
+          "type": "card",
+          "settings": {
+            "cat_id": "cat2",
+            "image": "shopify://shop_images/ceramic-min_c6855de1-b4bc-4ad4-8545-880b3ec41164.webp",
+            "badge_text": "FOREVER CHEMICALS",
+            "badge_bg": "",
+            "badge_text_color": "",
+            "title": "Cast Iron",
+            "text": "Ceramic coatings are very fragile, once chipped, they expose toxic aluminum base. Most only last 1- 2 years before losing their non-stick. Expensive to replace, unreliable\nlong-term."
           }
         }
       },
@@ -656,7 +671,8 @@
         "category_zVLQ87",
         "card_cpfxmP",
         "card_jA6dHG",
-        "card_khxby6"
+        "card_khxby6",
+        "card_68YLXk"
       ],
       "name": "Materials Comparison",
       "settings": {
