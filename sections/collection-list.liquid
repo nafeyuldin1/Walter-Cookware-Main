@@ -136,7 +136,7 @@
           <a
             href="{{ routes.collections_url }}"
             id="ViewAll-{{ section.id }}"
-            class="link underlined-link large-up-hide {% if section.settings.view_all_mobile_pos == 'top' %} hidden {% endif %} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            class="button large-up-hide {% if section.settings.view_all_mobile_pos == 'top' %} hidden {% endif %} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
             aria-labelledby="ViewAll-{{ section.id }} SectionHeading-{{ section.id }}"
           >
             {{- section.settings.view_all_text | default: 'View all' -}}
