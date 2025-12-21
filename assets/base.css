@@ -3598,3 +3598,6 @@ details-disclosure > details {
 .header__inline-menu .list-menu__item {
   font-weight: 800;
 }
+.card__heading a{
+  font-size: 25px;
+}
