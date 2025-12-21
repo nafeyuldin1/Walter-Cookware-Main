@@ -574,7 +574,7 @@
         "bg_color": "#00221c",
         "active_color": "#BCA588",
         "inactive_color": "#BCA588",
-        "font_family": "system_ui_n4",
+        "font_family": "bebas_neue_n4",
         "active_font_size_d": 64,
         "active_font_size_m": 32,
         "line_gap": 24,
