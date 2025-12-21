@@ -856,20 +856,40 @@
             "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
           }
         },
-        "review_mDRMtb": {
+        "review_Un6Egy": {
           "type": "review",
           "settings": {
             "cat_id": "wellness",
-            "name": "Mike",
-            "text": "Love the titanium."
+            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
+            "name": "Sarah",
+            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
           }
         },
-        "review_KzciBW": {
+        "review_NfDGni": {
           "type": "review",
           "settings": {
-            "cat_id": "chefs",
-            "name": "Chef Ramsey",
-            "text": "Perfect precision."
+            "cat_id": "wellness",
+            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
+            "name": "Sarah",
+            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
+          }
+        },
+        "review_wDRWWV": {
+          "type": "review",
+          "settings": {
+            "cat_id": "wellness",
+            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
+            "name": "Sarah",
+            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
+          }
+        },
+        "review_B6LENH": {
+          "type": "review",
+          "settings": {
+            "cat_id": "wellness",
+            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
+            "name": "Sarah",
+            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
           }
         }
       },
@@ -877,8 +897,10 @@
         "tab_L6HpX4",
         "tab_eLNzFF",
         "review_xTpnNE",
-        "review_mDRMtb",
-        "review_KzciBW"
+        "review_Un6Egy",
+        "review_NfDGni",
+        "review_wDRWWV",
+        "review_B6LENH"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
