@@ -83,20 +83,17 @@
     "header": {
       "type": "header",
       "blocks": {
-        "category_tab_dBRVcV": {
-          "type": "category_tab",
+        "bottom_menu_ceX3gY": {
+          "type": "bottom_menu",
           "settings": {
-            "tab_title": "Best Sellers",
-            "link_url": "shopify://collections",
-            "link_text": "Shop All",
-            "review_text": "Taima’s Cookware is a true kitchen workhorse.",
-            "reviewer_name": "John Doe (Chef)",
-            "collection": "closuresale"
+            "bottom_nav": "main-menu-1",
+            "color_scheme": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
+            "font_size": 14
           }
         }
       },
       "block_order": [
-        "category_tab_dBRVcV"
+        "bottom_menu_ceX3gY"
       ],
       "settings": {
         "logo_position": "middle-center",
