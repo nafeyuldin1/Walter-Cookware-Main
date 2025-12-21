@@ -373,6 +373,7 @@
         "card_NCUGkM": {
           "type": "card",
           "settings": {
+            "image": "shopify://shop_images/macaron_2-min.webp",
             "pill_text": "TITANIUM PAN",
             "video": "shopify://files/videos/Amazon.com Plateful Titanium Pan For Cooking 12 - Pure No Coatin.mp4",
             "video_url": "",
@@ -384,6 +385,7 @@
         "card_HCyaDP": {
           "type": "card",
           "settings": {
+            "image": "shopify://shop_images/steak_2-min.webp",
             "pill_text": "TITANIUM PAN",
             "video": "shopify://files/videos/istockphoto-802972818-640_adpp_is.mp4",
             "video_url": "",
@@ -395,6 +397,7 @@
         "card_JYqxFd": {
           "type": "card",
           "settings": {
+            "image": "shopify://shop_images/steak-min.jpg",
             "pill_text": "TITANIUM PAN",
             "video": "shopify://files/videos/8e2184d2bfc6463c89ac775fec60d5d5.mp4",
             "video_url": "",
