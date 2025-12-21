@@ -272,12 +272,40 @@
         "padding_top": 76,
         "padding_bottom": 68
       }
+    },
+    "walter_feature_collection_mAfcVP": {
+      "type": "walter-feature-collection",
+      "name": "Best Sellers Slider",
+      "settings": {
+        "title": "Shop Best Sellers",
+        "product_list": [
+          "altro-flatware",
+          "avera-flatware-mirror-finish",
+          "axa-starter-set",
+          "cheese-knife-set",
+          "everyday-cooking-set",
+          "frens-flatware"
+        ],
+        "items_desktop": 4,
+        "title_size_desktop": 48,
+        "title_size_mobile": 24,
+        "bg_color": "#121212",
+        "text_color": "#BCA588",
+        "card_bg": "#121212",
+        "card_text": "#F6F4F0",
+        "price_color": "#F6F4F0",
+        "badge_bg": "#932933",
+        "badge_fg": "#c8beab",
+        "padding_top": 64,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
     "image_banner",
     "video_banner_XqAVct",
     "featured_product_FLpjec",
-    "collection_list_jM7Nq3"
+    "collection_list_jM7Nq3",
+    "walter_feature_collection_mAfcVP"
   ]
 }
