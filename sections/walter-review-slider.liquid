@@ -1,13 +1,15 @@
 {% comment %}
-  Section: Fixed Reviews Hero Slider
-  Fixes: Mobile visibility, Arrow display, Centered Play Icons
+  Section: Reviews Hero Slider (Final Fixed)
+  - Mobile Arrows moved below slider items
+  - Mobile Alignment: Left
+  - Opacity: 1 (No fading)
 {% endcomment %}
 
 {%- style -%}
   #shopify-section-{{ section.id }} .reviews-sec {
     background: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
-    overflow: hidden; /* Prevent horizontal scrollbars */
+    overflow: hidden;
     position: relative;
   }
 
@@ -30,7 +32,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    z-index: 2; /* Ensure Nav is clickable */
+    align-items: flex-start; /* Ensure Left Align Desktop */
+    z-index: 2;
   }
 
   #shopify-section-{{ section.id }} .reviews-sec__stars {
@@ -55,6 +58,7 @@
     line-height: 1.2;
     margin: 0 0 24px;
     font-weight: 400;
+    text-align: left;
   }
 
   #shopify-section-{{ section.id }} .reviews-sec__title strong {
@@ -62,13 +66,7 @@
     font-weight: 700;
   }
 
-  /* Navigation Buttons */
-  #shopify-section-{{ section.id }} .reviews-sec__nav {
-    margin-top: 20px;
-    display: flex;
-    gap: 12px;
-  }
-
+  /* Navigation Buttons Common Styles */
   #shopify-section-{{ section.id }} .nav-btn {
     width: 64px;
     height: 64px;
@@ -111,17 +109,31 @@
     stroke: {{ section.settings.nav_arrow_active }};
   }
 
+  /* Desktop Nav specific */
+  #shopify-section-{{ section.id }} .reviews-sec__nav--desktop {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+  }
+
+  /* Mobile Nav specific */
+  #shopify-section-{{ section.id }} .reviews-sec__nav--mobile {
+    display: none; /* Hidden by default on desktop */
+    gap: 12px;
+    margin-top: 24px;
+    justify-content: flex-start; /* Left align arrows */
+  }
+
   /* --- RIGHT SIDE (Slider) --- */
   #shopify-section-{{ section.id }} .reviews-sec__right {
     width: 100%;
     position: relative;
-    /* Crucial for slick slider visibility */
     display: block; 
   }
 
   #shopify-section-{{ section.id }} .slick-list {
     margin: 0 -{{ section.settings.card_gap }}px;
-    padding: 0 !important; /* Reset slick padding */
+    padding: 0 !important;
   }
   
   #shopify-section-{{ section.id }} .slick-slide {
@@ -129,21 +141,16 @@
     height: auto;
   }
 
-  /* Card Styling */
+  /* Card Styling - Opacity FIXED to 1 */
   #shopify-section-{{ section.id }} .review-card {
-    opacity: 0.4;
+    opacity: 1 !important; /* Always visible */
     transition: opacity 0.3s ease;
-    display: block !important; /* Ensure visibility */
-  }
-
-  #shopify-section-{{ section.id }} .review-card.is-active, 
-  #shopify-section-{{ section.id }} .slick-current .review-card {
-    opacity: 1;
+    display: block !important;
   }
 
   #shopify-section-{{ section.id }} .review-card__media-row {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Force 2 columns */
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
     margin-bottom: 16px;
   }
@@ -151,14 +158,13 @@
   #shopify-section-{{ section.id }} .media-square {
     position: relative;
     width: 100%;
-    /* Aspect Ratio Hack for older browsers + Modern support */
-    padding-bottom: 100%; 
-    height: 0;
     border-radius: 18px;
     overflow: hidden;
+    /* Aspect Ratio fallback */
+    padding-bottom: 100%; 
+    height: 0;
   }
   
-  /* Modern CSS Ratio */
   @supports (aspect-ratio: 1 / 1) {
     #shopify-section-{{ section.id }} .media-square {
       aspect-ratio: 1 / 1;
@@ -168,8 +174,7 @@
   }
 
   #shopify-section-{{ section.id }} .media-square img,
-  #shopify-section-{{ section.id }} .media-square video,
-  #shopify-section-{{ section.id }} .media-square iframe {
+  #shopify-section-{{ section.id }} .media-square video {
     position: absolute;
     top: 0;
     left: 0;
@@ -196,9 +201,8 @@
     line-height: 1;
   }
 
-  /* Video Wrapper Specifics */
+  /* Video Wrapper */
   #shopify-section-{{ section.id }} .video-wrap {
-    /* Vertical video ratio override */
     padding-bottom: 177.77%; 
   }
   @supports (aspect-ratio: 9 / 16) {
@@ -208,7 +212,7 @@
     }
   }
   
-  /* FIXED: Video Overlay & Centering */
+  /* Play Icon Centering */
   #shopify-section-{{ section.id }} .video-overlay {
     position: absolute;
     inset: 0;
@@ -224,7 +228,6 @@
     align-items: center;
     justify-content: center;
     appearance: none;
-    -webkit-appearance: none;
   }
   
   #shopify-section-{{ section.id }} .video-overlay img {
@@ -238,24 +241,25 @@
     background: rgba(0, 0, 0, 0.4);
     color: #fff;
     border-radius: 50%;
-    display: flex; /* Flex to center the SVG inside the circle */
+    display: flex;
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(2px);
     z-index: 2;
-    pointer-events: none; /* Let clicks pass to button */
+    pointer-events: none;
   }
   
   #shopify-section-{{ section.id }} .play-icon svg {
     display: block;
     width: 24px;
     height: 24px;
-    transform: translateX(2px); /* Slight optical adjustment for play triangle */
+    transform: translateX(2px);
   }
 
-  /* Card Text */
+  /* Card Content */
   #shopify-section-{{ section.id }} .review-card__content {
     padding: 0 4px;
+    text-align: left; /* Ensure text is left aligned */
   }
 
   #shopify-section-{{ section.id }} .review-card__title {
@@ -284,29 +288,36 @@
   /* --- RESPONSIVE MOBILE FIXES --- */
   @media (max-width: 990px) {
     #shopify-section-{{ section.id }} .reviews-sec__inner {
-      grid-template-columns: 100%; /* Full width stack */
-      gap: 32px;
+      grid-template-columns: 100%; /* Stack vertical */
+      gap: 24px;
       padding-top: {{ section.settings.pt_m }}px;
       padding-bottom: {{ section.settings.pb_m }}px;
       padding-left: {{ section.settings.pad_x_m }}px;
       padding-right: {{ section.settings.pad_x_m }}px;
-      text-align: center;
+      /* LEFT ALIGN FIX */
+      text-align: left;
+      align-items: flex-start;
     }
 
     #shopify-section-{{ section.id }} .reviews-sec__left {
-      align-items: center; /* Center align title/stars */
+      width: 100%;
+      align-items: flex-start; /* Left align Sidebar content */
       margin-bottom: 0;
     }
 
     #shopify-section-{{ section.id }} .reviews-sec__title {
       font-size: {{ section.settings.title_size_m }}px;
+      text-align: left;
     }
 
-    /* FIX: Show Nav on Mobile */
-    #shopify-section-{{ section.id }} .reviews-sec__nav {
-      display: flex; 
-      justify-content: center;
-      margin-bottom: 10px;
+    /* Hide Desktop Nav on Mobile */
+    #shopify-section-{{ section.id }} .reviews-sec__nav--desktop {
+      display: none;
+    }
+
+    /* Show Mobile Nav (Below Slider) */
+    #shopify-section-{{ section.id }} .reviews-sec__nav--mobile {
+      display: flex;
     }
     
     #shopify-section-{{ section.id }} .nav-btn {
@@ -314,14 +325,10 @@
        height: 56px;
     }
 
-    /* Fix: Ensure slider has width */
+    /* Ensure slider width */
     #shopify-section-{{ section.id }} .reviews-sec__right {
       width: 100%;
       overflow: hidden;
-    }
-    
-    #shopify-section-{{ section.id }} .review-card {
-      opacity: 1 !important; /* Force visible on mobile */
     }
   }
 {%- endstyle -%}
@@ -342,7 +349,7 @@
 
       <h2 class="reviews-sec__title">{{ section.settings.heading }}</h2>
 
-      <div class="reviews-sec__nav">
+      <div class="reviews-sec__nav--desktop">
         <button class="nav-btn nav-btn--prev js-prev-{{ section.id }}" aria-label="Previous">
           <svg width="66" height="65" viewBox="0 0 66 65" fill="none">
             <rect x="1" width="64" height="64" rx="12" stroke-width="1.5"></rect>
@@ -417,6 +424,22 @@
           </article>
         {%- endfor -%}
       </div>
+
+      <div class="reviews-sec__nav--mobile">
+        <button class="nav-btn nav-btn--prev js-prev-{{ section.id }}" aria-label="Previous">
+          <svg width="66" height="65" viewBox="0 0 66 65" fill="none">
+            <rect x="1" width="64" height="64" rx="12" stroke-width="1.5"></rect>
+            <path d="M37.1654 23.6667L28.832 32L37.1654 40.3334" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <button class="nav-btn nav-btn--next js-next-{{ section.id }}" aria-label="Next">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <rect width="64" height="64" rx="12"></rect>
+            <path d="M27.8346 23.6667L36.168 32L27.8346 40.3334" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+
     </div>
   </div>
 </section>
@@ -454,14 +477,14 @@
             breakpoint: 750,
             settings: {
               slidesToShow: slidesMobile,
-              centerMode: true,
-              variableWidth: false, /* Set false to prevent squashing */
-              centerPadding: '20px'
+              centerMode: false, /* Center mode off for left align feel */
+              variableWidth: false
             }
           }
         ]
       });
 
+      // Bind Both Desktop and Mobile Buttons
       $section.find('.js-prev-' + sectionId).on('click', function() { $slider.slick('slickPrev'); });
       $section.find('.js-next-' + sectionId).on('click', function() { $slider.slick('slickNext'); });
 
@@ -531,7 +554,7 @@
       "max": 2,
       "step": 0.1,
       "label": "Cards to show on Mobile",
-      "default": 1
+      "default": 1.1
     },
     {
       "type": "range",
@@ -707,6 +730,7 @@
       "label": "Desktop Top",
       "default": 120,
       "step": 2,
+
       "min": 0,
       "max": 200
     },
@@ -717,6 +741,7 @@
       "default": 120,
       "min": 0,
       "step": 2,
+
       "max": 200
     },
     {
@@ -728,6 +753,7 @@
       "step": 2,
 
       "max": 100
+      
     },
     {
       "type": "range",
