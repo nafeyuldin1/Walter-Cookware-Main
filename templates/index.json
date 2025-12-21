@@ -829,6 +829,81 @@
         "pb_m": 56,
         "pad_x_m": 16
       }
+    },
+    "walter_reviews_xyX3x4": {
+      "type": "walter-reviews",
+      "blocks": {
+        "tab_L6HpX4": {
+          "type": "tab",
+          "settings": {
+            "title": "Wellness",
+            "cat_id": "wellness"
+          }
+        },
+        "tab_eLNzFF": {
+          "type": "tab",
+          "settings": {
+            "title": "Chefs",
+            "cat_id": "chefs"
+          }
+        },
+        "review_xTpnNE": {
+          "type": "review",
+          "settings": {
+            "cat_id": "wellness",
+            "name": "Sarah",
+            "text": "Great for my health."
+          }
+        },
+        "review_mDRMtb": {
+          "type": "review",
+          "settings": {
+            "cat_id": "wellness",
+            "name": "Mike",
+            "text": "Love the titanium."
+          }
+        },
+        "review_KzciBW": {
+          "type": "review",
+          "settings": {
+            "cat_id": "chefs",
+            "name": "Chef Ramsey",
+            "text": "Perfect precision."
+          }
+        }
+      },
+      "block_order": [
+        "tab_L6HpX4",
+        "tab_eLNzFF",
+        "review_xTpnNE",
+        "review_mDRMtb",
+        "review_KzciBW"
+      ],
+      "name": "Reviews Slider Custom",
+      "settings": {
+        "heading": "5,000+ 5-Star Reviews",
+        "bg_color": "#121212",
+        "heading_color": "#BCA588",
+        "border_color": "#454545",
+        "tab_text_inactive": "#B0B0B0",
+        "tab_bg_active": "#A3835F",
+        "tab_text_active": "#121212",
+        "arrow_border": "#454545",
+        "arrow_icon": "#454545",
+        "arrow_bg_active": "#A3835F",
+        "arrow_icon_active": "#121212",
+        "card_bg": "#F6F4F0",
+        "card_text": "#252525",
+        "name_color": "#2C1F1C",
+        "star_color": "#B57C46",
+        "max_width": 1680,
+        "heading_size_d": 48,
+        "heading_size_m": 24,
+        "pt_d": 120,
+        "pb_d": 120,
+        "pt_m": 64,
+        "pb_m": 64
+      }
     }
   },
   "order": [
@@ -842,6 +917,7 @@
     "walter_behind_scene_FizBeJ",
     "walter_scroll_text_fade_VVKey4",
     "walter_material_E66app",
-    "walter_health_feature_qpWqYq"
+    "walter_health_feature_qpWqYq",
+    "walter_reviews_xyX3x4"
   ]
 }
