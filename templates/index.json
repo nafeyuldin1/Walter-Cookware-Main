@@ -415,7 +415,7 @@
       "name": "Reviews Hero Slider",
       "settings": {
         "slides_desktop": 3,
-        "slides_mobile": 1.1,
+        "slides_mobile": 1.2,
         "variable_width_mobile": true,
         "card_gap": 16,
         "show_stars": true,
