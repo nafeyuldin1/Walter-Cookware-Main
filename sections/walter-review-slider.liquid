@@ -1,0 +1,700 @@
+{% comment %}
+  Section: Reviews Hero Slider
+  Description: Dynamic slider with video/image support and full customizer settings.
+{% endcomment %}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .reviews-sec {
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    overflow-x: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .reviews-sec__inner {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 252px 1fr;
+    gap: 48px;
+    padding-top: {{ section.settings.pt_d }}px;
+    padding-bottom: {{ section.settings.pb_d }}px;
+    padding-left: {{ section.settings.pad_x_d }}px;
+    padding-right: {{ section.settings.pad_x_d }}px;
+    max-width: {{ section.settings.max_width }}px;
+  }
+
+  /* Left Side Styling */
+  #shopify-section-{{ section.id }} .reviews-sec__stars path {
+    fill: {{ section.settings.star_color }};
+  }
+
+  #shopify-section-{{ section.id }} .reviews-sec__title {
+    color: {{ section.settings.heading_color }};
+    font-size: {{ section.settings.title_size_d }}px;
+  }
+
+  #shopify-section-{{ section.id }} .reviews-sec__title strong {
+    color: {{ section.settings.highlight_color }};
+  }
+
+  /* Navigation Buttons */
+  #shopify-section-{{ section.id }} .nav-btn rect {
+    stroke: {{ section.settings.nav_border_color }};
+  }
+  #shopify-section-{{ section.id }} .nav-btn path {
+    stroke: {{ section.settings.nav_arrow_color }};
+  }
+  #shopify-section-{{ section.id }} .nav-btn--next rect {
+    fill: {{ section.settings.nav_bg_active }};
+    stroke: none;
+  }
+  #shopify-section-{{ section.id }} .nav-btn--next path {
+    stroke: {{ section.settings.nav_arrow_active }};
+  }
+
+  /* Slider Styling */
+  #shopify-section-{{ section.id }} .pill {
+    background: {{ section.settings.pill_bg }};
+    color: {{ section.settings.pill_text }};
+  }
+
+  #shopify-section-{{ section.id }} .review-card__title {
+    color: {{ section.settings.card_title_color }};
+    font-size: {{ section.settings.card_title_size }}px;
+  }
+
+  #shopify-section-{{ section.id }} .review-card__quote {
+    color: {{ section.settings.card_text_color }};
+    font-size: {{ section.settings.card_quote_size }}px;
+  }
+
+  #shopify-section-{{ section.id }} .review-card__author {
+    color: {{ section.settings.card_text_color }};
+  }
+  
+  #shopify-section-{{ section.id }} .play-icon {
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} .reviews-sec__inner {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding-top: {{ section.settings.pt_m }}px;
+      padding-bottom: {{ section.settings.pb_m }}px;
+      padding-left: {{ section.settings.pad_x_m }}px;
+      padding-right: {{ section.settings.pad_x_m }}px;
+    }
+
+    #shopify-section-{{ section.id }} .reviews-sec__title {
+      font-size: {{ section.settings.title_size_m }}px;
+    }
+    
+    #shopify-section-{{ section.id }} .reviews-sec__nav {
+       display: none; /* Hide nav on mobile as per design usually, or keep custom */
+    }
+  }
+
+  /* Base CSS (Preserved from original) */
+  .reviews-sec__left { display: flex; flex-direction: column; }
+  .reviews-sec__stars { display: flex; gap: 8px; margin-bottom: 24px; }
+  .reviews-sec__title { margin: 0 0 24px; font-weight: 400; line-height: 130%; text-transform: capitalize; }
+  .reviews-sec__nav { margin-top: auto; display: flex; gap: 12px; }
+  .nav-btn { width: 64px; height: 64px; display: inline-flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; }
+  .reviews-sec__right { width: 100%; overflow: hidden; }
+  .slick-list { margin: 0 -16px; }
+  .slick-slide { margin: 0 16px; }
+  .review-card { opacity: 0.4; transition: opacity 0.25s ease; }
+  .review-card.is-active, .slick-current .review-card { opacity: 1; }
+  .review-card__media-row { display: flex; gap: 16px; }
+  .media-square { position: relative; width: 100%; aspect-ratio: 1 / 1; }
+  .media-square img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 18px; }
+  .pill { position: absolute; bottom: 16px; left: 16px; font-size: 12px; font-weight: 600; text-transform: uppercase; padding: 4px 12px; border-radius: 32px; }
+  .video-wrap { aspect-ratio: 40 / 71; position: relative; }
+  .video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 24px; }
+  .video-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: transparent; border: 0; padding: 0; cursor: pointer; }
+  .video-overlay img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85); border-radius: 24px; }
+  .play-icon { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; border-radius: 50%; position: absolute; z-index: 2; }
+  .review-card__content { margin-top: 16px; }
+  .review-card__title { margin-bottom: 8px; font-weight: 500; text-transform: capitalize; }
+  .review-card__quote { margin-bottom: 8px; font-style: italic; }
+  .review-card__author { font-size: 12px; font-weight: 600; }
+
+  @media (max-width: 768px) {
+    .review-card { width: 85vw; } /* Mobile card width */
+    .reviews-sec__right { overflow: visible; }
+  }
+{%- endstyle -%}
+
+<section id="reviews-sec-{{ section.id }}" class="reviews-sec" role="region" aria-label="{{ section.settings.heading | strip_html }}">
+  <div class="reviews-sec__inner">
+    
+    <aside class="reviews-sec__left">
+      <div class="reviews-sec__stars" aria-hidden="true">
+        {%- for i in (1..5) -%}
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="33" viewBox="0 0 32 33" fill="none">
+            <path d="M32 12.7669C32 13.0495 31.8333 13.3575 31.5 13.6909L24.5187 20.4975L26.172 30.1135C26.1853 30.2029 26.192 30.3322 26.192 30.4989C26.1996 30.7417 26.1291 30.9805 25.9907 31.1802C25.924 31.2721 25.8354 31.3459 25.733 31.3948C25.6305 31.4437 25.5174 31.4662 25.404 31.4602C25.16 31.4602 24.904 31.3829 24.6347 31.2282L16 26.6922L7.36533 31.2309C7.08267 31.3842 6.82667 31.4615 6.596 31.4615C6.32667 31.4615 6.12533 31.3682 5.99067 31.1815C5.85179 30.982 5.78074 30.7432 5.788 30.5002C5.788 30.4229 5.80133 30.2949 5.828 30.1149L7.48133 20.5002L0.481333 13.6922C0.16 13.3442 0 13.0375 0 12.7669C0 12.2935 0.36 11.9975 1.07733 11.8829L10.7307 10.4789L15.0573 1.72952C15.3013 1.20285 15.6147 0.940186 16 0.940186C16.3853 0.940186 16.6987 1.20285 16.9427 1.72952L21.2693 10.4789L30.9227 11.8829C31.6413 11.9975 32 12.2935 32 12.7669Z" fill="currentColor"></path>
+          </svg>
+        {%- endfor -%}
+      </div>
+
+      <h2 class="reviews-sec__title">{{ section.settings.heading }}</h2>
+
+      <div class="reviews-sec__nav hidden-mobile">
+        <button class="nav-btn nav-btn--prev js-prev-{{ section.id }}" aria-label="Previous">
+          <svg xmlns="http://www.w3.org/2000/svg" width="66" height="65" viewBox="0 0 66 65" fill="none">
+            <rect x="1" width="64" height="64" rx="12" stroke="currentColor" stroke-width="1.5"></rect>
+            <path d="M37.1654 23.6667L28.832 32L37.1654 40.3334" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <button class="nav-btn nav-btn--next js-next-{{ section.id }}" aria-label="Next">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <rect width="64" height="64" rx="12" fill="currentColor"></rect>
+            <path d="M27.8346 23.6667L36.168 32L27.8346 40.3334" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <div class="reviews-sec__right">
+      <div class="reviews-slider js-reviews-slider-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          <article class="review-card" {{ block.shopify_attributes }}>
+            <div class="review-card__media-row">
+              
+              <div class="media-square">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.pill_text }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag }}
+                {%- endif -%}
+                {%- if block.settings.pill_text != blank -%}
+                  <span class="pill">{{ block.settings.pill_text }}</span>
+                {%- endif -%}
+              </div>
+
+              <div class="media-square video-wrap" data-user-unmuted="0">
+                <button class="video-overlay" type="button" aria-label="Play video">
+                  {%- if block.settings.video_poster != blank -%}
+                    {{ block.settings.video_poster | image_url: width: 600 | image_tag: loading: 'lazy' }}
+                  {%- elsif block.settings.video != blank -%}
+                     {{ block.settings.video.preview_image | image_url: width: 600 | image_tag: loading: 'lazy' }}
+                  {%- else -%}
+                     {{ 'collection-1' | placeholder_svg_tag }} 
+                  {%- endif -%}
+                  <span class="play-icon">
+                    <svg viewBox="0 0 24 24" width="36" height="36">
+                      <path d="M8 5v14l11-7z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                </button>
+                
+                {%- if block.settings.video != blank -%}
+                  {{ block.settings.video | video_tag: image_size: '600x', loop: true, muted: true, playsinline: true, preload: 'none', class: 'js-video' }}
+                {%- elsif block.settings.video_url_mp4 != blank -%}
+                   <video playsinline="true" loop="loop" preload="none" class="js-video">
+                     <source src="{{ block.settings.video_url_mp4 }}" type="video/mp4">
+                   </video>
+                {%- endif -%}
+              </div>
+            </div>
+
+            <div class="review-card__content">
+              {%- if block.settings.title != blank -%}
+                <div class="review-card__title">{{ block.settings.title }}</div>
+              {%- endif -%}
+              {%- if block.settings.quote != blank -%}
+                <div class="review-card__quote">"{{ block.settings.quote }}"</div>
+              {%- endif -%}
+              {%- if block.settings.author != blank -%}
+                <div class="review-card__author">{{ block.settings.author }}</div>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var $ = window.jQuery;
+    // Basic check if jQuery and Slick are loaded. If not, you might need to include them in theme.liquid
+    if (!$ || !$.fn || !$.fn.slick) {
+      console.warn('jQuery or Slick Slider not detected.');
+      return;
+    }
+
+    var SECTION_ID = "{{ section.id }}";
+    var $section   = $('#reviews-sec-' + SECTION_ID);
+    var $slider    = $section.find('.js-reviews-slider-' + SECTION_ID);
+    var inView     = false;
+    var userUnmutedGlobal = false;
+    var globalUserGesture = false;
+
+    function showOverlay($wrap, show) {
+      var $ov = $wrap.find('.video-overlay');
+      if (!$ov.length) return;
+      $ov.css('display', show ? '' : 'none');
+    }
+
+    function pauseAll() {
+      $slider.find('.video-wrap').each(function () {
+        var v = this.querySelector('video');
+        if (v) {
+          try { v.pause(); } catch (e) {}
+        }
+        showOverlay($(this), true);
+      });
+      $slider.find('.review-card').removeClass('is-active');
+    }
+
+    function tryPlay(video, wantSound, $wrap) {
+      if (wantSound) {
+        video.muted  = false;
+        video.volume = 1;
+      } else {
+        video.muted  = true;
+        video.volume = 0;
+      }
+      var p = video.play();
+      if (p && p.catch) {
+        p.catch(function () {
+          // Fallback to muted if autoplay blocked
+          if (wantSound) {
+            video.muted  = true;
+            video.volume = 0;
+            video.play().catch(function(){});
+          }
+        });
+      }
+    }
+
+    function autoPlayCurrentSlide() {
+      if (!inView) return;
+      if (!globalUserGesture) return;
+
+      var $curr = $slider.find('.slick-current');
+      if (!$curr.length) return;
+
+      $slider.find('.review-card').removeClass('is-active');
+      $curr.addClass('is-active');
+
+      var $wrap  = $curr.find('.video-wrap');
+      var video  = $wrap.find('video').get(0);
+      if (!video) return;
+
+      var perSlideUnmuted = $wrap.attr('data-user-unmuted') === '1';
+      var wantSound       = perSlideUnmuted || userUnmutedGlobal;
+
+      showOverlay($wrap, false);
+      tryPlay(video, wantSound, $wrap);
+    }
+
+    function bindClickToggles() {
+      // Click Overlay
+      $slider.off('click.reviews-overlay').on('click.reviews-overlay', '.video-overlay', function () {
+        var $wrap = $(this).closest('.video-wrap');
+        var v     = $wrap.find('video').get(0);
+        if (!v) return;
+
+        globalUserGesture = true;
+        $wrap.attr('data-user-unmuted', '1');
+        userUnmutedGlobal = true;
+        showOverlay($wrap, false);
+        tryPlay(v, true, $wrap);
+      });
+
+      // Click Video directly
+      $slider.off('click.reviews-video').on('click.reviews-video', 'video', function () {
+        var $wrap = $(this).closest('.video-wrap');
+        var video = this;
+        globalUserGesture = true;
+
+        if (!video.paused && video.muted) {
+          $wrap.attr('data-user-unmuted', '1');
+          userUnmutedGlobal = true;
+          video.muted  = false;
+          video.volume = 1;
+          return;
+        }
+
+        if (video.paused || video.ended) {
+          $wrap.attr('data-user-unmuted', '1');
+          userUnmutedGlobal = true;
+          showOverlay($wrap, false);
+          tryPlay(video, true, $wrap);
+        } else {
+          video.pause();
+          showOverlay($wrap, true);
+        }
+      });
+    }
+
+    function initSlick() {
+      if (!$slider.length || $slider.hasClass('slick-initialized')) return;
+
+      bindClickToggles();
+
+      $slider.on('init', function (e, slick) {
+        pauseAll();
+        var $initial = $(slick.$slides[slick.currentSlide]);
+        $initial.addClass('is-active');
+      })
+      .on('beforeChange', function () { pauseAll(); })
+      .on('afterChange', function () { autoPlayCurrentSlide(); });
+
+      $slider.slick({
+        arrows: false,
+        dots: false,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        swipeToSlide: true,
+        variableWidth: false,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: { slidesToShow: 2 }
+          },
+          {
+            breakpoint: 750,
+            settings: {
+              slidesToShow: 1,
+              variableWidth: true, /* Mimics original mobile look */
+              centerMode: true
+            }
+          }
+        ]
+      });
+    }
+
+    // Initialize
+    initSlick();
+
+    // Intersection Observer for pausing when out of view
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.target !== $section.get(0)) return;
+          if (entry.isIntersecting && entry.intersectionRatio > 0.25) {
+            inView = true;
+          } else {
+            inView = false;
+            pauseAll();
+          }
+        });
+      }, { threshold: [0, 0.25] });
+      io.observe($section.get(0));
+    }
+
+    // Theme Editor Support
+    document.addEventListener('shopify:section:load', function (e) {
+      if (e.detail.sectionId === SECTION_ID) {
+        $section = $('#reviews-sec-' + SECTION_ID);
+        $slider  = $section.find('.js-reviews-slider-' + SECTION_ID);
+        initSlick();
+      }
+    });
+
+    // Custom Nav
+    $section.find('.js-prev-' + SECTION_ID).on('click', function () {
+      $slider.slick('slickPrev');
+    });
+    $section.find('.js-next-' + SECTION_ID).on('click', function () {
+      $slider.slick('slickNext');
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Reviews Hero Slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#f6f4f0"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Icon Color",
+      "default": "#B57C46"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Trusted By <strong>550,000+</strong> Kitchens Worldwide"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Bold Text Color",
+      "default": "#bca588"
+    },
+    {
+      "type": "range",
+      "id": "title_size_d",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Desktop)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "title_size_m",
+      "min": 16,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Navigation Buttons"
+    },
+    {
+      "type": "color",
+      "id": "nav_border_color",
+      "label": "Border Color (Inactive)",
+      "default": "#D4C7B4"
+    },
+    {
+      "type": "color",
+      "id": "nav_arrow_color",
+      "label": "Arrow Color (Inactive)",
+      "default": "#D4C7B4"
+    },
+    {
+      "type": "color",
+      "id": "nav_bg_active",
+      "label": "Background (Active/Next)",
+      "default": "#A3835F"
+    },
+    {
+      "type": "color",
+      "id": "nav_arrow_active",
+      "label": "Arrow Color (Active/Next)",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Card Styling"
+    },
+    {
+      "type": "color",
+      "id": "pill_bg",
+      "label": "Pill Background",
+      "default": "#b57c46"
+    },
+    {
+      "type": "color",
+      "id": "pill_text",
+      "label": "Pill Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card Title Color",
+      "default": "#f7f7f7"
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Card Title Size",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card Text/Quote Color",
+      "default": "#b0b0b0"
+    },
+    {
+      "type": "range",
+      "id": "card_quote_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Quote Size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "number",
+      "id": "max_width",
+      "label": "Max Width (px)",
+      "default": 1800
+    },
+    {
+      "type": "range",
+      "id": "pt_d",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top (Desktop)",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "pb_d",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom (Desktop)",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "pad_x_d",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Side Padding (Desktop)",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "pt_m",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "pb_m",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "pad_x_m",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Side Padding (Mobile)",
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Top Image"
+        },
+        {
+          "type": "text",
+          "id": "pill_text",
+          "label": "Pill Label",
+          "default": "TITANIUM PAN"
+        },
+        {
+          "type": "header",
+          "content": "Video Media"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Shopify Hosted Video"
+        },
+        {
+          "type": "text",
+          "id": "video_url_mp4",
+          "label": "MP4 URL (Fallback)",
+          "info": "Use if not using Shopify Video picker."
+        },
+        {
+          "type": "image_picker",
+          "id": "video_poster",
+          "label": "Video Poster Image",
+          "info": "Cover image before video plays."
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Review Title"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review Quote",
+          "default": "The review text goes here."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Author Name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews Hero Slider",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}
