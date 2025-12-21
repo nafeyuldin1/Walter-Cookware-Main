@@ -572,8 +572,8 @@
       "name": "Scroll Text Fade",
       "settings": {
         "bg_color": "#00221c",
-        "active_color": "#BCA588",
-        "inactive_color": "#BCA588",
+        "active_color": "#bca588",
+        "inactive_color": "#bca588",
         "font_family": "bebas_neue_n4",
         "active_font_size_d": 64,
         "active_font_size_m": 32,
@@ -582,6 +582,113 @@
         "pb_d": 240,
         "pt_m": 140,
         "pb_m": 140
+      }
+    },
+    "walter_material_E66app": {
+      "type": "walter-material",
+      "blocks": {
+        "category_eyD7mB": {
+          "type": "category",
+          "settings": {
+            "title": "Pans",
+            "cat_id": "cat1"
+          }
+        },
+        "category_tRGwUc": {
+          "type": "category",
+          "settings": {
+            "title": "Cutting Boards",
+            "cat_id": "cat2"
+          }
+        },
+        "category_g4qVKD": {
+          "type": "category",
+          "settings": {
+            "title": "Utensils",
+            "cat_id": "cat3"
+          }
+        },
+        "category_zVLQ87": {
+          "type": "category",
+          "settings": {
+            "title": "Water Bottles",
+            "cat_id": "cat3"
+          }
+        },
+        "card_cpfxmP": {
+          "type": "card",
+          "settings": {
+            "cat_id": "cat1",
+            "badge_text": "FOREVER CHEMICALS",
+            "badge_bg": "",
+            "badge_text_color": "",
+            "title": "Teflon",
+            "text": "Toxic PFAS exposure."
+          }
+        },
+        "card_jA6dHG": {
+          "type": "card",
+          "settings": {
+            "cat_id": "cat1",
+            "badge_text": "FOREVER CHEMICALS",
+            "badge_bg": "",
+            "badge_text_color": "",
+            "title": "Stainless Steel",
+            "text": "Sticks easily."
+          }
+        },
+        "card_khxby6": {
+          "type": "card",
+          "settings": {
+            "cat_id": "cat2",
+            "badge_text": "FOREVER CHEMICALS",
+            "badge_bg": "",
+            "badge_text_color": "",
+            "title": "Plastic",
+            "text": "Microplastics."
+          }
+        }
+      },
+      "block_order": [
+        "category_eyD7mB",
+        "category_tRGwUc",
+        "category_g4qVKD",
+        "category_zVLQ87",
+        "card_cpfxmP",
+        "card_jA6dHG",
+        "card_khxby6"
+      ],
+      "name": "Materials Comparison",
+      "settings": {
+        "bg_color": "#121212",
+        "text_color": "#EDE6DA",
+        "heading": "Titanium Isn’t Competing. It’s Replacing.",
+        "heading_color": "#BCA588",
+        "heading_size_d": 48,
+        "heading_size_m": 24,
+        "subtext": "From toxin & bacteria risks to high maintenance...",
+        "sub_color": "#B0B0B0",
+        "sub_size_d": 16,
+        "sub_size_m": 14,
+        "border_color": "#454545",
+        "tab_text_color": "#B0B0B0",
+        "tab_active_bg": "#A3835F",
+        "tab_active_text": "#121212",
+        "card_bg": "#121212",
+        "card_border": "#333333",
+        "badge_bg": "#c20c25",
+        "badge_text": "#ffffff",
+        "card_title_color": "#ffffff",
+        "card_title_size": 24,
+        "card_body_color": "#B0B0B0",
+        "card_body_size": 16,
+        "max_width": 1920,
+        "pt_d": 120,
+        "pb_d": 120,
+        "pad_x_d": 120,
+        "pt_m": 64,
+        "pb_m": 64,
+        "pad_x_m": 16
       }
     }
   },
@@ -594,6 +701,7 @@
     "walter_auto_scrolling_KCKiNG",
     "walter_review_slider_zxr3GT",
     "walter_behind_scene_FizBeJ",
-    "walter_scroll_text_fade_VVKey4"
+    "walter_scroll_text_fade_VVKey4",
+    "walter_material_E66app"
   ]
 }
