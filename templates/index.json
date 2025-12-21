@@ -254,7 +254,7 @@
       "settings": {
         "title": "Shop By Category",
         "heading_size": "h0",
-        "grid_gap": 4,
+        "grid_gap": 26,
         "card_radius": 16,
         "enable_overlay": true,
         "overlay_opacity": 90,
