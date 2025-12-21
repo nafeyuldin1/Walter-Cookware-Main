@@ -248,7 +248,8 @@
         "featured_collection_Kgfcff"
       ],
       "custom_css": [
-        "h2 {margin: auto;}"
+        "@media screen and (min-width: 750px){h2 {margin: auto;}}",
+        ".title-wrapper-with-link{padding: 0px 20px; display: flex; flex-wrap: nowrap;}"
       ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
