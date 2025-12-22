@@ -11,6 +11,39 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
+    "advanced_footer_8hKWhA": {
+      "type": "advanced-footer",
+      "name": "Advanced Footer",
+      "settings": {
+        "show_marquee": true,
+        "marquee_text": "Taima® is the original brand of certified pure titanium kitchenware.",
+        "marquee_speed": 20,
+        "logo": "shopify://shop_images/imgi_1_WALTER_3125_x_825_px_1.webp",
+        "logo_width": 260,
+        "blurb": "<p>We only send you things worth opening. Breakthroughs, exclusive launches, toxin-free living tips, and the latest in innovation.</p>",
+        "nl_placeholder": "Email",
+        "nl_btn_text": "Subscribe",
+        "nl_spam_text": "We hate spam too.",
+        "nl_success": "Thanks for subscribing!",
+        "menu_1_title": "Policies",
+        "menu_1": "policies",
+        "menu_2_title": "Products",
+        "menu_2": "main-menu",
+        "menu_3_title": "Company",
+        "menu_3": "help",
+        "contact_title": "Get In Touch",
+        "contact_btn_label": "Go To Contact Form",
+        "contact_btn_url": "",
+        "contact_email_text": "Or Drop Us an Email:",
+        "contact_email": "Hello@TaimaTitanium.com",
+        "copyright_text": "© [year], Taima",
+        "color_bg": "#0b0b0b",
+        "color_text": "#f6f6f6",
+        "color_muted": "#b0b0b0",
+        "color_accent": "#ffffff",
+        "color_border": "#333333"
+      }
+    },
     "footer": {
       "type": "footer",
       "disabled": true,
@@ -31,6 +64,7 @@
     }
   },
   "order": [
+    "advanced_footer_8hKWhA",
     "footer"
   ]
 }
