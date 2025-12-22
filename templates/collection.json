@@ -51,19 +51,75 @@
         "collection": "{{ collection }}",
         "color_bg": "#121212",
         "color_sidebar_bg": "#121212",
-        "color_text_main": "#F6F4F0",
-        "color_text_sub": "#B0B0B0",
-        "color_accent": "#BCA588",
+        "color_text_main": "#f6f4f0",
+        "color_text_sub": "#b0b0b0",
+        "color_accent": "#bca588",
         "color_border": "#454545",
         "color_card_bg": "#252525",
         "color_badge_bg": "#932933",
         "color_badge_text": "#c8beab"
+      }
+    },
+    "trust_tiles_NCjiWa": {
+      "type": "trust-tiles",
+      "blocks": {
+        "image_nrMWc3": {
+          "type": "image",
+          "settings": {}
+        },
+        "image_iXgWjT": {
+          "type": "image",
+          "settings": {}
+        },
+        "image_jrdw63": {
+          "type": "image",
+          "settings": {}
+        },
+        "image_9BDfgY": {
+          "type": "image",
+          "settings": {}
+        },
+        "image_nTTEpW": {
+          "type": "image",
+          "settings": {}
+        },
+        "image_YC9hiT": {
+          "type": "image",
+          "settings": {}
+        },
+        "image_qNpgP4": {
+          "type": "image",
+          "settings": {}
+        },
+        "image_YTBhUc": {
+          "type": "image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "image_nrMWc3",
+        "image_iXgWjT",
+        "image_jrdw63",
+        "image_9BDfgY",
+        "image_nTTEpW",
+        "image_YC9hiT",
+        "image_qNpgP4",
+        "image_YTBhUc"
+      ],
+      "name": "Trust Band Tiles",
+      "settings": {
+        "show_stars": true,
+        "heading": "Trusted By <strong>500,000+</strong> Kitchens Worldwide",
+        "color_bg": "#121212",
+        "color_text": "#FFFFFF",
+        "color_accent": "#BCA588"
       }
     }
   },
   "order": [
     "banner",
     "product-grid",
-    "collections_blocks_ECW76R"
+    "collections_blocks_ECW76R",
+    "trust_tiles_NCjiWa"
   ]
 }
