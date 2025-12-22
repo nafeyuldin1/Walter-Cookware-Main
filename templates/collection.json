@@ -1,7 +1,17 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "banner": {
       "type": "main-collection-banner",
+      "disabled": true,
       "settings": {
         "show_collection_description": true,
         "show_collection_image": false,
@@ -10,9 +20,11 @@
     },
     "product-grid": {
       "type": "main-collection-product-grid",
+      "disabled": true,
       "settings": {
         "products_per_page": 16,
         "columns_desktop": 4,
+        "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "adapt",
         "image_shape": "default",
@@ -23,14 +35,35 @@
         "enable_filtering": true,
         "filter_type": "horizontal",
         "enable_sorting": true,
-        "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "collections_blocks_ECW76R": {
+      "type": "collections-blocks",
+      "name": "Collection Blocks",
+      "settings": {
+        "heading": "BIGGEST HOLIDAY SALE",
+        "subheading": "The biggest sale of the year is here! Save up to 55% on pure titanium cookware bundles.",
+        "image_desktop": "shopify://shop_images/underline-min.webp",
+        "image_mobile": "shopify://shop_images/the_best_mobile_green-min_1.webp",
+        "menu": "",
+        "collection": "bundles",
+        "color_bg": "#121212",
+        "color_sidebar_bg": "#121212",
+        "color_text_main": "#F6F4F0",
+        "color_text_sub": "#B0B0B0",
+        "color_accent": "#BCA588",
+        "color_border": "#454545",
+        "color_card_bg": "#252525",
+        "color_badge_bg": "#932933",
+        "color_badge_text": "#c8beab"
       }
     }
   },
   "order": [
     "banner",
-    "product-grid"
+    "product-grid",
+    "collections_blocks_ECW76R"
   ]
 }

@@ -97,6 +97,7 @@
         "logo_efLXNi",
         "logo_gJEViQ"
       ],
+      "custom_css": [],
       "name": "Hero Video & Logos",
       "settings": {
         "enable_overlap": true,
@@ -976,7 +977,7 @@
         "color_bg": "#03231a",
         "color_accent": "#bca588",
         "color_text": "#f6f4f0",
-        "color_subtext": "#B0B0B0",
+        "color_subtext": "#b0b0b0",
         "color_border": "#ffffff",
         "color_btn_bg": "#ffffff",
         "color_btn_text": "#121212"
