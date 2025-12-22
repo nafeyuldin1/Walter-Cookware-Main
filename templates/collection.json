@@ -47,7 +47,7 @@
         "subheading": "The biggest sale of the year is here! Save up to 55% on pure titanium cookware bundles.",
         "image_desktop": "shopify://shop_images/underline-min.webp",
         "image_mobile": "shopify://shop_images/the_best_mobile_green-min_1.webp",
-        "menu": "",
+        "menu": "collection-sidebar-menu",
         "collection": "bundles",
         "color_bg": "#121212",
         "color_sidebar_bg": "#121212",
