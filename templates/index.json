@@ -931,6 +931,22 @@
         "pt_m": 64,
         "pb_m": 64
       }
+    },
+    "heritage_banner_x9fLfN": {
+      "type": "heritage-banner",
+      "name": "Heritage Banner",
+      "settings": {
+        "image_desktop": "shopify://shop_images/desktop_1-min_2000x_877c42c7-fbe3-41a2-bd63-2bbcc4052f64.webp",
+        "image_mobile": "shopify://shop_images/desktop_1-min_2000x_877c42c7-fbe3-41a2-bd63-2bbcc4052f64.webp",
+        "heading": "Rooted In <strong>Tradition</strong>.Designed To Outlast You.",
+        "kicker": "At Taima®, We Don’t Just Make Kitchenware. We Uphold A Standard.",
+        "content": "<p>Shaped by the legacy of Japanese craftsmanship, where perfection isn’t a choice, it’s a duty. And durability isn’t a feature - it’s expected. We chose titanium not because it was easy, but<strong> because it was right.</strong></p><p>We chose <strong>Integrity </strong>over shortcuts.<br/><strong>Purpose</strong> over profit.<br/><strong>Excellence</strong> over mass production.</p><p>That’s why everything we create is built with obsession, backed for life, and made to earn your trust, not your attention. Because when something is made right…It never needs to be replaced.</p><p>All of our products are crafted from 100% sustainable pure titanium. Not just for unmatched hygiene and durability. But as part of our promise to protect your health & the planet.</p>",
+        "color_bg": "#121212",
+        "color_text": "#F6F4F0",
+        "color_accent": "#BCA588",
+        "color_kicker": "#E9E2D8",
+        "color_rte": "#D1D1D1"
+      }
     }
   },
   "order": [
@@ -945,6 +961,7 @@
     "walter_scroll_text_fade_VVKey4",
     "walter_material_E66app",
     "walter_health_feature_qpWqYq",
-    "walter_reviews_xyX3x4"
+    "walter_reviews_xyX3x4",
+    "heritage_banner_x9fLfN"
   ]
 }
