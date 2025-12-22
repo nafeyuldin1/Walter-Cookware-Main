@@ -958,8 +958,28 @@
         "subheading": "<p>To create kitchenware so safe, so durable, and so effortless... you’d never have to think about it again.</p>",
         "kicker": "That’s it.",
         "color_bg": "#121212",
-        "color_text": "#FFFFFF",
-        "color_subtext": "#B0B0B0"
+        "color_text": "#ffffff",
+        "color_subtext": "#b0b0b0"
+      }
+    },
+    "news_letter_TFcrtH": {
+      "type": "news-letter",
+      "name": "Newsletter Hero",
+      "settings": {
+        "heading_accent": "You Deserve Better",
+        "heading_main": "Than Random Emails.",
+        "subtext": "<p>We only send you things worth opening. Breakthroughs, exclusive launches, toxin-free living tips, and the latest in innovation - before the rest of the world catches on.</p>",
+        "placeholder": "Email",
+        "button_text": "Subscribe",
+        "spam_note": "We hate spam too.",
+        "success_message": "Success! You’re In!",
+        "color_bg": "#03231a",
+        "color_accent": "#bca588",
+        "color_text": "#f6f4f0",
+        "color_subtext": "#B0B0B0",
+        "color_border": "#ffffff",
+        "color_btn_bg": "#ffffff",
+        "color_btn_text": "#121212"
       }
     }
   },
@@ -977,6 +997,7 @@
     "walter_health_feature_qpWqYq",
     "walter_reviews_xyX3x4",
     "heritage_banner_x9fLfN",
-    "missin_hero_7WAREk"
+    "missin_hero_7WAREk",
+    "news_letter_TFcrtH"
   ]
 }
