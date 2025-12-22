@@ -48,7 +48,7 @@
         "image_desktop": "shopify://shop_images/underline-min.webp",
         "image_mobile": "shopify://shop_images/the_best_mobile_green-min_1.webp",
         "menu": "collection-sidebar-menu",
-        "collection": "bundles",
+        "collection": "{{ collection }}",
         "color_bg": "#121212",
         "color_sidebar_bg": "#121212",
         "color_text_main": "#F6F4F0",
