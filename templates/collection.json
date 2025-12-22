@@ -65,35 +65,51 @@
       "blocks": {
         "image_nrMWc3": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/review_man-min.webp"
+          }
         },
         "image_iXgWjT": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/board_4-min_bb0863c9-27f8-4ad3-9f9d-3390584ded28.webp"
+          }
         },
         "image_jrdw63": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/board-min_17b1843e-87da-43ae-b30b-95c6c3a5d98a.webp"
+          }
         },
         "image_9BDfgY": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/review_man-min.webp"
+          }
         },
         "image_nTTEpW": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/pan_6-min_64797f83-2f85-4671-b699-68f634d1ddf2.webp"
+          }
         },
         "image_YC9hiT": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/chef_pan-min_59dd09c3-bc24-496b-9866-a37324176598.webp"
+          }
         },
         "image_qNpgP4": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/board_9-min_3c8a74f1-e8ef-4d6f-b216-71a175e29248.webp"
+          }
         },
         "image_YTBhUc": {
           "type": "image",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/chef_2-min_c6fbf5ab-4d72-4741-9c3c-d1cca7fbeae0.webp"
+          }
         }
       },
       "block_order": [
