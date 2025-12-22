@@ -942,10 +942,24 @@
         "kicker": "At Taima®, We Don’t Just Make Kitchenware. We Uphold A Standard.",
         "content": "<p>Shaped by the legacy of Japanese craftsmanship, where perfection isn’t a choice, it’s a duty. And durability isn’t a feature - it’s expected. We chose titanium not because it was easy, but<strong> because it was right.</strong></p><p>We chose <strong>Integrity </strong>over shortcuts.<br/><strong>Purpose</strong> over profit.<br/><strong>Excellence</strong> over mass production.</p><p>That’s why everything we create is built with obsession, backed for life, and made to earn your trust, not your attention. Because when something is made right…It never needs to be replaced.</p><p>All of our products are crafted from 100% sustainable pure titanium. Not just for unmatched hygiene and durability. But as part of our promise to protect your health & the planet.</p>",
         "color_bg": "#121212",
-        "color_text": "#F6F4F0",
-        "color_accent": "#BCA588",
-        "color_kicker": "#E9E2D8",
-        "color_rte": "#D1D1D1"
+        "color_text": "#f6f4f0",
+        "color_accent": "#bca588",
+        "color_kicker": "#e9e2d8",
+        "color_rte": "#d1d1d1"
+      }
+    },
+    "missin_hero_7WAREk": {
+      "type": "missin-hero",
+      "name": "Mission Hero",
+      "settings": {
+        "image_desktop": "shopify://shop_images/homepage_2-min.webp",
+        "image_mobile": "shopify://shop_images/homepage_2_mob-min.avif",
+        "heading": "Our Mission Is Simple.",
+        "subheading": "<p>To create kitchenware so safe, so durable, and so effortless... you’d never have to think about it again.</p>",
+        "kicker": "That’s it.",
+        "color_bg": "#121212",
+        "color_text": "#FFFFFF",
+        "color_subtext": "#B0B0B0"
       }
     }
   },
@@ -962,6 +976,7 @@
     "walter_material_E66app",
     "walter_health_feature_qpWqYq",
     "walter_reviews_xyX3x4",
-    "heritage_banner_x9fLfN"
+    "heritage_banner_x9fLfN",
+    "missin_hero_7WAREk"
   ]
 }
