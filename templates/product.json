@@ -1,1 +1,239 @@
-{"sections":{"main":{"type":"main-product","blocks":{"vendor":{"type":"text","settings":{"text":"{{ product.vendor }}","text_style":"uppercase"}},"title":{"type":"title","settings":{}},"price":{"type":"price","settings":{}},"variant_picker":{"type":"variant_picker","settings":{"picker_type":"button","swatch_shape":"circle"}},"quantity_selector":{"type":"quantity_selector","settings":{}},"buy_buttons":{"type":"buy_buttons","settings":{"show_dynamic_checkout":true,"show_gift_card_recipient":true}},"description":{"type":"description","settings":{}},"share":{"type":"share","settings":{"share_label":"Share"}}},"block_order":["vendor","title","price","variant_picker","quantity_selector","buy_buttons","description","share"],"settings":{"enable_sticky_info":true,"color_scheme":"scheme-1","media_size":"large","constrain_to_viewport":true,"media_fit":"contain","gallery_layout":"stacked","mobile_thumbnails":"hide","media_position":"left","image_zoom":"lightbox","hide_variants":true,"enable_video_looping":false,"padding_top":36,"padding_bottom":12}},"related-products":{"type":"related-products","settings":{"heading":"You may also like","heading_size":"h2","products_to_show":4,"columns_desktop":4,"columns_mobile":"2","color_scheme":"scheme-1","image_ratio":"square","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"padding_top":36,"padding_bottom":28}}},"order":["main","related-products"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "walter_product_Y7bNYJ": {
+      "type": "walter-product",
+      "blocks": {
+        "title_fkmVzK": {
+          "type": "title",
+          "settings": {}
+        },
+        "price_Fkwx4M": {
+          "type": "price",
+          "settings": {
+            "sale_badge_text": "SALE ENDS SOON!",
+            "show_description": true
+          }
+        },
+        "variant_picker_g4KpQh": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
+        },
+        "quantity_selector_zdMdca": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_GLRF3m": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "benefits_grid_LHFABy": {
+          "type": "benefits_grid",
+          "settings": {
+            "text_color": "#B0B0B0",
+            "text_1": "No PFAS, PTFE & PFOA.",
+            "text_2": "Extreme Heat Resistant",
+            "text_3": "Non-Stick Surface",
+            "text_4": "Compatible With All Cooktops"
+          }
+        },
+        "scrolling_icons_cMB9yG": {
+          "type": "scrolling_icons",
+          "settings": {
+            "text_color": "#D4C7B4",
+            "label_1": "",
+            "label_2": "",
+            "label_3": "",
+            "label_4": "",
+            "label_5": "",
+            "label_6": "",
+            "label_7": "",
+            "label_8": ""
+          }
+        },
+        "bundle_widget_NPmFLG": {
+          "type": "bundle_widget",
+          "settings": {
+            "size_label": "Size:",
+            "size_guide_text": "Size Guide",
+            "tab_1_label": "Mini",
+            "tab_2_label": "Standard",
+            "tab_3_label": "Versatile",
+            "tab_4_label": "Large",
+            "guarantee_text": "Guaranteed Safe & Secure Checkout"
+          }
+        },
+        "shipping_bar_Na8Erx": {
+          "type": "shipping_bar",
+          "settings": {
+            "bg_color": "#03231A",
+            "text_color": "#D4C7B4",
+            "alert_text": "⚠️ Might Not Arrive Before Christmas",
+            "text_1": "FREE Shipping & Easy Returns",
+            "text_2": "Lifetime Warranty"
+          }
+        },
+        "accordion_jT4PQf": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Details, Care & Use",
+            "content": ""
+          }
+        },
+        "impact_note_KwNV8U": {
+          "type": "impact_note",
+          "settings": {
+            "bg_color": "#03231A",
+            "text_color": "#D4C7B4",
+            "text": "Part of your order helps create the future of toxin-free living."
+          }
+        }
+      },
+      "block_order": [
+        "title_fkmVzK",
+        "price_Fkwx4M",
+        "variant_picker_g4KpQh",
+        "quantity_selector_zdMdca",
+        "buy_buttons_GLRF3m",
+        "benefits_grid_LHFABy",
+        "scrolling_icons_cMB9yG",
+        "bundle_widget_NPmFLG",
+        "shipping_bar_Na8Erx",
+        "accordion_jT4PQf",
+        "impact_note_KwNV8U"
+      ],
+      "name": "Main Product Dynamic",
+      "settings": {
+        "bg_color": "#121212",
+        "bg_gradient": "linear-gradient(90deg, rgba(59, 62, 65, 1), rgba(24, 26, 27, 1) 100%)",
+        "text_color": "#ffffff",
+        "title_color": "#ffffff",
+        "price_color": "#E9E2D8",
+        "compare_price_color": "#888888",
+        "sale_badge_bg": "#097350",
+        "sale_badge_text": "#E9E2D8",
+        "bundle_active_bg": "#F6F4F0",
+        "bundle_border_color": "#E9E2D8",
+        "atc_bg": "#FFFFFF",
+        "atc_text": "#121212",
+        "media_size": "large",
+        "media_position": "left",
+        "gallery_layout": "thumbnail_slider",
+        "mobile_thumbnails": "hide",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "share"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "walter_product_Y7bNYJ",
+    "main",
+    "related-products"
+  ]
+}
