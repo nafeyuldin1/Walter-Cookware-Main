@@ -90,6 +90,31 @@
           "type": "accordion",
           "settings": {
             "heading": "Details, Care & Use",
+            "icon": "shopify://shop_images/icons_5_a91e36f6-10f7-4c5c-894d-2e64069e1ae4.svg",
+            "content": ""
+          }
+        },
+        "accordion_NktTUr": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Review Highlights",
+            "icon": "shopify://shop_images/icons_22.svg",
+            "content": ""
+          }
+        },
+        "accordion_xUtJ6Q": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Key Conxerns Answered",
+            "icon": "shopify://shop_images/icons_23.svg",
+            "content": ""
+          }
+        },
+        "accordion_QL3caH": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Shipping, Returns & Warranty",
+            "icon": "shopify://shop_images/icons_24.svg",
             "content": ""
           }
         },
@@ -98,6 +123,7 @@
           "settings": {
             "bg_color": "#03231a",
             "text_color": "#d4c7b4",
+            "icon": "shopify://shop_images/icons_2.png",
             "text": "Part of your order helps create the future of toxin-free living."
           }
         }
@@ -113,6 +139,9 @@
         "bundle_widget_NPmFLG",
         "shipping_bar_Na8Erx",
         "accordion_jT4PQf",
+        "accordion_NktTUr",
+        "accordion_xUtJ6Q",
+        "accordion_QL3caH",
         "impact_note_KwNV8U"
       ],
       "name": "Main Product Dynamic",
