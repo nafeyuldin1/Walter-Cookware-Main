@@ -45,9 +45,13 @@
           "type": "benefits_grid",
           "settings": {
             "text_color": "#b0b0b0",
+            "icon_1": "shopify://shop_images/icons_31.svg",
             "text_1": "No PFAS, PTFE & PFOA.",
+            "icon_2": "shopify://shop_images/icons_32.svg",
             "text_2": "Extreme Heat Resistant",
+            "icon_3": "shopify://shop_images/icons_33.svg",
             "text_3": "Non-Stick Surface",
+            "icon_4": "shopify://shop_images/icons_34.svg",
             "text_4": "Compatible With All Cooktops"
           }
         },
