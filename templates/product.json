@@ -16,6 +16,10 @@
           "type": "title",
           "settings": {}
         },
+        "rating_7qQ3Wj": {
+          "type": "rating",
+          "settings": {}
+        },
         "price_Fkwx4M": {
           "type": "price",
           "settings": {
@@ -31,12 +35,10 @@
         },
         "quantity_selector_zdMdca": {
           "type": "quantity_selector",
-          "disabled": true,
           "settings": {}
         },
         "buy_buttons_GLRF3m": {
           "type": "buy_buttons",
-          "disabled": true,
           "settings": {
             "show_dynamic_checkout": false,
             "show_gift_card_recipient": true
@@ -145,6 +147,7 @@
       },
       "block_order": [
         "title_fkmVzK",
+        "rating_7qQ3Wj",
         "price_Fkwx4M",
         "variant_picker_g4KpQh",
         "quantity_selector_zdMdca",
