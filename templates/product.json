@@ -12,6 +12,15 @@
     "walter_product_Y7bNYJ": {
       "type": "walter-product",
       "blocks": {
+        "text_BzQfKy": {
+          "type": "text",
+          "settings": {
+            "text": "Many Imitate. Only One Is Real.",
+            "color": "#b0b0b0",
+            "text_style": "body",
+            "margin_bottom": 12
+          }
+        },
         "title_fkmVzK": {
           "type": "title",
           "settings": {}
@@ -148,6 +157,7 @@
         }
       },
       "block_order": [
+        "text_BzQfKy",
         "title_fkmVzK",
         "rating_7qQ3Wj",
         "price_Fkwx4M",
