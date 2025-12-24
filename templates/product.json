@@ -89,7 +89,8 @@
             "text_color": "#d4c7b4",
             "alert_text": "⚠️ Might Not Arrive Before Christmas",
             "text_1": "FREE Shipping & Easy Returns",
-            "text_2": "Lifetime Warranty"
+            "text_2": "Lifetime Warranty",
+            "text_3": "100% Toxin-Free Guarantee"
           }
         },
         "accordion_jT4PQf": {
@@ -132,6 +133,14 @@
             "icon": "shopify://shop_images/icons_2.png",
             "text": "Part of your order helps create the future of toxin-free living."
           }
+        },
+        "upsells_fwcWLq": {
+          "type": "upsells",
+          "settings": {
+            "title": "Complete Your Toxin-Free Kitchen",
+            "product_1": "avera-flatware-mirror-finish",
+            "product_2": "handcrafted-wooden-utensils"
+          }
         }
       },
       "block_order": [
@@ -148,12 +157,14 @@
         "accordion_NktTUr",
         "accordion_xUtJ6Q",
         "accordion_QL3caH",
-        "impact_note_KwNV8U"
+        "impact_note_KwNV8U",
+        "upsells_fwcWLq"
       ],
       "name": "Main Product Dynamic",
       "settings": {
         "bg_color": "#121212",
         "bg_gradient": "linear-gradient(90deg, rgba(59, 62, 65, 1), rgba(24, 26, 27, 1) 100%)",
+        "bg_color_secondary": "#03231a",
         "text_color": "#ffffff",
         "title_color": "#ffffff",
         "price_color": "#e9e2d8",
