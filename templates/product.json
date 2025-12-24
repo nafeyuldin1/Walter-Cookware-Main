@@ -35,8 +35,9 @@
         },
         "buy_buttons_GLRF3m": {
           "type": "buy_buttons",
+          "disabled": true,
           "settings": {
-            "show_dynamic_checkout": true,
+            "show_dynamic_checkout": false,
             "show_gift_card_recipient": true
           }
         },
@@ -66,7 +67,6 @@
         },
         "bundle_widget_NPmFLG": {
           "type": "bundle_widget",
-          "disabled": true,
           "settings": {
             "size_label": "Size:",
             "size_guide_text": "Size Guide",
