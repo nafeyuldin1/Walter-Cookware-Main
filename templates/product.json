@@ -147,6 +147,18 @@
             "text": "Part of your order helps create the future of toxin-free living."
           }
         },
+        "info_tabs_zVjBHC": {
+          "type": "info_tabs",
+          "settings": {
+            "tab_1_label": "Purity Certification",
+            "tab_1_content": "",
+            "tab_1_image": "shopify://shop_images/hiewe41d3n9mjjub9og.svg",
+            "tab_2_label": "Titanium Vs The Rest",
+            "tab_3_label": "Health Benefits",
+            "tab_3_heading": "A New Standard in Safety.",
+            "tab_3_content": ""
+          }
+        },
         "upsells_fwcWLq": {
           "type": "upsells",
           "settings": {
@@ -173,6 +185,7 @@
         "accordion_xUtJ6Q",
         "accordion_QL3caH",
         "impact_note_KwNV8U",
+        "info_tabs_zVjBHC",
         "upsells_fwcWLq"
       ],
       "name": "Main Product Dynamic",
