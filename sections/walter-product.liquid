@@ -53,8 +53,8 @@
   /* Bundle Widget Styling */
   .pb-wrap { margin: 20px 0; border-radius: 12px; overflow: hidden; }
   .pb-sizes-head { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 500; }
-  .pb-size-tabs { display: flex; border: 1px solid {{ section.settings.bundle_border_color }}; border-radius: 8px; overflow: hidden; }
-  .pb-size-tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; transition: 0.3s; background: transparent; color: {{ section.settings.text_color }}; border-right: 1px solid {{ section.settings.bundle_border_color }}; }
+  .pb-size-tabs { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid {{ section.settings.bundle_border_color }}; border-radius: 8px; overflow: hidden; }
+  .pb-size-tab { text-align: center; padding: 12px 5px; cursor: pointer; transition: 0.3s; background: transparent; color: {{ section.settings.text_color }}; border-right: 1px solid {{ section.settings.bundle_border_color }}; font-size: 13px; }
   .pb-size-tab:last-child { border-right: none; }
   .pb-size-tab.is-active { background: {{ section.settings.bundle_active_bg }}; color: #000; font-weight: bold; }
   
@@ -99,6 +99,46 @@
   .sg-modal.is-open {
     display: flex; /* Flex when open */
   }
+
+  /* --- Advanced Tabs (.pit) --- */
+  .pit { color: {{ section.settings.text_color }}; margin: 30px 0; }
+  .pit-tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 20px; }
+  .pit-tab { 
+    background: transparent; border: none; padding: 15px 5px; cursor: pointer; 
+    color: {{ section.settings.text_color }}; opacity: 0.6; font-size: 14px; font-weight: 500; 
+    display: flex; flex-direction: column; align-items: center; gap: 5px; position: relative;
+  }
+  .pit-tab.is-active { opacity: 1; }
+  .pit-underline { height: 2px; width: 100%; background: #fff; position: absolute; bottom: 0; opacity: 0; transition: 0.3s; }
+  .pit-tab.is-active .pit-underline { opacity: 1; }
+  .pit-panel { display: none; animation: fadeIn 0.5s; }
+  .pit-panel.is-active { display: block; }
+  .pit-copy p { margin: 0 0 15px; font-size: 15px; line-height: 1.5; color: {{ section.settings.text_color }}; opacity: 0.8; }
+  .pit-copy strong { color: #fff; opacity: 1; }
+  .pit-images { display: flex; gap: 10px; }
+  .pit-images img { width: 100%; border-radius: 8px; }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+  /* --- Health Benefits List (.hb-c-list) --- */
+  .hb-c-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; }
+  .hbci { display: flex; gap: 10px; align-items: flex-start; }
+  .hbci-ic { width: 20px; flex-shrink: 0; color: #fff; margin-top: 3px; }
+  .hbci-title { display: block; font-weight: 600; color: #fff; font-size: 15px; }
+  .hbci-desc { display: block; font-size: 14px; color: {{ section.settings.text_color }}; opacity: 0.8; line-height: 1.4; }
+
+  /* --- Upsells --- */
+  .upsell-two { margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; }
+  .upsell-two__title { font-size: 20px; margin-bottom: 20px; color: #fff; }
+  .upsell-card { display: flex; background: #fff; border-radius: 10px; padding: 10px; gap: 15px; align-items: center; color: #121212; margin-bottom: 10px; }
+  .upsell-card__media { width: 80px; height: 80px; flex-shrink: 0; }
+  .upsell-card__media img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+  .upsell-card__main { flex: 1; }
+  .upsell-card__name { font-size: 14px; font-weight: 600; margin: 0 0 5px; color: #000; }
+  .upsell-price-with-button { display: flex; justify-content: space-between; align-items: center; }
+  .upsell-card__price { font-size: 16px; font-weight: 600; color: #000; }
+  .upsell-card__compare { font-size: 12px; text-decoration: line-through; color: #888; margin-right: 5px; }
+  .upsell-card__atc { background: #A3835F; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px; }
+
 
 {%- endstyle -%}
 
@@ -225,20 +265,31 @@
                       <button type="button" class="sbp-size-guide" onclick="toggleSizeGuide(true)" style="background:none; border:none; color: inherit; text-decoration: underline; cursor: pointer; padding: 0;">{{ block.settings.size_guide_text }}</button>
                     </div>
                     <div class="pb-size-tabs">
-                      {% for i in (1..4) %}
-                         {% capture tab_label %}tab_{{ i }}_label{% endcapture %}
-                         {% if block.settings[tab_label] != blank %}
-                           <div class="pb-size-tab {% if forloop.first %}is-active{% endif %}" onclick="document.querySelectorAll('.pb-size-tab').forEach(el=>el.classList.remove('is-active')); this.classList.add('is-active');">{{ block.settings[tab_label] }}</div>
-                         {% endif %}
+                      {% for variant in product.variants %}
+                        <div class="pb-size-tab {% if product.selected_or_first_available_variant.id == variant.id %}is-active{% endif %}" 
+                             data-variant-id="{{ variant.id }}"
+                             data-price="{{ variant.price | money }}"
+                             onclick="updateBundleVariant(this)">
+                          {{ variant.option1 }}
+                        </div>
                       {% endfor %}
+                      {% comment %} Fallback tabs if no variants or to show style {% endcomment %}
+                      {% if product.variants.size < 2 %}
+                         {% for i in (1..4) %}
+                            {% capture tab_label %}tab_{{ i }}_label{% endcapture %}
+                            {% if block.settings[tab_label] != blank %}
+                               <div class="pb-size-tab {% if forloop.first %}is-active{% endif %}">{{ block.settings[tab_label] }}</div>
+                            {% endif %}
+                         {% endfor %}
+                      {% endif %}
                     </div>
                   </div>
                   
                   <div class="pb-atc-wrap">
                     <form method="post" action="/cart/add" class="product-form" id="product-form-{{ section.id }}">
-                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-                      <button type="submit" class="pb-atc-btn">
-                        <span>{{ 'products.product.add_to_cart' | t }}</span> - {{ product.selected_or_first_available_variant.price | money }}
+                      <input type="hidden" name="id" id="bundle-variant-input" value="{{ product.selected_or_first_available_variant.id }}">
+                      <button type="submit" class="pb-atc-btn" id="bundle-atc-btn">
+                        {{ 'products.product.add_to_cart' | t }} - <span id="bundle-price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
                       </button>
                     </form>
                   </div>
@@ -254,6 +305,19 @@
                     </div>
                   </div>
                 </div>
+                
+                <script>
+                  function updateBundleVariant(element) {
+                    // Visual update
+                    document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
+                    element.classList.add('is-active');
+                    // Data update
+                    const id = element.dataset.variantId;
+                    const price = element.dataset.price;
+                    document.getElementById('bundle-variant-input').value = id;
+                    document.getElementById('bundle-price-display').innerText = price;
+                  }
+                </script>
 
               {%- when 'shipping_bar' -%}
                 <div class="shipbar" style="background: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};" {{ block.shopify_attributes }}>
@@ -274,6 +338,78 @@
                   </div>
                 </div>
 
+              {%- when 'info_tabs' -%}
+                <div class="pit" {{ block.shopify_attributes }}>
+                  <div class="pit-tabs">
+                    <button class="pit-tab" onclick="openPitTab(event, 'tab-2')">
+                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/></svg>
+                       {{ block.settings.tab_1_label }}
+                      <span class="pit-underline"></span>
+                    </button>
+                    <button class="pit-tab" onclick="openPitTab(event, 'tab-3')">
+                       {{ block.settings.tab_2_label }}
+                      <span class="pit-underline"></span>
+                    </button>
+                    <button class="pit-tab is-active" onclick="openPitTab(event, 'tab-1')">
+                      {{ block.settings.tab_3_label }}
+                      <span class="pit-underline"></span>
+                    </button>
+                  </div>
+
+                  <div id="tab-1" class="pit-panel is-active">
+                     <h3 class="hb-title" style="margin-bottom: 20px;">{{ block.settings.tab_3_heading }}</h3>
+                     <div class="hb-compact">
+                       <ul class="hb-c-list">
+                         {% assign content_parts = block.settings.tab_3_content | split: '<strong>' %}
+                         {% for part in content_parts offset:1 %}
+                           {% assign title = part | split: '</strong>' | first %}
+                           {% assign desc = part | split: '</strong>' | last | remove: '<p>' | remove: '</p>' %}
+                           <li class="hbci">
+                             <span class="hbci-ic"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor"><circle cx="10" cy="10" r="8.25" stroke-width="1.5"/><path d="M6.5 10.2l2.2 2.1L13.8 7.6" stroke-width="1.5"/></svg></span>
+                             <div class="hbci-text">
+                               <span class="hbci-title">{{ title }}</span>
+                               <span class="hbci-desc">{{ desc }}</span>
+                             </div>
+                           </li>
+                         {% endfor %}
+                       </ul>
+                     </div>
+                  </div>
+
+                  <div id="tab-2" class="pit-panel">
+                    <div class="pit-copy">{{ block.settings.tab_1_content }}</div>
+                    {% if block.settings.tab_1_image != blank %}
+                      <div class="pit-images" style="margin-top: 20px;">
+                        <img src="{{ block.settings.tab_1_image | image_url: width: 600 }}" width="100%" height="auto">
+                      </div>
+                    {% endif %}
+                  </div>
+
+                  <div id="tab-3" class="pit-panel">
+                     {% if block.settings.tab_2_image != blank %}
+                        <img src="{{ block.settings.tab_2_image | image_url: width: 800 }}" width="100%" height="auto">
+                     {% else %}
+                        <p>No image selected for comparison.</p>
+                     {% endif %}
+                  </div>
+                </div>
+
+                <script>
+                  function openPitTab(evt, tabName) {
+                    var i, tabcontent, tablinks;
+                    tabcontent = document.getElementsByClassName("pit-panel");
+                    for (i = 0; i < tabcontent.length; i++) {
+                      tabcontent[i].style.display = "none";
+                    }
+                    tablinks = document.getElementsByClassName("pit-tab");
+                    for (i = 0; i < tablinks.length; i++) {
+                      tablinks[i].className = tablinks[i].className.replace(" is-active", "");
+                    }
+                    document.getElementById(tabName).style.display = "block";
+                    evt.currentTarget.className += " is-active";
+                  }
+                </script>
+
               {%- when 'accordion' -%}
                 <div class="pfaq-item" {{ block.shopify_attributes }}>
                   <details>
@@ -292,77 +428,46 @@
 
               {%- when 'impact_note' -%}
                 <div class="impact-note" style="background: {{ block.settings.bg_color }};" {{ block.shopify_attributes }}>
-                  <div class="impact-note__icon">
+                  <div class="impact-note__icon-wrap">
                     {% if block.settings.icon != blank %}
                       <img src="{{ block.settings.icon | image_url: width: 64 }}" width="40" height="40" style="display:block;">
                     {% endif %}
                   </div>
-                  <div class="impact-note__text" style="color: {{ block.settings.text_color }};">
+                  <p class="impact-note__text" style="color: {{ block.settings.text_color }};">
                     {{ block.settings.text }}
-                  </div>
+                  </p>
                 </div>
 
               {%- when 'upsells' -%}
-                <div class="upsell-two" {{ block.shopify_attributes }} style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-                  <h3 style="font-size: 18px; margin-bottom: 15px;">{{ block.settings.title }}</h3>
-                  {% if block.settings.product_1 != blank %}
-                    {% assign up_prod = all_products[block.settings.product_1] %}
+                <div class="upsell-two" {{ block.shopify_attributes }}>
+                  <h3 class="upsell-two__title">{{ block.settings.title }}</h3>
+                  {% for i in (1..2) %}
+                    {% capture prod_key %}product_{{ i }}{% endcapture %}
+                    {% assign up_prod = all_products[block.settings[prod_key]] %}
                     {% if up_prod != empty %}
-                    <div class="upsell-card" style="background: #fff; color: #000; padding: 10px; border-radius: 10px; display: flex; gap: 15px; margin-bottom: 10px; align-items: center;">
-                      <img src="{{ up_prod.featured_image | image_url: width: 100 }}" width="80" height="80" style="border-radius: 8px; object-fit: cover;">
-                      <div style="flex: 1;">
-                        <h4 style="margin: 0 0 5px; font-size: 14px; color: #000;">{{ up_prod.title }}</h4>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                          <span style="font-weight: bold;">{{ up_prod.price | money }}</span>
+                    <div class="upsell-card">
+                      <div class="upsell-card__media">
+                        <img src="{{ up_prod.featured_image | image_url: width: 200 }}" loading="lazy">
+                      </div>
+                      <div class="upsell-card__main">
+                        <h4 class="upsell-card__name">{{ up_prod.title }}</h4>
+                        <div class="upsell-price-with-button">
+                          <div class="upsell-card__price">
+                            {% if up_prod.compare_at_price > up_prod.price %}
+                              <s class="upsell-card__compare">{{ up_prod.compare_at_price | money }}</s>
+                            {% endif %}
+                            <span class="upsell-card__sale">{{ up_prod.price | money }}</span>
+                          </div>
                           <form method="post" action="/cart/add">
                             <input type="hidden" name="id" value="{{ up_prod.selected_or_first_available_variant.id }}">
-                            <button type="submit" style="background: #A3835F; color: #fff; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 12px; font-weight: bold;">ADD</button>
+                            <button type="submit" class="upsell-card__atc">Add To Cart</button>
                           </form>
                         </div>
                       </div>
                     </div>
                     {% endif %}
-                  {% endif %}
+                  {% endfor %}
                 </div>
-
-              {%- when 'buy_buttons' -%}
-                {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
-
-              {%- when 'variant_picker' -%}
-                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
-
-              {%- when 'quantity_selector' -%}
-                 <div class="product-form__input product-form__quantity">
-                   <label class="form__label" for="Quantity-{{ section.id }}">{{ 'products.product.quantity.label' | t }}</label>
-                   <quantity-input class="quantity">
-                     <button class="quantity__button no-js-hidden" name="minus" type="button"><span class="visually-hidden">{{ 'products.product.quantity.decrease' | t: product: product.title | escape }}</span>-</button>
-                     <input class="quantity__input" type="number" name="quantity" id="Quantity-{{ section.id }}" min="1" value="1" form="{{ product_form_id }}">
-                     <button class="quantity__button no-js-hidden" name="plus" type="button"><span class="visually-hidden">{{ 'products.product.quantity.increase' | t: product: product.title | escape }}</span>+</button>
-                   </quantity-input>
-                 </div>
-
-              {%- when 'description' -%}
-                {%- if product.description != blank -%}
-                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
-                    {{ product.description }}
-                  </div>
-                {%- endif -%}
-
-              {%- when 'share' -%}
-                {% render 'share-button', block: block, share_link: product.url %}
-
-              {%- when 'rating' -%}
-                {%- if product.metafields.reviews.rating.value != blank -%}
-                  <div class="rating-wrapper">
-                    {% render 'rating', input: product.metafields.reviews.rating.value %}
-                    <p class="rating-text caption">
-                      <span aria-hidden="true">{{ product.metafields.reviews.rating.value }} / {{ product.metafields.reviews.rating.value.scale_max }}</span>
-                    </p>
-                    <p class="rating-count caption">
-                      <span aria-hidden="true">({{ product.metafields.reviews.rating_count }})</span>
-                    </p>
-                  </div>
-                {%- endif -%}
 
             {%- endcase -%}
           {%- endfor -%}
@@ -417,8 +522,10 @@
       if (modal) {
         if (show) {
           modal.classList.add('is-open');
+          modal.style.display = 'flex';
         } else {
           modal.classList.remove('is-open');
+          modal.style.display = 'none';
         }
       }
     }
@@ -691,6 +798,26 @@
       ]
     },
     {
+      "type": "info_tabs",
+      "name": "Advanced Tabs (PIT)",
+      "limit": 1,
+      "settings": [
+        { "type": "header", "content": "Tab 1 (Purity)" },
+        { "type": "text", "id": "tab_1_label", "label": "Label", "default": "Purity Certification" },
+        { "type": "richtext", "id": "tab_1_content", "label": "Description" },
+        { "type": "image_picker", "id": "tab_1_image", "label": "Sticker Image" },
+
+        { "type": "header", "content": "Tab 2 (Comparison)" },
+        { "type": "text", "id": "tab_2_label", "label": "Label", "default": "Titanium Vs The Rest" },
+        { "type": "image_picker", "id": "tab_2_image", "label": "Comparison Image" },
+
+        { "type": "header", "content": "Tab 3 (Benefits)" },
+        { "type": "text", "id": "tab_3_label", "label": "Label", "default": "Health Benefits" },
+        { "type": "text", "id": "tab_3_heading", "label": "Heading", "default": "A New Standard in Safety." },
+        { "type": "richtext", "id": "tab_3_content", "label": "List Items", "info": "Use Bold for titles. Example: <strong>Title</strong> Description" }
+      ]
+    },
+    {
       "type": "accordion",
       "name": "Accordion Item",
       "settings": [
@@ -802,6 +929,7 @@
         { "type": "scrolling_icons" },
         { "type": "bundle_widget" },
         { "type": "shipping_bar" },
+        { "type": "info_tabs" },
         { "type": "accordion" },
         { "type": "impact_note" },
         { "type": "upsells" }
