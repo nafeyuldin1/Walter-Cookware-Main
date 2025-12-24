@@ -431,17 +431,113 @@
                   </details>
                 </div>
 
-              {%- when 'impact_note' -%}
-                <div class="impact-note" style="background: {{ block.settings.bg_color }};" {{ block.shopify_attributes }}>
-                  <div class="impact-note__icon-wrap">
-                    {% if block.settings.icon != blank %}
-                      <img src="{{ block.settings.icon | image_url: width: 64 }}" width="40" height="40" style="display:block;">
-                    {% endif %}
-                  </div>
-                  <p class="impact-note__text" style="color: {{ block.settings.text_color }};">
-                    {{ block.settings.text }}
-                  </p>
-                </div>
+                {%- when 'impact_note' -%}
+  <div id="impact-note-{{ block.id }}" class="impact-note" {{ block.shopify_attributes }}>
+    <div class="impact-note__inner" role="note" aria-label="Impact note">
+      <div class="impact-note__icon-wrap">
+        {% if block.settings.icon != blank %}
+          <img class="impact-note__icon" src="{{ block.settings.icon | image_url: width: 64 }}" alt="{{ block.settings.text | escape }}" width="64" height="64" loading="lazy">
+        {% else %}
+           <img class="impact-note__icon" src="https://cdn.shopify.com/s/files/1/0628/3503/files/leaf.svg?v=1666191763" alt="Impact" width="64" height="64" loading="lazy">
+        {% endif %}
+      </div>
+      <p class="impact-note__text">
+        {{ block.settings.text }}
+      </p>
+    </div>
+  </div>
+
+  <style>
+    /* Impact note - Dynamic ID: {{ block.id }} */
+    #impact-note-{{ block.id }} { 
+      margin: 32px 0; 
+    }
+
+    #impact-note-{{ block.id }} .impact-note__inner {
+      background: {{ block.settings.bg_color | default: '#03231A' }}; 
+      color: {{ block.settings.text_color | default: '#D4C7B4' }};
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #impact-note-{{ block.id }} .impact-note__icon-wrap {
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      padding: 16px;
+      /* Dynamic border using text color with 10% opacity */
+      border-right: 1px solid {{ block.settings.text_color | default: '#D4C7B4' | color_modify: 'alpha', 0.1 }};
+      flex: 0 0 auto;
+    }
+
+    #impact-note-{{ block.id }} .impact-note__icon {
+      width: 64px; 
+      height: 64px; 
+      display: block; 
+      object-fit: contain;
+    }
+
+    #impact-note-{{ block.id }} .impact-note__text {
+      padding: 24px;
+      margin: 0;
+      font-family: var(--font-body-family), 'Neue Montreal', sans-serif; /* Dynamic Font */
+      font-weight: 400;
+      font-style: normal;
+      font-size: 16px;
+      line-height: 150%;
+      letter-spacing: 0.04em;
+      vertical-align: middle;
+      color: inherit;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 749px){
+      #impact-note-{{ block.id }} .impact-note__icon { 
+        width: 32px; 
+        height: 32px; 
+      }
+      #impact-note-{{ block.id }} .impact-note__text { 
+        padding: 12px 9px; 
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        font-weight: 300;
+      }
+      #impact-note-{{ block.id }} .impact-note__icon-wrap { 
+        padding: 10px; 
+      }
+    }
+
+    /* Tablet / Small Laptop */
+    @media (min-width: 750px) and (max-width: 1799.98px){
+      #impact-note-{{ block.id }} { 
+        margin: 28.8px 0; 
+      }
+      #impact-note-{{ block.id }} .impact-note__inner { 
+        border-radius: 10.8px; 
+      }
+      #impact-note-{{ block.id }} .impact-note__icon-wrap { 
+        padding: 14.4px; 
+      }
+      #impact-note-{{ block.id }} .impact-note__icon { 
+        width: 57.6px; 
+        height: 57.6px; 
+      }
+      #impact-note-{{ block.id }} .impact-note__text {
+        padding: 21.6px;
+        font-size: 14.4px;
+        letter-spacing: 0.036em;
+      }
+    }
+
+    /* Large Screens */
+    @media (min-width: 2200px){
+      #impact-note-{{ block.id }} .impact-note__text {
+        font-size: 20.8px;
+      }
+    }
+  </style>
 
               {%- when 'upsells' -%}
                 <div class="upsell-two" {{ block.shopify_attributes }}>
