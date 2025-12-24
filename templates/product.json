@@ -68,12 +68,12 @@
         "bundle_widget_NPmFLG": {
           "type": "bundle_widget",
           "settings": {
-            "size_label": "Size:",
-            "size_guide_text": "Size Guide",
-            "tab_1_label": "Mini",
-            "tab_2_label": "Standard",
-            "tab_3_label": "Versatile",
-            "tab_4_label": "Large",
+            "size_label": "",
+            "size_guide_text": "",
+            "tab_1_label": "",
+            "tab_2_label": "",
+            "tab_3_label": "",
+            "tab_4_label": "",
             "guarantee_text": "Guaranteed Safe & Secure Checkout"
           }
         },
