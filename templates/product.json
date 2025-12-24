@@ -66,6 +66,7 @@
         },
         "bundle_widget_NPmFLG": {
           "type": "bundle_widget",
+          "disabled": true,
           "settings": {
             "size_label": "Size:",
             "size_guide_text": "Size Guide",
