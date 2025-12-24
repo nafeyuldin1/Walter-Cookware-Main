@@ -35,10 +35,12 @@
         },
         "quantity_selector_zdMdca": {
           "type": "quantity_selector",
+          "disabled": true,
           "settings": {}
         },
         "buy_buttons_GLRF3m": {
           "type": "buy_buttons",
+          "disabled": true,
           "settings": {
             "show_dynamic_checkout": false,
             "show_gift_card_recipient": true
@@ -76,11 +78,11 @@
           "type": "bundle_widget",
           "settings": {
             "size_label": "",
-            "size_guide_text": "",
-            "tab_1_label": "",
-            "tab_2_label": "",
-            "tab_3_label": "",
-            "tab_4_label": "",
+            "size_guide_text": "Size Guide",
+            "tab_1_label": "qwqwe",
+            "tab_2_label": "weqwe",
+            "tab_3_label": "weqwe",
+            "tab_4_label": "qwewqe",
             "guarantee_text": "Guaranteed Safe & Secure Checkout"
           }
         },
