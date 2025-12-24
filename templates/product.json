@@ -43,7 +43,7 @@
         "benefits_grid_LHFABy": {
           "type": "benefits_grid",
           "settings": {
-            "text_color": "#B0B0B0",
+            "text_color": "#b0b0b0",
             "text_1": "No PFAS, PTFE & PFOA.",
             "text_2": "Extreme Heat Resistant",
             "text_3": "Non-Stick Surface",
@@ -53,7 +53,7 @@
         "scrolling_icons_cMB9yG": {
           "type": "scrolling_icons",
           "settings": {
-            "text_color": "#D4C7B4",
+            "text_color": "#d4c7b4",
             "label_1": "",
             "label_2": "",
             "label_3": "",
@@ -79,8 +79,8 @@
         "shipping_bar_Na8Erx": {
           "type": "shipping_bar",
           "settings": {
-            "bg_color": "#03231A",
-            "text_color": "#D4C7B4",
+            "bg_color": "#03231a",
+            "text_color": "#d4c7b4",
             "alert_text": "⚠️ Might Not Arrive Before Christmas",
             "text_1": "FREE Shipping & Easy Returns",
             "text_2": "Lifetime Warranty"
@@ -96,8 +96,8 @@
         "impact_note_KwNV8U": {
           "type": "impact_note",
           "settings": {
-            "bg_color": "#03231A",
-            "text_color": "#D4C7B4",
+            "bg_color": "#03231a",
+            "text_color": "#d4c7b4",
             "text": "Part of your order helps create the future of toxin-free living."
           }
         }
@@ -121,15 +121,15 @@
         "bg_gradient": "linear-gradient(90deg, rgba(59, 62, 65, 1), rgba(24, 26, 27, 1) 100%)",
         "text_color": "#ffffff",
         "title_color": "#ffffff",
-        "price_color": "#E9E2D8",
+        "price_color": "#e9e2d8",
         "compare_price_color": "#888888",
         "sale_badge_bg": "#097350",
-        "sale_badge_text": "#E9E2D8",
-        "bundle_active_bg": "#F6F4F0",
-        "bundle_border_color": "#E9E2D8",
-        "atc_bg": "#FFFFFF",
+        "sale_badge_text": "#e9e2d8",
+        "bundle_active_bg": "#f6f4f0",
+        "bundle_border_color": "#e9e2d8",
+        "atc_bg": "#ffffff",
         "atc_text": "#121212",
-        "media_size": "large",
+        "media_size": "medium",
         "media_position": "left",
         "gallery_layout": "thumbnail_slider",
         "mobile_thumbnails": "hide",
