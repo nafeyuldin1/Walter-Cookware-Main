@@ -75,6 +75,11 @@
 
   /* Shipping Bar */
   .shipbar { display: flex; align-items: center; gap: 15px; padding: 12px; border-radius: 8px; margin: 15px 0; font-size: 13px; }
+  @media screen and (max-width: 750px){
+    .shipbar{
+      flex-direction: column;
+    }
+  }
   .shipbar__label { font-weight: 700; white-space: nowrap; }
   .shipbar__list { display: flex; gap: 15px; flex-wrap: wrap; }
   .shipbar__item { display: flex; align-items: center; gap: 5px; }
