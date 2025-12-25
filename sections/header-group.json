@@ -130,7 +130,8 @@
             "sidebar_title": "Best Sellers",
             "btn_link": "shopify://collections/all",
             "btn_label": "Shop All",
-            "review_text": "Taima’s Cookware is a true kitchen workhorse. You get deep sear, caramelization & flawless food release consistently, without the chemicals."
+            "review_text": "Taima’s Cookware is a true kitchen workhorse. You get deep sear, caramelization & flawless food release consistently, without the chemicals.",
+            "reviewer_name": ""
           }
         }
       },
@@ -153,8 +154,8 @@
         "show_line_separator": true,
         "color_scheme": "scheme-1",
         "color_scheme_home": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
-        "color_scheme_sticky": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
-        "menu_color_scheme": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
+        "color_scheme_sticky": "scheme-1",
+        "menu_color_scheme": "scheme-3",
         "drawer_slider_title": "BEST SELLERS - LOW STOCK ⚠️",
         "padding_top": 20,
         "padding_bottom": 20,
