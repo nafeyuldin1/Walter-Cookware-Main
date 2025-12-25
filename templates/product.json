@@ -657,7 +657,7 @@
       "name": "Scroll Text with Image",
       "settings": {
         "bg_color": "#00221c",
-        "text_color": "#BCA588",
+        "text_color": "#bca588",
         "focus_color": "#ded2bc",
         "section_image": "shopify://shop_images/collage_pan_700x700-min.webp",
         "btn_label": "Make The Switch Today",
@@ -666,6 +666,58 @@
         "btn_text": "#121212",
         "padding_top": 80,
         "padding_bottom": 80
+      }
+    },
+    "walter_not_available_L7GyMg": {
+      "type": "walter-not-available",
+      "blocks": {
+        "icon_9AYkEY": {
+          "type": "icon",
+          "settings": {
+            "icon_image": "shopify://shop_images/Frame_1171274953.png",
+            "icon_width": 26
+          }
+        },
+        "icon_Hw8bmt": {
+          "type": "icon",
+          "settings": {
+            "icon_image": "shopify://shop_images/Frame_1171274951.png",
+            "icon_width": 26
+          }
+        },
+        "icon_qgUFQX": {
+          "type": "icon",
+          "settings": {
+            "icon_image": "shopify://shop_images/Frame_1171274950.png",
+            "icon_width": 26
+          }
+        },
+        "icon_AFDN9z": {
+          "type": "icon",
+          "settings": {
+            "icon_image": "shopify://shop_images/Frame_1171274952.png",
+            "icon_width": 26
+          }
+        }
+      },
+      "block_order": [
+        "icon_9AYkEY",
+        "icon_Hw8bmt",
+        "icon_qgUFQX",
+        "icon_AFDN9z"
+      ],
+      "name": "Not Available Section",
+      "settings": {
+        "bg_image_desktop": "shopify://shop_images/a45b5bb6882d6dd0635f53c1c3a7c6655b5656eb.webp",
+        "height_desktop": 1050,
+        "height_mobile": 680,
+        "heading": "Not on Amazon. Not Anywhere Else.",
+        "subtext": "Beware of imitators & counterfeit listings using our name on Amazon & other platforms. The only place to get certified Taima® Pure Titanium products is right here, through our official website.",
+        "bottom_text": "www.taimatitanium.com",
+        "bottom_link": "",
+        "text_color": "#BCA588",
+        "padding_top": 80,
+        "padding_top_m": 64
       }
     }
   },
@@ -677,6 +729,7 @@
     "walter_logo_testimonial_FdQhBX",
     "walter_rethink_cookware_MyXhDw",
     "walter_benefits_EAnCxx",
-    "scroll_text_with_image_8XhRp4"
+    "scroll_text_with_image_8XhRp4",
+    "walter_not_available_L7GyMg"
   ]
 }
