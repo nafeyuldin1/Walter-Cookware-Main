@@ -83,55 +83,21 @@
     "header": {
       "type": "header",
       "blocks": {
-        "mobile_icon_Y49txw": {
-          "type": "mobile_icon",
-          "settings": {
-            "title": "",
-            "link": ""
-          }
-        },
-        "mobile_footer_TPiXPQ": {
-          "type": "mobile_footer",
-          "settings": {
-            "footer_menu": "help"
-          }
-        },
-        "mobile_icon_mhz36n": {
-          "type": "mobile_icon",
-          "settings": {
-            "icon": "shopify://shop_images/WhatsApp_Image_2025-10-21_at_12.00.29_1_3f9f3ff1-efce-4f60-be56-f3181aa95551.jpg",
-            "title": "",
-            "link": ""
-          }
-        },
         "mega_tab_bemFeC": {
           "type": "mega_tab",
           "settings": {
             "tab_label": "Best Sellers",
+            "color_scheme": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
             "collection": "bundles",
             "sidebar_title": "Best Sellers",
-            "btn_label": "Shop All",
             "btn_link": "shopify://collections/all",
-            "review_text": "Taima’s Cookware is a true kitchen workhorse. You get deep sear, caramelization & flawless food release consistently, without the chemicals.",
-            "reviewer_name": ""
-          }
-        },
-        "bottom_menu_ceX3gY": {
-          "type": "bottom_menu",
-          "disabled": true,
-          "settings": {
-            "bottom_nav": "main-menu-1",
-            "color_scheme": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
-            "font_size": 14
+            "btn_label": "Shop All",
+            "review_text": "Taima’s Cookware is a true kitchen workhorse. You get deep sear, caramelization & flawless food release consistently, without the chemicals."
           }
         }
       },
       "block_order": [
-        "mobile_icon_Y49txw",
-        "mobile_footer_TPiXPQ",
-        "mobile_icon_mhz36n",
-        "mega_tab_bemFeC",
-        "bottom_menu_ceX3gY"
+        "mega_tab_bemFeC"
       ],
       "settings": {
         "logo_position": "middle-center",
@@ -146,12 +112,10 @@
         "color_scheme_home": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
         "color_scheme_sticky": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
         "menu_color_scheme": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
-        "enable_country_selector": true,
-        "enable_language_selector": true,
-        "enable_customer_avatar": true,
-        "margin_bottom": 0,
+        "drawer_slider_title": "BEST SELLERS - LOW STOCK ⚠️",
         "padding_top": 20,
-        "padding_bottom": 20
+        "padding_bottom": 20,
+        "margin_bottom": 0
       }
     }
   },
