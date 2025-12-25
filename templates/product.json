@@ -432,35 +432,49 @@
         "card_BM4wqE": {
           "type": "card",
           "settings": {
+            "image": "shopify://shop_images/pan_7-min_a4756bb1-2df2-477f-aa72-faca4dff9604.webp",
             "title": "Non-Stick / Teflon",
-            "text": "<p>Worst type of pan surface there is. Releases toxic chemicals.</p>",
+            "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
             "link_text": "Read More…",
             "link_url": ""
           }
         },
-        "card_3G4ktX": {
+        "card_Amxkbp": {
           "type": "card",
           "settings": {
-            "title": "Stainless Steel",
-            "text": "<p>Worst type of pan surface there is. Releases toxic chemicals.</p>",
+            "image": "shopify://shop_images/pan_7-min_a4756bb1-2df2-477f-aa72-faca4dff9604.webp",
+            "title": "Non-Stick / Teflon",
+            "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
             "link_text": "Read More…",
             "link_url": ""
           }
         },
-        "card_bwBtRY": {
+        "card_jxn998": {
           "type": "card",
           "settings": {
-            "title": "Ceramic",
-            "text": "<p>Worst type of pan surface there is. Releases toxic chemicals.</p>",
+            "image": "shopify://shop_images/pan_7-min_a4756bb1-2df2-477f-aa72-faca4dff9604.webp",
+            "title": "Non-Stick / Teflon",
+            "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
             "link_text": "Read More…",
             "link_url": ""
           }
         },
-        "card_VYhHik": {
+        "card_FTbHKR": {
           "type": "card",
           "settings": {
-            "title": "Cast Iron",
-            "text": "<p>Worst type of pan surface there is. Releases toxic chemicals.</p>",
+            "image": "shopify://shop_images/pan_7-min_a4756bb1-2df2-477f-aa72-faca4dff9604.webp",
+            "title": "Non-Stick / Teflon",
+            "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
+            "link_text": "Read More…",
+            "link_url": ""
+          }
+        },
+        "card_76b6RG": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/pan_7-min_a4756bb1-2df2-477f-aa72-faca4dff9604.webp",
+            "title": "Non-Stick / Teflon",
+            "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
             "link_text": "Read More…",
             "link_url": ""
           }
@@ -468,9 +482,10 @@
       },
       "block_order": [
         "card_BM4wqE",
-        "card_3G4ktX",
-        "card_bwBtRY",
-        "card_VYhHik"
+        "card_Amxkbp",
+        "card_jxn998",
+        "card_FTbHKR",
+        "card_76b6RG"
       ],
       "name": "Rethink Cookware",
       "settings": {
