@@ -572,10 +572,10 @@
       "name": "Benefits Carousel",
       "settings": {
         "bg_color": "#121212",
-        "heading_color": "#D4C7B4",
-        "subheading_color": "#B0B0B0",
-        "card_title_color": "#FFFFFF",
-        "card_text_color": "#B0B0B0",
+        "heading_color": "#d4c7b4",
+        "subheading_color": "#b0b0b0",
+        "card_title_color": "#ffffff",
+        "card_text_color": "#b0b0b0",
         "border_color": "#333333",
         "heading": "Benefits Of Going Taima®",
         "subheading": "",
@@ -583,6 +583,89 @@
         "padding_bottom": 80,
         "padding_top_m": 64,
         "padding_bottom_m": 64
+      }
+    },
+    "scroll_text_with_image_8XhRp4": {
+      "type": "scroll-text-with-image",
+      "blocks": {
+        "text_line_9kFhmF": {
+          "type": "text_line",
+          "settings": {
+            "text": "You only get one body."
+          }
+        },
+        "text_line_kcJcmR": {
+          "type": "text_line",
+          "settings": {
+            "text": "One life."
+          }
+        },
+        "text_line_hA7mgX": {
+          "type": "text_line",
+          "settings": {
+            "text": "Every decision you make is"
+          }
+        },
+        "text_line_XNfCFX": {
+          "type": "text_line",
+          "settings": {
+            "text": "either a step toward"
+          }
+        },
+        "text_line_MeRLPV": {
+          "type": "text_line",
+          "settings": {
+            "text": "honoring that gift,"
+          }
+        },
+        "text_line_Mp4rDY": {
+          "type": "text_line",
+          "settings": {
+            "text": "or throwing it away."
+          }
+        },
+        "text_line_79DMri": {
+          "type": "text_line",
+          "settings": {
+            "text": "Start with"
+          }
+        },
+        "text_line_PgPWiT": {
+          "type": "text_line",
+          "settings": {
+            "text": "what you use every day."
+          }
+        },
+        "text_line_xnRtVc": {
+          "type": "text_line",
+          "settings": {
+            "text": "Start with Taima®."
+          }
+        }
+      },
+      "block_order": [
+        "text_line_9kFhmF",
+        "text_line_kcJcmR",
+        "text_line_hA7mgX",
+        "text_line_XNfCFX",
+        "text_line_MeRLPV",
+        "text_line_Mp4rDY",
+        "text_line_79DMri",
+        "text_line_PgPWiT",
+        "text_line_xnRtVc"
+      ],
+      "name": "Scroll Text with Image",
+      "settings": {
+        "bg_color": "#00221c",
+        "text_color": "#BCA588",
+        "focus_color": "#ded2bc",
+        "section_image": "shopify://shop_images/collage_pan_700x700-min.webp",
+        "btn_label": "Make The Switch Today",
+        "btn_link": "shopify://collections/all",
+        "btn_bg": "#ffffff",
+        "btn_text": "#121212",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     }
   },
@@ -593,6 +676,7 @@
     "walter_trust_video_xJUVTn",
     "walter_logo_testimonial_FdQhBX",
     "walter_rethink_cookware_MyXhDw",
-    "walter_benefits_EAnCxx"
+    "walter_benefits_EAnCxx",
+    "scroll_text_with_image_8XhRp4"
   ]
 }
