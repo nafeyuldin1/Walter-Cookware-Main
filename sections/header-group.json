@@ -146,11 +146,11 @@
       "settings": {
         "logo_position": "middle-center",
         "mobile_logo_position": "center",
-        "menu": "main-menu",
+        "menu": "help",
         "menu_type_desktop": "dropdown",
         "sticky_header_type": "always",
         "enable_sticky_blur": true,
-        "sticky_opacity": 10,
+        "sticky_opacity": 5,
         "show_line_separator": true,
         "color_scheme": "scheme-3",
         "color_scheme_home": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
