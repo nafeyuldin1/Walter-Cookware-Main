@@ -1,7 +1,6 @@
 {% comment %}
   Engineered Exploded View Section
   Fully Dynamic - Mobile & Desktop Responsive
-  Fixed Desktop Positioning
 {% endcomment %}
 
 {%- style -%}
@@ -12,12 +11,6 @@
     --item-title-color: {{ section.settings.item_title_color }};
     --item-desc-color: {{ section.settings.item_desc_color }};
     --st: {{ section.settings.anim_speed }}ms;
-    
-    /* Desktop Layout Variables */
-    --desk-height: {{ section.settings.desktop_height }}px;
-    --desk-img-width: {{ section.settings.desktop_img_width }}%;
-    --desk-img-pos-x: {{ section.settings.desktop_img_pos_x }}px;
-    
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
@@ -96,12 +89,11 @@
   margin: 0 auto;
   padding-left: 24px;
   padding-right: 24px;
-  overflow: hidden; /* Prevents horizontal scroll */
 }
 
 #ieo-{{ section.id }} .ieo-title {
   margin: 0 0 64px;
-  font-family: 'Neue Montreal', sans-serif; 
+  font-family: 'Neue Montreal', sans-serif; /* Ensure font exists or fallback */
   color: var(--title-color);
   font-size: {{ section.settings.heading_size }}px;
   font-weight: 400;
@@ -111,73 +103,54 @@
   text-align: center;
 }
 
-/* DESKTOP LAYOUT */
 #ieo-{{ section.id }} .ieo-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Equal split */
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
   gap: 48px;
   align-items: center;
-  position: relative;
 }
 
-/* Visual stack Container */
+/* Visual stack */
 #ieo-{{ section.id }} .ieo-visual {
   position: relative;
-  height: var(--desk-height); /* Dynamic Height */
-  width: 100%;
-  display: flex;
-  justify-content: flex-end; /* Align images towards the text */
+  height: 930px;
+  margin-left: auto;
+  width: min(600px, 44vw);
+  aspect-ratio: 1/1;
 }
 
 #ieo-{{ section.id }} .ieo-layer {
   position: absolute;
-  /* Dynamic Positioning controlled by Schema */
-  right: 0; 
-  left: auto;
-  margin-right: var(--desk-img-pos-x); /* Adjustable horizontal spacing */
-  
-  top: 50px; /* Base top spacing */
-  width: var(--desk-img-width); /* Dynamic Width */
-  max-width: 600px;
+  left: 100px; 
+  top: 20px; 
+  right: auto;
+  margin: 0 auto;
+  max-width: 100%;
   height: auto;
   display: block;
-  
   opacity: 0;
   transform: translateY(var(--off, 0px)) scale(.98);
   transition: transform .7s ease, opacity .7s ease;
   will-change: transform, opacity;
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); /* Better shadow */
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,.25));
   transition-delay: calc(var(--i) * 2 * var(--st));
 }
 
-#ieo-{{ section.id }} .ieo-pan { 
-  top: -80px; /* Slight lift for the top pan */
-} 
-
-/* Animations */
-#ieo-{{ section.id }} .ieo-layer.from-left { 
-  transform: translateX(-20vw) translateY(var(--off, 0px)) scale(.96); 
-}
-#ieo-{{ section.id }} .ieo-layer.is-on { 
-  opacity: 1; 
-  transform: translateX(0) translateY(var(--off, 0px)) scale(1); 
-}
+/* Adjustments based on original code logic */
+#ieo-{{ section.id }} .ieo-pan { top: -100px; }
+#ieo-{{ section.id }} .ieo-layer.from-left { transform: translateX(-40vw) translateY(var(--off, 0px)) scale(.96); }
+#ieo-{{ section.id }} .ieo-layer.is-on { opacity: 1; transform: translateX(0) translateY(var(--off, 0px)) scale(1); }
 
 /* Right list */
-#ieo-{{ section.id }} .ieo-right { 
-  margin-right: auto;
-  padding-left: 20px; 
-}
-#ieo-{{ section.id }} .ieo-list { 
-  list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 46px; 
-}
+#ieo-{{ section.id }} .ieo-right { margin-right: auto; }
+#ieo-{{ section.id }} .ieo-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 46px; }
 
 #ieo-{{ section.id }} .ieo-li {
   display: flex;
   align-items: center;
   gap: 16px;
   opacity: 0;
-  transform: translateX(-50px);
+  transform: translateX(-40vw) translateY(8px);
   transition: transform .7s ease, opacity .7s ease;
   will-change: transform, opacity;
   transition-delay: calc(var(--i) * 2 * var(--st));
@@ -187,7 +160,7 @@
 
 #ieo-{{ section.id }} .ieo-li.is-on {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateX(0) translateY(0);
   visibility: visible;
   pointer-events: auto;
 }
@@ -195,8 +168,8 @@
 #ieo-{{ section.id }} .ieo-line {
   background: var(--line-color);
   height: 2px;
-  width: 100px; /* Fixed width line */
-  flex-shrink: 0;
+  flex: 0 0 157px;
+  position: relative;
 }
 
 #ieo-{{ section.id }} .ieo-text { max-width: 520px; }
@@ -211,7 +184,7 @@
 }
 
 #ieo-{{ section.id }} .ieo-li-desc {
-  margin-top: 10px;
+  margin-top: 16px;
   color: var(--item-desc-color);
   font-size: 16px;
   font-weight: 400;
@@ -221,67 +194,102 @@
 
 /* === Responsive Media Queries === */
 
-/* Mobile (Untouched/Fixed) */
+/* Mobile */
 @media (max-width: 749px) {
-  #ieo-{{ section.id }} .ieo-layout { grid-template-columns: 1fr 180px; gap: 0; }
+  #ieo-{{ section.id }} .ieo-layout { grid-template-columns: 1fr 202px; gap: 0; }
   
   #ieo-{{ section.id }} .ieo-visual {
+    max-width: auto;
+    aspect-ratio: auto;
     height: 600px;
-    width: auto;
-    justify-content: flex-start;
+    width: 157px;
   }
   
   #ieo-{{ section.id }} .ieo-layer {
-    width: 280px; /* Fixed width for mobile consistency */
-    left: -120px; /* Pull image left */
-    right: auto;
-    top: 50px;
+    max-width: none;
+    width: 334px;
+    left: -91px;
+    top: -101px;
     opacity: 0;
-    transform: translateX(-40vw) translateY(calc(var(--i) * 90px)) scale(.96);
-    margin-right: 0;
+    /* Calculated Mobile Offset Logic */
+    transform: translateX(-40vw) translateY(calc(var(--i) * 101px)) scale(.96);
+    transition: transform .7s ease, opacity .7s ease;
   }
   
-  #ieo-{{ section.id }} .ieo-pan { 
-    width: 280px; 
-    left: -120px; 
-    top: 40px; 
-  }
+  #ieo-{{ section.id }} .ieo-pan { width: 334px; left: -91px; top: -108px; max-width: none; }
   
   #ieo-{{ section.id }} .ieo-layer.is-on {
     opacity: 1 !important;
-    transform: translateX(0) translateY(calc(var(--i) * 90px)) scale(1) !important;
+    transform: translateX(0) translateY(calc(var(--i) * 101px)) scale(1) !important;
   }
   
   #ieo-{{ section.id }} .ieo-list { gap: 20px; }
   
   #ieo-{{ section.id }} .ieo-title { 
-    font-size: 28px; 
-    margin-bottom: 50px; 
+    font-size: 24px; 
+    letter-spacing: 0.26px; 
+    margin-bottom: 80px; 
   }
   
   #ieo-{{ section.id }} .ieo-li-title { font-size: 14px; letter-spacing: .28px; }
-  #ieo-{{ section.id }} .ieo-li-desc { font-size: 12px; margin-top: 4px; }
+  #ieo-{{ section.id }} .ieo-li-desc { font-size: 14px; letter-spacing: .16px; margin-top: 8px; }
 
   #ieo-{{ section.id }} .ieo-li {
     opacity: 0;
-    transform: translateX(-20px);
-    transition-delay: 0s !important; 
+    transform: translateX(-40vw) translateY(8px);
+    transition-delay: 0s !important; /* No delay on mobile per orig code */
     visibility: visible;
     pointer-events: auto;
   }
   
   #ieo-{{ section.id }} .ieo-li.is-on {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) translateY(0);
   }
   
-  #ieo-{{ section.id }} .ieo-line { width: 30px; }
+  #ieo-{{ section.id }} .ieo-line { flex: 0 0 40px; }
+  #ieo-{{ section.id }} .ieo-text { max-width: 145px; }
 }
 
-/* Ultra-Wide Adjustment */
-@media (min-width: 1800px) {
-  #ieo-{{ section.id }} .ieo-inner { max-width: 1600px; }
-  #ieo-{{ section.id }} .ieo-layer { max-width: 800px; }
+/* Ultra-Wide (≥2200px) */
+@media (min-width: 2200px) {
+  #ieo-{{ section.id }} .ieo-inner { max-width: 1820px; padding-left: 31.2px; padding-right: 31.2px; }
+  #ieo-{{ section.id }} .ieo-title { font-size: 41.6px; margin-bottom: 41.6px; }
+  #ieo-{{ section.id }} .ieo-layout { gap: 62.4px; }
+  
+  #ieo-{{ section.id }} .ieo-visual { height: 1209px; width: min(780px, 44vw); }
+  #ieo-{{ section.id }} .ieo-layer { left: 130px; top: 26px; }
+  #ieo-{{ section.id }} .ieo-pan { top: -130px; }
+  
+  #ieo-{{ section.id }} .ieo-list { gap: 59.8px; }
+  #ieo-{{ section.id }} .ieo-li { gap: 20.8px; transform: translateX(-40vw) translateY(10.4px); }
+  #ieo-{{ section.id }} .ieo-line { height: 2.6px; flex: 0 0 204.1px; }
+  #ieo-{{ section.id }} .ieo-text { max-width: 676px; }
+  #ieo-{{ section.id }} .ieo-li-title { font-size: 31.2px; letter-spacing: 0.624px; }
+  #ieo-{{ section.id }} .ieo-li-desc { margin-top: 20.8px; font-size: 20.8px; letter-spacing: 0.832px; }
+}
+
+/* Medium Desktop (750–1799px) */
+@media (min-width: 750px) and (max-width: 1799px) {
+  #ieo-{{ section.id }} .ieo-inner { max-width: 1260px; padding-top: 43.2px; padding-bottom: 43.2px; }
+  #ieo-{{ section.id }} .ieo-title { font-size: 43.2px; margin-bottom: 28.8px; }
+  #ieo-{{ section.id }} .ieo-layout { gap: 43.2px; }
+  
+  #ieo-{{ section.id }} .ieo-visual { height: 837px; width: min(540px, 44vw); }
+  #ieo-{{ section.id }} .ieo-layer { left: 90px; top: 18px; }
+  #ieo-{{ section.id }} .ieo-pan { top: -90px; }
+  
+  #ieo-{{ section.id }} .ieo-list { gap: 41.4px; }
+  #ieo-{{ section.id }} .ieo-li { gap: 14.4px; transform: translateX(-40vw) translateY(7.2px); }
+  #ieo-{{ section.id }} .ieo-line { height: 1.8px; flex: 0 0 141.3px; }
+  #ieo-{{ section.id }} .ieo-text { max-width: 468px; }
+  #ieo-{{ section.id }} .ieo-li-title { font-size: 21.6px; letter-spacing: 0.432px; }
+  #ieo-{{ section.id }} .ieo-li-desc { margin-top: 14.4px; font-size: 14.4px; letter-spacing: 0.576px; }
+}
+
+@media (min-width: 399px) and (max-width: 500px) {
+  #ieo-{{ section.id }} .ieo-right { margin-left: -13px; }
+  #ieo-{{ section.id }} .ieo-visual { margin-left: 0; }
 }
 </style>
 
@@ -292,10 +300,12 @@
   if (!sec) return;
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   const layers = Array.from(sec.querySelectorAll('.ieo-layer'));
+  const layersByStep = new Map(layers.map(el => [ Number(el.getAttribute('data-step')), el ]));
+
   const listItems = Array.from(sec.querySelectorAll('.ieo-li[data-step]'));
   const itemsByStep = new Map(listItems.map(el => [ Number(el.getAttribute('data-step')), el ]));
-  const layersByStep = new Map(layers.map(el => [ Number(el.getAttribute('data-step')), el ]));
 
   if (prefersReduced) {
     layers.forEach(el => el.classList.add('is-on'));
@@ -308,14 +318,18 @@
       if (!entry.isIntersecting) return;
       const step = Number(entry.target.getAttribute('data-step'));
       const layer = layersByStep.get(step);
-      const li = itemsByStep.get(step);
-      
+      const li    = itemsByStep.get(step);
       if (layer) layer.classList.add('is-on');
-      if (li) li.classList.add('is-on');
+      if (li)    li.classList.add('is-on');
       
+      // Stop observing once triggered
       io.unobserve(entry.target);
     });
-  }, { root: null, rootMargin: '-10% 0% -10% 0%', threshold: 0 });
+  }, {
+    root: null,
+    rootMargin: '-10% 0% -10% 0%', // Triggers slightly before element leaves/enters
+    threshold: 0
+  });
 
   listItems.forEach(el => io.observe(el));
 
@@ -332,42 +346,6 @@
 {
   "name": "Engineered View Layers",
   "settings": [
-    {
-      "type": "header",
-      "content": "Desktop Layout Adjustments"
-    },
-    {
-      "type": "range",
-      "id": "desktop_height",
-      "min": 500,
-      "max": 1200,
-      "step": 20,
-      "unit": "px",
-      "label": "Visual Container Height",
-      "info": "Adjust this if images are cut off vertically.",
-      "default": 800
-    },
-    {
-      "type": "range",
-      "id": "desktop_img_width",
-      "min": 40,
-      "max": 120,
-      "step": 5,
-      "unit": "%",
-      "label": "Image Size (Scale)",
-      "default": 80
-    },
-    {
-      "type": "range",
-      "id": "desktop_img_pos_x",
-      "min": -200,
-      "max": 200,
-      "step": 10,
-      "unit": "px",
-      "label": "Image Horizontal Position",
-      "info": "Positive moves Left (towards center), Negative moves Right (away from text).",
-      "default": 0
-    },
     {
       "type": "header",
       "content": "Color Settings"
@@ -479,7 +457,7 @@
           "type": "number",
           "id": "offset_y",
           "label": "Desktop Vertical Offset (px)",
-          "info": "How far down this layer sits. E.g., 0, 100, 200.",
+          "info": "Distance from top. E.g., 0, 120, 240, 360",
           "default": 0
         },
         {
@@ -518,7 +496,23 @@
           "settings": {
             "title": "Aluminum Core",
             "description": "Internal Heat",
+            "offset_y": 0
+          }
+        },
+        {
+          "type": "layer",
+          "settings": {
+            "title": "Inner Core",
+            "description": "Stabilizes heat",
             "offset_y": 120
+          }
+        },
+        {
+          "type": "layer",
+          "settings": {
+            "title": "Outer Core",
+            "description": "Pulls heat in",
+            "offset_y": 240
           }
         }
       ]
