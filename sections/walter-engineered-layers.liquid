@@ -153,39 +153,27 @@
       <div class="ieo-visual">
         {% for block in section.blocks %}
           
-          {% comment %} 
-            Logic for Offsets:
-            Index 0 (Pan) = 0px
-            Index 1 (1st Layer) = 0px
-            Index 2 (2nd Layer) = 120px
-            Index 3 (3rd Layer) = 240px
-            ...etc
-          {% endcomment %}
-
-          {% assign offset_val = 0 %}
-          {% if forloop.index0 > 1 %}
-            {% assign multiplier = forloop.index0 | minus: 1 %}
-            {% assign offset_val = multiplier | times: 120 %}
-          {% endif %}
-
-          {% assign z_index = 1000 | minus: forloop.index0 %}
+          {% assign i = forloop.index0 %}
+          {% assign z = 100 | minus: i %}
           
-          {% assign layer_class = 'ieo-layer from-left' %}
-          {% if forloop.first %}
-            {% assign layer_class = layer_class | append: ' ieo-pan' %}
+          {% comment %} Calculate Offset for explosion effect {% endcomment %}
+          {% assign offset_val = 0 %}
+          {% if i > 1 %}
+             {% assign multiplier = i | minus: 1 %}
+             {% assign offset_val = multiplier | times: 120 %}
           {% endif %}
 
           {% if block.settings.image != blank %}
-            {{ block.settings.image | image_url: width: 1200 | image_tag: 
-              class: layer_class,
-              loading: 'lazy',
-              data-step: forloop.index,
-              style: "--off: " | append: offset_val | append: "px; --i: " | append: forloop.index0 | append: "; z-index: " | append: z_index | append: ";" 
-            }}
+            <img src="{{ block.settings.image | image_url: width: 1200 }}" 
+                 class="ieo-layer from-left {% if forloop.first %}ieo-pan{% endif %}" 
+                 data-step="{{ forloop.index }}"
+                 style="--off: {{ offset_val }}px; --i: {{ i }}; z-index: {{ z }};"
+                 alt="{{ block.settings.title | escape }}"
+                 loading="lazy">
           {% else %}
-             <div class="{{ layer_class }} placeholder-layer" 
+             <div class="ieo-layer from-left placeholder-layer" 
                   data-step="{{ forloop.index }}"
-                  style="--off: {{ offset_val }}px; --i: {{ forloop.index0 }}; z-index: {{ z_index }}; background: #4a4a4a; width: 100%; height: 50px; border-radius: 50%;">
+                  style="--off: {{ offset_val }}px; --i: {{ i }}; z-index: {{ z }}; background: #4a4a4a; width: 100%; height: 50px; border-radius: 50%;">
              </div>
           {% endif %}
 
@@ -229,6 +217,7 @@
 
   #ieo-template--{{ section.id }}.ieo {
     color: #fff;
+    overflow: hidden; /* Prevents scrollbar from animation */
   }
 
   #ieo-template--{{ section.id }} .ieo-inner {
@@ -252,59 +241,61 @@
 
   #ieo-template--{{ section.id }} .ieo-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 48px;
     align-items: center;
   }
 
-  /* Visual stack */
+  /* --- Visual Stack (Left) --- */
   #ieo-template--{{ section.id }} .ieo-visual {
     position: relative;
     height: 930px;
-    margin-left: auto;
-    width: min(600px, 44vw);
-    aspect-ratio: 1/1;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
   }
 
   #ieo-template--{{ section.id }} .ieo-layer {
     position: absolute;
-    left: 100px;
+    left: 0;
+    right: 0;
     top: 20px;
-    right: auto;
     margin: 0 auto;
     max-width: 100%;
     height: auto;
     display: block;
     opacity: 0;
-    transform: translateY(var(--off, 0px)) scale(.98);
-    transition: transform .7s ease, opacity .7s ease;
+    
+    /* Initial State */
+    transform: translateY(var(--off, 0px)) scale(0.98);
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
     will-change: transform, opacity;
-    filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .25));
-    transition-delay: calc(var(--i) * 2 * var(--st));
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+    
+    /* Dynamic Delay based on index */
+    transition-delay: calc(var(--i) * 200ms);
   }
 
-  /* Target the first image (Pan) specifically */
+  /* Pan Specific Style (Top Layer) */
   #ieo-template--{{ section.id }} .ieo-layer.ieo-pan {
-    top: -100px;
-  }
-  
-  /* Placeholder style fix */
-  #ieo-template--{{ section.id }} .placeholder-layer {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    top: -100px; /* Moves the pan slightly up */
+    z-index: 1000 !important;
   }
 
+  /* Animation Entry State */
   #ieo-template--{{ section.id }} .ieo-layer.from-left {
-    transform: translateX(-40vw) translateY(var(--off, 0px)) scale(.96);
+    transform: translateX(-100px) translateY(var(--off, 0px)) scale(0.95);
   }
 
+  /* Active State (Triggered by JS) */
   #ieo-template--{{ section.id }} .ieo-layer.is-on {
     opacity: 1;
     transform: translateX(0) translateY(var(--off, 0px)) scale(1);
   }
 
-  /* Right list */
+  /* --- Text List (Right) --- */
   #ieo-template--{{ section.id }} .ieo-right {
-    margin-right: auto;
+    width: 100%;
   }
 
   #ieo-template--{{ section.id }} .ieo-list {
@@ -313,7 +304,7 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 46px;
+    gap: 46px; /* Spacing between text items */
   }
 
   #ieo-template--{{ section.id }} .ieo-li {
@@ -321,318 +312,147 @@
     align-items: center;
     gap: 16px;
     opacity: 0;
-    transform: translateX(-40vw) translateY(8px);
-    /* from left */
-    transition: transform .7s ease, opacity .7s ease;
-    /* match image timing */
-    will-change: transform, opacity;
-    transition-delay: calc(var(--i) * 2 * var(--st));
-    /* same stagger as images */
-    visibility: hidden;
-    pointer-events: none;
+    transform: translateX(20px);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+    transition-delay: calc(var(--i) * 200ms);
   }
 
   #ieo-template--{{ section.id }} .ieo-li.is-on {
     opacity: 1;
-    transform: translateX(0) translateY(0);
-    visibility: visible;
-    pointer-events: auto;
+    transform: translateX(0);
   }
 
   #ieo-template--{{ section.id }} .ieo-line {
     background: var(--line-color);
     height: 2px;
-    flex: 0 0 157px;
-    position: relative;
+    width: 100px; /* Default length */
+    flex-shrink: 0;
+    display: block;
   }
 
   #ieo-template--{{ section.id }} .ieo-text {
-    max-width: 520px;
+    flex-grow: 1;
   }
 
   #ieo-template--{{ section.id }} .ieo-li-title {
     font-family: 'Neue Montreal', sans-serif;
     color: var(--title-color);
     font-size: 24px;
-    font-style: normal;
     font-weight: 500;
-    line-height: 140%;
-    letter-spacing: 0.48px;
+    line-height: 1.4;
     text-transform: capitalize;
   }
 
   #ieo-template--{{ section.id }} .ieo-li-desc {
-    margin-top: 16px;
+    margin-top: 8px;
     font-family: 'Neue Montreal', sans-serif;
     color: var(--desc-color);
     font-size: 16px;
-    font-style: normal;
     font-weight: 400;
-    line-height: 150%;
-    letter-spacing: 0.64px;
+    line-height: 1.5;
   }
 
-  /* Mobile */
-  @media (max-width: 749px) {
+  /* --- Responsive Styles --- */
+  
+  /* Mobile Devices */
+  @media (max-width: 768px) {
     #ieo-template--{{ section.id }} .ieo-layout {
-      grid-template-columns: 1fr 202px;
-      gap: 0;
+      grid-template-columns: 1fr; /* Stack vertically */
+      gap: 60px;
     }
 
     #ieo-template--{{ section.id }} .ieo-visual {
-      max-width: auto;
-      aspect-ratio: auto;
-      height: 600px;
-      width: 157px;
+      height: 600px; /* Reduced height for mobile */
+      width: 100%;
+      max-width: 350px;
     }
 
     #ieo-template--{{ section.id }} .ieo-layer {
-      max-width: none;
-      width: 334px;
-      left: -91px;
-      top: -101px;
-      opacity: 0;
-      transform: translateX(-40vw) translateY(calc(var(--i) * 101px)) scale(.96);
-      transition: transform .7s ease, opacity .7s ease;
+      width: 80%; /* Smaller images */
+      top: 0;
+      /* Adjust mobile offset calculation visually */
+      --mobile-off: calc(var(--i) * 60px); 
+      transform: translateY(var(--mobile-off)) scale(0.9);
     }
-
-    /* Target Pan on Mobile */
+    
     #ieo-template--{{ section.id }} .ieo-layer.ieo-pan {
-      width: 334px;
-      left: -91px;
-      top: -108px;
-      max-width: none;
+      top: -40px;
     }
 
     #ieo-template--{{ section.id }} .ieo-layer.is-on {
-      opacity: 1 !important;
-      transform: translateX(0) translateY(calc(var(--i) * 101px)) scale(1) !important;
+      transform: translateX(0) translateY(var(--mobile-off)) scale(1);
     }
 
+    /* Adjust List for Mobile */
     #ieo-template--{{ section.id }} .ieo-list {
-      gap: 20px;
+      gap: 30px;
+    }
+
+    #ieo-template--{{ section.id }} .ieo-line {
+      width: 40px; /* Shorter lines */
     }
 
     #ieo-template--{{ section.id }} .ieo-title {
-      font-size: 24px;
-      letter-spacing: 0.26px;
-      margin-bottom: 80px;
+      font-size: 28px;
+      margin-bottom: 40px;
     }
-
+    
     #ieo-template--{{ section.id }} .ieo-li-title {
-      font-size: 14px;
-      letter-spacing: .28px;
+      font-size: 18px;
     }
-
+    
     #ieo-template--{{ section.id }} .ieo-li-desc {
       font-size: 14px;
-      letter-spacing: .16px;
-      margin-top: 8px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-li {
-      opacity: 0;
-      transform: translateX(-40vw) translateY(8px);
-      transition: transform .7s ease, opacity .7s ease;
-      visibility: visible;
-      /* keep clickable */
-      pointer-events: auto;
-      transition-delay: 0s !important;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-li.is-on {
-      opacity: 1;
-      transform: translateX(0) translateY(0);
-    }
-
-    #ieo-template--{{ section.id }} .ieo-line {
-      flex: 0 0 40px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-inner {
-      padding: 64px 16px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-text {
-      max-width: 145px;
     }
   }
 
-  /* ===== +30% on ultra-wide (≥2200px) ===== */
-  @media (min-width: 2200px) {
+  /* Large Screens */
+  @media (min-width: 1800px) {
     #ieo-template--{{ section.id }} .ieo-inner {
-      max-width: 1820px;
-      padding: 62.4px 31.2px;
+      max-width: 1600px;
     }
-
+    #ieo-template--{{ section.id }} .ieo-visual {
+      height: 1100px;
+      max-width: 700px;
+    }
+    #ieo-template--{{ section.id }} .ieo-line {
+      width: 150px;
+    }
     #ieo-template--{{ section.id }} .ieo-title {
-      font-size: 41.6px;
-      margin-bottom: 41.6px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-layout {
-      gap: 62.4px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-visual {
-      height: 1209px;
-      width: min(780px, 44vw);
-    }
-
-    #ieo-template--{{ section.id }} .ieo-layer {
-      left: 130px;
-      top: 26px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-layer.ieo-pan {
-      top: -130px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-list {
-      gap: 59.8px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-li {
-      gap: 20.8px;
-      transform: translateX(-40vw) translateY(10.4px);
-    }
-
-    #ieo-template--{{ section.id }} .ieo-line {
-      height: 2.6px;
-      flex: 0 0 204.1px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-text {
-      max-width: 676px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-li-title {
-      font-size: 31.2px;
-      letter-spacing: 0.624px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-li-desc {
-      margin-top: 20.8px;
-      font-size: 20.8px;
-      letter-spacing: 0.832px;
-    }
-  }
-
-  /* ===== −10% on md/desktop (750–1799px) ===== */
-  @media (min-width:750px) and (max-width:1799px) {
-    #ieo-template--{{ section.id }} .ieo-inner {
-      max-width: 1260px;
-      padding: 43.2px 21.6px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-title {
-      font-size: 43.2px;
-      margin-bottom: 28.8px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-layout {
-      gap: 43.2px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-visual {
-      height: 837px;
-      width: min(540px, 44vw);
-    }
-
-    #ieo-template--{{ section.id }} .ieo-layer {
-      left: 90px;
-      top: 18px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-layer.ieo-pan {
-      top: -90px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-list {
-      gap: 41.4px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-li {
-      gap: 14.4px;
-      transform: translateX(-40vw) translateY(7.2px);
-    }
-
-    #ieo-template--{{ section.id }} .ieo-line {
-      height: 1.8px;
-      flex: 0 0 141.3px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-text {
-      max-width: 468px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-li-title {
-      font-size: 21.6px;
-      letter-spacing: 0.432px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-li-desc {
-      margin-top: 14.4px;
-      font-size: 14.4px;
-      letter-spacing: 0.576px;
-    }
-  }
-
-  @media (min-width:399px) and (max-width:500px) {
-    #ieo-template--{{ section.id }} .ieo-right {
-      margin-left: -13px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-visual {
-      margin-left: 0;
+      font-size: 56px;
     }
   }
 </style>
 
 <script>
-  (() => {
+  document.addEventListener("DOMContentLoaded", function() {
     const sec = document.getElementById('ieo-template--{{ section.id }}');
     if (!sec) return;
 
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Dynamically query elements within this specific section
-    const layers = Array.from(sec.querySelectorAll('.ieo-layer'));
-    const layersByStep = new Map(layers.map(el => [Number(el.getAttribute('data-step')), el]));
-
-    const listItems = Array.from(sec.querySelectorAll('.ieo-li[data-step]'));
-    const itemsByStep = new Map(listItems.map(el => [Number(el.getAttribute('data-step')), el]));
-
-    if (prefersReduced) {
-      layers.forEach(el => el.classList.add('is-on'));
-      listItems.forEach(el => el.classList.add('is-on'));
-      return;
-    }
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const step = Number(entry.target.getAttribute('data-step'));
-        const layer = layersByStep.get(step);
-        const li = itemsByStep.get(step);
-        if (layer) layer.classList.add('is-on');
-        if (li) li.classList.add('is-on');
-        io.unobserve(entry.target);
-      });
-    }, {
+    // Use Intersection Observer for scroll animation
+    const observerOptions = {
       root: null,
-      rootMargin: '-10% 0% -10% 0%',
-      threshold: 0
-    });
+      rootMargin: '0px',
+      threshold: 0.2 // Trigger when 20% visible
+    };
 
-    listItems.forEach(el => io.observe(el));
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Find all layers and list items inside the section
+          const layers = sec.querySelectorAll('.ieo-layer');
+          const listItems = sec.querySelectorAll('.ieo-li');
 
-    // Handle Shopify Theme Editor events to re-initialize if needed
-    document.addEventListener('shopify:section:load', (e) => {
-      if (!sec.contains(e.target)) return;
-      io.disconnect();
-      const freshItems = Array.from(sec.querySelectorAll('.ieo-li[data-step]'));
-      freshItems.forEach(el => io.observe(el));
-    });
-  })();
+          // Add 'is-on' class to trigger CSS transition
+          layers.forEach(el => el.classList.add('is-on'));
+          listItems.forEach(el => el.classList.add('is-on'));
+
+          // Stop observing once triggered
+          observer.disconnect();
+        }
+      });
+    }, observerOptions);
+
+    observer.observe(sec);
+  });
 </script>
