@@ -83,6 +83,23 @@
     "header": {
       "type": "header",
       "blocks": {
+        "mobile_category_LHJYcp": {
+          "type": "mobile_category",
+          "settings": {
+            "icon": "shopify://shop_images/WhatsApp_Image_2025-10-21_at_12.58.33_24274486-bd27-4ed6-8223-27fc00568326.jpg",
+            "title": "yutyutyutyu",
+            "collection": "",
+            "step2_review": "",
+            "step2_reviewer": ""
+          }
+        },
+        "mobile_slider_product_mQ3qpm": {
+          "type": "mobile_slider_product",
+          "settings": {
+            "product": "altro-flatware",
+            "custom_badge": "Sale"
+          }
+        },
         "mega_tab_bemFeC": {
           "type": "mega_tab",
           "settings": {
@@ -97,6 +114,8 @@
         }
       },
       "block_order": [
+        "mobile_category_LHJYcp",
+        "mobile_slider_product_mQ3qpm",
         "mega_tab_bemFeC"
       ],
       "settings": {

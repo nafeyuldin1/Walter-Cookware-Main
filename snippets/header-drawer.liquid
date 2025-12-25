@@ -1,236 +1,253 @@
 {% comment %}
-  Renders the Custom Mobile Drawer (Grid Layout)
+  Custom Taima-Style Mobile Drawer
+  Features: Multi-step navigation, Slider, Icons, Reviews
 {% endcomment %}
 
 <header-drawer data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}">
   <details id="Details-menu-drawer-container" class="menu-drawer-container">
-    
     <summary class="header__icon header__icon--menu header__icon--summary link focus-inset" aria-label="{{ 'sections.header.menu' | t }}">
       <span>
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" class="icon icon-hamburger">
-          <path d="M4 23H28M4 16H28M4 9H28" stroke="currentColor" stroke-width="2"/>
+            <path d="M4 23H28M4 16H28M4 9H28" stroke="currentColor" stroke-width="2"/>
         </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" class="icon icon-close" style="display:none;">
-          <path d="M24 8L8 24M8 8L24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" class="icon icon-close">
+            <path d="M24 8L8 24M8 8L24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </span>
     </summary>
-    
+
     <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
-      <div class="menu-drawer__inner-container">
+      
+      <div class="drawer__step drawer__step--1 is-active" data-step="1">
         
-        <div class="mm-drawer-head">
-          <div class="mm-logo">
-            {%- if settings.logo != blank -%}
-              {{ settings.logo | image_url: width: 100 | image_tag }}
-            {%- else -%}
-              <span class="h4">{{ shop.name }}</span>
-            {%- endif -%}
-          </div>
-          <button class="mm-close-btn" onclick="this.closest('details').removeAttribute('open')">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          </button>
+        <div class="drawer__header">
+            <div class="drawer__logo">
+               {%- if settings.logo != blank -%}
+                 {{ settings.logo | image_url: width: 120 | image_tag }}
+               {%- else -%}
+                 <span class="h4">{{ shop.name }}</span>
+               {%- endif -%}
+            </div>
+            <button class="drawer__close-btn" onclick="this.closest('details').removeAttribute('open')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
         </div>
 
-        <div class="mm-content-scroll">
-          
-          <div class="mm-notice">
-            <span style="color: #888; font-size:12px; font-weight:600; letter-spacing:1px; text-transform: uppercase;">Categories</span>
-          </div>
-
-          <div class="mm-grid">
-            {%- assign grid_blocks = section.blocks | where: "type", "mobile_icon" -%}
+        <div class="drawer__scroll">
             
-            {%- for block in grid_blocks -%}
-              <a href="{{ block.settings.link }}" class="mm-grid-item">
-                <div class="mm-item-icon">
-                  {% if block.settings.icon != blank %}
-                    <img src="{{ block.settings.icon | image_url: width: 100 }}" loading="lazy" width="50" height="50">
-                  {% else %}
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-                  {% endif %}
+            {%- assign slider_blocks = section.blocks | where: "type", "mobile_slider_product" -%}
+            {% if slider_blocks.size > 0 %}
+                <div class="drawer__slider-section">
+                    <div class="drawer__slider-title">
+                        {{ section.settings.drawer_slider_title }}
+                    </div>
+                    <div class="drawer__slider-track">
+                        {% for block in slider_blocks %}
+                            {% assign prod = block.settings.product %}
+                            {% if prod != blank %}
+                                <a href="{{ prod.url }}" class="d-slide">
+                                    <div class="d-slide__img">
+                                        <img src="{{ prod.featured_image | image_url: width: 300 }}" loading="lazy">
+                                        {% if block.settings.custom_badge != blank %}
+                                            <span class="d-slide__badge">{{ block.settings.custom_badge }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-slide__info">
+                                        <div class="d-slide__title">{{ prod.title | truncate: 30 }}</div>
+                                        <div class="d-slide__price">
+                                            {% if prod.compare_at_price > prod.price %}
+                                                <span class="cmp">{{ prod.compare_at_price | money }}</span>
+                                            {% endif %}
+                                            <span class="prc">{{ prod.price | money }}</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="mm-item-title">{{ block.settings.title }}</div>
-                <div class="mm-item-arrow">→</div>
-              </a>
-            {%- endfor -%}
-            
-            {% if grid_blocks.size == 0 %}
-              <p style="padding:20px; text-align:center; font-size:14px; color:#666;">
-                Please add 'Mobile Grid Icon' blocks in the Header section customization.
-              </p>
             {% endif %}
-          </div>
 
-          {%- assign footer_blocks = section.blocks | where: "type", "mobile_footer" -%}
-          {%- for block in footer_blocks -%}
-            <div class="mm-footer">
-              <ul>
-                {%- for link in block.settings.footer_menu.links -%}
-                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-                {%- endfor -%}
-              </ul>
+            <div class="drawer__cats">
+                <div class="drawer__cats-title">CATEGORIES</div>
+                <div class="drawer__cats-list">
+                    {%- assign cat_blocks = section.blocks | where: "type", "mobile_category" -%}
+                    {% for block in cat_blocks %}
+                        <button class="d-cat-btn" data-target="step-2-{{ block.id }}" data-cat-title="{{ block.settings.title }}">
+                            <div class="d-cat-left">
+                                {% if block.settings.icon %}
+                                    <img src="{{ block.settings.icon | image_url: width: 64 }}" class="d-cat-icon">
+                                {% else %}
+                                    <div class="d-cat-placeholder"></div>
+                                {% endif %}
+                                <span class="d-cat-name">{{ block.settings.title }}</span>
+                            </div>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.916 5.833L12.083 10L7.916 14.166" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path></svg>
+                        </button>
+                    {% endfor %}
+                </div>
             </div>
-          {%- endfor -%}
 
+            <div class="drawer__footer">
+                <ul class="d-footer-list">
+                    {%- assign footer_blocks = section.blocks | where: "type", "mobile_footer_link" -%}
+                    {% for block in footer_blocks %}
+                        <li><a href="{{ block.settings.url }}">{{ block.settings.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
       </div>
+
+      {% for block in cat_blocks %}
+      <div id="step-2-{{ block.id }}" class="drawer__step drawer__step--2" data-step="2">
+        
+        <div class="drawer__header">
+            <div class="drawer__header-left">
+                <button class="drawer__back-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <span class="drawer__crumb">{{ block.settings.title }}</span>
+            </div>
+            <button class="drawer__close-btn" onclick="this.closest('details').removeAttribute('open')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <div class="drawer__scroll">
+            <div class="d-prod-list">
+                {% assign coll = collections[block.settings.collection] %}
+                {% if coll != blank %}
+                    {% for product in coll.products limit: 10 %}
+                        <a href="{{ product.url }}" class="d-prod-item">
+                            <div class="d-prod-item__img">
+                                <img src="{{ product.featured_image | image_url: width: 150 }}" loading="lazy">
+                            </div>
+                            <div class="d-prod-item__info">
+                                <div class="d-prod-item__title">{{ product.title }}</div>
+                                <div class="d-prod-item__price">{{ product.price | money }}</div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p style="padding:20px; opacity:0.6;">Select a collection in block settings.</p>
+                {% endif %}
+            </div>
+
+            {% if block.settings.step2_review != blank %}
+            <div class="d-review">
+                <div class="d-review__text">"{{ block.settings.step2_review }}"</div>
+                <div class="d-review__meta">
+                    {% if block.settings.step2_avatar %}
+                        <img src="{{ block.settings.step2_avatar | image_url: width: 40 }}" class="d-review__avatar">
+                    {% endif %}
+                    <div class="d-review__name">{{ block.settings.step2_reviewer }}</div>
+                    <div>★★★★★</div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+
     </div>
   </details>
 </header-drawer>
 
 <style>
-  /* DRAWER STYLES */
-  .menu-drawer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #fff;
-    z-index: 1000;
-    visibility: hidden;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease, visibility 0.3s ease;
-  }
+  /* Base Drawer */
+  .menu-drawer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgb(var(--color-background)); z-index: 1000; visibility: hidden; transition: visibility 0s 0.3s; }
+  details[open] .menu-drawer { visibility: visible; transition: visibility 0s 0s; }
   
-  details[open] .menu-drawer {
-    visibility: visible;
-    transform: translateX(0);
-  }
-
-  .menu-drawer__inner-container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .mm-drawer-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
-  }
-
-  .mm-close-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-  }
-
-  .mm-content-scroll {
-    overflow-y: auto;
-    padding: 20px;
-    flex-grow: 1;
-    padding-bottom: 100px;
-  }
-
-  .mm-notice {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  /* GRID SYSTEM */
-  .mm-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 2 Columns */
-    gap: 12px;
-  }
-
-  .mm-grid-item {
-    background: #f8f8f8;
-    border-radius: 12px;
-    padding: 15px;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: relative;
-    transition: background 0.2s;
-  }
-
-  .mm-grid-item:hover {
-    background: #f0f0f0;
-  }
-
-  .mm-item-icon {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .mm-item-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  .mm-item-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: #000;
-    line-height: 1.2;
-    padding-right: 20px;
-  }
-
-  .mm-item-arrow {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    font-size: 16px;
-    color: #ccc;
-  }
-
-  /* FOOTER LINKS */
-  .mm-footer {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-  }
+  .drawer__step { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; background: rgb(var(--color-background)); transition: transform 0.3s ease; transform: translateX(100%); z-index: 1; }
+  .drawer__step.is-active { transform: translateX(0); z-index: 2; }
   
-  .mm-footer ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-  }
+  /* Headers */
+  .drawer__header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid rgba(var(--color-foreground), 0.1); height: 60px; }
+  .drawer__logo img { height: 20px; width: auto; }
+  .drawer__close-btn, .drawer__back-btn { background: none; border: none; cursor: pointer; color: rgb(var(--color-foreground)); padding: 5px; display: flex; align-items: center; }
+  .drawer__header-left { display: flex; align-items: center; gap: 10px; font-weight: 600; text-transform: uppercase; font-size: 14px; }
+  
+  /* Scroll Area */
+  .drawer__scroll { flex: 1; overflow-y: auto; padding-bottom: 50px; }
 
-  .mm-footer a {
-    text-decoration: none;
-    color: #555;
-    font-size: 14px;
-    font-weight: 500;
-  }
+  /* Slider */
+  .drawer__slider-section { padding: 15px 0 20px 20px; border-bottom: 1px solid rgba(var(--color-foreground), 0.05); }
+  .drawer__slider-title { font-size: 11px; font-weight: 700; color: #dcb14a; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+  .drawer__slider-track { display: flex; gap: 12px; overflow-x: auto; padding-right: 20px; padding-bottom: 10px; }
+  .drawer__slider-track::-webkit-scrollbar { height: 4px; }
+  .drawer__slider-track::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+  
+  .d-slide { min-width: 140px; width: 140px; text-decoration: none; color: inherit; display: block; }
+  .d-slide__img { position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 1; background: #f5f5f5; margin-bottom: 8px; }
+  .d-slide__img img { width: 100%; height: 100%; object-fit: cover; }
+  .d-slide__badge { position: absolute; top: 6px; left: 6px; background: #932933; color: #fff; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
+  .d-slide__title { font-size: 12px; line-height: 1.2; margin-bottom: 4px; font-weight: 500; height: 28px; overflow: hidden; }
+  .d-slide__price { font-size: 12px; }
+  .d-slide__price .cmp { text-decoration: line-through; opacity: 0.6; margin-right: 4px; }
+  .d-slide__price .prc { font-weight: 700; }
+
+  /* Categories Step 1 */
+  .drawer__cats { padding: 20px; }
+  .drawer__cats-title { font-size: 12px; font-weight: 700; opacity: 0.5; margin-bottom: 15px; letter-spacing: 1px; }
+  .d-cat-btn { width: 100%; display: flex; justify-content: space-between; align-items: center; background: rgba(var(--color-foreground), 0.03); border: none; padding: 12px 15px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; color: rgb(var(--color-foreground)); transition: background 0.2s; }
+  .d-cat-btn:hover { background: rgba(var(--color-foreground), 0.08); }
+  .d-cat-left { display: flex; align-items: center; gap: 12px; }
+  .d-cat-icon { width: 32px; height: 32px; object-fit: contain; border-radius: 4px; }
+  .d-cat-placeholder { width: 32px; height: 32px; background: #eee; border-radius: 4px; }
+  .d-cat-name { font-size: 14px; font-weight: 600; text-transform: uppercase; }
+
+  /* Footer Links */
+  .drawer__footer { padding: 0 20px 40px; border-top: 1px solid rgba(var(--color-foreground), 0.05); padding-top: 20px; }
+  .d-footer-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .d-footer-list a { text-decoration: none; color: rgb(var(--color-foreground)); font-size: 13px; font-weight: 500; opacity: 0.8; }
+
+  /* Step 2 Product List */
+  .d-prod-list { padding: 10px; }
+  .d-prod-item { display: flex; align-items: center; gap: 15px; padding: 10px; text-decoration: none; color: inherit; border-bottom: 1px solid rgba(var(--color-foreground), 0.05); }
+  .d-prod-item__img { width: 60px; height: 60px; border-radius: 6px; overflow: hidden; background: #f5f5f5; flex-shrink: 0; }
+  .d-prod-item__img img { width: 100%; height: 100%; object-fit: cover; }
+  .d-prod-item__title { font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+  .d-prod-item__price { font-size: 13px; opacity: 0.8; }
+
+  /* Reviews in Step 2 */
+  .d-review { margin: 20px; padding: 20px; background: rgba(var(--color-foreground), 0.03); border-radius: 12px; border: 1px solid rgba(var(--color-foreground), 0.05); }
+  .d-review__text { font-style: italic; font-size: 13px; margin-bottom: 15px; line-height: 1.5; }
+  .d-review__meta { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; }
+  .d-review__avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+
+  /* Icon Fixes */
+  .icon-hamburger, .icon-close { width: 24px; height: 24px; }
+  details[open] .icon-hamburger { display: none; }
+  details:not([open]) .icon-close { display: none; }
 </style>
 
 <script>
-  // Simple Toggle Logic for Drawer Icons visibility
-  (function(){
-    const details = document.getElementById('Details-menu-drawer-container');
-    if(!details) return;
-    const summary = details.querySelector('summary');
-    const openIcon = summary.querySelector('.icon-hamburger');
-    const closeIcon = summary.querySelector('.icon-close');
+document.addEventListener('DOMContentLoaded', () => {
+    const drawer = document.getElementById('menu-drawer');
+    if(!drawer) return;
 
-    summary.addEventListener('click', () => {
-      // Small timeout to allow the 'open' attribute to update
-      setTimeout(() => {
-        if (details.hasAttribute('open')) {
-          openIcon.style.display = 'none';
-          closeIcon.style.display = 'block';
-        } else {
-          openIcon.style.display = 'block';
-          closeIcon.style.display = 'none';
-        }
-      }, 50);
+    // Step 1 buttons
+    const catBtns = drawer.querySelectorAll('.d-cat-btn');
+    const backBtns = drawer.querySelectorAll('.drawer__back-btn');
+
+    catBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const targetId = btn.dataset.target;
+            const targetStep = document.getElementById(targetId);
+            if(targetStep) {
+                targetStep.classList.add('is-active');
+            }
+        });
     });
-  })();
+
+    backBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const activeStep = btn.closest('.drawer__step--2');
+            if(activeStep) {
+                activeStep.classList.remove('is-active');
+            }
+        });
+    });
+});
 </script>
