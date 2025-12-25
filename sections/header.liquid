@@ -53,7 +53,7 @@
   .header-wrapper {
       position: relative;
       z-index: 3;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
   }
@@ -71,20 +71,30 @@
       width: 100%;
       top: 0;
       left: 0;
+      
+      /* Optional: Enable blur on transparent state too if desired */
+      {% if section.settings.enable_sticky_blur %}
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+      {% endif %}
   }
 
-  /* STATE 2: Sticky (Scrolled Down) */
+  /* STATE 2: Sticky (Scrolled Down) - FIX APPLIED HERE */
   .header-wrapper[data-state="sticky"] {
       position: fixed;
       top: 0;
       width: 100%;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      background-color: rgb(var(--color-background)) !important;
+      
+      /* Default Solid Background */
+      background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
+
+      /* BLUR LOGIC: Must use RGBA for transparency */
       {% if section.settings.enable_sticky_blur %}
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        background-color: rgba(var(--color-background), 0.85) !important;
+        background-color: rgba(var(--color-background), 0.8) !important; /* 80% Opacity */
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
       {% endif %}
   }
 
@@ -396,11 +406,8 @@
     onScroll() {
       const scrollTop = window.scrollY;
       const headerHeight = this.header.offsetHeight;
-      
-      // Threshold helps prevent flickering on slight movements at the top
       const triggerPoint = headerHeight / 2;
 
-      // Determine Direction
       const isScrollDown = scrollTop > this.currentScrollTop && scrollTop > triggerPoint;
       const isScrollUp = scrollTop < this.currentScrollTop && scrollTop > triggerPoint;
       const isAtTop = scrollTop <= triggerPoint;
@@ -408,10 +415,8 @@
       if (isScrollDown || isScrollUp) {
          // --- STICKY MODE ---
          if (isScrollDown && !this.headerIsAlwaysSticky) {
-             // Hide header
              this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
          } else {
-             // Show Sticky header
              this.header.classList.remove('shopify-section-header-hidden');
              this.header.classList.add('shopify-section-header-sticky', 'animate');
          }
@@ -438,7 +443,6 @@
        
        this.wrapper.setAttribute('data-state', newState);
 
-       // Safely swap classes without removing base "header-wrapper"
        this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
        
        if(newState === 'sticky') {
@@ -479,7 +483,6 @@
         
         if(target) {
           wrapper.style.display = 'block';
-          // Small timeout to allow display:block to render before adding opacity class
           requestAnimationFrame(() => {
               wrapper.classList.add('is-open');
               target.setAttribute('aria-hidden', 'false');
