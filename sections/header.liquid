@@ -10,17 +10,17 @@
 
 {% liquid
   # --- LOGIC START ---
-  # 1. Capture Variable Schemes
-  assign default_scheme = 'color-' | append: section.settings.color_scheme
-  assign home_scheme = 'color-' | append: section.settings.color_scheme_home
-  assign sticky_scheme = 'color-' | append: section.settings.color_scheme_sticky
+  # Define Scheme Classes
+  assign default_scheme_class = 'color-' | append: section.settings.color_scheme
+  assign home_scheme_class = 'color-' | append: section.settings.color_scheme_home
+  assign sticky_scheme_class = 'color-' | append: section.settings.color_scheme_sticky
   
-  # 2. Determine Starting State based on Page
+  # Determine Initial State via Liquid (Server Side)
   if request.page_type == 'index'
-    assign initial_class = home_scheme
+    assign initial_state = 'transparent'
     assign is_home = true
   else
-    assign initial_class = default_scheme
+    assign initial_state = 'standard'
     assign is_home = false
   endif
 %}
@@ -45,48 +45,55 @@
   
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
-  /* --- CRITICAL HEADER STYLING --- */
+  /* --- CRITICAL STATE-BASED STYLING --- */
+  
+  /* Base Wrapper */
   .header-wrapper {
       position: relative;
+      z-index: 3;
       transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
-      z-index: 3;
   }
 
-  /* 1. Transparent Header State (Only on Home when at Top) */
-  .header-wrapper.is-transparent-home {
+  /* Prevent flickering on page load/refresh */
+  .header-wrapper.no-transition {
+      transition: none !important;
+  }
+
+  /* STATE 1: Transparent (Home Top) */
+  .header-wrapper[data-state="transparent"] {
       background-color: transparent !important;
       border-bottom: none !important;
-      /* Blur logic for Transparent Home Header */
+      /* Apply Home Scheme Variables via CSS Variable Override or Class logic is handled in JS */
       {% if section.settings.enable_sticky_blur %}
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
       {% endif %}
   }
 
-  /* 2. Sticky Header State (On Scroll - Any Page) */
-  .header-wrapper.is-sticky-mode {
-      /* Force the Sticky Color Background */
+  /* STATE 2: Sticky (Scrolled Down) */
+  .header-wrapper[data-state="sticky"] {
       background-color: rgb(var(--color-background)) !important;
       color: rgb(var(--color-foreground)) !important;
-      
-      /* Blur logic for Sticky Header */
       {% if section.settings.enable_sticky_blur %}
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
       {% endif %}
   }
 
-  /* 3. Border Logic */
-  .header-wrapper--border-bottom {
+  /* STATE 3: Standard (Other Pages Top) */
+  .header-wrapper[data-state="standard"] {
+      background-color: rgb(var(--color-background)) !important;
+      color: rgb(var(--color-foreground)) !important;
       border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+      backdrop-filter: none !important;
   }
 
   /* --- MEGA MENU CSS --- */
   .cat-strip { 
       display: flex; justify-content: center; gap: 20px; padding: 0 20px; 
-      background: inherit; /* Inherits Header Color */
+      background: inherit; 
       border-top: 1px solid rgba(var(--color-foreground), 0.05); 
       border-bottom: 1px solid rgba(var(--color-foreground), 0.05); 
       overflow-x: auto; 
@@ -138,19 +145,28 @@
   if section.settings.sticky_header_type != 'none'
     assign header_tag = 'sticky-header'
   endif
+  
+  # Set the initial color scheme class for Liquid rendering
+  if is_home
+     assign render_scheme = home_scheme_class
+  else
+     assign render_scheme = default_scheme_class
+  endif
 %}
 
 <{{ header_tag }}
   {% if header_tag == 'sticky-header' %}
     data-sticky-type="{{ section.settings.sticky_header_type }}"
     
-    data-scheme-home="{{ home_scheme }}"
-    data-scheme-default="{{ default_scheme }}"
-    data-scheme-sticky="{{ sticky_scheme }}"
+    data-class-home="{{ home_scheme_class }}"
+    data-class-default="{{ default_scheme_class }}"
+    data-class-sticky="{{ sticky_scheme_class }}"
     
     data-is-home="{{ is_home }}"
   {% endif %}
-  class="header-wrapper {{ initial_class }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %} {% if is_home %}is-transparent-home{% endif %}"
+  
+  data-state="{{ initial_state }}"
+  class="header-wrapper {{ render_scheme }} gradient no-transition"
 >
   <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}">
     
@@ -336,12 +352,11 @@
       this.wrapper = this.querySelector('.header-wrapper');
       this.headerIsAlwaysSticky = this.getAttribute('data-sticky-type') === 'always' || this.getAttribute('data-sticky-type') === 'reduce-logo-size';
       
-      // Load Scheme Class Names
-      this.schemeHome = this.getAttribute('data-scheme-home');
-      this.schemeDefault = this.getAttribute('data-scheme-default');
-      this.schemeSticky = this.getAttribute('data-scheme-sticky');
+      // Load Class Names from Data Attributes
+      this.classHome = this.getAttribute('data-class-home');
+      this.classDefault = this.getAttribute('data-class-default');
+      this.classSticky = this.getAttribute('data-class-sticky');
       
-      // Load Page Condition
       this.isHome = this.getAttribute('data-is-home') === 'true';
 
       this.headerBounds = {};
@@ -353,14 +368,18 @@
       }
 
       this.currentScrollTop = 0;
-      this.preventReveal = false;
       this.onScrollHandler = this.onScroll.bind(this);
       window.addEventListener('scroll', this.onScrollHandler, false);
       
       this.createObserver();
       
-      // Run once on load to fix color if starting mid-page
-      this.onScroll(); 
+      // 1. IMMEDIATE CHECK: Run on load to correct state if page is refreshed mid-scroll
+      this.onScroll();
+      
+      // 2. ENABLE TRANSITIONS: Remove 'no-transition' class after slight delay
+      setTimeout(() => {
+        if(this.wrapper) this.wrapper.classList.remove('no-transition');
+      }, 200);
     }
 
     setHeaderHeight() { 
@@ -386,73 +405,57 @@
       const isScrollUp = scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom;
       const isAtTop = scrollTop <= this.headerBounds.top;
 
-      if (isScrollDown) {
-        // --- HIDE HEADER ---
-        this.header.classList.add('scrolled-past-header');
-        
-        if (this.headerIsAlwaysSticky) {
-           this.applyStickyStyles(); 
-        } else {
-           this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
-           // Even if hidden, apply sticky styles for transition
-           this.applyStickyStyles(); 
-        }
-
-      } else if (isScrollUp) {
-        // --- SHOW STICKY HEADER ---
-        this.header.classList.add('scrolled-past-header');
-        this.header.classList.add('shopify-section-header-sticky', 'animate');
-        this.header.classList.remove('shopify-section-header-hidden');
-        
-        this.applyStickyStyles();
+      // --- LOGIC: SET DATA-STATE ATTRIBUTE ---
+      // This is more robust than adding/removing conflicting classes manually
+      
+      if (isScrollDown || isScrollUp) {
+         // WE ARE SCROLLING -> STICKY MODE
+         if (isScrollDown && !this.headerIsAlwaysSticky) {
+             // Hide header if not always sticky
+             this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+         } else {
+             // Show sticky header
+             this.header.classList.remove('shopify-section-header-hidden');
+             this.header.classList.add('shopify-section-header-sticky', 'animate');
+         }
+         this.header.classList.add('scrolled-past-header');
+         
+         // Apply Sticky State
+         this.updateState('sticky');
 
       } else if (isAtTop) {
-        // --- AT TOP (RESET) ---
-        this.header.classList.remove('scrolled-past-header');
-        
-        this.removeStickyStyles();
-        
-        if (!this.headerIsAlwaysSticky) {
-           this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
-        }
+         // WE ARE AT TOP -> RESET
+         this.header.classList.remove('scrolled-past-header', 'shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
+         
+         // Apply Top State based on Page Type
+         if (this.isHome) {
+            this.updateState('transparent');
+         } else {
+            this.updateState('standard');
+         }
       }
+
       this.currentScrollTop = scrollTop;
     }
 
-    // === STYLE MANAGERS ===
+    updateState(newState) {
+       if(!this.wrapper) return;
+       
+       // Only update if state actually changed to prevent DOM thrashing
+       if(this.wrapper.getAttribute('data-state') === newState) return;
+       
+       this.wrapper.setAttribute('data-state', newState);
 
-    applyStickyStyles() {
-        if(!this.wrapper) return;
-        
-        // 1. Activate Sticky Mode (CSS handles Blur & Background)
-        this.wrapper.classList.add('is-sticky-mode');
-        this.wrapper.classList.remove('is-transparent-home'); // Ensure transparency is off
-        
-        // 2. Swap Color Schemes
-        this.wrapper.classList.remove(this.schemeHome);
-        this.wrapper.classList.remove(this.schemeDefault);
-        this.wrapper.classList.add(this.schemeSticky);
-    }
-
-    removeStickyStyles() {
-        if(!this.wrapper) return;
-        
-        // 1. Deactivate Sticky Mode
-        this.wrapper.classList.remove('is-sticky-mode');
-        this.wrapper.classList.remove(this.schemeSticky);
-        
-        // 2. Logic based on Page
-        if (this.isHome) {
-            // -- HOME PAGE LOGIC --
-            this.wrapper.classList.add(this.schemeHome);
-            this.wrapper.classList.add('is-transparent-home'); // Re-enable transparency + blur
-            this.wrapper.classList.remove(this.schemeDefault);
-        } else {
-            // -- OTHER PAGES LOGIC --
-            this.wrapper.classList.add(this.schemeDefault);
-            this.wrapper.classList.remove(this.schemeHome);
-            // No transparency class here (so it's solid)
-        }
+       // Swap Color Scheme Classes based on State
+       this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
+       
+       if(newState === 'sticky') {
+           this.wrapper.classList.add(this.classSticky);
+       } else if (newState === 'transparent') {
+           this.wrapper.classList.add(this.classHome);
+       } else if (newState === 'standard') {
+           this.wrapper.classList.add(this.classDefault);
+       }
     }
   }
   customElements.define('sticky-header', StickyHeader);
