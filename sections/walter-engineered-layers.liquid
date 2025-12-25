@@ -156,16 +156,19 @@
           {% assign i = forloop.index0 %}
           {% assign z = 100 | minus: i %}
           
-          {% comment %} Desktop Offset (130px gap) {% endcomment %}
-          {% assign offset_val = i | times: 130 %}
+          {% comment %} 
+            Offset Logic:
+            Desktop Gap: 130px
+            Mobile Gap: 85px (Tightened for mobile screens)
+          {% endcomment %}
           
-          {% comment %} Mobile Offset (Smaller gap 70px) {% endcomment %}
-          {% assign offset_val_m = i | times: 70 %}
+          {% assign offset_val = i | times: 130 %}
+          {% assign offset_val_m = i | times: 85 %}
 
           {% if block.settings.image != blank %}
             <img 
-              src="{{ block.settings.image | image_url: width: 1200 }}" 
-              class="ieo-layer from-left" 
+              src="{{ block.settings.image | image_url: width: 1000 }}" 
+              class="ieo-layer from-left {% if forloop.first %}ieo-pan{% endif %}" 
               data-step="{{ forloop.index }}"
               style="--off: {{ offset_val }}px; --off-m: {{ offset_val_m }}px; --i: {{ i }}; z-index: {{ z }};"
               alt="{{ block.settings.title | escape }}"
@@ -207,7 +210,7 @@
 </section>
 
 <style>
-  /* Variables */
+  /* --- VARIABLES --- */
   #ieo-template--{{ section.id }} {
     background-color: {{ section.settings.bg_color }};
     --heading-color: {{ section.settings.heading_color }};
@@ -236,17 +239,17 @@
     font-size: 48px;
     font-weight: 400;
     line-height: 1.3;
-    text-align: center;
+    letter-spacing: 1.92px;
     text-transform: capitalize;
+    text-align: center;
   }
 
-  /* --- GRID LAYOUT (Desktop & Mobile Side-by-Side) --- */
+  /* --- GRID LAYOUT (DESKTOP) --- */
   #ieo-template--{{ section.id }} .ieo-layout {
     display: grid;
-    /* Desktop: 50% Image | 50% Text */
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: 1fr 1fr; /* 50% Image | 50% Text */
     gap: 40px;
-    align-items: flex-start; /* Align to top so layers drop down nicely */
+    align-items: flex-start;
     position: relative;
   }
 
@@ -254,8 +257,10 @@
   #ieo-template--{{ section.id }} .ieo-visual {
     position: relative;
     width: 100%;
-    /* Min height ensures space for the expanding stack */
+    /* Height must accommodate the total spread of layers */
     min-height: 800px; 
+    max-width: 600px;
+    margin: 0 auto;
   }
 
   #ieo-template--{{ section.id }} .ieo-layer {
@@ -263,30 +268,37 @@
     left: 0; 
     right: 0;
     margin: 0 auto;
-    width: 80%; /* Adjust size of pan */
+    width: 80%;
     max-width: 500px;
     height: auto;
     display: block;
     opacity: 0;
     
-    /* Setup initial position (collapsed) */
-    top: 0;
+    /* Initial State (Collapsed) */
+    top: 50px; 
     transform: translateY(0px) scale(0.95);
     
     transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
     will-change: transform, opacity;
     filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.5));
     
+    /* Staggered Delay */
     transition-delay: calc(var(--i) * 200ms);
   }
 
-  /* Placeholder Style */
+  /* Top Pan Specific Position */
+  #ieo-template--{{ section.id }} .ieo-layer.ieo-pan {
+    top: -50px; 
+    z-index: 1000;
+  }
+
+  /* Placeholder for testing */
   #ieo-template--{{ section.id }} .placeholder-layer {
     height: 60px;
     border-radius: 50%;
   }
 
-  /* Animation Active State */
+  /* Active State (Expanded) */
   #ieo-template--{{ section.id }} .ieo-layer.is-on {
     opacity: 1;
     transform: translateY(var(--off, 0px)) scale(1);
@@ -294,7 +306,7 @@
 
   /* --- TEXT LIST (Right) --- */
   #ieo-template--{{ section.id }} .ieo-right {
-    padding-top: 20px; /* Align first text with first image */
+    padding-top: 50px; /* Align first text with first image gap */
   }
 
   #ieo-template--{{ section.id }} .ieo-list {
@@ -303,7 +315,7 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    /* Gap must match image offset roughly to align */
+    /* Gap must approximate Image Offset (130px) to stay aligned */
     gap: 75px; 
   }
 
@@ -316,6 +328,7 @@
     transition: transform 0.8s ease, opacity 0.8s ease;
     transition-delay: calc(var(--i) * 200ms);
     position: relative;
+    min-height: 55px; /* Ensures text block has substance */
   }
 
   #ieo-template--{{ section.id }} .ieo-li.is-on {
@@ -326,9 +339,13 @@
   #ieo-template--{{ section.id }} .ieo-line {
     background: var(--line-color);
     height: 1px;
-    width: 60px;
+    width: 80px;
     flex-shrink: 0;
     display: block;
+  }
+
+  #ieo-template--{{ section.id }} .ieo-text {
+    flex-grow: 1;
   }
 
   #ieo-template--{{ section.id }} .ieo-li-title {
@@ -353,60 +370,75 @@
     #ieo-template--{{ section.id }} .ieo-inner {
       padding-top: 40px;
       padding-bottom: 40px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
 
     #ieo-template--{{ section.id }} .ieo-title {
       font-size: 28px;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
-    /* Keep side-by-side layout but adjust ratios */
+    /* Keep SIDE BY SIDE layout */
     #ieo-template--{{ section.id }} .ieo-layout {
-      grid-template-columns: 40% 60%; /* Image smaller, Text wider */
+      grid-template-columns: 40% 60%; /* Image Left (40%), Text Right (60%) */
       gap: 10px;
     }
 
     #ieo-template--{{ section.id }} .ieo-visual {
-      min-height: 500px; /* Reduced height for mobile stack */
+      /* Height must accommodate 5-6 layers * 85px gap */
+      min-height: 550px; 
+      margin: 0;
     }
 
     #ieo-template--{{ section.id }} .ieo-layer {
-      width: 100%; /* Use full width of the 40% column */
-      /* Use Mobile Offset Variable */
+      width: 120%; /* Make image slightly wider than its column to look big */
+      left: -10%; /* Center it roughly */
+      top: 0;
+      /* Animation Reset */
       transform: translateY(0px) scale(0.95);
+    }
+    
+    #ieo-template--{{ section.id }} .ieo-layer.ieo-pan {
+      top: -20px;
     }
 
     #ieo-template--{{ section.id }} .ieo-layer.is-on {
-      /* Apply mobile offset */
+      /* Use Mobile Offset */
       transform: translateY(var(--off-m, 0px)) scale(1);
     }
 
     /* Text Adjustments */
     #ieo-template--{{ section.id }} .ieo-right {
-      padding-top: 0; /* Align tightly */
+      padding-top: 0;
     }
 
     #ieo-template--{{ section.id }} .ieo-list {
-      gap: 30px; /* Tighter vertical gap for text */
+      /* Vertical gap must match Image Mobile Offset (85px) minus text height */
+      gap: 40px; 
+      justify-content: flex-start;
+      padding-top: 10px;
     }
 
     #ieo-template--{{ section.id }} .ieo-line {
-      width: 15px; /* Tiny line */
+      width: 15px; /* Small line */
       margin-right: 5px;
     }
     
     #ieo-template--{{ section.id }} .ieo-li {
-      gap: 5px; /* Reduce gap between line and text */
+      gap: 5px;
+      min-height: 45px; /* Consistent height anchor */
     }
 
     #ieo-template--{{ section.id }} .ieo-li-title {
-      font-size: 14px; /* Smaller title */
+      font-size: 14px;
       line-height: 1.2;
     }
 
     #ieo-template--{{ section.id }} .ieo-li-desc {
-      font-size: 12px; /* Smaller desc */
-      margin-top: 4px;
+      font-size: 11px;
+      margin-top: 3px;
+      line-height: 1.3;
     }
   }
 </style>
@@ -416,10 +448,11 @@
     const sec = document.getElementById('ieo-template--{{ section.id }}');
     if (!sec) return;
 
+    // Use Intersection Observer for scroll animation
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.15 
+      threshold: 0.1 // Trigger quickly on mobile
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
