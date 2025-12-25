@@ -682,21 +682,21 @@
           "type": "icon",
           "settings": {
             "icon_image": "shopify://shop_images/Frame_1171274951.png",
-            "icon_width": 26
+            "icon_width": 41
           }
         },
         "icon_qgUFQX": {
           "type": "icon",
           "settings": {
             "icon_image": "shopify://shop_images/Frame_1171274950.png",
-            "icon_width": 26
+            "icon_width": 41
           }
         },
         "icon_AFDN9z": {
           "type": "icon",
           "settings": {
             "icon_image": "shopify://shop_images/Frame_1171274952.png",
-            "icon_width": 26
+            "icon_width": 41
           }
         }
       },
@@ -715,7 +715,7 @@
         "subtext": "Beware of imitators & counterfeit listings using our name on Amazon & other platforms. The only place to get certified Taima® Pure Titanium products is right here, through our official website.",
         "bottom_text": "www.taimatitanium.com",
         "bottom_link": "",
-        "text_color": "#BCA588",
+        "text_color": "#bca588",
         "padding_top": 80,
         "padding_top_m": 64
       }
