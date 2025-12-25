@@ -425,6 +425,68 @@
         "padding_top_m": 64,
         "padding_bottom_m": 64
       }
+    },
+    "walter_rethink_cookware_MyXhDw": {
+      "type": "walter-rethink-cookware",
+      "blocks": {
+        "card_BM4wqE": {
+          "type": "card",
+          "settings": {
+            "title": "Non-Stick / Teflon",
+            "text": "<p>Worst type of pan surface there is. Releases toxic chemicals.</p>",
+            "link_text": "Read More…",
+            "link_url": ""
+          }
+        },
+        "card_3G4ktX": {
+          "type": "card",
+          "settings": {
+            "title": "Stainless Steel",
+            "text": "<p>Worst type of pan surface there is. Releases toxic chemicals.</p>",
+            "link_text": "Read More…",
+            "link_url": ""
+          }
+        },
+        "card_bwBtRY": {
+          "type": "card",
+          "settings": {
+            "title": "Ceramic",
+            "text": "<p>Worst type of pan surface there is. Releases toxic chemicals.</p>",
+            "link_text": "Read More…",
+            "link_url": ""
+          }
+        },
+        "card_VYhHik": {
+          "type": "card",
+          "settings": {
+            "title": "Cast Iron",
+            "text": "<p>Worst type of pan surface there is. Releases toxic chemicals.</p>",
+            "link_text": "Read More…",
+            "link_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_BM4wqE",
+        "card_3G4ktX",
+        "card_bwBtRY",
+        "card_VYhHik"
+      ],
+      "name": "Rethink Cookware",
+      "settings": {
+        "bg_color": "#121212",
+        "heading_color": "#D4C7B4",
+        "subheading_color": "#B0B0B0",
+        "card_text_color": "#B0B0B0",
+        "card_title_color": "#FFFFFF",
+        "border_color": "#333333",
+        "title": "It’s Time To Rethink Your Cookware",
+        "subtitle": "From toxin risks to high maintenance, these outdated pans just don’t measure up to Titanium…",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_m": 64,
+        "padding_bottom_m": 64
+      }
     }
   },
   "order": [
@@ -432,6 +494,7 @@
     "main",
     "related-products",
     "walter_trust_video_xJUVTn",
-    "walter_logo_testimonial_FdQhBX"
+    "walter_logo_testimonial_FdQhBX",
+    "walter_rethink_cookware_MyXhDw"
   ]
 }
