@@ -54,21 +54,41 @@
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 120,
+      "max": 100,
       "step": 2,
       "unit": "px",
-      "label": "Padding Top",
-      "default": 80
+      "label": "Padding Top (Desktop)",
+      "default": 60
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 120,
+      "max": 100,
       "step": 2,
       "unit": "px",
-      "label": "Padding Bottom",
-      "default": 80
+      "label": "Padding Bottom (Desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_m",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_m",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 40
     }
   ],
   "blocks": [
@@ -148,45 +168,43 @@
       <h2 class="ieo-title">{{ section.settings.heading }}</h2>
     {% endif %}
 
-    <div class="ieo-layout">
+    <div class="ieo-wrapper">
       
       <div class="ieo-visual">
-        {% for block in section.blocks %}
-          
-          {% assign i = forloop.index0 %}
-          {% assign z = 100 | minus: i %}
-
-          {% if block.settings.image != blank %}
-            <img 
-              src="{{ block.settings.image | image_url: width: 1000 }}" 
-              class="ieo-layer {% if forloop.first %}ieo-pan{% endif %}" 
-              style="--i: {{ i }}; z-index: {{ z }};"
-              alt="{{ block.settings.title | escape }}"
-              loading="lazy"
-              width="600"
-              height="auto"
-            >
-          {% else %}
-             <div class="ieo-layer placeholder-layer" 
-                  style="--i: {{ i }}; z-index: {{ z }}; background: #4a4a4a;">
-             </div>
-          {% endif %}
-
-        {% endfor %}
+        <div class="ieo-visual-inner">
+          {% for block in section.blocks %}
+            {% assign i = forloop.index0 %}
+            {% assign z = 100 | minus: i %}
+            
+            {% if block.settings.image != blank %}
+              <img 
+                src="{{ block.settings.image | image_url: width: 800 }}" 
+                class="ieo-layer {% if forloop.first %}ieo-pan-top{% endif %}" 
+                style="--i: {{ i }}; z-index: {{ z }};"
+                alt="{{ block.settings.title | escape }}"
+                loading="lazy"
+                width="500"
+                height="auto"
+              >
+            {% else %}
+               <div class="ieo-layer placeholder-layer" 
+                    style="--i: {{ i }}; z-index: {{ z }}; background: #4a4a4a;"></div>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
 
-      <div class="ieo-right">
+      <div class="ieo-content">
         <ul class="ieo-list">
           {% for block in section.blocks %}
-            <li class="ieo-li" style="--i: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
+            <li class="ieo-item" style="--i: {{ forloop.index0 }};">
               <span class="ieo-line"></span>
               <div class="ieo-text">
                 {% if block.settings.title != blank %}
-                  <div class="ieo-li-title">{{ block.settings.title }}</div>
+                  <h3 class="ieo-item-title">{{ block.settings.title }}</h3>
                 {% endif %}
-                
                 {% if block.settings.desc != blank %}
-                  <div class="ieo-li-desc">{{ block.settings.desc }}</div>
+                  <p class="ieo-item-desc">{{ block.settings.desc }}</p>
                 {% endif %}
               </div>
             </li>
@@ -199,21 +217,25 @@
 </section>
 
 <style>
-  /* --- GLOBAL VARIABLES --- */
+  /* --- VARIABLES --- */
   #ieo-template--{{ section.id }} {
     background-color: {{ section.settings.bg_color }};
     --heading-color: {{ section.settings.heading_color }};
     --line-color: {{ section.settings.line_color }};
     --title-color: {{ section.settings.title_color }};
     --desc-color: {{ section.settings.desc_color }};
+    
+    /* Spacing Logic */
+    --step-desktop: 120px; /* Vertical gap between layers on Desktop */
+    --step-mobile: 65px;   /* TIGHT Vertical gap on Mobile */
+    
     --pt: {{ section.settings.padding_top }}px;
     --pb: {{ section.settings.padding_bottom }}px;
-    
-    /* THE MAGIC SPACERS - Change these to adjust spread */
-    --step-d: 130px; /* Desktop Vertical Gap */
-    --step-m: 80px;  /* Mobile Vertical Gap */
+    --pt-m: {{ section.settings.padding_top_m }}px;
+    --pb-m: {{ section.settings.padding_bottom_m }}px;
   }
 
+  /* --- GENERAL LAYOUT --- */
   #ieo-template--{{ section.id }}.ieo {
     color: #fff;
     overflow: hidden;
@@ -221,81 +243,82 @@
   }
 
   #ieo-template--{{ section.id }} .ieo-inner {
-    max-width: 1400px;
+    max-width: 1300px;
     margin: 0 auto;
-    padding: var(--pt) 24px var(--pb) 24px;
+    padding-top: var(--pt);
+    padding-bottom: var(--pb);
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   #ieo-template--{{ section.id }} .ieo-title {
-    margin: 0 0 60px;
+    margin: 0 0 50px;
     font-family: 'Neue Montreal', sans-serif;
     color: var(--heading-color);
-    font-size: 48px;
+    font-size: 42px;
     font-weight: 400;
-    line-height: 1.3;
-    letter-spacing: 1.92px;
-    text-transform: capitalize;
+    line-height: 1.2;
     text-align: center;
+    text-transform: capitalize;
   }
 
-  /* --- LAYOUT GRID --- */
-  #ieo-template--{{ section.id }} .ieo-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Default Desktop Split */
-    gap: 40px;
+  #ieo-template--{{ section.id }} .ieo-wrapper {
+    display: flex;
+    justify-content: center;
     align-items: flex-start;
+    gap: 40px;
     position: relative;
   }
 
-  /* --- IMAGES (VISUAL STACK) --- */
+  /* --- LEFT: IMAGES --- */
   #ieo-template--{{ section.id }} .ieo-visual {
+    width: 45%;
+    position: relative;
+    /* Height calculation: (Number of items * step) + base height */
+    min-height: 750px; 
+  }
+  
+  #ieo-template--{{ section.id }} .ieo-visual-inner {
     position: relative;
     width: 100%;
-    /* Calculated height to ensure container fits all layers */
-    min-height: 800px; 
     display: flex;
-    justify-content: center; /* Center horizontally on desktop */
+    justify-content: center;
   }
 
   #ieo-template--{{ section.id }} .ieo-layer {
     position: absolute;
-    width: 80%;
-    max-width: 500px;
+    width: 90%;
+    max-width: 480px;
     height: auto;
-    display: block;
-    opacity: 0;
-    top: 0;
+    left: 0; right: 0; margin: 0 auto; /* Center horizontally */
     
-    /* Animation Initial State */
-    transform: translateY(0px) scale(0.9);
+    /* Default position */
+    top: 0;
+    opacity: 0;
+    transform: translateY(0) scale(0.95);
+    
     transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
+    filter: drop-shadow(0 15px 20px rgba(0,0,0,0.4));
     will-change: transform, opacity;
-    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.5));
     transition-delay: calc(var(--i) * 150ms);
+  }
+
+  /* Top Pan slightly higher */
+  #ieo-template--{{ section.id }} .ieo-pan-top {
+    top: -40px;
+    z-index: 1000;
   }
 
   /* Active State (Desktop) */
   #ieo-template--{{ section.id }} .ieo-layer.is-on {
     opacity: 1;
-    /* Move down based on index * desktop step */
-    transform: translateY(calc(var(--i) * var(--step-d))) scale(1);
+    transform: translateY(calc(var(--i) * var(--step-desktop))) scale(1);
   }
 
-  /* Special handling for top pan */
-  #ieo-template--{{ section.id }} .ieo-pan {
-    top: -40px; /* Slight offset up */
-  }
-
-  /* Placeholder for empty blocks */
-  #ieo-template--{{ section.id }} .placeholder-layer {
-    height: 60px;
-    border-radius: 50%;
-  }
-
-  /* --- TEXT LIST --- */
-  #ieo-template--{{ section.id }} .ieo-right {
-    position: relative;
-    padding-top: 20px; /* Initial offset to align 1st text with 1st image */
+  /* --- RIGHT: TEXT --- */
+  #ieo-template--{{ section.id }} .ieo-content {
+    width: 50%;
+    padding-top: 10px; /* Align first text with first image */
   }
 
   #ieo-template--{{ section.id }} .ieo-list {
@@ -304,11 +327,11 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    /* Use the SAME variable as image offset to guarantee alignment */
-    gap: var(--step-d); 
+    /* Gap matches image step */
+    gap: var(--step-desktop);
   }
 
-  #ieo-template--{{ section.id }} .ieo-li {
+  #ieo-template--{{ section.id }} .ieo-item {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -317,115 +340,106 @@
     transition: transform 0.8s ease, opacity 0.8s ease;
     transition-delay: calc(var(--i) * 150ms);
     position: relative;
-    height: 0; /* Important: Removes natural height, lets GAP define spacing */
-    min-height: 0;
-    overflow: visible; /* Allows text to show */
   }
 
-  #ieo-template--{{ section.id }} .ieo-li.is-on {
+  #ieo-template--{{ section.id }} .ieo-item.is-on {
     opacity: 1;
     transform: translateX(0);
   }
 
   #ieo-template--{{ section.id }} .ieo-line {
-    background: var(--line-color);
+    width: 60px;
     height: 1px;
-    width: 80px;
+    background: var(--line-color);
     flex-shrink: 0;
-    display: block;
   }
 
-  #ieo-template--{{ section.id }} .ieo-text {
-    /* Since parent height is 0, we position absolute or let it flow relative */
-    position: relative;
-    top: -1em; /* Adjust vertical centering */
-  }
-
-  #ieo-template--{{ section.id }} .ieo-li-title {
+  #ieo-template--{{ section.id }} .ieo-item-title {
     font-family: 'Neue Montreal', sans-serif;
     color: var(--title-color);
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 500;
+    margin: 0 0 5px;
     line-height: 1.3;
-    text-transform: capitalize;
-    white-space: nowrap; /* Prevent wrapping if possible on desktop */
   }
 
-  #ieo-template--{{ section.id }} .ieo-li-desc {
-    margin-top: 6px;
+  #ieo-template--{{ section.id }} .ieo-item-desc {
     font-family: 'Neue Montreal', sans-serif;
     color: var(--desc-color);
     font-size: 16px;
+    margin: 0;
     line-height: 1.4;
   }
 
-  /* =========================================
-     MOBILE STYLES (THE FIX)
-     ========================================= */
+  /* --- MOBILE RESPONSIVENESS (THE FIX) --- */
   @media (max-width: 900px) {
     #ieo-template--{{ section.id }} .ieo-inner {
-      padding: 40px 16px;
+      padding-top: var(--pt-m);
+      padding-bottom: var(--pb-m);
+      padding-left: 10px;
+      padding-right: 10px;
     }
 
     #ieo-template--{{ section.id }} .ieo-title {
-      font-size: 28px;
-      margin-bottom: 40px;
+      font-size: 26px;
+      margin-bottom: 30px;
     }
 
-    /* FORCE SIDE BY SIDE LAYOUT */
-    #ieo-template--{{ section.id }} .ieo-layout {
-      grid-template-columns: 45% 55%; /* Fixed ratio: Images Left, Text Right */
+    /* Keep side-by-side layout */
+    #ieo-template--{{ section.id }} .ieo-wrapper {
       gap: 10px;
       align-items: flex-start;
     }
 
-    /* Image Column */
+    /* 1. Image Column: Narrower to fit text */
     #ieo-template--{{ section.id }} .ieo-visual {
-      min-height: 550px; /* Space for stack */
-      justify-content: flex-end; /* Push images towards text */
-      margin-right: -20px; /* Slight overlap visually */
+      width: 38%; /* Fixed width */
+      min-height: 480px; /* Reduced height */
     }
 
     #ieo-template--{{ section.id }} .ieo-layer {
-      width: 130%; /* Make image larger than its container column */
-      max-width: none;
-      right: -20%; /* Shift right */
+      width: 140%; /* Image overflows slightly to look bigger */
+      right: -20%; /* Push right towards text */
       left: auto;
+      max-width: none;
     }
 
-    /* Mobile Animation State */
+    /* Mobile Animation Step */
     #ieo-template--{{ section.id }} .ieo-layer.is-on {
-      /* Use Mobile Step Variable */
-      transform: translateY(calc(var(--i) * var(--step-m))) scale(1);
+      transform: translateY(calc(var(--i) * var(--step-mobile))) scale(1);
+    }
+    
+    #ieo-template--{{ section.id }} .ieo-pan-top {
+      top: -15px; /* Less offset on mobile */
     }
 
-    /* Text Column */
-    #ieo-template--{{ section.id }} .ieo-right {
-      padding-top: 25px; /* Align first text with first image */
+    /* 2. Text Column: Wider */
+    #ieo-template--{{ section.id }} .ieo-content {
+      width: 62%;
+      padding-top: 15px; /* Align text with image center */
     }
 
     #ieo-template--{{ section.id }} .ieo-list {
-      /* Update Gap to match Mobile Step */
-      gap: var(--step-m); 
+      gap: var(--step-mobile); /* Tighter gap */
     }
 
-    #ieo-template--{{ section.id }} .ieo-li {
-      gap: 8px;
+    #ieo-template--{{ section.id }} .ieo-item {
+      gap: 8px; /* Closer line to text */
     }
 
     #ieo-template--{{ section.id }} .ieo-line {
-      width: 20px; /* Shorter line */
+      width: 15px; /* Short line */
     }
 
-    #ieo-template--{{ section.id }} .ieo-li-title {
+    #ieo-template--{{ section.id }} .ieo-item-title {
       font-size: 14px;
       line-height: 1.2;
-      white-space: normal; /* Allow wrapping on mobile */
     }
 
-    #ieo-template--{{ section.id }} .ieo-li-desc {
-      font-size: 12px;
-      margin-top: 4px;
+    #ieo-template--{{ section.id }} .ieo-item-desc {
+      font-size: 11px;
+      line-height: 1.3;
+      margin-top: 2px;
     }
   }
 </style>
@@ -445,7 +459,7 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const layers = sec.querySelectorAll('.ieo-layer');
-          const listItems = sec.querySelectorAll('.ieo-li');
+          const listItems = sec.querySelectorAll('.ieo-item');
 
           layers.forEach(el => el.classList.add('is-on'));
           listItems.forEach(el => el.classList.add('is-on'));
