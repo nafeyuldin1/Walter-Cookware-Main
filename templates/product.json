@@ -303,11 +303,80 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "walter_trust_video_xJUVTn": {
+      "type": "walter-trust-video",
+      "blocks": {
+        "slide_9kQBcy": {
+          "type": "slide",
+          "settings": {
+            "video_file": "shopify://files/videos/13f4001c05324e8fad5f7a9832c77292.HD-1080p-2.5Mbps-59268184.mp4",
+            "mp4_url": "",
+            "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
+          }
+        },
+        "slide_jFzY9a": {
+          "type": "slide",
+          "settings": {
+            "video_file": "shopify://files/videos/cc0291fb0ddc42efada2c6c9bdd1a076 (1).mp4",
+            "mp4_url": "",
+            "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
+          }
+        },
+        "slide_ndUw9b": {
+          "type": "slide",
+          "settings": {
+            "video_file": "shopify://files/videos/f2f0c55c1daf44db954385797d4982e7.mp4",
+            "mp4_url": "",
+            "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
+          }
+        },
+        "slide_yM9TtG": {
+          "type": "slide",
+          "settings": {
+            "video_file": "shopify://files/videos/8e2159a908484937a0d93ad879f2eb92.mp4",
+            "mp4_url": "",
+            "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
+          }
+        },
+        "slide_kfgtba": {
+          "type": "slide",
+          "settings": {
+            "video_file": "shopify://files/videos/2294eb1f6ff84074a955b6777905505b (1).mp4",
+            "mp4_url": "",
+            "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
+          }
+        }
+      },
+      "block_order": [
+        "slide_9kQBcy",
+        "slide_jFzY9a",
+        "slide_ndUw9b",
+        "slide_yM9TtG",
+        "slide_kfgtba"
+      ],
+      "name": "Trusted Video Slider",
+      "settings": {
+        "heading_text_before": "Trusted By",
+        "heading_highlight": "500,000+",
+        "heading_text_after": "People Worldwide",
+        "heading_size": 48,
+        "heading_size_mobile": 32,
+        "bg_color": "#121212",
+        "heading_color": "#ffffff",
+        "highlight_color": "#BCA588",
+        "quote_color": "#E9E2D8",
+        "star_color": "#B57C46",
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "slides_to_show": 7
+      }
     }
   },
   "order": [
     "walter_product_Y7bNYJ",
     "main",
-    "related-products"
+    "related-products",
+    "walter_trust_video_xJUVTn"
   ]
 }
