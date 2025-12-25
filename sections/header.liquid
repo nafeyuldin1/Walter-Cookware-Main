@@ -28,23 +28,28 @@
   
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
-  /* --- DYNAMIC HEADER COLORS --- */
+  /* --- DYNAMIC HEADER COLORS & BLUR --- */
   .header-wrapper {
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
+      /* Blur logic for initial state if enabled */
+      {% if section.settings.enable_sticky_blur %}
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      {% endif %}
   }
 
   .header-wrapper--border-bottom {
       border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
   }
 
-  /* Sticky Header State */
+  /* Sticky Header specific styles */
   .shopify-section-header-sticky .header-wrapper {
+      /* Ensure sticky header always has background unless scheme is transparent */
       {% if section.settings.enable_sticky_blur %}
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        /* Opacity handled by color scheme class usually, but we force background if needed */
       {% endif %}
   }
 
@@ -133,14 +138,12 @@
   endif
 
   # --- CRITICAL COLOR LOGIC ---
-  # 1. Define schemes from settings
+  # Define schemes directly from settings
   assign default_scheme = section.settings.color_scheme
   assign home_scheme = section.settings.color_scheme_home
   assign sticky_scheme = section.settings.color_scheme_sticky
   
-  # 2. Determine initial scheme based on Page Type
-  # If Homepage -> Use Home Scheme
-  # If Any Other Page -> Use Default Scheme
+  # Set initial scheme based on Page Type
   if request.page_type == 'index'
     assign active_scheme = home_scheme
   else
@@ -341,10 +344,10 @@
       this.wrapper = this.querySelector('.header-wrapper');
       this.headerIsAlwaysSticky = this.getAttribute('data-sticky-type') === 'always' || this.getAttribute('data-sticky-type') === 'reduce-logo-size';
       
-      // Get schemes from data attributes
-      this.homeScheme = this.getAttribute('data-home-scheme');
-      this.defaultScheme = this.getAttribute('data-default-scheme');
-      this.stickyScheme = this.getAttribute('data-sticky-scheme');
+      // Data attributes contain full class names e.g. "color-scheme-1"
+      this.homeSchemeClass = this.getAttribute('data-home-scheme');
+      this.defaultSchemeClass = this.getAttribute('data-default-scheme');
+      this.stickySchemeClass = this.getAttribute('data-sticky-scheme');
       this.pageType = this.getAttribute('data-page-type');
 
       this.headerBounds = {};
@@ -393,7 +396,7 @@
       } else if (scrollTop <= this.headerBounds.top) {
         // AT TOP (Reset)
         this.header.classList.remove('scrolled-past-header');
-        this.switchColor(false);
+        this.switchColor(false); // Pass false to revert to page default
         if (this.headerIsAlwaysSticky) return;
         this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
       }
@@ -403,20 +406,22 @@
     switchColor(isSticky) {
        if(!this.wrapper) return;
        
-       // Remove all potential schemes to avoid conflicts
-       this.wrapper.classList.remove(this.homeScheme);
-       this.wrapper.classList.remove(this.defaultScheme);
-       this.wrapper.classList.remove(this.stickyScheme);
+       // 1. Clean up ALL potential classes to avoid mixing
+       this.wrapper.classList.remove(this.homeSchemeClass);
+       this.wrapper.classList.remove(this.defaultSchemeClass);
+       this.wrapper.classList.remove(this.stickySchemeClass);
        
        if(isSticky) {
-          // Apply Sticky Color
-          this.wrapper.classList.add(this.stickyScheme);
+          // Case 1: Header is Sticky (Scrolled) -> ALWAYS use Sticky Scheme
+          this.wrapper.classList.add(this.stickySchemeClass);
        } else {
-          // Revert to original based on Page Type
+          // Case 2: Header is at Top (Not Sticky)
           if(this.pageType === 'index'){
-             this.wrapper.classList.add(this.homeScheme);
+             // Homepage Top -> Home Scheme (Transparent)
+             this.wrapper.classList.add(this.homeSchemeClass);
           } else {
-             this.wrapper.classList.add(this.defaultScheme);
+             // Other Page Top -> Default Scheme
+             this.wrapper.classList.add(this.defaultSchemeClass);
           }
        }
     }
