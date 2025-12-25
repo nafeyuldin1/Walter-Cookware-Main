@@ -123,10 +123,10 @@
           "id": "icon_width",
           "min": 20,
           "max": 100,
-          "step": 2,
+          "step": 1,
           "unit": "px",
           "label": "Icon Width",
-          "default": 40
+          "default": 55
         }
       ]
     }
@@ -157,11 +157,13 @@
         <div class="not-available-img_wrapper">
           {% for block in section.blocks %}
             {% if block.settings.icon_image != blank %}
-              {{ block.settings.icon_image | image_url: width: 100 | image_tag: 
-                loading: 'lazy', 
-                alt: 'feature icon',
-                style: 'width: ' | append: block.settings.icon_width | append: 'px;'
-              }}
+              <img 
+                src="{{ block.settings.icon_image | image_url: width: 300 }}" 
+                alt="{{ block.settings.icon_image.alt | default: 'Icon' }}"
+                loading="lazy"
+                class="na-icon-img"
+                style="width: {{ block.settings.icon_width }}px; height: auto;"
+              >
             {% else %}
                {{ 'image' | placeholder_svg_tag: 'placeholder-svg-icon' }}
             {% endif %}
@@ -221,8 +223,6 @@
     {% endif %}
     linear-gradient(0deg, rgb(18, 18, 18), rgb(18, 18, 18)), 
     linear-gradient(rgb(18, 18, 18) 0%, rgba(18, 18, 18, 0) 100%);
-    
-  background-blend-mode: normal, overlay, normal; /* Ensures gradients blend if needed, usually just layering works */
 }
 
 /* Icons Wrapper */
@@ -231,12 +231,16 @@
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
-#section-{{ section.id }} .not-available-img_wrapper img {
-  height: auto;
+/* Specific Icon Style Fix */
+#section-{{ section.id }} .na-icon-img {
+  display: block;
   object-fit: contain;
+  max-width: none !important; /* Prevents theme CSS from forcing 100% width */
 }
+
 #section-{{ section.id }} .placeholder-svg-icon {
   width: 40px; height: 40px; background: #333; opacity: 0.5;
 }
