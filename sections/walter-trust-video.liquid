@@ -1,6 +1,6 @@
 {% comment %}
   Section: Trusted Slider
-  Description: A video testimonial slider with dynamic settings.
+  Description: A video testimonial slider with dynamic settings (Native Video Upload Supported).
 {% endcomment %}
 
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
@@ -53,7 +53,7 @@
     right: 0;
     border-radius: 0 0 24px 24px;
     padding: 16px;
-    pointer-events: none; /* Let clicks pass through to video if needed */
+    pointer-events: none;
   }
 
   /* Media Wrapper */
@@ -183,7 +183,7 @@
 
 <div class="trusted-slider-section trusted-slider-section-wrapper">
   
-  {% if section.settings.heading_text != blank %}
+  {% if section.settings.heading_text_before != blank %}
   <h3 class="trusted-slider-header">
     {{ section.settings.heading_text_before }}
     <span class="highlight">{{ section.settings.heading_highlight }}</span>
@@ -195,8 +195,20 @@
     {% for block in section.blocks %}
       <div class="trusted-slide" {{ block.shopify_attributes }}>
         
+        {% comment %}
+          LOGIC: Prioritize Native Video Upload > YouTube > Manual URL
+        {% endcomment %}
         {% assign video_source = "" %}
-        {% if block.settings.video_url.type == 'youtube' %}
+        
+        {% if block.settings.video_file != blank %}
+          {% comment %} Extract the MP4 URL from Shopify Video Object {% endcomment %}
+          {% for source in block.settings.video_file.sources %}
+            {% if source.format == 'mp4' %}
+              {% assign video_source = source.url %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+        {% elsif block.settings.video_url.type == 'youtube' %}
           {% assign video_source = block.settings.video_url %}
         {% elsif block.settings.mp4_url != blank %}
           {% assign video_source = block.settings.mp4_url %}
@@ -206,13 +218,19 @@
              data-video="{{ video_source }}" 
              data-prepared="false">
           
-          {% if block.settings.thumbnail != blank %}
+          {% assign thumb_img = block.settings.thumbnail %}
+          {% if thumb_img == blank and block.settings.video_file != blank %}
+             {% comment %} Fallback to video preview image if uploaded {% endcomment %}
+             {% assign thumb_img = block.settings.video_file.preview_image %}
+          {% endif %}
+
+          {% if thumb_img != blank %}
             <img class="video-thumbnail" 
-                 src="{{ block.settings.thumbnail | image_url: width: 600 }}" 
+                 src="{{ thumb_img | image_url: width: 600 }}" 
                  alt="{{ block.settings.quote | escape }}" 
                  loading="lazy">
           {% else %}
-             <div class="video-thumbnail" style="background:#333; display:flex; align-items:center; justify-content:center; color:#555;">No Thumb</div>
+             <div class="video-thumbnail" style="background:#222; display:flex; align-items:center; justify-content:center; color:#555;"></div>
           {% endif %}
 
           <div class="play-icon" aria-hidden="true">
@@ -222,10 +240,10 @@
           <div class="video-loader"></div>
           
           {% unless block.settings.video_url.type == 'youtube' %}
-             {% if block.settings.mp4_url != blank %}
+             {% if video_source != blank %}
                 <div class="prebuffer">
                   <video class="trusted-html5" preload="metadata" playsinline muted>
-                    <source src="{{ block.settings.mp4_url }}" type="video/mp4">
+                    <source src="{{ video_source }}" type="video/mp4">
                   </video>
                 </div>
              {% endif %}
@@ -358,9 +376,6 @@ document.addEventListener("DOMContentLoaded", function () {
       container.dataset.prepared = "true";
       return;
     }
-
-    // HTML5 metadata preload
-    // Note: In liquid loop we already added the prebuffer div if it was MP4, but checking here just in case dynamic injection is needed
     container.dataset.prepared = "true";
   }
 
@@ -404,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return v;
   }
 
-  // Observer for Lazy Loading
+  // Observer
   const containers = Array.from(document.querySelectorAll(sectionId + " .video-container"));
   const ioPrep = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -611,23 +626,30 @@ document.addEventListener("DOMContentLoaded", function () {
         {
           "type": "image_picker",
           "id": "thumbnail",
-          "label": "Video Thumbnail"
+          "label": "Video Thumbnail",
+          "info": "Leave blank to use video preview image if uploaded"
         },
         {
           "type": "header",
           "content": "Video Source (Choose One)"
         },
         {
-          "type": "text",
-          "id": "mp4_url",
-          "label": "MP4 Video URL (Recommended)",
-          "info": "Upload video to Shopify Files and paste URL here. e.g. https://cdn.shopify.com/..."
+          "type": "video",
+          "id": "video_file",
+          "label": "Shopify Hosted Video",
+          "info": "Upload video directly here (Recommended)"
         },
         {
           "type": "video_url",
           "id": "video_url",
           "label": "OR YouTube Link",
           "accept": ["youtube"]
+        },
+        {
+          "type": "text",
+          "id": "mp4_url",
+          "label": "OR Manual MP4 URL",
+          "info": "Fallback if you have an external link"
         },
         {
           "type": "textarea",
