@@ -86,8 +86,8 @@
         "mobile_footer_link_KKbbEh": {
           "type": "mobile_footer_link",
           "settings": {
-            "title": "sdfsdf",
-            "url": "#"
+            "title": "About us",
+            "url": "shopify://pages/about-us"
           }
         },
         "mobile_footer_link_BRbTkU": {
