@@ -362,37 +362,65 @@
         "slide_JCmJCp": {
           "type": "slide",
           "settings": {
+            "video_file": "shopify://files/videos/13f4001c05324e8fad5f7a9832c77292.HD-1080p-2.5Mbps-59268184.mp4",
+            "video_url": "",
             "mp4_url": "",
-            "quote": "This product is amazing!"
+            "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
           }
         },
-        "slide_tFgUXW": {
+        "slide_VKBdxH": {
           "type": "slide",
           "settings": {
+            "video_file": "shopify://files/videos/13f4001c05324e8fad5f7a9832c77292.HD-1080p-2.5Mbps-59268184.mp4",
+            "video_url": "",
             "mp4_url": "",
-            "quote": "This product is amazing!"
+            "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
           }
         },
-        "slide_VXqdaE": {
+        "slide_YCtPRh": {
           "type": "slide",
           "settings": {
+            "video_file": "shopify://files/videos/13f4001c05324e8fad5f7a9832c77292.HD-1080p-2.5Mbps-59268184.mp4",
+            "video_url": "",
             "mp4_url": "",
-            "quote": "This product is amazing!"
+            "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
           }
         },
-        "slide_fjc4n9": {
+        "slide_nJznbW": {
           "type": "slide",
           "settings": {
+            "video_file": "shopify://files/videos/13f4001c05324e8fad5f7a9832c77292.HD-1080p-2.5Mbps-59268184.mp4",
+            "video_url": "",
             "mp4_url": "",
-            "quote": "This product is amazing!"
+            "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
+          }
+        },
+        "slide_iH7adr": {
+          "type": "slide",
+          "settings": {
+            "video_file": "shopify://files/videos/13f4001c05324e8fad5f7a9832c77292.HD-1080p-2.5Mbps-59268184.mp4",
+            "video_url": "",
+            "mp4_url": "",
+            "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
+          }
+        },
+        "slide_DwQpAH": {
+          "type": "slide",
+          "settings": {
+            "video_file": "shopify://files/videos/13f4001c05324e8fad5f7a9832c77292.HD-1080p-2.5Mbps-59268184.mp4",
+            "video_url": "",
+            "mp4_url": "",
+            "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
           }
         }
       },
       "block_order": [
         "slide_JCmJCp",
-        "slide_tFgUXW",
-        "slide_VXqdaE",
-        "slide_fjc4n9"
+        "slide_VKBdxH",
+        "slide_YCtPRh",
+        "slide_nJznbW",
+        "slide_iH7adr",
+        "slide_DwQpAH"
       ],
       "name": "Trusted Video Slider",
       "settings": {
@@ -403,9 +431,9 @@
         "heading_size_mobile": 32,
         "bg_color": "#121212",
         "heading_color": "#ffffff",
-        "highlight_color": "#BCA588",
-        "quote_color": "#E9E2D8",
-        "star_color": "#B57C46",
+        "highlight_color": "#bca588",
+        "quote_color": "#e9e2d8",
+        "star_color": "#b57c46",
         "padding_top": 120,
         "padding_bottom": 120,
         "slides_to_show": 7
