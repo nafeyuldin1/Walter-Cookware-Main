@@ -83,6 +83,18 @@
     "header": {
       "type": "header",
       "blocks": {
+        "mega_tab_bemFeC": {
+          "type": "mega_tab",
+          "settings": {
+            "tab_label": "Best Sellers",
+            "collection": "bundles",
+            "sidebar_title": "Best Sellers",
+            "btn_label": "Shop All",
+            "btn_link": "",
+            "review_text": "",
+            "reviewer_name": ""
+          }
+        },
         "bottom_menu_ceX3gY": {
           "type": "bottom_menu",
           "settings": {
@@ -93,6 +105,7 @@
         }
       },
       "block_order": [
+        "mega_tab_bemFeC",
         "bottom_menu_ceX3gY"
       ],
       "settings": {
