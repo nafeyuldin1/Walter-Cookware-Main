@@ -719,6 +719,69 @@
         "padding_top": 80,
         "padding_top_m": 64
       }
+    },
+    "walter_engineered_layers_TWrRby": {
+      "type": "walter-engineered-layers",
+      "blocks": {
+        "layer_yDq3ct": {
+          "type": "layer",
+          "settings": {
+            "image": "shopify://shop_images/pan_first_with_shadow-min.webp",
+            "title": "Pure Titanium With SlipScale Technology",
+            "desc": "Non-toxic. Non-stick."
+          }
+        },
+        "layer_3g4pcF": {
+          "type": "layer",
+          "settings": {
+            "image": "shopify://shop_images/pan_MID_with_shadow-min.webp",
+            "title": "Third Recycled Aluminum Core",
+            "desc": "Pushes heat out evenly to all edges"
+          }
+        },
+        "layer_yUg9LH": {
+          "type": "layer",
+          "settings": {
+            "image": "shopify://shop_images/pan_MID_with_shadow-min_1.webp",
+            "title": "Second Recycled Aluminum Core",
+            "desc": "Stabilizes internal heat"
+          }
+        },
+        "layer_6PqkXa": {
+          "type": "layer",
+          "settings": {
+            "image": "shopify://shop_images/pan_MID_with_shadow-min_2.webp",
+            "title": "First Recycled Aluminum Core",
+            "desc": "Pulls heat in fast"
+          }
+        },
+        "layer_LF3hE3": {
+          "type": "layer",
+          "settings": {
+            "image": "shopify://shop_images/pan_LAST_with_shadow-min.webp",
+            "title": "Induction-Ready Stainless Steel",
+            "desc": "Adds durability & magnetic conductivity"
+          }
+        }
+      },
+      "block_order": [
+        "layer_yDq3ct",
+        "layer_3g4pcF",
+        "layer_yUg9LH",
+        "layer_6PqkXa",
+        "layer_LF3hE3"
+      ],
+      "name": "Engineered Layers",
+      "settings": {
+        "bg_color": "#07231b",
+        "heading_color": "#BCA588",
+        "line_color": "#A3835F",
+        "title_color": "#FFFFFF",
+        "desc_color": "#B0B0B0",
+        "heading": "Engineered From The Inside Out",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
@@ -730,6 +793,7 @@
     "walter_rethink_cookware_MyXhDw",
     "walter_benefits_EAnCxx",
     "scroll_text_with_image_8XhRp4",
-    "walter_not_available_L7GyMg"
+    "walter_not_available_L7GyMg",
+    "walter_engineered_layers_TWrRby"
   ]
 }
