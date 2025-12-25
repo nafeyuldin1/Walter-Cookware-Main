@@ -93,15 +93,50 @@
         "mobile_footer_link_BRbTkU": {
           "type": "mobile_footer_link",
           "settings": {
-            "title": "sdfsdf",
-            "url": "#"
+            "title": "Contact",
+            "url": "shopify://pages/contact"
           }
         },
         "mobile_footer_link_cpHVYt": {
           "type": "mobile_footer_link",
           "settings": {
-            "title": "sdfsdf",
-            "url": "#"
+            "title": "FAQ",
+            "url": "shopify://pages/faq"
+          }
+        },
+        "mobile_footer_link_PGWK3g": {
+          "type": "mobile_footer_link",
+          "settings": {
+            "title": "Materials",
+            "url": "shopify://pages/materials"
+          }
+        },
+        "mobile_footer_link_8NLJqt": {
+          "type": "mobile_footer_link",
+          "settings": {
+            "title": "Our Production",
+            "url": "shopify://pages/our-production"
+          }
+        },
+        "mobile_footer_link_ayVN4j": {
+          "type": "mobile_footer_link",
+          "settings": {
+            "title": "Privacy Policy",
+            "url": "shopify://pages/privacy-policy"
+          }
+        },
+        "mobile_footer_link_3WDwwQ": {
+          "type": "mobile_footer_link",
+          "settings": {
+            "title": "Refund Policy",
+            "url": "shopify://pages/refund-policy"
+          }
+        },
+        "mobile_footer_link_iwjcQn": {
+          "type": "mobile_footer_link",
+          "settings": {
+            "title": "Terms of Service",
+            "url": "shopify://pages/terms-of-service"
           }
         },
         "mobile_category_LHJYcp": {
@@ -260,6 +295,11 @@
         "mobile_footer_link_KKbbEh",
         "mobile_footer_link_BRbTkU",
         "mobile_footer_link_cpHVYt",
+        "mobile_footer_link_PGWK3g",
+        "mobile_footer_link_8NLJqt",
+        "mobile_footer_link_ayVN4j",
+        "mobile_footer_link_3WDwwQ",
+        "mobile_footer_link_iwjcQn",
         "mobile_category_LHJYcp",
         "mobile_category_iDb9xX",
         "mobile_category_AYT3xq",
