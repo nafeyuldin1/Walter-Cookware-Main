@@ -83,6 +83,27 @@
     "header": {
       "type": "header",
       "blocks": {
+        "mobile_icon_Y49txw": {
+          "type": "mobile_icon",
+          "settings": {
+            "title": "",
+            "link": ""
+          }
+        },
+        "mobile_footer_TPiXPQ": {
+          "type": "mobile_footer",
+          "settings": {
+            "footer_menu": "help"
+          }
+        },
+        "mobile_icon_mhz36n": {
+          "type": "mobile_icon",
+          "settings": {
+            "icon": "shopify://shop_images/WhatsApp_Image_2025-10-21_at_12.00.29_1_3f9f3ff1-efce-4f60-be56-f3181aa95551.jpg",
+            "title": "",
+            "link": ""
+          }
+        },
         "mega_tab_bemFeC": {
           "type": "mega_tab",
           "settings": {
@@ -97,6 +118,7 @@
         },
         "bottom_menu_ceX3gY": {
           "type": "bottom_menu",
+          "disabled": true,
           "settings": {
             "bottom_nav": "main-menu-1",
             "color_scheme": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
@@ -105,6 +127,9 @@
         }
       },
       "block_order": [
+        "mobile_icon_Y49txw",
+        "mobile_footer_TPiXPQ",
+        "mobile_icon_mhz36n",
         "mega_tab_bemFeC",
         "bottom_menu_ceX3gY"
       ],
