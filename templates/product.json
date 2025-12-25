@@ -311,6 +311,7 @@
           "type": "slide",
           "settings": {
             "video_file": "shopify://files/videos/13f4001c05324e8fad5f7a9832c77292.HD-1080p-2.5Mbps-59268184.mp4",
+            "video_url": "",
             "mp4_url": "",
             "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
           }
@@ -319,6 +320,7 @@
           "type": "slide",
           "settings": {
             "video_file": "shopify://files/videos/cc0291fb0ddc42efada2c6c9bdd1a076 (1).mp4",
+            "video_url": "",
             "mp4_url": "",
             "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
           }
@@ -327,6 +329,7 @@
           "type": "slide",
           "settings": {
             "video_file": "shopify://files/videos/f2f0c55c1daf44db954385797d4982e7.mp4",
+            "video_url": "",
             "mp4_url": "",
             "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
           }
@@ -335,6 +338,7 @@
           "type": "slide",
           "settings": {
             "video_file": "shopify://files/videos/8e2159a908484937a0d93ad879f2eb92.mp4",
+            "video_url": "",
             "mp4_url": "",
             "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
           }
@@ -343,6 +347,7 @@
           "type": "slide",
           "settings": {
             "video_file": "shopify://files/videos/2294eb1f6ff84074a955b6777905505b (1).mp4",
+            "video_url": "",
             "mp4_url": "",
             "quote": "\"Nonstick without chemicals or coatings, this is revolutionary\""
           }
@@ -364,12 +369,55 @@
         "heading_size_mobile": 32,
         "bg_color": "#121212",
         "heading_color": "#ffffff",
-        "highlight_color": "#BCA588",
-        "quote_color": "#E9E2D8",
-        "star_color": "#B57C46",
+        "highlight_color": "#bca588",
+        "quote_color": "#e9e2d8",
+        "star_color": "#b57c46",
         "padding_top": 120,
         "padding_bottom": 120,
         "slides_to_show": 7
+      }
+    },
+    "walter_logo_testimonial_FdQhBX": {
+      "type": "walter-logo-testimonial",
+      "blocks": {
+        "logo_quote_hbge4D": {
+          "type": "logo_quote",
+          "settings": {
+            "logo_width": 120,
+            "logo_width_mobile": 80,
+            "quote": "This product changed my life."
+          }
+        },
+        "logo_quote_aPiCa9": {
+          "type": "logo_quote",
+          "settings": {
+            "logo_width": 120,
+            "logo_width_mobile": 80,
+            "quote": "This product changed my life."
+          }
+        },
+        "logo_quote_aArUKP": {
+          "type": "logo_quote",
+          "settings": {
+            "logo_width": 120,
+            "logo_width_mobile": 80,
+            "quote": "This product changed my life."
+          }
+        }
+      },
+      "block_order": [
+        "logo_quote_hbge4D",
+        "logo_quote_aPiCa9",
+        "logo_quote_aArUKP"
+      ],
+      "name": "Logo Testimonials",
+      "settings": {
+        "bg_color": "#03231A",
+        "text_color": "#ded2bc",
+        "quote_size": 32,
+        "quote_size_mobile": 20,
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     }
   },
@@ -377,6 +425,7 @@
     "walter_product_Y7bNYJ",
     "main",
     "related-products",
-    "walter_trust_video_xJUVTn"
+    "walter_trust_video_xJUVTn",
+    "walter_logo_testimonial_FdQhBX"
   ]
 }
