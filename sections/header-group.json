@@ -133,6 +133,71 @@
             "review_text": "Taima’s Cookware is a true kitchen workhorse. You get deep sear, caramelization & flawless food release consistently, without the chemicals.",
             "reviewer_name": ""
           }
+        },
+        "mega_tab_bmCwj8": {
+          "type": "mega_tab",
+          "settings": {
+            "tab_label": "Bundle & Save",
+            "color_scheme": "scheme-4",
+            "collection": "bundles",
+            "sidebar_title": "Bundle & Save",
+            "btn_link": "shopify://collections/all",
+            "btn_label": "Shop All",
+            "review_text": "Taima’s Cookware is a true kitchen workhorse. You get deep sear, caramelization & flawless food release consistently, without the chemicals.",
+            "reviewer_name": ""
+          }
+        },
+        "mega_tab_7U4weG": {
+          "type": "mega_tab",
+          "settings": {
+            "tab_label": "Titanium Cookware",
+            "color_scheme": "scheme-4",
+            "collection": "bundles",
+            "sidebar_title": "Titanium Cookware",
+            "btn_link": "shopify://collections/all",
+            "btn_label": "Shop All",
+            "review_text": "Taima’s Cookware is a true kitchen workhorse. You get deep sear, caramelization & flawless food release consistently, without the chemicals.",
+            "reviewer_name": ""
+          }
+        },
+        "mega_tab_i8cPBH": {
+          "type": "mega_tab",
+          "settings": {
+            "tab_label": "Titanium Cutting Boards",
+            "color_scheme": "scheme-4",
+            "collection": "bundles",
+            "sidebar_title": "Titanium Cutting Boards",
+            "btn_link": "shopify://collections/all",
+            "btn_label": "Shop All",
+            "review_text": "Taima’s Cookware is a true kitchen workhorse. You get deep sear, caramelization & flawless food release consistently, without the chemicals.",
+            "reviewer_name": ""
+          }
+        },
+        "mega_tab_pDTfkR": {
+          "type": "mega_tab",
+          "settings": {
+            "tab_label": "Titanium Utensils",
+            "color_scheme": "scheme-4",
+            "collection": "bundles",
+            "sidebar_title": "Titanium Utensils",
+            "btn_link": "shopify://collections/all",
+            "btn_label": "Shop All",
+            "review_text": "Taima’s Cookware is a true kitchen workhorse. You get deep sear, caramelization & flawless food release consistently, without the chemicals.",
+            "reviewer_name": ""
+          }
+        },
+        "mega_tab_NFTEHM": {
+          "type": "mega_tab",
+          "settings": {
+            "tab_label": "Titanium Drinkware",
+            "color_scheme": "scheme-4",
+            "collection": "bundles",
+            "sidebar_title": "Titanium Utensils",
+            "btn_link": "shopify://collections/all",
+            "btn_label": "Shop All",
+            "review_text": "Taima’s Cookware is a true kitchen workhorse. You get deep sear, caramelization & flawless food release consistently, without the chemicals.",
+            "reviewer_name": ""
+          }
         }
       },
       "block_order": [
@@ -141,7 +206,12 @@
         "mobile_footer_link_cpHVYt",
         "mobile_category_LHJYcp",
         "mobile_slider_product_mQ3qpm",
-        "mega_tab_bemFeC"
+        "mega_tab_bemFeC",
+        "mega_tab_bmCwj8",
+        "mega_tab_7U4weG",
+        "mega_tab_i8cPBH",
+        "mega_tab_pDTfkR",
+        "mega_tab_NFTEHM"
       ],
       "settings": {
         "logo_position": "middle-center",
@@ -150,7 +220,6 @@
         "menu_type_desktop": "dropdown",
         "sticky_header_type": "always",
         "enable_sticky_blur": true,
-        "sticky_opacity": 5,
         "show_line_separator": true,
         "color_scheme": "scheme-e7441e89-4976-4c30-b017-d9d299769174",
         "color_scheme_home": "scheme-602ef690-7157-49fa-bac2-8b1eb42a673b",
