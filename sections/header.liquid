@@ -1,5 +1,5 @@
 {% comment %}
-  COMPLETE HEADER - FIXED ICONS, TRANSPARENT HOME, MEGA MENU & MOBILE GRID
+  TAIMA CUSTOM HEADER - FIXED ASSETS & TRANSPARENCY
 {% endcomment %}
 
 <link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
@@ -12,66 +12,66 @@
 {%- endif -%}
 
 <style>
-  /* --- GENERAL SETUP --- */
+  /* GLOBAL RESETS */
   header-drawer { justify-self: start; margin-left: -1.2rem; }
   .header__heading-logo { max-width: {{ section.settings.logo_width }}px; height: auto; }
   
   @media screen and (min-width: 990px) {
     header-drawer { display: none; }
   }
-  
+
   .menu-drawer-container { display: flex; }
   .list-menu { list-style: none; padding: 0; margin: 0; }
   .list-menu--inline { display: inline-flex; flex-wrap: wrap; }
   .list-menu__item { display: flex; align-items: center; line-height: 1.3; }
   .list-menu__item--link { text-decoration: none; padding-bottom: 1rem; padding-top: 1rem; color: inherit; }
-  
-  /* --- TRANSPARENCY LOGIC FOR HOMEPAGE --- */
+
+  /* --- HEADER LAYOUT --- */
   .header-wrapper {
-    background: #fff; /* Default solid */
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    transition: background 0.3s ease;
+    background: #fff;
     z-index: 1000;
+    width: 100%;
+    transition: background 0.3s ease, transform 0.3s ease;
   }
 
+  /* TRANSPARENT HEADER LOGIC (HOMEPAGE ONLY) */
   body.template-index .header-wrapper.is-transparent:not(.shopify-section-header-sticky) {
     background: transparent;
-    border-bottom: none;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
 
+  /* Text Colors on Transparent Home */
   body.template-index .header-wrapper.is-transparent:not(.shopify-section-header-sticky) .header__heading-link,
   body.template-index .header-wrapper.is-transparent:not(.shopify-section-header-sticky) .header__icon,
-  body.template-index .header-wrapper.is-transparent:not(.shopify-section-header-sticky) .list-menu__item {
-    color: {{ section.settings.transparent_text_color }};
+  body.template-index .header-wrapper.is-transparent:not(.shopify-section-header-sticky) .list-menu__item--link,
+  body.template-index .header-wrapper.is-transparent:not(.shopify-section-header-sticky) .cat-strip__item {
+    color: #ffffff; /* White text on hero image */
   }
-  
-  /* Sticky State */
+
+  /* Sticky State (Always White/Solid) */
   .shopify-section-header-sticky .header-wrapper {
     background: #fff !important;
     position: fixed !important;
     top: 0;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   }
-
-  /* --- DESKTOP STRIP (MEGA MENU) --- */
+  
+  /* Mega Menu Strip (Desktop) */
   .cat-strip { 
     display: flex; 
     justify-content: center; 
     gap: 30px; 
     padding: 0; 
-    background: #fff; /* Default Solid */
     border-top: 1px solid rgba(0,0,0,0.05);
   }
-
-  /* Transparent Strip on Homepage */
+  
+  /* Hide strip borders on transparent home */
   body.template-index .header-wrapper.is-transparent:not(.shopify-section-header-sticky) .cat-strip {
-    background: rgba(255, 255, 255, 0.9); /* Slight visible bg or transparent */
-    backdrop-filter: blur(5px);
-    border: none;
+    border-top: 1px solid rgba(255,255,255,0.15);
   }
 
   .cat-strip__item { 
@@ -81,7 +81,7 @@
     font-weight: 700; 
     text-transform: uppercase; 
     cursor: pointer; 
-    padding: 12px 10px; 
+    padding: 15px 10px; 
     color: #333; 
     border-bottom: 2px solid transparent; 
     transition: all 0.2s; 
@@ -89,36 +89,33 @@
   }
   
   .cat-strip__item:hover, .cat-strip__item.is-active { 
-    border-bottom: 2px solid #000; 
+    opacity: 0.7;
+    border-bottom: 2px solid currentColor;
   }
 
-  /* --- PORTALS (MEGA MENU CONTENT) --- */
-  .cat-portals-wrapper { position: absolute; left: 0; top: 100%; width: 100%; background: #fff; border-bottom: 1px solid #e5e5e5; z-index: 99; box-shadow: 0 15px 30px rgba(0,0,0,0.08); display: none; }
+  /* Mega Menu Content (Portals) */
+  .cat-portals-wrapper { position: absolute; left: 0; top: 100%; width: 100%; background: #fff; border-bottom: 1px solid #e5e5e5; z-index: 99; box-shadow: 0 15px 30px rgba(0,0,0,0.08); display: none; color: #000; }
   .cat-portals-wrapper.is-open { display: block; animation: fadeIn 0.2s ease-out; }
   
   .cat-portal { display: none; max-width: 1400px; margin: 0 auto; padding: 40px; gap: 40px; }
   .cat-portal[aria-hidden="false"] { display: flex; }
   
+  /* Mega Menu Layout */
   .cat-portal__left { width: 25%; padding-right: 30px; border-right: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; }
-  .cat-portal__title { font-size: 24px; font-weight: 800; margin: 0 0 10px 0; }
+  .cat-portal__title { font-size: 24px; font-weight: 800; margin: 0 0 10px 0; color: #000; }
   .cat-portal__link { font-size: 14px; font-weight: 600; text-decoration: underline; color: #555; }
-  .cat-portal__desc { font-size: 14px; line-height: 1.5; color: #555; margin-top: 15px; font-style: italic; }
+  .cat-portal__desc { font-size: 14px; line-height: 1.5; color: #555; margin-top: 15px; }
   
   .cat-portal__endorse { display: flex; align-items: center; gap: 12px; margin-top: 20px; background: #f9f9f9; padding: 12px; border-radius: 8px; }
   .endorse__avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
-  .endorse__name { font-size: 12px; font-weight: 700; display: block; }
-  .endorse__stars svg { width: 12px; height: 12px; fill: #B57C46; }
-
+  
   .cat-portal__grid { width: 75%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
   .cat-prod { text-decoration: none; color: inherit; text-align: center; }
   .cat-prod__media { position: relative; display: block; border-radius: 8px; overflow: hidden; margin-bottom: 10px; aspect-ratio: 1; background: #f4f4f4; }
-  .cat-prod__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-  .cat-prod:hover .cat-prod__media img { transform: scale(1.05); }
-  .cat-prod__badge { position: absolute; top: 8px; left: 8px; background: #932933; color: #fff; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; z-index: 2; }
+  .cat-prod__media img { width: 100%; height: 100%; object-fit: cover; }
+  
   .cat-prod__title { font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #000; line-height: 1.3; }
-  .cat-prod__price { font-size: 13px; }
-  .cat-prod__price .cmp { text-decoration: line-through; color: #888; margin-right: 5px; }
-  .cat-prod__price .prc { font-weight: 700; color: #000; }
+  .cat-prod__price { font-size: 13px; font-weight: 700; color: #000; }
 
   @media screen and (max-width: 990px) { 
     .cat-strip, .cat-portals-wrapper { display: none !important; } 
@@ -192,30 +189,17 @@
           <div class="search-modal modal__content gradient" role="dialog" aria-modal="true" aria-label="Search">
             <div class="modal-overlay"></div>
             <div class="search-modal__content search-modal__content-bottom" tabindex="-1">
-              {%- if settings.predictive_search_enabled -%}
-                <predictive-search class="search-modal__form" data-loading-text="Loading...">
-              {%- endif -%}
-                <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
-                  <div class="field">
-                    <input class="search__input field__input" id="Search-In-Modal" type="search" name="q" value="" placeholder="Search" role="combobox" aria-expanded="false" aria-owns="predictive-search-results" aria-controls="predictive-search-results" aria-haspopup="listbox" aria-autocomplete="list" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false">
-                    <label class="field__label" for="Search-In-Modal">Search</label>
-                    <input type="hidden" name="options[prefix]" value="last">
-                    <button class="search__button field__button" aria-label="Search">
-                      <svg class="icon icon-search" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    </button>
-                  </div>
-                  {%- if settings.predictive_search_enabled -%}
-                    <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
-                      <div class="predictive-search__loading-state"><svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg"><circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle></svg></div>
-                    </div>
-                    <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
-                  {%- endif -%}
-                </form>
-              {%- if settings.predictive_search_enabled -%}
-                </predictive-search>
-              {%- endif -%}
+              <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
+                <div class="field">
+                  <input class="search__input field__input" id="Search-In-Modal" type="search" name="q" value="" placeholder="Search" role="combobox" aria-expanded="false">
+                  <label class="field__label" for="Search-In-Modal">Search</label>
+                  <button class="search__button field__button" aria-label="Search">
+                    <svg class="icon icon-search" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  </button>
+                </div>
+              </form>
               <button type="button" class="search-modal__close-button modal__close-button link link--text focus-inset" aria-label="Close">
-                <svg class="icon icon-close" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <svg class="icon icon-close" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>
           </div>
@@ -266,10 +250,8 @@
                   <img src="{{ block.settings.reviewer_image | image_url: width: 100 }}" class="endorse__avatar" loading="lazy">
                 {% endif %}
                 <div class="endorse__meta">
-                  <span class="endorse__name">{{ block.settings.reviewer_name }}</span>
-                  <span class="endorse__stars">
-                    {% for i in (1..5) %}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{% endfor %}
-                  </span>
+                  <div class="endorse__name">{{ block.settings.reviewer_name }}</div>
+                  <div>★★★★★</div>
                 </div>
               </div>
             </div>
@@ -282,21 +264,13 @@
                 <a href="{{ product.url }}" class="cat-prod">
                   <div class="cat-prod__media">
                     <img src="{{ product.featured_image | image_url: width: 400 }}" loading="lazy" alt="{{ product.title }}">
-                    {% if product.compare_at_price > product.price %}
-                      <span class="cat-prod__badge">Sale</span>
-                    {% endif %}
                   </div>
                   <div class="cat-prod__title">{{ product.title }}</div>
-                  <div class="cat-prod__price">
-                    {% if product.compare_at_price > product.price %}
-                      <span class="cmp">{{ product.compare_at_price | money }}</span>
-                    {% endif %}
-                    <span class="prc">{{ product.price | money }}</span>
-                  </div>
+                  <div class="cat-prod__price">{{ product.price | money }}</div>
                 </a>
               {% endfor %}
             {% else %}
-              <p>Select a collection.</p>
+              <p>Select a collection in settings.</p>
             {% endif %}
           </div>
         </section>
@@ -317,42 +291,18 @@
       window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
       if (this.headerIsAlwaysSticky) { this.header.classList.add('shopify-section-header-sticky'); }
       this.currentScrollTop = 0;
-      this.preventReveal = false;
-      this.predictiveSearch = this.querySelector('predictive-search');
       this.onScrollHandler = this.onScroll.bind(this);
-      this.hideHeaderOnScrollUp = () => (this.preventReveal = true);
-      this.addEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp);
       window.addEventListener('scroll', this.onScrollHandler, false);
-      this.createObserver();
     }
     setHeaderHeight() { document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`); }
-    disconnectedCallback() { this.removeEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp); window.removeEventListener('scroll', this.onScrollHandler); }
-    createObserver() {
-      let observer = new IntersectionObserver((entries, observer) => {
-        this.headerBounds = entries[0].intersectionRect;
-        observer.disconnect();
-      });
-      observer.observe(this.header);
-    }
     onScroll() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      if (this.predictiveSearch && this.predictiveSearch.isOpen) return;
-      if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
-        this.header.classList.add('scrolled-past-header');
-        if (this.preventHide) return;
-        requestAnimationFrame(this.hide.bind(this));
-      } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
-        this.header.classList.add('scrolled-past-header');
-        if (!this.preventReveal) { requestAnimationFrame(this.reveal.bind(this)); } else { window.clearTimeout(this.isScrolling); this.isScrolling = setTimeout(() => { this.preventReveal = false; }, 66); requestAnimationFrame(this.hide.bind(this)); }
-      } else if (scrollTop <= this.headerBounds.top) {
-        this.header.classList.remove('scrolled-past-header');
-        requestAnimationFrame(this.reset.bind(this));
+      if (scrollTop > 100) {
+        this.header.classList.add('shopify-section-header-sticky');
+      } else {
+        this.header.classList.remove('shopify-section-header-sticky');
       }
-      this.currentScrollTop = scrollTop;
     }
-    hide() { if (this.headerIsAlwaysSticky) return; this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky'); }
-    reveal() { if (this.headerIsAlwaysSticky) return; this.header.classList.add('shopify-section-header-sticky', 'animate'); this.header.classList.remove('shopify-section-header-hidden'); }
-    reset() { if (this.headerIsAlwaysSticky) return; this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate'); }
   }
   customElements.define('sticky-header', StickyHeader);
 
@@ -377,13 +327,10 @@
         const key = this.dataset.key;
         tabs.forEach(t => t.classList.remove('is-active'));
         portals.forEach(p => p.setAttribute('aria-hidden', 'true'));
-        
         this.classList.add('is-active');
         const target = document.querySelector(`.cat-portal[data-key="${key}"]`);
-        
         if(target) {
           wrapper.style.display = 'block';
-          // Force reflow
           void wrapper.offsetWidth;
           wrapper.classList.add('is-open');
           target.setAttribute('aria-hidden', 'false');
@@ -410,25 +357,12 @@
 {
   "name": "Header & Mega Menu",
   "class": "section-header",
-  "max_blocks": 15,
   "settings": [
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color Scheme",
-      "default": "scheme-1"
-    },
     {
       "type": "checkbox",
       "id": "enable_transparent_home",
       "default": true,
       "label": "Enable Transparent Header on Homepage"
-    },
-    {
-      "type": "color",
-      "id": "transparent_text_color",
-      "label": "Text Color on Transparent Header",
-      "default": "#ffffff"
     },
     {
       "type": "image_picker",
@@ -442,7 +376,7 @@
       "max": 250,
       "step": 5,
       "unit": "px",
-      "label": "Custom Logo width",
+      "label": "Logo width",
       "default": 120
     },
     {
@@ -453,31 +387,14 @@
         { "value": "top-center", "label": "Top Center" },
         { "value": "middle-center", "label": "Middle Center" }
       ],
-      "default": "middle-center",
-      "label": "Logo position on desktop"
-    },
-    {
-      "type": "select",
-      "id": "mobile_logo_position",
-      "options": [
-        { "value": "center", "label": "Center" },
-        { "value": "left", "label": "Left" }
-      ],
-      "default": "center",
-      "label": "Mobile Logo Position"
+      "default": "middle-left",
+      "label": "Logo position"
     },
     {
       "type": "link_list",
       "id": "menu",
       "default": "main-menu",
-      "label": "Menu (Mobile Drawer Trigger)"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_standard_menu",
-      "default": false,
-      "label": "Show Standard Menu on Desktop (inline)",
-      "info": "Uncheck if you only want the Mega Tabs strip below"
+      "label": "Menu (Mobile Drawer)"
     },
     {
       "type": "select",
@@ -489,6 +406,10 @@
       ],
       "default": "on-scroll-up",
       "label": "Sticky header"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
     },
     {
       "type": "range",
@@ -509,6 +430,16 @@
       "unit": "px",
       "label": "Padding Bottom",
       "default": 20
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
     }
   ],
   "blocks": [
@@ -531,14 +462,10 @@
           "label": "Select Collection"
         },
         {
-          "type": "header",
-          "content": "Sidebar Info"
-        },
-        {
           "type": "text",
           "id": "sidebar_title",
           "label": "Sidebar Title",
-          "default": "Best Sellers"
+          "default": "Featured"
         },
         {
           "type": "text",
@@ -575,17 +502,17 @@
         {
           "type": "image_picker",
           "id": "icon",
-          "label": "Icon/Image (PNG/SVG)"
+          "label": "Icon/Image"
         },
         {
           "type": "text",
           "id": "title",
-          "label": "Menu Title"
+          "label": "Title"
         },
         {
           "type": "url",
           "id": "link",
-          "label": "Link URL"
+          "label": "Link"
         }
       ]
     },
@@ -597,7 +524,7 @@
         {
           "type": "link_list",
           "id": "footer_menu",
-          "label": "Select Footer Menu"
+          "label": "Footer Menu"
         }
       ]
     }
