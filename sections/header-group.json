@@ -83,6 +83,27 @@
     "header": {
       "type": "header",
       "blocks": {
+        "mobile_footer_link_KKbbEh": {
+          "type": "mobile_footer_link",
+          "settings": {
+            "title": "sdfsdf",
+            "url": "#"
+          }
+        },
+        "mobile_footer_link_BRbTkU": {
+          "type": "mobile_footer_link",
+          "settings": {
+            "title": "sdfsdf",
+            "url": "#"
+          }
+        },
+        "mobile_footer_link_cpHVYt": {
+          "type": "mobile_footer_link",
+          "settings": {
+            "title": "sdfsdf",
+            "url": "#"
+          }
+        },
         "mobile_category_LHJYcp": {
           "type": "mobile_category",
           "settings": {
@@ -114,6 +135,9 @@
         }
       },
       "block_order": [
+        "mobile_footer_link_KKbbEh",
+        "mobile_footer_link_BRbTkU",
+        "mobile_footer_link_cpHVYt",
         "mobile_category_LHJYcp",
         "mobile_slider_product_mQ3qpm",
         "mega_tab_bemFeC"
