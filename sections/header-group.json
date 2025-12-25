@@ -114,6 +114,56 @@
             "step2_reviewer": ""
           }
         },
+        "mobile_category_iDb9xX": {
+          "type": "mobile_category",
+          "settings": {
+            "icon": "shopify://shop_images/bundle_and_save.jpg",
+            "title": "Bundle & Save",
+            "collection": "bundles",
+            "step2_review": "",
+            "step2_reviewer": ""
+          }
+        },
+        "mobile_category_AYT3xq": {
+          "type": "mobile_category",
+          "settings": {
+            "icon": "shopify://shop_images/cookware_mobile_8275f86c-42fd-42df-b19d-49e251a1690a.jpg",
+            "title": "Titanium Cookware",
+            "collection": "bundles",
+            "step2_review": "",
+            "step2_reviewer": ""
+          }
+        },
+        "mobile_category_LiPJTc": {
+          "type": "mobile_category",
+          "settings": {
+            "icon": "shopify://shop_images/no_color_100x100-min.jpg",
+            "title": "Titanium Cutting Boards",
+            "collection": "bundles",
+            "step2_review": "",
+            "step2_reviewer": ""
+          }
+        },
+        "mobile_category_48zqyw": {
+          "type": "mobile_category",
+          "settings": {
+            "icon": "shopify://shop_images/drinkware.jpg",
+            "title": "Drinkware",
+            "collection": "bundles",
+            "step2_review": "",
+            "step2_reviewer": ""
+          }
+        },
+        "mobile_category_aCVRPk": {
+          "type": "mobile_category",
+          "settings": {
+            "icon": "shopify://shop_images/accessories.jpg",
+            "title": "Accessories",
+            "collection": "bundles",
+            "step2_review": "",
+            "step2_reviewer": ""
+          }
+        },
         "mobile_slider_product_mQ3qpm": {
           "type": "mobile_slider_product",
           "settings": {
@@ -211,6 +261,11 @@
         "mobile_footer_link_BRbTkU",
         "mobile_footer_link_cpHVYt",
         "mobile_category_LHJYcp",
+        "mobile_category_iDb9xX",
+        "mobile_category_AYT3xq",
+        "mobile_category_LiPJTc",
+        "mobile_category_48zqyw",
+        "mobile_category_aCVRPk",
         "mobile_slider_product_mQ3qpm",
         "mega_tab_bemFeC",
         "mega_tab_bmCwj8",
