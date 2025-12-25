@@ -156,18 +156,18 @@
           {% assign i = forloop.index0 %}
           {% assign z = 100 | minus: i %}
           
-          {% comment %} Calculate Offset logic for Liquid {% endcomment %}
-          {% assign offset_val = 0 %}
-          {% if i > 0 %}
-             {% assign offset_val = i | times: 120 %}
-          {% endif %}
+          {% comment %} Desktop Offset (130px gap) {% endcomment %}
+          {% assign offset_val = i | times: 130 %}
+          
+          {% comment %} Mobile Offset (Smaller gap 70px) {% endcomment %}
+          {% assign offset_val_m = i | times: 70 %}
 
           {% if block.settings.image != blank %}
             <img 
               src="{{ block.settings.image | image_url: width: 1200 }}" 
-              class="ieo-layer from-left {% if forloop.first %}ieo-pan{% endif %}" 
+              class="ieo-layer from-left" 
               data-step="{{ forloop.index }}"
-              style="--off: {{ offset_val }}px; --i: {{ i }}; z-index: {{ z }};"
+              style="--off: {{ offset_val }}px; --off-m: {{ offset_val_m }}px; --i: {{ i }}; z-index: {{ z }};"
               alt="{{ block.settings.title | escape }}"
               loading="lazy"
               width="600"
@@ -176,7 +176,7 @@
           {% else %}
              <div class="ieo-layer from-left placeholder-layer" 
                   data-step="{{ forloop.index }}"
-                  style="--off: {{ offset_val }}px; --i: {{ i }}; z-index: {{ z }}; background: #4a4a4a; width: 100%; height: 50px; border-radius: 50%;">
+                  style="--off: {{ offset_val }}px; --off-m: {{ offset_val_m }}px; --i: {{ i }}; z-index: {{ z }}; background: #4a4a4a;">
              </div>
           {% endif %}
 
@@ -207,7 +207,7 @@
 </section>
 
 <style>
-  /* Scoped Variables */
+  /* Variables */
   #ieo-template--{{ section.id }} {
     background-color: {{ section.settings.bg_color }};
     --heading-color: {{ section.settings.heading_color }};
@@ -230,70 +230,71 @@
   }
 
   #ieo-template--{{ section.id }} .ieo-title {
-    margin: 0 0 64px;
+    margin: 0 0 60px;
     font-family: 'Neue Montreal', sans-serif;
     color: var(--heading-color);
     font-size: 48px;
-    font-style: normal;
     font-weight: 400;
     line-height: 1.3;
-    letter-spacing: 1.92px;
-    text-transform: capitalize;
     text-align: center;
+    text-transform: capitalize;
   }
 
+  /* --- GRID LAYOUT (Desktop & Mobile Side-by-Side) --- */
   #ieo-template--{{ section.id }} .ieo-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    align-items: center;
+    /* Desktop: 50% Image | 50% Text */
+    grid-template-columns: 1fr 1fr; 
+    gap: 40px;
+    align-items: flex-start; /* Align to top so layers drop down nicely */
+    position: relative;
   }
 
-  /* --- Visual Stack (Left) --- */
+  /* --- IMAGES (Left) --- */
   #ieo-template--{{ section.id }} .ieo-visual {
     position: relative;
-    height: 900px; /* Space for layers to expand */
     width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
+    /* Min height ensures space for the expanding stack */
+    min-height: 800px; 
   }
 
   #ieo-template--{{ section.id }} .ieo-layer {
     position: absolute;
-    left: 0;
+    left: 0; 
     right: 0;
-    top: 50px; /* Starting overlap point */
     margin: 0 auto;
-    max-width: 100%;
+    width: 80%; /* Adjust size of pan */
+    max-width: 500px;
     height: auto;
     display: block;
     opacity: 0;
     
-    /* Animation Properties */
-    transform: translateY(0px) scale(0.95); /* Start collapsed */
+    /* Setup initial position (collapsed) */
+    top: 0;
+    transform: translateY(0px) scale(0.95);
+    
     transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
     will-change: transform, opacity;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.5));
     
-    /* Dynamic Delay */
     transition-delay: calc(var(--i) * 200ms);
   }
 
-  /* Specific fix for the top pan to sit slightly higher/different */
-  #ieo-template--{{ section.id }} .ieo-layer.ieo-pan {
-    top: -50px; 
-    z-index: 1000;
+  /* Placeholder Style */
+  #ieo-template--{{ section.id }} .placeholder-layer {
+    height: 60px;
+    border-radius: 50%;
   }
 
-  /* Active State - This expands the layers */
+  /* Animation Active State */
   #ieo-template--{{ section.id }} .ieo-layer.is-on {
     opacity: 1;
     transform: translateY(var(--off, 0px)) scale(1);
   }
 
-  /* --- Text List (Right) --- */
+  /* --- TEXT LIST (Right) --- */
   #ieo-template--{{ section.id }} .ieo-right {
-    width: 100%;
+    padding-top: 20px; /* Align first text with first image */
   }
 
   #ieo-template--{{ section.id }} .ieo-list {
@@ -302,7 +303,8 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 60px; /* Spacing between text items */
+    /* Gap must match image offset roughly to align */
+    gap: 75px; 
   }
 
   #ieo-template--{{ section.id }} .ieo-li {
@@ -313,6 +315,7 @@
     transform: translateX(30px);
     transition: transform 0.8s ease, opacity 0.8s ease;
     transition-delay: calc(var(--i) * 200ms);
+    position: relative;
   }
 
   #ieo-template--{{ section.id }} .ieo-li.is-on {
@@ -323,13 +326,9 @@
   #ieo-template--{{ section.id }} .ieo-line {
     background: var(--line-color);
     height: 1px;
-    width: 80px;
+    width: 60px;
     flex-shrink: 0;
     display: block;
-  }
-
-  #ieo-template--{{ section.id }} .ieo-text {
-    flex-grow: 1;
   }
 
   #ieo-template--{{ section.id }} .ieo-li-title {
@@ -337,61 +336,77 @@
     color: var(--title-color);
     font-size: 24px;
     font-weight: 500;
-    line-height: 1.4;
+    line-height: 1.3;
     text-transform: capitalize;
   }
 
   #ieo-template--{{ section.id }} .ieo-li-desc {
-    margin-top: 8px;
+    margin-top: 6px;
     font-family: 'Neue Montreal', sans-serif;
     color: var(--desc-color);
     font-size: 16px;
-    font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.4;
   }
 
-  /* --- Responsive Styles (Mobile Fix) --- */
-  @media (max-width: 900px) {
-    #ieo-template--{{ section.id }} .ieo-layout {
-      grid-template-columns: 1fr; /* Stack vertically */
-      gap: 40px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-visual {
-      height: 600px; /* Reduce visual height on mobile */
-      max-width: 350px; /* Contain image width */
-    }
-
-    #ieo-template--{{ section.id }} .ieo-layer {
-      width: 90%; /* Prevent full width bleeding */
-      /* Recalculate offset for mobile to be tighter */
-      --mobile-off: calc(var(--i) * 70px); 
-    }
-
-    #ieo-template--{{ section.id }} .ieo-layer.is-on {
-      transform: translateY(var(--mobile-off)) scale(1);
-    }
-
-    #ieo-template--{{ section.id }} .ieo-list {
-      gap: 30px;
-      padding-left: 10px;
-    }
-
-    #ieo-template--{{ section.id }} .ieo-line {
-      width: 40px; /* Shorter lines on mobile */
+  /* --- MOBILE FIX (Side by Side) --- */
+  @media (max-width: 768px) {
+    #ieo-template--{{ section.id }} .ieo-inner {
+      padding-top: 40px;
+      padding-bottom: 40px;
     }
 
     #ieo-template--{{ section.id }} .ieo-title {
       font-size: 28px;
       margin-bottom: 40px;
     }
-    
-    #ieo-template--{{ section.id }} .ieo-li-title {
-      font-size: 18px;
+
+    /* Keep side-by-side layout but adjust ratios */
+    #ieo-template--{{ section.id }} .ieo-layout {
+      grid-template-columns: 40% 60%; /* Image smaller, Text wider */
+      gap: 10px;
+    }
+
+    #ieo-template--{{ section.id }} .ieo-visual {
+      min-height: 500px; /* Reduced height for mobile stack */
+    }
+
+    #ieo-template--{{ section.id }} .ieo-layer {
+      width: 100%; /* Use full width of the 40% column */
+      /* Use Mobile Offset Variable */
+      transform: translateY(0px) scale(0.95);
+    }
+
+    #ieo-template--{{ section.id }} .ieo-layer.is-on {
+      /* Apply mobile offset */
+      transform: translateY(var(--off-m, 0px)) scale(1);
+    }
+
+    /* Text Adjustments */
+    #ieo-template--{{ section.id }} .ieo-right {
+      padding-top: 0; /* Align tightly */
+    }
+
+    #ieo-template--{{ section.id }} .ieo-list {
+      gap: 30px; /* Tighter vertical gap for text */
+    }
+
+    #ieo-template--{{ section.id }} .ieo-line {
+      width: 15px; /* Tiny line */
+      margin-right: 5px;
     }
     
+    #ieo-template--{{ section.id }} .ieo-li {
+      gap: 5px; /* Reduce gap between line and text */
+    }
+
+    #ieo-template--{{ section.id }} .ieo-li-title {
+      font-size: 14px; /* Smaller title */
+      line-height: 1.2;
+    }
+
     #ieo-template--{{ section.id }} .ieo-li-desc {
-      font-size: 14px;
+      font-size: 12px; /* Smaller desc */
+      margin-top: 4px;
     }
   }
 </style>
@@ -401,25 +416,21 @@
     const sec = document.getElementById('ieo-template--{{ section.id }}');
     if (!sec) return;
 
-    // Use Intersection Observer for scroll animation
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.15 // Trigger earlier on mobile
+      threshold: 0.15 
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Find all layers and list items inside the section
           const layers = sec.querySelectorAll('.ieo-layer');
           const listItems = sec.querySelectorAll('.ieo-li');
 
-          // Add 'is-on' class to trigger CSS transition
           layers.forEach(el => el.classList.add('is-on'));
           listItems.forEach(el => el.classList.add('is-on'));
 
-          // Stop observing once triggered
           observer.disconnect();
         }
       });
