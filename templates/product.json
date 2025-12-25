@@ -490,13 +490,95 @@
       "name": "Rethink Cookware",
       "settings": {
         "bg_color": "#121212",
-        "heading_color": "#D4C7B4",
-        "subheading_color": "#B0B0B0",
-        "card_text_color": "#B0B0B0",
-        "card_title_color": "#FFFFFF",
+        "heading_color": "#d4c7b4",
+        "subheading_color": "#b0b0b0",
+        "card_text_color": "#b0b0b0",
+        "card_title_color": "#ffffff",
         "border_color": "#333333",
         "title": "It’s Time To Rethink Your Cookware",
         "subtitle": "From toxin risks to high maintenance, these outdated pans just don’t measure up to Titanium…",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_m": 64,
+        "padding_bottom_m": 64
+      }
+    },
+    "walter_benefits_EAnCxx": {
+      "type": "walter-benefits",
+      "blocks": {
+        "benefit_card_jGgcH8": {
+          "type": "benefit_card",
+          "settings": {
+            "image": "shopify://shop_images/1-min_3a86cbc9-c202-4015-bf28-77b518839b06.webp",
+            "img_bottom": false,
+            "title": "Optimize Health & Performance",
+            "text": "<p>With Taima, you're not exposing your body to chemical inflammatory triggers, allergens, or bacteria. Detox your body & watch your body and mind operate at full capacity!</p>"
+          }
+        },
+        "benefit_card_xEPDXN": {
+          "type": "benefit_card",
+          "settings": {
+            "image": "shopify://shop_images/2_pan-min.webp",
+            "img_bottom": true,
+            "title": "Cook Healthier Meals",
+            "text": "<p>Taima lets you use less oil and retain 30% more nutrients so every dish delivers more goodness. What you cook matters, but what you cook on matters just as much.</p>"
+          }
+        },
+        "benefit_card_qCjfiU": {
+          "type": "benefit_card",
+          "settings": {
+            "image": "shopify://shop_images/4.pan-min.jpg",
+            "img_bottom": false,
+            "title": "Increase Longevity",
+            "text": "<p>Toxins, heavy metals, and microplastics accelerate cellular-aging & disease. Titanium eliminates exposure at the source - so your body can focus on healing, not defending.</p>"
+          }
+        },
+        "benefit_card_9GQdWn": {
+          "type": "benefit_card",
+          "settings": {
+            "image": "shopify://shop_images/2-min_cd8eaea7-ac92-4578-b2c6-58e7b206de8a.webp",
+            "img_bottom": true,
+            "title": "Convenience Without Compromise",
+            "text": "<p>Our engineered SlipScale™ embedded pattern delivers non-stick performance without chemical coatings or any compromise to durability.</p>"
+          }
+        },
+        "benefit_card_An9M6q": {
+          "type": "benefit_card",
+          "settings": {
+            "image": "shopify://shop_images/pattern-min.jpg",
+            "img_bottom": false,
+            "title": "Piece Of Mind",
+            "text": "<p>Every Taima product is tested, certified, and trusted by experts. Designed for wellness, you’ll use the purest, safest food-surface ever made, period.</p>"
+          }
+        },
+        "benefit_card_XcqEwN": {
+          "type": "benefit_card",
+          "settings": {
+            "image": "shopify://shop_images/2_pan-min.webp",
+            "img_bottom": true,
+            "title": "Buy Once, Use Forever",
+            "text": "<p>Engineered to be passed down for generations - always safe, always reliable, always ready to serve.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_card_jGgcH8",
+        "benefit_card_xEPDXN",
+        "benefit_card_qCjfiU",
+        "benefit_card_9GQdWn",
+        "benefit_card_An9M6q",
+        "benefit_card_XcqEwN"
+      ],
+      "name": "Benefits Carousel",
+      "settings": {
+        "bg_color": "#121212",
+        "heading_color": "#D4C7B4",
+        "subheading_color": "#B0B0B0",
+        "card_title_color": "#FFFFFF",
+        "card_text_color": "#B0B0B0",
+        "border_color": "#333333",
+        "heading": "Benefits Of Going Taima®",
+        "subheading": "",
         "padding_top": 80,
         "padding_bottom": 80,
         "padding_top_m": 64,
@@ -510,6 +592,7 @@
     "related-products",
     "walter_trust_video_xJUVTn",
     "walter_logo_testimonial_FdQhBX",
-    "walter_rethink_cookware_MyXhDw"
+    "walter_rethink_cookware_MyXhDw",
+    "walter_benefits_EAnCxx"
   ]
 }
