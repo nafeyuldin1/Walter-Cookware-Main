@@ -142,7 +142,7 @@
 }
 {% endschema %}
 
-<section id="ieo-template--{{ section.id }}" class="ieo" style="--st: 220ms;">
+<section id="ieo-template--{{ section.id }}" class="ieo">
   <div class="ieo-inner">
     {% if section.settings.heading != blank %}
       <h2 class="ieo-title">{{ section.settings.heading }}</h2>
@@ -155,31 +155,20 @@
           
           {% assign i = forloop.index0 %}
           {% assign z = 100 | minus: i %}
-          
-          {% comment %} 
-            Offset Logic:
-            Desktop Gap: 130px
-            Mobile Gap: 85px (Tightened for mobile screens)
-          {% endcomment %}
-          
-          {% assign offset_val = i | times: 130 %}
-          {% assign offset_val_m = i | times: 85 %}
 
           {% if block.settings.image != blank %}
             <img 
               src="{{ block.settings.image | image_url: width: 1000 }}" 
-              class="ieo-layer from-left {% if forloop.first %}ieo-pan{% endif %}" 
-              data-step="{{ forloop.index }}"
-              style="--off: {{ offset_val }}px; --off-m: {{ offset_val_m }}px; --i: {{ i }}; z-index: {{ z }};"
+              class="ieo-layer {% if forloop.first %}ieo-pan{% endif %}" 
+              style="--i: {{ i }}; z-index: {{ z }};"
               alt="{{ block.settings.title | escape }}"
               loading="lazy"
               width="600"
               height="auto"
             >
           {% else %}
-             <div class="ieo-layer from-left placeholder-layer" 
-                  data-step="{{ forloop.index }}"
-                  style="--off: {{ offset_val }}px; --off-m: {{ offset_val_m }}px; --i: {{ i }}; z-index: {{ z }}; background: #4a4a4a;">
+             <div class="ieo-layer placeholder-layer" 
+                  style="--i: {{ i }}; z-index: {{ z }}; background: #4a4a4a;">
              </div>
           {% endif %}
 
@@ -189,7 +178,7 @@
       <div class="ieo-right">
         <ul class="ieo-list">
           {% for block in section.blocks %}
-            <li class="ieo-li" data-step="{{ forloop.index }}" style="--i: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
+            <li class="ieo-li" style="--i: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
               <span class="ieo-line"></span>
               <div class="ieo-text">
                 {% if block.settings.title != blank %}
@@ -210,7 +199,7 @@
 </section>
 
 <style>
-  /* --- VARIABLES --- */
+  /* --- GLOBAL VARIABLES --- */
   #ieo-template--{{ section.id }} {
     background-color: {{ section.settings.bg_color }};
     --heading-color: {{ section.settings.heading_color }};
@@ -219,11 +208,16 @@
     --desc-color: {{ section.settings.desc_color }};
     --pt: {{ section.settings.padding_top }}px;
     --pb: {{ section.settings.padding_bottom }}px;
+    
+    /* THE MAGIC SPACERS - Change these to adjust spread */
+    --step-d: 130px; /* Desktop Vertical Gap */
+    --step-m: 80px;  /* Mobile Vertical Gap */
   }
 
   #ieo-template--{{ section.id }}.ieo {
     color: #fff;
     overflow: hidden;
+    position: relative;
   }
 
   #ieo-template--{{ section.id }} .ieo-inner {
@@ -244,69 +238,64 @@
     text-align: center;
   }
 
-  /* --- GRID LAYOUT (DESKTOP) --- */
+  /* --- LAYOUT GRID --- */
   #ieo-template--{{ section.id }} .ieo-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 50% Image | 50% Text */
+    grid-template-columns: 1fr 1fr; /* Default Desktop Split */
     gap: 40px;
     align-items: flex-start;
     position: relative;
   }
 
-  /* --- IMAGES (Left) --- */
+  /* --- IMAGES (VISUAL STACK) --- */
   #ieo-template--{{ section.id }} .ieo-visual {
     position: relative;
     width: 100%;
-    /* Height must accommodate the total spread of layers */
+    /* Calculated height to ensure container fits all layers */
     min-height: 800px; 
-    max-width: 600px;
-    margin: 0 auto;
+    display: flex;
+    justify-content: center; /* Center horizontally on desktop */
   }
 
   #ieo-template--{{ section.id }} .ieo-layer {
     position: absolute;
-    left: 0; 
-    right: 0;
-    margin: 0 auto;
     width: 80%;
     max-width: 500px;
     height: auto;
     display: block;
     opacity: 0;
+    top: 0;
     
-    /* Initial State (Collapsed) */
-    top: 50px; 
-    transform: translateY(0px) scale(0.95);
-    
+    /* Animation Initial State */
+    transform: translateY(0px) scale(0.9);
     transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
     will-change: transform, opacity;
     filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.5));
-    
-    /* Staggered Delay */
-    transition-delay: calc(var(--i) * 200ms);
+    transition-delay: calc(var(--i) * 150ms);
   }
 
-  /* Top Pan Specific Position */
-  #ieo-template--{{ section.id }} .ieo-layer.ieo-pan {
-    top: -50px; 
-    z-index: 1000;
+  /* Active State (Desktop) */
+  #ieo-template--{{ section.id }} .ieo-layer.is-on {
+    opacity: 1;
+    /* Move down based on index * desktop step */
+    transform: translateY(calc(var(--i) * var(--step-d))) scale(1);
   }
 
-  /* Placeholder for testing */
+  /* Special handling for top pan */
+  #ieo-template--{{ section.id }} .ieo-pan {
+    top: -40px; /* Slight offset up */
+  }
+
+  /* Placeholder for empty blocks */
   #ieo-template--{{ section.id }} .placeholder-layer {
     height: 60px;
     border-radius: 50%;
   }
 
-  /* Active State (Expanded) */
-  #ieo-template--{{ section.id }} .ieo-layer.is-on {
-    opacity: 1;
-    transform: translateY(var(--off, 0px)) scale(1);
-  }
-
-  /* --- TEXT LIST (Right) --- */
+  /* --- TEXT LIST --- */
   #ieo-template--{{ section.id }} .ieo-right {
-    padding-top: 50px; /* Align first text with first image gap */
+    position: relative;
+    padding-top: 20px; /* Initial offset to align 1st text with 1st image */
   }
 
   #ieo-template--{{ section.id }} .ieo-list {
@@ -315,20 +304,22 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    /* Gap must approximate Image Offset (130px) to stay aligned */
-    gap: 75px; 
+    /* Use the SAME variable as image offset to guarantee alignment */
+    gap: var(--step-d); 
   }
 
   #ieo-template--{{ section.id }} .ieo-li {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
     opacity: 0;
     transform: translateX(30px);
     transition: transform 0.8s ease, opacity 0.8s ease;
-    transition-delay: calc(var(--i) * 200ms);
+    transition-delay: calc(var(--i) * 150ms);
     position: relative;
-    min-height: 55px; /* Ensures text block has substance */
+    height: 0; /* Important: Removes natural height, lets GAP define spacing */
+    min-height: 0;
+    overflow: visible; /* Allows text to show */
   }
 
   #ieo-template--{{ section.id }} .ieo-li.is-on {
@@ -345,7 +336,9 @@
   }
 
   #ieo-template--{{ section.id }} .ieo-text {
-    flex-grow: 1;
+    /* Since parent height is 0, we position absolute or let it flow relative */
+    position: relative;
+    top: -1em; /* Adjust vertical centering */
   }
 
   #ieo-template--{{ section.id }} .ieo-li-title {
@@ -355,6 +348,7 @@
     font-weight: 500;
     line-height: 1.3;
     text-transform: capitalize;
+    white-space: nowrap; /* Prevent wrapping if possible on desktop */
   }
 
   #ieo-template--{{ section.id }} .ieo-li-desc {
@@ -365,80 +359,73 @@
     line-height: 1.4;
   }
 
-  /* --- MOBILE FIX (Side by Side) --- */
-  @media (max-width: 768px) {
+  /* =========================================
+     MOBILE STYLES (THE FIX)
+     ========================================= */
+  @media (max-width: 900px) {
     #ieo-template--{{ section.id }} .ieo-inner {
-      padding-top: 40px;
-      padding-bottom: 40px;
-      padding-left: 10px;
-      padding-right: 10px;
+      padding: 40px 16px;
     }
 
     #ieo-template--{{ section.id }} .ieo-title {
       font-size: 28px;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
 
-    /* Keep SIDE BY SIDE layout */
+    /* FORCE SIDE BY SIDE LAYOUT */
     #ieo-template--{{ section.id }} .ieo-layout {
-      grid-template-columns: 40% 60%; /* Image Left (40%), Text Right (60%) */
+      grid-template-columns: 45% 55%; /* Fixed ratio: Images Left, Text Right */
       gap: 10px;
+      align-items: flex-start;
     }
 
+    /* Image Column */
     #ieo-template--{{ section.id }} .ieo-visual {
-      /* Height must accommodate 5-6 layers * 85px gap */
-      min-height: 550px; 
-      margin: 0;
+      min-height: 550px; /* Space for stack */
+      justify-content: flex-end; /* Push images towards text */
+      margin-right: -20px; /* Slight overlap visually */
     }
 
     #ieo-template--{{ section.id }} .ieo-layer {
-      width: 120%; /* Make image slightly wider than its column to look big */
-      left: -10%; /* Center it roughly */
-      top: 0;
-      /* Animation Reset */
-      transform: translateY(0px) scale(0.95);
-    }
-    
-    #ieo-template--{{ section.id }} .ieo-layer.ieo-pan {
-      top: -20px;
+      width: 130%; /* Make image larger than its container column */
+      max-width: none;
+      right: -20%; /* Shift right */
+      left: auto;
     }
 
+    /* Mobile Animation State */
     #ieo-template--{{ section.id }} .ieo-layer.is-on {
-      /* Use Mobile Offset */
-      transform: translateY(var(--off-m, 0px)) scale(1);
+      /* Use Mobile Step Variable */
+      transform: translateY(calc(var(--i) * var(--step-m))) scale(1);
     }
 
-    /* Text Adjustments */
+    /* Text Column */
     #ieo-template--{{ section.id }} .ieo-right {
-      padding-top: 0;
+      padding-top: 25px; /* Align first text with first image */
     }
 
     #ieo-template--{{ section.id }} .ieo-list {
-      /* Vertical gap must match Image Mobile Offset (85px) minus text height */
-      gap: 40px; 
-      justify-content: flex-start;
-      padding-top: 10px;
+      /* Update Gap to match Mobile Step */
+      gap: var(--step-m); 
+    }
+
+    #ieo-template--{{ section.id }} .ieo-li {
+      gap: 8px;
     }
 
     #ieo-template--{{ section.id }} .ieo-line {
-      width: 15px; /* Small line */
-      margin-right: 5px;
-    }
-    
-    #ieo-template--{{ section.id }} .ieo-li {
-      gap: 5px;
-      min-height: 45px; /* Consistent height anchor */
+      width: 20px; /* Shorter line */
     }
 
     #ieo-template--{{ section.id }} .ieo-li-title {
       font-size: 14px;
       line-height: 1.2;
+      white-space: normal; /* Allow wrapping on mobile */
     }
 
     #ieo-template--{{ section.id }} .ieo-li-desc {
-      font-size: 11px;
-      margin-top: 3px;
-      line-height: 1.3;
+      font-size: 12px;
+      margin-top: 4px;
     }
   }
 </style>
@@ -448,11 +435,10 @@
     const sec = document.getElementById('ieo-template--{{ section.id }}');
     if (!sec) return;
 
-    // Use Intersection Observer for scroll animation
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.1 // Trigger quickly on mobile
+      threshold: 0.15 
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
