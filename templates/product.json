@@ -774,13 +774,75 @@
       "name": "Engineered Layers",
       "settings": {
         "bg_color": "#07231b",
-        "heading_color": "#BCA588",
-        "line_color": "#A3835F",
-        "title_color": "#FFFFFF",
-        "desc_color": "#B0B0B0",
+        "heading_color": "#bca588",
+        "line_color": "#a3835f",
+        "title_color": "#ffffff",
+        "desc_color": "#b0b0b0",
         "heading": "Engineered From The Inside Out",
         "padding_top": 48,
         "padding_bottom": 48
+      }
+    },
+    "walter_faqs_JyccRK": {
+      "type": "walter-faqs",
+      "blocks": {
+        "faq_item_QFcyXz": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does SlipScale™ non-stick surface work?",
+            "answer": "<p>This technology is the very first of its kind, setting a new standard in cookware. SlipScale™ is our engineered, no-coating imprinted surface pattern that increases food release by up to 3x.</p>"
+          }
+        },
+        "faq_item_LqUfqw": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does titanium cookware help food retain more nutrients?",
+            "answer": "<p>Pure Titanium’s superior thermal conductivity allows you to cook evenly at lower temperatures. Studies show that lower-temp cooking helps retain up to 30% more nutrients.</p>"
+          }
+        },
+        "faq_item_6hF98A": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why should I switch from my existing pan?",
+            "answer": "<p>Because no other pan protects your health, keeps nutrients intact, and lasts for decades like this one.</p>"
+          }
+        },
+        "faq_item_XkqEiy": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is titanium safe for food contact?",
+            "answer": "<p>Yes. Titanium never leaches, corrodes, or reacts with your food, at any temperature.</p>"
+          }
+        },
+        "faq_item_D9FLmT": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is it safe to use on all stovetops and ovens?",
+            "answer": "<p>Yes. The Taima® Titanium cookware works on every cooking surface - gas, electric, ceramic, induction, open flame & oven.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_QFcyXz",
+        "faq_item_LqUfqw",
+        "faq_item_6hF98A",
+        "faq_item_XkqEiy",
+        "faq_item_D9FLmT"
+      ],
+      "name": "FAQ Accordion",
+      "settings": {
+        "bg_color": "#121212",
+        "heading_color": "#BCA588",
+        "question_color": "#FFFFFF",
+        "answer_color": "#B0B0B0",
+        "border_color": "#454545",
+        "icon_color": "#FFFFFF",
+        "heading": "Frequently Asked Questions",
+        "open_first": true,
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "padding_top_m": 64,
+        "padding_bottom_m": 64
       }
     }
   },
@@ -794,6 +856,7 @@
     "walter_benefits_EAnCxx",
     "scroll_text_with_image_8XhRp4",
     "walter_not_available_L7GyMg",
-    "walter_engineered_layers_TWrRby"
+    "walter_engineered_layers_TWrRby",
+    "walter_faqs_JyccRK"
   ]
 }
