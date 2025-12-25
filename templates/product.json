@@ -380,44 +380,50 @@
     "walter_logo_testimonial_FdQhBX": {
       "type": "walter-logo-testimonial",
       "blocks": {
-        "logo_quote_hbge4D": {
-          "type": "logo_quote",
+        "testimonial_VDept8": {
+          "type": "testimonial",
           "settings": {
+            "image_desktop": "shopify://shop_images/PC_daily_mail-min.png",
+            "image_mobile": "shopify://shop_images/daily_mail_smallest.webp",
             "logo_width": 120,
             "logo_width_mobile": 80,
-            "quote": "This product changed my life."
+            "quote": "<p>Add your customer testimonial or press quote here.</p>"
           }
         },
-        "logo_quote_aPiCa9": {
-          "type": "logo_quote",
+        "testimonial_48Rz8m": {
+          "type": "testimonial",
           "settings": {
+            "image_desktop": "shopify://shop_images/PC_daily_mail-min.png",
+            "image_mobile": "shopify://shop_images/daily_mail_smallest.webp",
             "logo_width": 120,
             "logo_width_mobile": 80,
-            "quote": "This product changed my life."
+            "quote": "<p>Add your customer testimonial or press quote here.</p>"
           }
         },
-        "logo_quote_aArUKP": {
-          "type": "logo_quote",
+        "testimonial_qhTciH": {
+          "type": "testimonial",
           "settings": {
+            "image_desktop": "shopify://shop_images/PC_daily_mail-min.png",
+            "image_mobile": "shopify://shop_images/daily_mail_smallest.webp",
             "logo_width": 120,
             "logo_width_mobile": 80,
-            "quote": "This product changed my life."
+            "quote": "<p>Add your customer testimonial or press quote here.</p>"
           }
         }
       },
       "block_order": [
-        "logo_quote_hbge4D",
-        "logo_quote_aPiCa9",
-        "logo_quote_aArUKP"
+        "testimonial_VDept8",
+        "testimonial_48Rz8m",
+        "testimonial_qhTciH"
       ],
       "name": "Logo Testimonials",
       "settings": {
-        "bg_color": "#03231A",
+        "bg_color": "#03231a",
         "text_color": "#ded2bc",
-        "quote_size": 32,
-        "quote_size_mobile": 20,
         "padding_top": 80,
-        "padding_bottom": 80
+        "padding_bottom": 80,
+        "padding_top_m": 64,
+        "padding_bottom_m": 64
       }
     }
   },
