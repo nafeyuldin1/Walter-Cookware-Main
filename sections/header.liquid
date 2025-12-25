@@ -28,32 +28,33 @@
   
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
-  /* --- DYNAMIC HEADER COLORS & BLUR --- */
+  /* --- DYNAMIC HEADER COLORS --- */
   .header-wrapper {
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
   }
 
-  /* Sticky Header specific styling */
+  .header-wrapper--border-bottom {
+      border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+  }
+
+  /* Sticky Header State */
   .shopify-section-header-sticky .header-wrapper {
       {% if section.settings.enable_sticky_blur %}
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        background-color: rgba(var(--color-background), {{ section.settings.sticky_opacity | divided_by: 100.0 }}) !important;
-      {% else %}
-        background-color: rgb(var(--color-background)) !important;
+        /* Opacity handled by color scheme class usually, but we force background if needed */
       {% endif %}
   }
 
-  /* --- MEGA MENU CSS FIXED --- */
+  /* --- MEGA MENU CSS --- */
   .cat-strip { 
       display: flex; 
       justify-content: center; 
       gap: 20px; 
       padding: 0 20px; 
-      /* Inherit background from header wrapper so it matches (Home/Sticky/Other) */
-      background: inherit; 
+      background: inherit; /* Inherits Header Color */
       border-top: 1px solid rgba(var(--color-foreground), 0.05); 
       border-bottom: 1px solid rgba(var(--color-foreground), 0.05); 
       overflow-x: auto; 
@@ -67,7 +68,7 @@
       text-transform: uppercase; 
       cursor: pointer; 
       padding: 12px 5px; 
-      color: rgb(var(--color-foreground)); /* Dynamic Text Color */
+      color: rgb(var(--color-foreground)); 
       border-bottom: 3px solid transparent; 
       white-space: nowrap; 
       transition: all 0.2s; 
@@ -80,23 +81,15 @@
   }
   
   .cat-portals-wrapper { 
-      position: absolute; 
-      left: 0; 
-      top: 100%; 
-      width: 100%; 
+      position: absolute; left: 0; top: 100%; width: 100%; 
       background: transparent; 
-      z-index: 99; 
-      display: none; 
+      z-index: 99; display: none; 
   }
   .cat-portals-wrapper.is-open { display: block; animation: fadeIn 0.3s ease; }
   
-  /* The Portal (Dropdown) takes the BLOCK Color Scheme */
+  /* Mega Menu Dropdown (Uses Block Color Scheme) */
   .cat-portal { 
-      display: none; 
-      max-width: 100%; 
-      margin: 0 auto; 
-      padding: 40px; 
-      gap: 40px; 
+      display: none; max-width: 1400px; margin: 0 auto; padding: 40px; gap: 40px; 
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
       border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
@@ -111,16 +104,10 @@
   
   .cat-portal__grid { width: 75%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
   .cat-prod { text-decoration: none; color: rgb(var(--color-foreground)); text-align: center; }
-  
-  .cat-prod__media { 
-      position: relative; display: block; border-radius: 8px; overflow: hidden; margin-bottom: 10px; aspect-ratio: 1; 
-      background: rgba(var(--color-foreground), 0.05); 
-  }
+  .cat-prod__media { position: relative; display: block; border-radius: 8px; overflow: hidden; margin-bottom: 10px; aspect-ratio: 1; background: rgba(var(--color-foreground), 0.05); }
   .cat-prod__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
   .cat-prod:hover .cat-prod__media img { transform: scale(1.05); }
-  
   .cat-prod__badge { position: absolute; top: 8px; left: 8px; background: #932933; color: #fff; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; z-index: 2; }
-  
   .cat-prod__title { font-size: 13px; font-weight: 600; margin-bottom: 5px; color: rgb(var(--color-foreground)); line-height: 1.3; }
   .cat-prod__price { font-size: 13px; color: rgb(var(--color-foreground)); }
   .cat-prod__price .cmp { text-decoration: line-through; opacity: 0.6; margin-right: 5px; }
@@ -145,23 +132,29 @@
     assign header_tag = 'sticky-header'
   endif
 
-  # --- COLOR SCHEME LOGIC ---
+  # --- CRITICAL COLOR LOGIC ---
+  # 1. Define schemes from settings
   assign default_scheme = section.settings.color_scheme
   assign home_scheme = section.settings.color_scheme_home
   assign sticky_scheme = section.settings.color_scheme_sticky
   
-  # Current active scheme based on page type
-  assign active_scheme = default_scheme
+  # 2. Determine initial scheme based on Page Type
+  # If Homepage -> Use Home Scheme
+  # If Any Other Page -> Use Default Scheme
   if request.page_type == 'index'
     assign active_scheme = home_scheme
+  else
+    assign active_scheme = default_scheme
   endif
 %}
 
 <{{ header_tag }}
   {% if header_tag == 'sticky-header' %}
     data-sticky-type="{{ section.settings.sticky_header_type }}"
-    data-default-scheme="color-{{ active_scheme }}" 
+    data-home-scheme="color-{{ home_scheme }}"
+    data-default-scheme="color-{{ default_scheme }}" 
     data-sticky-scheme="color-{{ sticky_scheme }}"
+    data-page-type="{{ request.page_type }}"
   {% endif %}
   class="header-wrapper color-{{ active_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}"
 >
@@ -182,10 +175,7 @@
           </summary>
           <div class="search-modal modal__content gradient" role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t }}">
             <div class="modal-overlay"></div>
-            <div class="search-modal__content{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} search-modal__content-top{% endif %}" tabindex="-1">
-              {%- if settings.predictive_search_enabled -%}
-                <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
-              {%- endif -%}
+            <div class="search-modal__content" tabindex="-1">
                 <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
                   <div class="field">
                     <input class="search__input field__input" id="Search-In-Modal-1" type="search" name="q" value="" placeholder="{{ 'general.search.search' | t }}">
@@ -193,9 +183,6 @@
                     <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}"><svg class="icon icon-search" aria-hidden="true" focusable="false" role="presentation"><use href="#icon-search"></use></svg></button>
                   </div>
                 </form>
-              {%- if settings.predictive_search_enabled -%}
-                </predictive-search>
-              {%- endif -%}
             </div>
           </div>
         </details>
@@ -247,15 +234,21 @@
                 <span><svg class="icon icon-search" aria-hidden="true" focusable="false"><use href="#icon-search"></use></svg></span>
             </summary>
              <div class="search-modal modal__content gradient" role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t }}">
+                <div class="search-modal__content" tabindex="-1">
+                    <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
+                      <div class="field">
+                        <input class="search__input field__input" id="Search-In-Modal-2" type="search" name="q" value="" placeholder="{{ 'general.search.search' | t }}">
+                        <label class="field__label" for="Search-In-Modal-2">{{ 'general.search.search' | t }}</label>
+                        <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}"><svg class="icon icon-search" aria-hidden="true" focusable="false" role="presentation"><use href="#icon-search"></use></svg></button>
+                      </div>
+                    </form>
                 </div>
+             </div>
         </details>
       </details-modal>
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M7 18C7.55228 18 8 17.5523 8 17C8 16.4477 7.55228 16 7 16C6.44772 16 6 16.4477 6 17C6 17.5523 6.44772 18 7 18Z" fill="currentColor"/>
-  <path d="M16 18C16.5523 18 17 17.5523 17 17C17 16.4477 16.5523 16 16 16C15.4477 16 15 16.4477 15 17C15 17.5523 15.4477 18 16 18Z" fill="currentColor"/>
-  <path d="M2 2H3.5L5.5 13H16L18 5H5" stroke="currentColor" stroke-width="2"/>
-</svg>        <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+        {% render 'icon-cart' %}
+        <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
         {%- if cart != empty -%}
           <div class="cart-count-bubble">
             {%- if cart.item_count < 100 -%}<span aria-hidden="true">{{ cart.item_count }}</span>{%- endif -%}
@@ -345,8 +338,10 @@
       this.headerIsAlwaysSticky = this.getAttribute('data-sticky-type') === 'always' || this.getAttribute('data-sticky-type') === 'reduce-logo-size';
       
       // Get schemes from data attributes
+      this.homeScheme = this.getAttribute('data-home-scheme');
       this.defaultScheme = this.getAttribute('data-default-scheme');
       this.stickyScheme = this.getAttribute('data-sticky-scheme');
+      this.pageType = this.getAttribute('data-page-type');
 
       this.headerBounds = {};
       this.setHeaderHeight();
@@ -403,14 +398,22 @@
 
     switchColor(isSticky) {
        if(!this.wrapper) return;
-       // Remove both first to avoid conflict, then add correct one
+       
+       // Remove all potential schemes to avoid conflicts
+       this.wrapper.classList.remove(this.homeScheme);
        this.wrapper.classList.remove(this.defaultScheme);
        this.wrapper.classList.remove(this.stickyScheme);
        
        if(isSticky) {
+          // Apply Sticky Color
           this.wrapper.classList.add(this.stickyScheme);
        } else {
-          this.wrapper.classList.add(this.defaultScheme);
+          // Revert to original based on Page Type
+          if(this.pageType === 'index'){
+             this.wrapper.classList.add(this.homeScheme);
+          } else {
+             this.wrapper.classList.add(this.defaultScheme);
+          }
        }
     }
   }
@@ -546,18 +549,21 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Default/Other Pages Color",
+      "info": "Used on all pages EXCEPT Homepage",
       "default": "scheme-1"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme_home",
       "label": "Home Page Color",
+      "info": "Used ONLY on Homepage (Transparent)",
       "default": "scheme-1"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme_sticky",
       "label": "Sticky Header Color",
+      "info": "Used when scrolling down",
       "default": "scheme-1"
     },
     {
