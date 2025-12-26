@@ -36,6 +36,13 @@
             "show_description": true
           }
         },
+        "sticky_atc_DWhMJx": {
+          "type": "sticky_atc",
+          "settings": {
+            "alert_text": "ALMOST SOLD OUT",
+            "btn_text": "ADD TO CART"
+          }
+        },
         "variant_picker_g4KpQh": {
           "type": "variant_picker",
           "settings": {
@@ -172,6 +179,7 @@
         "title_fkmVzK",
         "rating_7qQ3Wj",
         "price_Fkwx4M",
+        "sticky_atc_DWhMJx",
         "variant_picker_g4KpQh",
         "quantity_selector_zdMdca",
         "buy_buttons_GLRF3m",
@@ -218,8 +226,7 @@
         "vendor": {
           "type": "text",
           "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
+            "text": "{{ product.vendor }}"
           }
         },
         "title": {
@@ -233,8 +240,7 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
+            "picker_type": "button"
           }
         },
         "quantity_selector": {
@@ -254,9 +260,7 @@
         },
         "share": {
           "type": "share",
-          "settings": {
-            "share_label": "Share"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -271,19 +275,19 @@
       ],
       "disabled": true,
       "settings": {
-        "enable_sticky_info": true,
-        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 12,
         "media_size": "large",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
+        "media_position": "left",
         "gallery_layout": "stacked",
         "mobile_thumbnails": "show",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": true,
         "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 12
+        "hide_variants": true,
+        "media_fit": "contain",
+        "constrain_to_viewport": true,
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "image_zoom": "lightbox"
       }
     },
     "related-products": {
@@ -727,40 +731,45 @@
           "type": "layer",
           "settings": {
             "image": "shopify://shop_images/pan_first_with_shadow-min.webp",
+            "offset_y": 0,
             "title": "Pure Titanium With SlipScale Technology",
-            "desc": "Non-toxic. Non-stick."
+            "description": "Benefit of this layer"
           }
         },
         "layer_3g4pcF": {
           "type": "layer",
           "settings": {
             "image": "shopify://shop_images/pan_MID_with_shadow-min.webp",
+            "offset_y": 0,
             "title": "Third Recycled Aluminum Core",
-            "desc": "Pushes heat out evenly to all edges"
+            "description": "Benefit of this layer"
           }
         },
         "layer_yUg9LH": {
           "type": "layer",
           "settings": {
             "image": "shopify://shop_images/pan_MID_with_shadow-min_1.webp",
+            "offset_y": 0,
             "title": "Second Recycled Aluminum Core",
-            "desc": "Stabilizes internal heat"
+            "description": "Benefit of this layer"
           }
         },
         "layer_6PqkXa": {
           "type": "layer",
           "settings": {
             "image": "shopify://shop_images/pan_MID_with_shadow-min_2.webp",
+            "offset_y": 0,
             "title": "First Recycled Aluminum Core",
-            "desc": "Pulls heat in fast"
+            "description": "Benefit of this layer"
           }
         },
         "layer_LF3hE3": {
           "type": "layer",
           "settings": {
             "image": "shopify://shop_images/pan_LAST_with_shadow-min.webp",
+            "offset_y": 0,
             "title": "Induction-Ready Stainless Steel",
-            "desc": "Adds durability & magnetic conductivity"
+            "description": "Benefit of this layer"
           }
         }
       },
@@ -774,11 +783,13 @@
       "name": "Engineered Layers",
       "settings": {
         "bg_color": "#07231b",
-        "heading_color": "#bca588",
-        "line_color": "#a3835f",
         "title_color": "#ffffff",
-        "desc_color": "#b0b0b0",
+        "line_color": "#a3835f",
+        "item_title_color": "#ffffff",
+        "item_desc_color": "#b0b0b0",
         "heading": "Engineered From The Inside Out",
+        "heading_size": 48,
+        "anim_speed": 220,
         "padding_top": 48,
         "padding_bottom": 48
       }
