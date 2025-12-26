@@ -127,6 +127,22 @@
         "logo_filter": "none"
       }
     },
+    "promo_link_C4bpaz": {
+      "type": "promo-link",
+      "name": " Promo Link",
+      "settings": {
+        "text_prefix": "Save $200 On Our",
+        "link_text": "Best Selling Titanium Pan",
+        "link_url": "shopify://collections/all",
+        "bg_color": "#03231a",
+        "text_color": "#b0b0b0",
+        "link_color": "#ffffff",
+        "font_size_desktop": 24,
+        "font_size_mobile": 12,
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
     "featured_product_FLpjec": {
       "type": "featured-product",
       "blocks": {
@@ -987,6 +1003,7 @@
   "order": [
     "image_banner",
     "video_banner_XqAVct",
+    "promo_link_C4bpaz",
     "featured_product_FLpjec",
     "collection_list_jM7Nq3",
     "walter_feature_collection_mAfcVP",
