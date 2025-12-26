@@ -411,6 +411,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 </script>
+
+
+<div id="sg-modal" class="sg-modal" hidden>
+  <div class="sg-backdrop" onclick="document.getElementById('sg-modal').hidden = true"></div>
+  <div class="sg-panel">
+    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+      <h2 style="color:#000; margin:0;">Size Guide</h2>
+      <button onclick="document.getElementById('sg-modal').hidden = true" style="background:none;border:none;font-size:24px;cursor:pointer;">&times;</button>
+    </div>
+    <table class="sg-table" style="width:100%; text-align:left; border-collapse:collapse; color:#000;">
+      <thead style="background:#f4f4f4;">
+        <tr><th style="padding:10px;">Size</th><th>Diameter</th><th>Length</th></tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:10px; border-bottom:1px solid #ddd;">Standard</td><td>10.2"</td><td>18.9"</td></tr>
+        <tr><td style="padding:10px; border-bottom:1px solid #ddd;">Large</td><td>11"</td><td>20"</td></tr>
+        <tr><td style="padding:10px; border-bottom:1px solid #ddd;">Extra Large</td><td>11.8"</td><td>21"</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .sg-modal { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+  .sg-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+  .sg-panel { position: relative; background: #fff; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; }
+  /* Trigger Link styling - add class 'trigger-size-guide' to any text to open this */
+</style>
 {% schema %}
 {
   "name": "Main Product (Custom)",
