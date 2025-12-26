@@ -1,6 +1,6 @@
 {% comment %}
   Custom Taima-Style Mobile Drawer
-  FINAL FIX: Aggressive Scroll Unlock & HTML/Body Reset
+  FIX: Forces 'overflow-y: scroll' on HTML tag on close
 {% endcomment %}
 
 <header-drawer data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}">
@@ -154,19 +154,17 @@
       position: fixed; 
       top: 0; left: 0; width: 100vw; height: 100vh; 
       background: rgb(var(--color-background)); 
-      z-index: 9999; /* Higher index */
+      z-index: 9999;
       visibility: hidden; 
       transition: visibility 0s 0.3s; 
   }
   
-  /* === IMPORTANT FIX: POINTER EVENTS & DISPLAY === */
   details[open] .menu-drawer { 
       visibility: visible; 
       transition: visibility 0s 0s; 
       pointer-events: auto; 
   }
   
-  /* When NOT open, hide completely to prevent blocking clicks */
   details:not([open]) .menu-drawer { 
       pointer-events: none; 
       display: none; 
@@ -175,15 +173,13 @@
   .drawer__step { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; background: rgb(var(--color-background)); transition: transform 0.3s ease; transform: translateX(100%); z-index: 1; }
   .drawer__step.is-active { transform: translateX(0); z-index: 2; }
   
-  /* Headers & Scroll */
   .drawer__header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid rgba(var(--color-foreground), 0.1); height: 60px; }
   .drawer__logo img { height: 20px; width: auto; }
-  .drawer__close-btn, .drawer__back-btn { background: none; border: none; cursor: pointer; color: rgb(var(--color-foreground)); padding: 5px; display: flex; align-items: center; z-index: 10; } /* Added Z-index */
+  .drawer__close-btn, .drawer__back-btn { background: none; border: none; cursor: pointer; color: rgb(var(--color-foreground)); padding: 5px; display: flex; align-items: center; z-index: 10; }
   .drawer__header-left { display: flex; align-items: center; gap: 10px; font-weight: 600; text-transform: uppercase; font-size: 14px; }
   
   .drawer__scroll { flex: 1; overflow-y: auto; padding-bottom: 50px; -webkit-overflow-scrolling: touch; }
 
-  /* Content Styling */
   .drawer__slider-section { padding: 15px 0 20px 20px; border-bottom: 1px solid rgba(var(--color-foreground), 0.05); }
   .drawer__slider-title { font-size: 11px; font-weight: 700; color: #dcb14a; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
   .drawer__slider-track { display: flex; gap: 12px; overflow-x: auto; padding-right: 20px; padding-bottom: 10px; }
@@ -234,25 +230,33 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if(!drawerContainer || !drawer) return;
 
-    // === FUNCTION: FORCE UNLOCK SCROLL ===
-    // This removes styles from both BODY and HTML to ensure nothing is stuck
+    // === FORCE SCROLL FUNCTION (UPDATED) ===
     function forceUnlockScroll() {
-        document.body.style.overflow = '';
-        document.body.style.height = '';
-        document.body.classList.remove('overflow-hidden');
-        document.body.classList.remove('lock-scroll'); // Common theme class
+        // Aapki request ke mutabiq HTML tag par scroll add kar raha hun
+        const htmlTag = document.documentElement;
+        const bodyTag = document.body;
+
+        // 1. Pehle purani styles clear karein
+        htmlTag.style.overflow = '';
+        bodyTag.style.overflow = '';
+        htmlTag.classList.remove('overflow-hidden');
+        bodyTag.classList.remove('overflow-hidden');
+
+        // 2. Ab ZABARDASTI scroll laga dein
+        htmlTag.style.overflowY = 'scroll'; // Yeh HTML tag pe scroll layega
+        bodyTag.style.overflowY = 'scroll'; 
         
-        document.documentElement.style.overflow = ''; // Unlocks HTML tag
-        document.documentElement.style.height = ''; 
+        // Ensure height is auto
+        htmlTag.style.height = 'auto';
+        bodyTag.style.height = 'auto';
     }
 
-    // === FUNCTION: LOCK SCROLL ===
     function lockScroll() {
         document.body.style.overflow = 'hidden';
-        document.body.classList.add('overflow-hidden');
+        document.documentElement.style.overflow = 'hidden'; // HTML lock
     }
 
-    // 1. Listen for toggle (General Handling)
+    // Toggle Listener
     drawerContainer.addEventListener('toggle', (e) => {
         if (drawerContainer.open) {
             lockScroll();
@@ -262,17 +266,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 2. Explicit Close Button Handling (Brute Force)
-    // If the toggle event fails, this click event forces the cleanup.
+    // Close Button Listener
     closeBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            drawerContainer.removeAttribute('open'); // Close the drawer
-            forceUnlockScroll(); // FORCE the scroll to unlock immediately
+            drawerContainer.removeAttribute('open'); 
+            forceUnlockScroll(); // Call immediately
         });
     });
 
-    // Step 1 buttons logic
+    // Step Logic (Same as before)
     const catBtns = drawer.querySelectorAll('.d-cat-btn');
     const backBtns = drawer.querySelectorAll('.drawer__back-btn');
 
@@ -280,18 +283,14 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', (e) => {
             const targetId = btn.dataset.target;
             const targetStep = document.getElementById(targetId);
-            if(targetStep) {
-                targetStep.classList.add('is-active');
-            }
+            if(targetStep) targetStep.classList.add('is-active');
         });
     });
 
     backBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const activeStep = btn.closest('.drawer__step--2');
-            if(activeStep) {
-                activeStep.classList.remove('is-active');
-            }
+            if(activeStep) activeStep.classList.remove('is-active');
         });
     });
 
