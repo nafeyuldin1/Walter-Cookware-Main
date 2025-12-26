@@ -1,7 +1,6 @@
 {% comment %}
   Custom Taima-Style Mobile Drawer
-  Features: Multi-step navigation, Slider, Icons, Reviews
-  Fixed: Body Scroll Issue on Close
+  FINAL FIX: Aggressive Scroll Unlock & HTML/Body Reset
 {% endcomment %}
 
 <header-drawer data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}">
@@ -20,7 +19,6 @@
     <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
       
       <div class="drawer__step drawer__step--1 is-active" data-step="1">
-        
         <div class="drawer__header">
             <div class="drawer__logo">
                {%- if settings.logo != blank -%}
@@ -29,19 +27,16 @@
                  <span class="h4">{{ shop.name }}</span>
                {%- endif -%}
             </div>
-            <button class="drawer__close-btn" type="button" onclick="this.closest('details').removeAttribute('open')">
+            <button class="drawer__close-btn js-close-drawer" type="button">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
         </div>
 
         <div class="drawer__scroll">
-            
             {%- assign slider_blocks = section.blocks | where: "type", "mobile_slider_product" -%}
             {% if slider_blocks.size > 0 %}
                 <div class="drawer__slider-section">
-                    <div class="drawer__slider-title">
-                        {{ section.settings.drawer_slider_title }}
-                    </div>
+                    <div class="drawer__slider-title">{{ section.settings.drawer_slider_title }}</div>
                     <div class="drawer__slider-track">
                         {% for block in slider_blocks %}
                             {% assign prod = block.settings.product %}
@@ -102,7 +97,6 @@
 
       {% for block in cat_blocks %}
       <div id="step-2-{{ block.id }}" class="drawer__step drawer__step--2" data-step="2">
-        
         <div class="drawer__header">
             <div class="drawer__header-left">
                 <button class="drawer__back-btn">
@@ -110,7 +104,7 @@
                 </button>
                 <span class="drawer__crumb">{{ block.settings.title }}</span>
             </div>
-            <button class="drawer__close-btn" type="button" onclick="this.closest('details').removeAttribute('open')">
+            <button class="drawer__close-btn js-close-drawer" type="button">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
         </div>
@@ -134,7 +128,6 @@
                     <p style="padding:20px; opacity:0.6;">Select a collection in block settings.</p>
                 {% endif %}
             </div>
-
             {% if block.settings.step2_review != blank %}
             <div class="d-review">
                 <div class="d-review__text">"{{ block.settings.step2_review }}"</div>
@@ -157,31 +150,43 @@
 
 <style>
   /* Base Drawer */
-  .menu-drawer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgb(var(--color-background)); z-index: 1000; visibility: hidden; transition: visibility 0s 0.3s; }
+  .menu-drawer { 
+      position: fixed; 
+      top: 0; left: 0; width: 100vw; height: 100vh; 
+      background: rgb(var(--color-background)); 
+      z-index: 9999; /* Higher index */
+      visibility: hidden; 
+      transition: visibility 0s 0.3s; 
+  }
   
-  /* IMPORTANT: Fix stuck scroll by managing pointer events */
-  details[open] .menu-drawer { visibility: visible; transition: visibility 0s 0s; pointer-events: auto; }
-  details:not([open]) .menu-drawer { pointer-events: none; }
+  /* === IMPORTANT FIX: POINTER EVENTS & DISPLAY === */
+  details[open] .menu-drawer { 
+      visibility: visible; 
+      transition: visibility 0s 0s; 
+      pointer-events: auto; 
+  }
+  
+  /* When NOT open, hide completely to prevent blocking clicks */
+  details:not([open]) .menu-drawer { 
+      pointer-events: none; 
+      display: none; 
+  }
 
   .drawer__step { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; background: rgb(var(--color-background)); transition: transform 0.3s ease; transform: translateX(100%); z-index: 1; }
   .drawer__step.is-active { transform: translateX(0); z-index: 2; }
   
-  /* Headers */
+  /* Headers & Scroll */
   .drawer__header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid rgba(var(--color-foreground), 0.1); height: 60px; }
   .drawer__logo img { height: 20px; width: auto; }
-  .drawer__close-btn, .drawer__back-btn { background: none; border: none; cursor: pointer; color: rgb(var(--color-foreground)); padding: 5px; display: flex; align-items: center; }
+  .drawer__close-btn, .drawer__back-btn { background: none; border: none; cursor: pointer; color: rgb(var(--color-foreground)); padding: 5px; display: flex; align-items: center; z-index: 10; } /* Added Z-index */
   .drawer__header-left { display: flex; align-items: center; gap: 10px; font-weight: 600; text-transform: uppercase; font-size: 14px; }
   
-  /* Scroll Area */
   .drawer__scroll { flex: 1; overflow-y: auto; padding-bottom: 50px; -webkit-overflow-scrolling: touch; }
 
-  /* Slider */
+  /* Content Styling */
   .drawer__slider-section { padding: 15px 0 20px 20px; border-bottom: 1px solid rgba(var(--color-foreground), 0.05); }
   .drawer__slider-title { font-size: 11px; font-weight: 700; color: #dcb14a; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
   .drawer__slider-track { display: flex; gap: 12px; overflow-x: auto; padding-right: 20px; padding-bottom: 10px; }
-  .drawer__slider-track::-webkit-scrollbar { height: 4px; }
-  .drawer__slider-track::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-  
   .d-slide { min-width: 140px; width: 140px; text-decoration: none; color: inherit; display: block; }
   .d-slide__img { position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 1; background: #f5f5f5; margin-bottom: 8px; }
   .d-slide__img img { width: 100%; height: 100%; object-fit: cover; }
@@ -191,7 +196,6 @@
   .d-slide__price .cmp { text-decoration: line-through; opacity: 0.6; margin-right: 4px; }
   .d-slide__price .prc { font-weight: 700; }
 
-  /* Categories Step 1 */
   .drawer__cats { padding: 20px; }
   .drawer__cats-title { font-size: 12px; font-weight: 700; opacity: 0.5; margin-bottom: 15px; letter-spacing: 1px; }
   .d-cat-btn { width: 100%; display: flex; justify-content: space-between; align-items: center; background: rgba(var(--color-foreground), 0.03); border: none; padding: 12px 15px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; color: rgb(var(--color-foreground)); transition: background 0.2s; }
@@ -201,12 +205,10 @@
   .d-cat-placeholder { width: 32px; height: 32px; background: #eee; border-radius: 4px; }
   .d-cat-name { font-size: 14px; font-weight: 600; text-transform: uppercase; }
 
-  /* Footer Links */
   .drawer__footer { padding: 0 20px 40px; border-top: 1px solid rgba(var(--color-foreground), 0.05); padding-top: 20px; }
   .d-footer-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
   .d-footer-list a { text-decoration: none; color: rgb(var(--color-foreground)); font-size: 13px; font-weight: 500; opacity: 0.8; }
 
-  /* Step 2 Product List */
   .d-prod-list { padding: 10px; }
   .d-prod-item { display: flex; align-items: center; gap: 15px; padding: 10px; text-decoration: none; color: inherit; border-bottom: 1px solid rgba(var(--color-foreground), 0.05); }
   .d-prod-item__img { width: 60px; height: 60px; border-radius: 6px; overflow: hidden; background: #f5f5f5; flex-shrink: 0; }
@@ -214,13 +216,11 @@
   .d-prod-item__title { font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
   .d-prod-item__price { font-size: 13px; opacity: 0.8; }
 
-  /* Reviews in Step 2 */
   .d-review { margin: 20px; padding: 20px; background: rgba(var(--color-foreground), 0.03); border-radius: 12px; border: 1px solid rgba(var(--color-foreground), 0.05); }
   .d-review__text { font-style: italic; font-size: 13px; margin-bottom: 15px; line-height: 1.5; }
   .d-review__meta { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; }
   .d-review__avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
 
-  /* Icon Fixes */
   .icon-hamburger, .icon-close { width: 24px; height: 24px; }
   details[open] .icon-hamburger { display: none; }
   details:not([open]) .icon-close { display: none; }
@@ -230,26 +230,46 @@
 document.addEventListener('DOMContentLoaded', () => {
     const drawerContainer = document.getElementById('Details-menu-drawer-container');
     const drawer = document.getElementById('menu-drawer');
+    const closeBtns = document.querySelectorAll('.js-close-drawer');
     
     if(!drawerContainer || !drawer) return;
 
-    // --- FIX FOR STUCK SCROLL ---
-    // Listen for the toggle event on the details element
+    // === FUNCTION: FORCE UNLOCK SCROLL ===
+    // This removes styles from both BODY and HTML to ensure nothing is stuck
+    function forceUnlockScroll() {
+        document.body.style.overflow = '';
+        document.body.style.height = '';
+        document.body.classList.remove('overflow-hidden');
+        document.body.classList.remove('lock-scroll'); // Common theme class
+        
+        document.documentElement.style.overflow = ''; // Unlocks HTML tag
+        document.documentElement.style.height = ''; 
+    }
+
+    // === FUNCTION: LOCK SCROLL ===
+    function lockScroll() {
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add('overflow-hidden');
+    }
+
+    // 1. Listen for toggle (General Handling)
     drawerContainer.addEventListener('toggle', (e) => {
         if (drawerContainer.open) {
-            // Lock body scroll
-            document.body.style.overflow = 'hidden';
-            document.body.classList.add('overflow-hidden'); // Standard Shopify class
+            lockScroll();
         } else {
-            // Unlock body scroll
-            document.body.style.overflow = '';
-            document.body.classList.remove('overflow-hidden');
-            
-            // Reset steps to initial state after small delay for smooth closing
-            setTimeout(() => {
-                resetDrawerSteps();
-            }, 300);
+            forceUnlockScroll();
+            setTimeout(resetDrawerSteps, 300);
         }
+    });
+
+    // 2. Explicit Close Button Handling (Brute Force)
+    // If the toggle event fails, this click event forces the cleanup.
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            drawerContainer.removeAttribute('open'); // Close the drawer
+            forceUnlockScroll(); // FORCE the scroll to unlock immediately
+        });
     });
 
     // Step 1 buttons logic
@@ -275,7 +295,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Helper to reset internal navigation when drawer closes
     function resetDrawerSteps() {
         const activeSteps = drawer.querySelectorAll('.drawer__step--2.is-active');
         activeSteps.forEach(step => step.classList.remove('is-active'));
