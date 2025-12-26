@@ -365,7 +365,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 </script>
+<div id="sticky-cta-wrapper" class="sticky-cta is-off">
+  <div class="sticky-cta__thumb">
+    {{ product.featured_image | image_url: width: 100 | image_tag }}
+  </div>
+  <div class="sticky-cta__body">
+    <div class="sticky-cta__title">{{ product.title }}</div>
+    <div class="sticky-cta__alert">
+      <span style="color:#ff2422; font-weight:bold;">⚠️ ALMOST SOLD OUT</span>
+    </div>
+  </div>
+  <button type="button" class="sticky-cta__btn" onclick="document.querySelector('.product-form__submit').click()">ADD TO CART</button>
+</div>
 
+<style>
+  .sticky-cta {
+    position: fixed; z-index: 9998; bottom: 20px; right: 20px;
+    display: flex; align-items: center; gap: 15px;
+    background: #1a1a1a; color: #fff; padding: 10px; border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transform: translateY(100px); opacity: 0; transition: all 0.3s ease;
+  }
+  .sticky-cta.is-on { transform: translateY(0); opacity: 1; }
+  .sticky-cta__thumb img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
+  .sticky-cta__title { font-size: 14px; font-weight: 600; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sticky-cta__btn {
+    background: #fff; color: #000; border: none; padding: 10px 20px;
+    font-weight: bold; border-radius: 8px; cursor: pointer;
+  }
+  @media(max-width: 768px) {
+    .sticky-cta { left: 0; right: 0; bottom: 0; border-radius: 0; justify-content: space-between; width: 100%; }
+    .sticky-cta__thumb, .sticky-cta__body { display: none; }
+    .sticky-cta__btn { width: 100%; }
+  }
+</style>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const cta = document.getElementById('sticky-cta-wrapper');
+    const mainBtn = document.querySelector('.product-form__submit');
+    if(mainBtn && cta) {
+      const rect = mainBtn.getBoundingClientRect();
+      if(rect.bottom < 0) cta.classList.add('is-on');
+      else cta.classList.remove('is-on');
+    }
+  });
+</script>
 {% schema %}
 {
   "name": "Main Product (Custom)",
