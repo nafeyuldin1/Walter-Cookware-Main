@@ -1,6 +1,7 @@
 {% comment %}
   Custom Taima-Style Mobile Drawer
   Features: Multi-step navigation, Slider, Icons, Reviews
+  Fixed: Body Scroll Issue on Close
 {% endcomment %}
 
 <header-drawer data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}">
@@ -28,7 +29,7 @@
                  <span class="h4">{{ shop.name }}</span>
                {%- endif -%}
             </div>
-            <button class="drawer__close-btn" onclick="this.closest('details').removeAttribute('open')">
+            <button class="drawer__close-btn" type="button" onclick="this.closest('details').removeAttribute('open')">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
         </div>
@@ -109,7 +110,7 @@
                 </button>
                 <span class="drawer__crumb">{{ block.settings.title }}</span>
             </div>
-            <button class="drawer__close-btn" onclick="this.closest('details').removeAttribute('open')">
+            <button class="drawer__close-btn" type="button" onclick="this.closest('details').removeAttribute('open')">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
         </div>
@@ -157,8 +158,11 @@
 <style>
   /* Base Drawer */
   .menu-drawer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgb(var(--color-background)); z-index: 1000; visibility: hidden; transition: visibility 0s 0.3s; }
-  details[open] .menu-drawer { visibility: visible; transition: visibility 0s 0s; }
   
+  /* IMPORTANT: Fix stuck scroll by managing pointer events */
+  details[open] .menu-drawer { visibility: visible; transition: visibility 0s 0s; pointer-events: auto; }
+  details:not([open]) .menu-drawer { pointer-events: none; }
+
   .drawer__step { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; background: rgb(var(--color-background)); transition: transform 0.3s ease; transform: translateX(100%); z-index: 1; }
   .drawer__step.is-active { transform: translateX(0); z-index: 2; }
   
@@ -169,7 +173,7 @@
   .drawer__header-left { display: flex; align-items: center; gap: 10px; font-weight: 600; text-transform: uppercase; font-size: 14px; }
   
   /* Scroll Area */
-  .drawer__scroll { flex: 1; overflow-y: auto; padding-bottom: 50px; }
+  .drawer__scroll { flex: 1; overflow-y: auto; padding-bottom: 50px; -webkit-overflow-scrolling: touch; }
 
   /* Slider */
   .drawer__slider-section { padding: 15px 0 20px 20px; border-bottom: 1px solid rgba(var(--color-foreground), 0.05); }
@@ -224,10 +228,31 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    const drawerContainer = document.getElementById('Details-menu-drawer-container');
     const drawer = document.getElementById('menu-drawer');
-    if(!drawer) return;
+    
+    if(!drawerContainer || !drawer) return;
 
-    // Step 1 buttons
+    // --- FIX FOR STUCK SCROLL ---
+    // Listen for the toggle event on the details element
+    drawerContainer.addEventListener('toggle', (e) => {
+        if (drawerContainer.open) {
+            // Lock body scroll
+            document.body.style.overflow = 'hidden';
+            document.body.classList.add('overflow-hidden'); // Standard Shopify class
+        } else {
+            // Unlock body scroll
+            document.body.style.overflow = '';
+            document.body.classList.remove('overflow-hidden');
+            
+            // Reset steps to initial state after small delay for smooth closing
+            setTimeout(() => {
+                resetDrawerSteps();
+            }, 300);
+        }
+    });
+
+    // Step 1 buttons logic
     const catBtns = drawer.querySelectorAll('.d-cat-btn');
     const backBtns = drawer.querySelectorAll('.drawer__back-btn');
 
@@ -249,5 +274,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Helper to reset internal navigation when drawer closes
+    function resetDrawerSteps() {
+        const activeSteps = drawer.querySelectorAll('.drawer__step--2.is-active');
+        activeSteps.forEach(step => step.classList.remove('is-active'));
+    }
 });
 </script>
