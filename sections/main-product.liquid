@@ -9,7 +9,7 @@
   {% endunless %}
 
   {%- style -%}
-    /* --- 1. GLOBAL DARK THEME --- */
+    /* --- 1. CORE THEME & LAYOUT --- */
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -24,101 +24,82 @@
       }
     }
 
-    /* Text & Headings */
+    /* Headings & Text */
     #MainProduct-{{ section.id }} h1, 
-    #MainProduct-{{ section.id }} h2, 
-    #MainProduct-{{ section.id }} h3, 
-    #MainProduct-{{ section.id }} .product__title { color: #ffffff !important; letter-spacing: 0.5px; }
+    #MainProduct-{{ section.id }} .product__title,
     #MainProduct-{{ section.id }} .price-item { color: #ffffff !important; }
     #MainProduct-{{ section.id }} .product__text, .product__description { color: #B0B0B0 !important; }
 
-    /* --- 2. VARIANT PICKER FIX (No more white boxes) --- */
+    /* --- 2. VARIANT PICKER FIX (No Repetition & No White Boxes) --- */
+    
+    /* 1. Hide the "Default Title" label and button completely */
+    label[for*="Default-Title"], 
+    input[value="Default Title"] + label,
+    .product-form__input option[value="Default Title"] {
+      display: none !important;
+    }
+
+    /* 2. Styling the valid variant pills */
     #MainProduct-{{ section.id }} .product-form__input input[type='radio'] + label {
       background-color: transparent !important;
       color: #ffffff !important;
       border: 1px solid #454545 !important;
-      border-radius: 8px;
-      padding: 10px 20px;
-      margin: 5px;
-      transition: all 0.3s ease;
+      border-radius: 4px;
+      padding: 12px 24px;
+      margin: 0 8px 8px 0;
+      display: inline-block;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
     }
 
+    /* 3. Selected variant style */
     #MainProduct-{{ section.id }} .product-form__input input[type='radio']:checked + label {
       background-color: #ffffff !important;
       color: #000000 !important;
       border-color: #ffffff !important;
     }
 
-    /* Hide Default Title Variant if it's the only one */
-    {% if product.has_only_default_variant %}
-      .product-form__input { display: none !important; }
-    {% endif %}
-
-    /* --- 3. CUSTOM COMPONENTS --- */
-    .benefits-grid { margin: 25px 0; border-top: 1px solid #333; padding-top: 20px; }
-    .benefits-grid__list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    /* --- 3. CUSTOM BLOCKS --- */
+    .benefits-grid { margin: 20px 0; border-top: 1px solid #333; padding-top: 20px; }
+    .benefits-grid__list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .benefits-grid__item { display: flex; align-items: center; gap: 10px; }
-    .benefits-grid__text { font-size: 13px; color: #b0b0b0; line-height: 1.3; }
+    .benefits-grid__text { font-size: 12px; color: #b0b0b0; }
 
     .shipbar { 
-      margin: 20px 0; 
-      background: rgba(3, 35, 26, 0.6); 
-      border: 1px solid #03231A; 
-      border-radius: 10px; 
-      padding: 15px; 
-      display: flex; 
-      align-items: center; 
-      gap: 15px; 
+      margin: 20px 0; background: #03231A; border-radius: 8px; 
+      padding: 15px; display: flex; align-items: center; gap: 15px; 
     }
-    .shipbar__text { font-size: 13px; color: #D2F1E3; }
+    .shipbar__text { font-size: 12px; color: #D2F1E3; line-height: 1.4; }
 
-    /* Tabs Styling */
-    .pit-container { margin-top: 35px; border-top: 1px solid #333; }
-    .pit-tabs { display: flex; border-bottom: 1px solid #333; }
+    /* Tabs */
+    .pit-container { margin-top: 30px; border-top: 1px solid #454545; }
+    .pit-tabs { display: flex; border-bottom: 1px solid #454545; }
     .pit-tab { 
       flex: 1; padding: 15px; background: transparent; border: none; 
-      color: #666; cursor: pointer; font-weight: bold; font-size: 14px;
-      border-bottom: 2px solid transparent; text-transform: uppercase;
+      color: #666; cursor: pointer; font-weight: bold; border-bottom: 2px solid transparent; 
     }
     .pit-tab.is-active { color: #fff; border-bottom-color: #fff; }
-    .pit-panel { display: none; padding: 20px 0; color: #b0b0b0; line-height: 1.6; }
-    .pit-panel.is-active { display: block; animation: fadeIn 0.4s ease; }
+    .pit-panel { display: none; padding: 20px 0; color: #B0B0B0; font-size: 14px; }
+    .pit-panel.is-active { display: block; animation: fadeIn 0.4s; }
 
-    /* Upsell Card Fix */
-    .upsell-section { margin-top: 40px; }
+    /* Upsell */
     .upsell-card { 
       background: #1a1a1a; border: 1px solid #333; border-radius: 12px; 
-      padding: 15px; display: flex; gap: 15px; align-items: center; margin-top: 10px; 
+      padding: 15px; display: flex; gap: 15px; align-items: center; margin-top:15px; 
     }
-    .upsell-info { flex: 1; }
-    .upsell-title { font-weight: bold; color: #fff; display: block; margin-bottom: 4px; }
-    .upsell-price { color: #888; font-size: 13px; }
 
-    /* Sticky CTA */
+    /* Sticky Button */
     .sticky-cta { 
-      position: fixed; z-index: 100; bottom: 20px; right: 20px; 
-      background: #000; padding: 12px; border-radius: 12px; 
+      position: fixed; z-index: 99; bottom: 20px; right: 20px; 
+      background: #1a1a1a; padding: 10px 20px; border-radius: 50px; 
       display: flex; align-items: center; gap: 15px; 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
-      transform: translateY(200%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      border: 1px solid #333;
+      border: 1px solid #333; transform: translateY(200%); transition: 0.3s;
     }
     .sticky-cta.is-visible { transform: translateY(0); }
-    .sticky-cta img { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; }
-    .sticky-cta button { 
-      background: #fff; color: #000; border: none; padding: 10px 20px; 
-      font-weight: 800; border-radius: 6px; cursor: pointer; font-size: 12px;
-    }
+    .sticky-cta button { background: #fff; color: #000; border: none; padding: 8px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
 
-    /* Modal Fix */
-    .sg-modal { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); }
-    .sg-panel { background: #1a1a1a; padding: 30px; border-radius: 16px; width: 90%; max-width: 450px; position: relative; color: #fff; border: 1px solid #333; }
-    .sg-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 28px; cursor: pointer; color: #fff; }
-    .sg-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    .sg-table th { background: #333; color: #fff; padding: 12px; text-align: left; }
-    .sg-table td { padding: 12px; border-bottom: 1px solid #333; color: #ccc; }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   {%- endstyle -%}
 
   <div class="page-width">
@@ -133,147 +114,57 @@
 
           {%- for block in section.blocks -%}
             {%- case block.type -%}
-              {%- when '@app' -%}
-                {% render block %}
-              {%- when 'text' -%}
-                <p class="product__text" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
               {%- when 'title' -%}
                 <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title | escape }}</h1>
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" {{ block.shopify_attributes }}>
                   {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
                 </div>
-                
-                <div class="benefits-grid">
-                  <div class="benefits-grid__list">
-                    <div class="benefits-grid__item">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#fff" stroke-width="2"/><path d="M8 12L11 15L16 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      <div class="benefits-grid__text">No PFAS/PFOA.<br><strong>Toxic-Free</strong></div>
-                    </div>
-                    <div class="benefits-grid__item">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3V5M12 19V21M5 12H3M21 12H19" stroke="#fff" stroke-width="2"/></svg>
-                      <div class="benefits-grid__text">Heat Resistant<br><strong>up to 600°C</strong></div>
-                    </div>
-                  </div>
-                </div>
-
               {%- when 'variant_picker' -%}
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
-                <button type="button" class="size-guide-trigger" style="background:none; border:none; color:#888; text-decoration:underline; cursor:pointer; margin-top:15px; font-size: 13px;">📏 View Size Guide</button>
-              
+                <button type="button" class="size-guide-trigger" style="background:none; border:none; color:#888; text-decoration:underline; cursor:pointer; font-size:12px; margin-top:10px;">📏 Size Guide</button>
               {%- when 'buy_buttons' -%}
-                {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
+                {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id -%}
                 <div class="shipbar">
-                   <div style="font-size: 24px;">🚚</div>
-                   <div class="shipbar__text"><strong>Free Shipping Worldwide</strong><br>30-Day Money Back Guarantee</div>
+                   <div style="font-size: 20px;">🚚</div>
+                   <div class="shipbar__text"><strong>Free Shipping & 30-Day Returns</strong><br>Your order is protected by our lifetime warranty.</div>
                 </div>
+              {%- when 'description' -%}
+                <div class="product__description rte" {{ block.shopify_attributes }}>{{ product.description }}</div>
             {%- endcase -%}
           {%- endfor -%}
 
           <div class="pit-container">
             <div class="pit-tabs">
-              <button class="pit-tab is-active" data-target="panel-desc-{{ section.id }}">Description</button>
-              <button class="pit-tab" data-target="panel-health-{{ section.id }}">Specifications</button>
+              <button class="pit-tab is-active" data-target="panel-desc">Details</button>
+              <button class="pit-tab" data-target="panel-health">Benefits</button>
             </div>
-            <div id="panel-desc-{{ section.id }}" class="pit-panel is-active">{{ product.description }}</div>
-            <div id="panel-health-{{ section.id }}" class="pit-panel"><p>Material: Professional Grade Titanium<br>Compatibility: Induction, Gas, Electric, Oven Safe.</p></div>
+            <div id="panel-desc" class="pit-panel is-active">{{ product.description | truncatewords: 50 }}</div>
+            <div id="panel-health" class="pit-panel"><p>Our titanium is naturally non-toxic and non-stick. Safe for all stovetops.</p></div>
           </div>
-
-          <div class="upsell-section">
-            <h3 style="font-size:16px; margin-bottom: 10px;">Frequently Bought Together</h3>
-            <div class="upsell-card">
-              <div style="width:50px; height:50px; background:#333; border-radius:8px;"></div>
-              <div class="upsell-info">
-                <span class="upsell-title">Titanium Cleaning Kit</span>
-                <span class="upsell-price">$29.00</span>
-              </div>
-              <button class="js-force-add-btn" data-variant-id="{{ product.selected_or_first_available_variant.id }}" style="background:#fff; color:#000; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:12px;">Add</button>
-            </div>
-          </div>
-
         </product-info>
       </div>
     </div>
   </div>
 </section>
 
-<div id="sticky-cta-{{ section.id }}" class="sticky-cta">
-  <div style="display:flex; gap:12px; align-items:center;">
-    <img src="{{ product.featured_image | image_url: width: 100 }}" alt="{{ product.title }}">
-    <div>
-      <div style="font-weight:bold; font-size:13px; color:#fff;">{{ product.title | truncate: 18 }}</div>
-      <div style="color:#ff4545; font-size:11px; font-weight:bold;">🔥 SELLING FAST</div>
-    </div>
-  </div>
-  <button id="sticky-submit-{{ section.id }}">ADD TO CART</button>
-</div>
-
-<div id="sg-modal-{{ section.id }}" class="sg-modal" hidden>
-  <div class="sg-panel">
-    <button class="sg-close" onclick="this.closest('.sg-modal').hidden = true">&times;</button>
-    <h3 style="margin-top:0;">Product Size Guide</h3>
-    <table class="sg-table">
-      <thead><tr><th>Size</th><th>Capacity</th></tr></thead>
-      <tbody>
-        <tr><td>Small (8")</td><td>1.5 Quarts</td></tr>
-        <tr><td>Medium (10")</td><td>2.5 Quarts</td></tr>
-        <tr><td>Large (12")</td><td>4.0 Quarts</td></tr>
-      </tbody>
-    </table>
-  </div>
+<div id="sticky-cta-wrapper" class="sticky-cta">
+  <div style="color:#fff; font-size: 13px; font-weight: bold;">{{ product.title | truncate: 15 }}</div>
+  <button id="sticky-add-to-cart">ADD TO CART</button>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const sectionId = "{{ section.id }}";
   
-  // 1. AJAX Cart Update
-  function updateCartDrawer() {
-    fetch(window.Shopify.routes.root + '?section_id=cart-drawer')
-      .then(res => res.text())
-      .then(html => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const drawer = document.querySelector('cart-drawer');
-        if (drawer && doc.querySelector('cart-drawer')) {
-          drawer.innerHTML = doc.querySelector('cart-drawer').innerHTML;
-          if (typeof drawer.open === 'function') drawer.open();
-        } else {
-          window.location.href = '/cart';
-        }
-      });
-  }
-
-  function handleAddToCart(fd, btn) {
-    if(btn) btn.disabled = true;
-    fetch(window.Shopify.routes.root + 'cart/add.js', { method: 'POST', body: fd })
-    .then(res => res.json())
-    .then(data => {
-      if(data.id) updateCartDrawer();
-      else alert("Error adding to cart");
-    })
-    .finally(() => { if(btn) btn.disabled = false; });
-  }
-
-  // 2. Event Listeners
-  const mainForm = document.querySelector(`#product-form-${sectionId}`);
-  
-  // Sticky Button
-  document.getElementById(`sticky-submit-${sectionId}`)?.addEventListener('click', () => {
-    if(mainForm) mainForm.querySelector('[type="submit"]')?.click();
-  });
-
-  // Scroll Visibility for Sticky
-  window.addEventListener('scroll', () => {
-    const sticky = document.getElementById(`sticky-cta-${sectionId}`);
-    const buyBtn = document.querySelector('.product-form__submit');
-    if(buyBtn && sticky) {
-      if(buyBtn.getBoundingClientRect().bottom < 0) sticky.classList.add('is-visible');
-      else sticky.classList.remove('is-visible');
+  // 1. Force Remove any duplicate Default Titles that JS might inject
+  document.querySelectorAll('.product-form__input').forEach(input => {
+    if(input.innerText.includes('Default Title')) {
+       input.style.display = 'none';
     }
   });
 
-  // Tabs Logic
+  // 2. Tabs Logic
   document.querySelectorAll('.pit-tab').forEach(tab => {
     tab.addEventListener('click', function() {
       const container = this.closest('.pit-container');
@@ -283,34 +174,31 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Size Guide Modal
-  document.querySelector('.size-guide-trigger')?.addEventListener('click', () => {
-    document.getElementById(`sg-modal-${sectionId}`).hidden = false;
+  // 3. Sticky Button Logic
+  window.addEventListener('scroll', () => {
+    const sticky = document.getElementById('sticky-cta-wrapper');
+    const mainBtn = document.querySelector('.product-form__submit');
+    if(mainBtn && sticky) {
+      if(mainBtn.getBoundingClientRect().bottom < 0) sticky.classList.add('is-visible');
+      else sticky.classList.remove('is-visible');
+    }
   });
 
-  // Upsell Button
-  document.querySelectorAll('.js-force-add-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const fd = new FormData();
-      fd.append('id', this.dataset.variantId);
-      fd.append('quantity', 1);
-      handleAddToCart(fd, this);
-    });
+  document.getElementById('sticky-add-to-cart')?.addEventListener('click', () => {
+    document.querySelector('.product-form__submit')?.click();
   });
 });
 </script>
 
 {% schema %}
 {
-  "name": "Custom Product Section",
+  "name": "Fixed Product Section",
   "tag": "section",
   "blocks": [
-    {"type": "@app"},
-    {"type": "text", "name": "Text", "settings": [{"type": "inline_richtext", "id": "text", "label": "Text"}]},
     {"type": "title", "name": "Title", "limit": 1},
     {"type": "price", "name": "Price", "limit": 1},
     {"type": "variant_picker", "name": "Variant Picker", "limit": 1},
-    {"type": "buy_buttons", "name": "Buy Buttons", "limit": 1, "settings": [{"type": "checkbox", "id": "show_dynamic_checkout", "default": true, "label": "Show Dynamic Checkout"}]},
+    {"type": "buy_buttons", "name": "Buy Buttons", "limit": 1},
     {"type": "description", "name": "Description", "limit": 1}
   ],
   "settings": [
