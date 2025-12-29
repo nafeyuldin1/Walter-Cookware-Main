@@ -1,21 +1,15 @@
 <section id="MainProduct-{{ section.id }}" class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}" data-section="{{ section.id }}">
   
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
-  {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
-  {{ 'component-slider.css' | asset_url | stylesheet_tag }}
-  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-loading-spinner.css' | asset_url | stylesheet_tag }}
-  {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
-    {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
-    {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
   {% endunless %}
 
   {%- style -%}
-    /* --- 1. DARK THEME STYLING --- */
+    /* --- 1. GLOBAL DARK THEME --- */
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -30,57 +24,109 @@
       }
     }
 
-    /* Text Colors */
-    h1, h2, h3, .h1, .h2, .product__title h1 { color: #ffffff !important; font-weight: 400; letter-spacing: 1px; }
-    .product__text, .product__description, .product__description p, .price-item { color: #B0B0B0 !important; }
-    .price-item--sale { color: #E9E2D8 !important; }
-    .product__title a { text-decoration: none; }
-    .product__media-wrapper { background: transparent !important; }
+    /* Text & Headings */
+    #MainProduct-{{ section.id }} h1, 
+    #MainProduct-{{ section.id }} h2, 
+    #MainProduct-{{ section.id }} h3, 
+    #MainProduct-{{ section.id }} .product__title { color: #ffffff !important; letter-spacing: 0.5px; }
+    #MainProduct-{{ section.id }} .price-item { color: #ffffff !important; }
+    #MainProduct-{{ section.id }} .product__text, .product__description { color: #B0B0B0 !important; }
 
-    /* --- 2. COMPONENTS STYLING --- */
-    .benefits-grid { margin: 20px 0; border-top: 1px solid #333; padding-top: 20px; }
-    .benefits-grid__list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    /* --- 2. VARIANT PICKER FIX (No more white boxes) --- */
+    #MainProduct-{{ section.id }} .product-form__input input[type='radio'] + label {
+      background-color: transparent !important;
+      color: #ffffff !important;
+      border: 1px solid #454545 !important;
+      border-radius: 8px;
+      padding: 10px 20px;
+      margin: 5px;
+      transition: all 0.3s ease;
+    }
+
+    #MainProduct-{{ section.id }} .product-form__input input[type='radio']:checked + label {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      border-color: #ffffff !important;
+    }
+
+    /* Hide Default Title Variant if it's the only one */
+    {% if product.has_only_default_variant %}
+      .product-form__input { display: none !important; }
+    {% endif %}
+
+    /* --- 3. CUSTOM COMPONENTS --- */
+    .benefits-grid { margin: 25px 0; border-top: 1px solid #333; padding-top: 20px; }
+    .benefits-grid__list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     .benefits-grid__item { display: flex; align-items: center; gap: 10px; }
-    .benefits-grid__text { font-size: 12px; line-height: 1.4; color: #b0b0b0; }
-    .benefits-grid__text strong { color: #fff; }
+    .benefits-grid__text { font-size: 13px; color: #b0b0b0; line-height: 1.3; }
 
-    .shipbar { margin: 20px 0; background: #03231A; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 15px; }
-    .shipbar__text { font-size: 12px; color: #D2F1E3; font-weight: 500; }
+    .shipbar { 
+      margin: 20px 0; 
+      background: rgba(3, 35, 26, 0.6); 
+      border: 1px solid #03231A; 
+      border-radius: 10px; 
+      padding: 15px; 
+      display: flex; 
+      align-items: center; 
+      gap: 15px; 
+    }
+    .shipbar__text { font-size: 13px; color: #D2F1E3; }
 
-    .pit-container { margin-top: 30px; border-top: 1px solid #454545; }
-    .pit-tabs { display: flex; border-bottom: 1px solid #454545; margin-bottom: 15px; }
-    .pit-tab { flex: 1; padding: 15px; background: transparent; border: none; color: #B0B0B0; cursor: pointer; font-weight: 600; border-bottom: 2px solid transparent; }
+    /* Tabs Styling */
+    .pit-container { margin-top: 35px; border-top: 1px solid #333; }
+    .pit-tabs { display: flex; border-bottom: 1px solid #333; }
+    .pit-tab { 
+      flex: 1; padding: 15px; background: transparent; border: none; 
+      color: #666; cursor: pointer; font-weight: bold; font-size: 14px;
+      border-bottom: 2px solid transparent; text-transform: uppercase;
+    }
     .pit-tab.is-active { color: #fff; border-bottom-color: #fff; }
-    .pit-panel { display: none; color: #B0B0B0; font-size: 14px; line-height: 1.6; }
-    .pit-panel.is-active { display: block; animation: fadeIn 0.5s; }
+    .pit-panel { display: none; padding: 20px 0; color: #b0b0b0; line-height: 1.6; }
+    .pit-panel.is-active { display: block; animation: fadeIn 0.4s ease; }
 
-    .sticky-cta { position: fixed; z-index: 99; bottom: 20px; right: 20px; background: #1a1a1a; padding: 10px; border-radius: 12px; display: flex; align-items: center; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(200%); transition: transform 0.3s ease; border: 1px solid #333; }
+    /* Upsell Card Fix */
+    .upsell-section { margin-top: 40px; }
+    .upsell-card { 
+      background: #1a1a1a; border: 1px solid #333; border-radius: 12px; 
+      padding: 15px; display: flex; gap: 15px; align-items: center; margin-top: 10px; 
+    }
+    .upsell-info { flex: 1; }
+    .upsell-title { font-weight: bold; color: #fff; display: block; margin-bottom: 4px; }
+    .upsell-price { color: #888; font-size: 13px; }
+
+    /* Sticky CTA */
+    .sticky-cta { 
+      position: fixed; z-index: 100; bottom: 20px; right: 20px; 
+      background: #000; padding: 12px; border-radius: 12px; 
+      display: flex; align-items: center; gap: 15px; 
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
+      transform: translateY(200%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid #333;
+    }
     .sticky-cta.is-visible { transform: translateY(0); }
-    .sticky-cta img { width: 50px; height: 50px; border-radius: 6px; object-fit: cover; }
-    .sticky-cta button { background: #fff; color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+    .sticky-cta img { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; }
+    .sticky-cta button { 
+      background: #fff; color: #000; border: none; padding: 10px 20px; 
+      font-weight: 800; border-radius: 6px; cursor: pointer; font-size: 12px;
+    }
 
-    .upsell-section { margin-top: 40px; border-top: 1px solid #333; padding-top: 30px; }
-    .upsell-card { background: #fff; border-radius: 12px; padding: 15px; display: flex; gap: 15px; align-items: center; margin-top:10px; }
+    /* Modal Fix */
+    .sg-modal { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); }
+    .sg-panel { background: #1a1a1a; padding: 30px; border-radius: 16px; width: 90%; max-width: 450px; position: relative; color: #fff; border: 1px solid #333; }
+    .sg-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 28px; cursor: pointer; color: #fff; }
+    .sg-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    .sg-table th { background: #333; color: #fff; padding: 12px; text-align: left; }
+    .sg-table td { padding: 12px; border-bottom: 1px solid #333; color: #ccc; }
 
-    .sg-modal { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); }
-    .sg-panel { background: #fff; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; position: relative; color: #000; }
-    .sg-close { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #000; }
-    .sg-table td, .sg-table th { padding: 10px; border-bottom: 1px solid #eee; text-align: left; color:#000; }
-    
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
   {%- endstyle -%}
-
-  <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
-
-  {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
 
   <div class="page-width">
     <div class="product grid grid--1-col grid--2-col-tablet">
       <div class="grid__item product__media-wrapper">
         {% render 'product-media-gallery', variant_images: variant_images %}
       </div>
+      
       <div class="product__info-wrapper grid__item">
         <product-info id="ProductInfo-{{ section.id }}" class="product__info-container" data-section="{{ section.id }}" data-url="{{ product.url }}">
           {%- assign product_form_id = 'product-form-' | append: section.id -%}
@@ -90,185 +136,165 @@
               {%- when '@app' -%}
                 {% render block %}
               {%- when 'text' -%}
-                <p class="product__text inline-richtext" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+                <p class="product__text" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
               {%- when 'title' -%}
                 <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title | escape }}</h1>
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" {{ block.shopify_attributes }}>
                   {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
                 </div>
+                
                 <div class="benefits-grid">
                   <div class="benefits-grid__list">
                     <div class="benefits-grid__item">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#fff" stroke-width="2"/><path d="M8 12L11 15L16 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      <div class="benefits-grid__text">No PFAS/PFOA.<br><strong>No hormone disruptors.</strong></div>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#fff" stroke-width="2"/><path d="M8 12L11 15L16 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      <div class="benefits-grid__text">No PFAS/PFOA.<br><strong>Toxic-Free</strong></div>
                     </div>
                     <div class="benefits-grid__item">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3V5M12 19V21M5 12H3M21 12H19" stroke="#fff" stroke-width="2"/></svg>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3V5M12 19V21M5 12H3M21 12H19" stroke="#fff" stroke-width="2"/></svg>
                       <div class="benefits-grid__text">Heat Resistant<br><strong>up to 600°C</strong></div>
                     </div>
                   </div>
                 </div>
-              {%- when 'description' -%}
-                <div class="product__description rte" {{ block.shopify_attributes }}>{{ product.description | truncatewords: 30 }}</div>
+
               {%- when 'variant_picker' -%}
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
-                <button type="button" class="size-guide-trigger" style="background:none; border:none; color:#fff; text-decoration:underline; cursor:pointer; margin-top:10px;">📏 Size Guide</button>
+                <button type="button" class="size-guide-trigger" style="background:none; border:none; color:#888; text-decoration:underline; cursor:pointer; margin-top:15px; font-size: 13px;">📏 View Size Guide</button>
+              
               {%- when 'buy_buttons' -%}
                 {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
                 <div class="shipbar">
                    <div style="font-size: 24px;">🚚</div>
-                   <div class="shipbar__text"><strong>Free Shipping & Easy Returns</strong><br>30-Day Guarantee • Lifetime Warranty</div>
+                   <div class="shipbar__text"><strong>Free Shipping Worldwide</strong><br>30-Day Money Back Guarantee</div>
                 </div>
-              {%- when 'rating' -%}
-                {%- if product.metafields.reviews.rating.value != blank -%}
-                  <div class="rating-wrapper">{% render 'rating', product: product %}</div>
-                {%- endif -%}
             {%- endcase -%}
           {%- endfor -%}
 
           <div class="pit-container">
             <div class="pit-tabs">
-              <button class="pit-tab is-active" data-target="panel-desc">Description</button>
-              <button class="pit-tab" data-target="panel-health">Health Benefits</button>
+              <button class="pit-tab is-active" data-target="panel-desc-{{ section.id }}">Description</button>
+              <button class="pit-tab" data-target="panel-health-{{ section.id }}">Specifications</button>
             </div>
-            <div id="panel-desc" class="pit-panel is-active">{{ product.description }}</div>
-            <div id="panel-health" class="pit-panel"><p>Naturally non-toxic titanium. Safe for induction and gas.</p></div>
+            <div id="panel-desc-{{ section.id }}" class="pit-panel is-active">{{ product.description }}</div>
+            <div id="panel-health-{{ section.id }}" class="pit-panel"><p>Material: Professional Grade Titanium<br>Compatibility: Induction, Gas, Electric, Oven Safe.</p></div>
           </div>
 
           <div class="upsell-section">
-            <h3 style="color:#fff; font-size:18px;">Complete Your Kitchen</h3>
+            <h3 style="font-size:16px; margin-bottom: 10px;">Frequently Bought Together</h3>
             <div class="upsell-card">
-              <div style="width:60px; height:60px; background:#eee; border-radius:8px;"></div>
-              <div style="flex:1;"><div style="font-weight:bold; color:#000;">Titanium Utensils</div><div style="font-size:12px; color:#555;">$199.00</div></div>
-              <button class="js-force-add-btn" data-variant-id="{{ product.selected_or_first_available_variant.id }}" style="background:#A3835F; color:#fff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Add</button>
+              <div style="width:50px; height:50px; background:#333; border-radius:8px;"></div>
+              <div class="upsell-info">
+                <span class="upsell-title">Titanium Cleaning Kit</span>
+                <span class="upsell-price">$29.00</span>
+              </div>
+              <button class="js-force-add-btn" data-variant-id="{{ product.selected_or_first_available_variant.id }}" style="background:#fff; color:#000; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:12px;">Add</button>
             </div>
           </div>
+
         </product-info>
       </div>
     </div>
   </div>
 </section>
 
-<div id="sticky-cta-wrapper" class="sticky-cta">
-  <div style="display:flex; gap:10px; align-items:center;">
-    <img src="{{ product.featured_image | image_url: width: 100 }}">
-    <div style="color:#fff;">
-      <div style="font-weight:bold; font-size:14px;">{{ product.title | truncate: 20 }}</div>
-      <div style="color:#ff2422; font-size:12px; font-weight:bold;">⚠️ ALMOST SOLD OUT</div>
+<div id="sticky-cta-{{ section.id }}" class="sticky-cta">
+  <div style="display:flex; gap:12px; align-items:center;">
+    <img src="{{ product.featured_image | image_url: width: 100 }}" alt="{{ product.title }}">
+    <div>
+      <div style="font-weight:bold; font-size:13px; color:#fff;">{{ product.title | truncate: 18 }}</div>
+      <div style="color:#ff4545; font-size:11px; font-weight:bold;">🔥 SELLING FAST</div>
     </div>
   </div>
-  <button id="sticky-add-to-cart">ADD TO CART</button>
+  <button id="sticky-submit-{{ section.id }}">ADD TO CART</button>
 </div>
 
-<div id="sg-modal" class="sg-modal" hidden>
+<div id="sg-modal-{{ section.id }}" class="sg-modal" hidden>
   <div class="sg-panel">
-    <button class="sg-close" onclick="document.getElementById('sg-modal').hidden = true">&times;</button>
-    <h2>Size Guide</h2>
-    <table class="sg-table" style="width:100%;">
-      <thead><tr style="background:#f4f4f4;"><th>Size</th><th>Diameter</th></tr></thead>
-      <tbody><tr><td>Standard</td><td>10.2"</td></tr><tr><td>Large</td><td>11.8"</td></tr></tbody>
+    <button class="sg-close" onclick="this.closest('.sg-modal').hidden = true">&times;</button>
+    <h3 style="margin-top:0;">Product Size Guide</h3>
+    <table class="sg-table">
+      <thead><tr><th>Size</th><th>Capacity</th></tr></thead>
+      <tbody>
+        <tr><td>Small (8")</td><td>1.5 Quarts</td></tr>
+        <tr><td>Medium (10")</td><td>2.5 Quarts</td></tr>
+        <tr><td>Large (12")</td><td>4.0 Quarts</td></tr>
+      </tbody>
     </table>
   </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  const sectionId = "{{ section.id }}";
   
-  // FIX: Force Drawer Update and Open
-  function updateAndOpenCart() {
+  // 1. AJAX Cart Update
+  function updateCartDrawer() {
     fetch(window.Shopify.routes.root + '?section_id=cart-drawer')
       .then(res => res.text())
       .then(html => {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
-        const cartDrawer = document.querySelector('cart-drawer');
-        const cartIcon = document.querySelector('#cart-icon-bubble');
-
-        if (cartDrawer && doc.querySelector('cart-drawer')) {
-          cartDrawer.innerHTML = doc.querySelector('cart-drawer').innerHTML;
-          cartDrawer.classList.remove('is-empty');
-          // Dawn custom element open method
-          if (typeof cartDrawer.open === 'function') cartDrawer.open();
-          else cartDrawer.setAttribute('open', '');
-        } else if (cartIcon) {
-          cartIcon.click();
+        const drawer = document.querySelector('cart-drawer');
+        if (drawer && doc.querySelector('cart-drawer')) {
+          drawer.innerHTML = doc.querySelector('cart-drawer').innerHTML;
+          if (typeof drawer.open === 'function') drawer.open();
+        } else {
+          window.location.href = '/cart';
         }
       });
   }
 
-  function forceAddToCart(formData, button) {
-    if(button) {
-      button.disabled = true;
-      button.classList.add('loading');
-    }
-
-    fetch(window.Shopify.routes.root + 'cart/add.js', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
+  function handleAddToCart(fd, btn) {
+    if(btn) btn.disabled = true;
+    fetch(window.Shopify.routes.root + 'cart/add.js', { method: 'POST', body: fd })
+    .then(res => res.json())
     .then(data => {
-      if(data.status && data.status === 422) {
-         alert(data.description);
-      } else {
-         updateAndOpenCart();
-      }
+      if(data.id) updateCartDrawer();
+      else alert("Error adding to cart");
     })
-    .catch(err => console.error(err))
-    .finally(() => {
-      if(button) {
-        button.disabled = false;
-        button.classList.remove('loading');
-      }
-    });
+    .finally(() => { if(btn) btn.disabled = false; });
   }
 
-  // Intercept main form
-  const mainForm = document.querySelector('product-form form');
-  if(mainForm) {
-    mainForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      forceAddToCart(new FormData(mainForm), mainForm.querySelector('[type="submit"]'));
-    });
-  }
-
-  // Sticky Button click triggers main form
-  document.getElementById('sticky-add-to-cart')?.addEventListener('click', () => {
-    if(mainForm) mainForm.dispatchEvent(new Event('submit', { cancelable: true }));
+  // 2. Event Listeners
+  const mainForm = document.querySelector(`#product-form-${sectionId}`);
+  
+  // Sticky Button
+  document.getElementById(`sticky-submit-${sectionId}`)?.addEventListener('click', () => {
+    if(mainForm) mainForm.querySelector('[type="submit"]')?.click();
   });
 
-  // Sticky Scroll Visibility
+  // Scroll Visibility for Sticky
   window.addEventListener('scroll', () => {
-    const cta = document.getElementById('sticky-cta-wrapper');
-    const mainBtn = document.querySelector('.product-form__submit');
-    if(mainBtn && cta) {
-      if(mainBtn.getBoundingClientRect().bottom < 0) cta.classList.add('is-visible');
-      else cta.classList.remove('is-visible');
+    const sticky = document.getElementById(`sticky-cta-${sectionId}`);
+    const buyBtn = document.querySelector('.product-form__submit');
+    if(buyBtn && sticky) {
+      if(buyBtn.getBoundingClientRect().bottom < 0) sticky.classList.add('is-visible');
+      else sticky.classList.remove('is-visible');
     }
   });
 
-  // Tabs
+  // Tabs Logic
   document.querySelectorAll('.pit-tab').forEach(tab => {
     tab.addEventListener('click', function() {
-      document.querySelectorAll('.pit-tab, .pit-panel').forEach(el => el.classList.remove('is-active'));
+      const container = this.closest('.pit-container');
+      container.querySelectorAll('.pit-tab, .pit-panel').forEach(el => el.classList.remove('is-active'));
       this.classList.add('is-active');
       document.getElementById(this.dataset.target).classList.add('is-active');
     });
   });
 
-  // Size Guide
+  // Size Guide Modal
   document.querySelector('.size-guide-trigger')?.addEventListener('click', () => {
-    document.getElementById('sg-modal').hidden = false;
+    document.getElementById(`sg-modal-${sectionId}`).hidden = false;
   });
 
-  // Upsell
+  // Upsell Button
   document.querySelectorAll('.js-force-add-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       const fd = new FormData();
       fd.append('id', this.dataset.variantId);
       fd.append('quantity', 1);
-      forceAddToCart(fd, this);
+      handleAddToCart(fd, this);
     });
   });
 });
@@ -285,8 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {"type": "price", "name": "Price", "limit": 1},
     {"type": "variant_picker", "name": "Variant Picker", "limit": 1},
     {"type": "buy_buttons", "name": "Buy Buttons", "limit": 1, "settings": [{"type": "checkbox", "id": "show_dynamic_checkout", "default": true, "label": "Show Dynamic Checkout"}]},
-    {"type": "description", "name": "Description", "limit": 1},
-    {"type": "rating", "name": "Rating", "limit": 1}
+    {"type": "description", "name": "Description", "limit": 1}
   ],
   "settings": [
     {"type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top Padding", "default": 36},
