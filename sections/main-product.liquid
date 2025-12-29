@@ -175,32 +175,50 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   
-  // FIX: Force Drawer Update and Open
+  // 1. Updated Function to Refresh Drawer and Bubble
   function updateAndOpenCart() {
-    fetch(window.Shopify.routes.root + '?section_id=cart-drawer')
-      .then(res => res.text())
-      .then(html => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const cartDrawer = document.querySelector('cart-drawer');
-        const cartIcon = document.querySelector('#cart-icon-bubble');
+    const cartDrawer = document.querySelector('cart-drawer');
+    const cartIcon = document.querySelector('#cart-icon-bubble');
 
-        if (cartDrawer && doc.querySelector('cart-drawer')) {
-          cartDrawer.innerHTML = doc.querySelector('cart-drawer').innerHTML;
+    // Fetch both drawer and bubble sections in one go
+    fetch(`${window.Shopify.routes.root}?sections=cart-drawer,cart-icon-bubble`)
+      .then(res => res.json())
+      .then(sections => {
+        // Update Drawer HTML
+        if (cartDrawer && sections['cart-drawer']) {
+          const html = new DOMParser().parseFromString(sections['cart-drawer'], 'text/html');
+          const liveDrawer = html.querySelector('#CartDrawer');
+          if (liveDrawer) {
+            document.querySelector('#CartDrawer').innerHTML = liveDrawer.innerHTML;
+          }
           cartDrawer.classList.remove('is-empty');
-          // Dawn custom element open method
-          if (typeof cartDrawer.open === 'function') cartDrawer.open();
-          else cartDrawer.setAttribute('open', '');
-        } else if (cartIcon) {
-          cartIcon.click();
+          
+          // Force Open the Drawer
+          if (typeof cartDrawer.open === 'function') {
+            cartDrawer.open();
+          } else {
+            cartDrawer.setAttribute('open', '');
+          }
         }
+
+        // Update Cart Icon Bubble (Count)
+        if (cartIcon && sections['cart-icon-bubble']) {
+          cartIcon.innerHTML = sections['cart-icon-bubble'];
+        }
+      })
+      .catch(err => {
+        console.error('Drawer Update Error:', err);
+        window.location.href = window.Shopify.routes.root + 'cart'; // Fallback
       });
   }
 
+  // 2. AJAX Add to Cart Logic
   function forceAddToCart(formData, button) {
     if(button) {
       button.disabled = true;
       button.classList.add('loading');
+      const originalText = button.querySelector('span') ? button.querySelector('span').innerHTML : button.innerHTML;
+      if(button.querySelector('span')) button.querySelector('span').innerHTML = 'Adding...';
     }
 
     fetch(window.Shopify.routes.root + 'cart/add.js', {
@@ -215,30 +233,49 @@ document.addEventListener('DOMContentLoaded', function() {
          updateAndOpenCart();
       }
     })
-    .catch(err => console.error(err))
+    .catch(err => {
+      console.error('Add to Cart Error:', err);
+    })
     .finally(() => {
       if(button) {
         button.disabled = false;
         button.classList.remove('loading');
+        // Reset text if needed
       }
     });
   }
 
-  // Intercept main form
+  // 3. Main Form Intercept
   const mainForm = document.querySelector('product-form form');
   if(mainForm) {
     mainForm.addEventListener('submit', function(e) {
-      e.preventDefault();
+      e.preventDefault(); // Stop redirection
+      e.stopImmediatePropagation();
       forceAddToCart(new FormData(mainForm), mainForm.querySelector('[type="submit"]'));
     });
   }
 
-  // Sticky Button click triggers main form
-  document.getElementById('sticky-add-to-cart')?.addEventListener('click', () => {
-    if(mainForm) mainForm.dispatchEvent(new Event('submit', { cancelable: true }));
+  // 4. Sticky Button Logic
+  document.getElementById('sticky-add-to-cart')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    if(mainForm) {
+       const fd = new FormData(mainForm);
+       forceAddToCart(fd, document.getElementById('sticky-add-to-cart'));
+    }
   });
 
-  // Sticky Scroll Visibility
+  // 5. Upsell Logic
+  document.querySelectorAll('.js-force-add-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const fd = new FormData();
+      fd.append('id', this.dataset.variantId);
+      fd.append('quantity', 1);
+      forceAddToCart(fd, this);
+    });
+  });
+
+  // 6. Sticky Visibility on Scroll
   window.addEventListener('scroll', () => {
     const cta = document.getElementById('sticky-cta-wrapper');
     const mainBtn = document.querySelector('.product-form__submit');
@@ -248,29 +285,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Tabs
+  // 7. Tabs Logic
   document.querySelectorAll('.pit-tab').forEach(tab => {
     tab.addEventListener('click', function() {
       document.querySelectorAll('.pit-tab, .pit-panel').forEach(el => el.classList.remove('is-active'));
       this.classList.add('is-active');
-      document.getElementById(this.dataset.target).classList.add('is-active');
+      const panel = document.getElementById(this.dataset.target);
+      if(panel) panel.classList.add('is-active');
     });
   });
 
-  // Size Guide
-  document.querySelector('.size-guide-trigger')?.addEventListener('click', () => {
-    document.getElementById('sg-modal').hidden = false;
+  // 8. Size Guide Modal
+  document.querySelector('.size-guide-trigger')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const modal = document.getElementById('sg-modal');
+    if(modal) modal.hidden = false;
   });
 
-  // Upsell
-  document.querySelectorAll('.js-force-add-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const fd = new FormData();
-      fd.append('id', this.dataset.variantId);
-      fd.append('quantity', 1);
-      forceAddToCart(fd, this);
-    });
-  });
 });
 </script>
 
