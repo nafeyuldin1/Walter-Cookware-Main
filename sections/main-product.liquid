@@ -209,7 +209,7 @@
                 <div style="font-size:12px; color:#555;">$199.00</div>
               </div>
               <button 
-                class="js-upsell-btn" 
+                class="js-force-add-btn" 
                 data-variant-id="{{ product.selected_or_first_available_variant.id }}" 
                 style="background:#A3835F; color:#fff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">
                 Add
@@ -253,7 +253,109 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   
-  // 1. TABS LOGIC
+  // --- 1. FORCE AJAX CART FUNCTION (HANDLES MAIN, STICKY, AND UPSELL) ---
+  function forceAddToCart(formData, button) {
+    if(button) {
+        button.setAttribute('disabled', true);
+        const originalText = button.innerHTML;
+        button.innerHTML = 'Adding...';
+    }
+
+    // 1. Fetch to Add Item
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      // 2. Fetch to Get Updated Drawer HTML
+      fetch(window.Shopify.routes.root + '?section_id=cart-drawer')
+        .then(res => res.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const cartDrawer = document.querySelector('cart-drawer');
+            const cartIcon = document.querySelector('#cart-icon-bubble');
+
+            if (cartDrawer && doc.querySelector('cart-drawer')) {
+                // Update Drawer Content
+                cartDrawer.innerHTML = doc.querySelector('cart-drawer').innerHTML;
+                cartDrawer.classList.remove('is-empty');
+                
+                // Open Drawer
+                if (typeof cartDrawer.open === 'function') {
+                    cartDrawer.open();
+                } else {
+                    cartDrawer.setAttribute('open', ''); 
+                }
+            } else if (cartIcon) {
+                // Fallback for older Dawn versions: Click the cart icon
+                cartIcon.click();
+            } else {
+                // Last Resort: Redirect if no drawer exists
+                window.location.href = window.Shopify.routes.root + 'cart';
+            }
+        });
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    })
+    .finally(() => {
+      if(button) {
+        button.removeAttribute('disabled');
+        button.innerHTML = 'Add To Cart'; // Reset text (adjust if needed)
+      }
+    });
+  }
+
+  // --- 2. INTERCEPT MAIN PRODUCT FORM ---
+  const mainProductForm = document.querySelector('product-form form');
+  if(mainProductForm) {
+    mainProductForm.addEventListener('submit', function(e) {
+      e.preventDefault(); // STOP REDIRECT
+      const formData = new FormData(mainProductForm);
+      const submitBtn = mainProductForm.querySelector('[type="submit"]');
+      forceAddToCart(formData, submitBtn);
+    });
+  }
+
+  // --- 3. STICKY ADD TO CART ---
+  const stickyBtn = document.getElementById('sticky-add-to-cart');
+  if(stickyBtn && mainProductForm) {
+    stickyBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const formData = new FormData(mainProductForm);
+      forceAddToCart(formData, stickyBtn);
+    });
+    
+    // Visibility on Scroll
+    window.addEventListener('scroll', () => {
+      const cta = document.getElementById('sticky-cta-wrapper');
+      const mainBtn = document.querySelector('.product-form__submit');
+      if(mainBtn && cta) {
+        if(mainBtn.getBoundingClientRect().bottom < 0) cta.classList.add('is-visible');
+        else cta.classList.remove('is-visible');
+      }
+    });
+  }
+
+  // --- 4. UPSELL BUTTONS ---
+  const upsellBtns = document.querySelectorAll('.js-force-add-btn');
+  upsellBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const variantId = this.dataset.variantId;
+      if(!variantId) return;
+
+      const formData = new FormData();
+      formData.append('id', variantId);
+      formData.append('quantity', 1);
+      
+      forceAddToCart(formData, this);
+    });
+  });
+
+  // --- 5. TABS LOGIC ---
   const tabs = document.querySelectorAll('.pit-tab');
   const panels = document.querySelectorAll('.pit-panel');
   if(tabs.length > 0) {
@@ -268,74 +370,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // 2. SIZE GUIDE
+  // --- 6. SIZE GUIDE ---
   document.querySelector('.size-guide-trigger')?.addEventListener('click', (e) => {
     e.preventDefault();
     document.getElementById('sg-modal').hidden = false;
-  });
-
-  // 3. STICKY CTA VISIBILITY & FUNCTIONALITY
-  const stickyBtn = document.getElementById('sticky-add-to-cart');
-  const mainFormBtn = document.querySelector('.product-form__submit');
-  
-  if(stickyBtn && mainFormBtn) {
-    // Scroll visibility
-    window.addEventListener('scroll', () => {
-      const cta = document.getElementById('sticky-cta-wrapper');
-      if(mainFormBtn.getBoundingClientRect().bottom < 0) cta.classList.add('is-visible');
-      else cta.classList.remove('is-visible');
-    });
-
-    // Click functionality
-    stickyBtn.addEventListener('click', function() {
-      mainFormBtn.click();
-    });
-  }
-
-  // 4. UPSELL (BUNDLE) ADD TO CART LOGIC
-  const upsellBtns = document.querySelectorAll('.js-upsell-btn');
-  upsellBtns.forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      const variantId = this.dataset.variantId;
-      if(!variantId) return;
-
-      this.textContent = 'Adding...';
-      this.disabled = true;
-
-      const formData = new FormData();
-      formData.append('id', variantId);
-      formData.append('quantity', 1);
-      
-      // Fetch Cart Drawer Section to update it
-      const cartDrawer = document.querySelector('cart-drawer');
-      if(cartDrawer) {
-         formData.append('sections', cartDrawer.getSectionsToRender().map((section) => section.id));
-         formData.append('sections_url', window.location.pathname);
-      }
-
-      fetch(window.Shopify.routes.root + 'cart/add.js', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(response => {
-         // If Dawn Theme Cart Drawer exists, update and open it
-         if(cartDrawer) {
-            cartDrawer.renderContents(response);
-         } else {
-            // Fallback if no drawer
-            window.location.href = window.Shopify.routes.root + 'cart';
-         }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      })
-      .finally(() => {
-        this.textContent = 'Add';
-        this.disabled = false;
-      });
-    });
   });
 
 });
