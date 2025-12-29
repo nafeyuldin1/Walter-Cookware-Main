@@ -1,28 +1,26 @@
-<section id="MainProduct-{{ section.id }}" class="section-{{ section.id }}-padding gradient custom_bg_black_gradient" data-section="{{ section.id }}">
+<section id="MainProduct-{{ section.id }}" class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}" data-section="{{ section.id }}">
   
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+  {{ 'component-loading-spinner.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
 
+  {% unless product.has_only_default_variant %}
+    {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
+    {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
+    {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
+  {% endunless %}
+
   {%- style -%}
-    /* Professional Senior Engineer Grade Styling */
-    :root {
-      --taima-green: #03231A;
-      --taima-gold: #B57C46;
-      --taima-text-gray: #B0B0B0;
-      --taima-off-white: #E9E2D8;
-    }
-
-    .custom_bg_black_gradient {
-      background: linear-gradient(90deg,#3b3e41,#181a1b) !important;
-    }
-
+    /* --- 1. DARK THEME STYLING --- */
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+      background-color: #121212 !important;
+      color: #ffffff !important;
     }
 
     @media screen and (min-width: 750px) {
@@ -30,353 +28,269 @@
         padding-top: {{ section.settings.padding_top }}px;
         padding-bottom: {{ section.settings.padding_bottom }}px;
       }
-      .product--thumbnail_slider .product__media-wrapper { max-width: 50%; }
-      .product--thumbnail_slider .product__info-wrapper { max-width: 50%; padding-left: 5rem; }
     }
 
-    /* Neue Montreal Typeface Fallbacks */
-    .product__title h1, .custom_title, .pb-atc-btn, .pit-tab {
-      font-family: 'Neue Montreal', sans-serif;
-      letter-spacing: 0.04em;
-      text-transform: capitalize;
-    }
+    /* Text Colors */
+    h1, h2, h3, .h1, .h2, .product__title h1 { color: #ffffff !important; font-weight: 400; letter-spacing: 1px; }
+    .product__text, .product__description, .product__description p, .price-item { color: #B0B0B0 !important; }
+    .price-item--sale { color: #E9E2D8 !important; }
+    .product__title a { text-decoration: none; }
+    .product__media-wrapper { background: transparent !important; }
 
-    /* Missing Styling from Competitor */
-    .ctm-price__save {
-      background: #097350;
-      color: var(--taima-off-white);
-      padding: 5px 16px;
-      border-radius: 32px;
-      font-size: 1.4rem;
-      font-weight: 500;
-    }
+    /* --- 2. COMPONENTS STYLING --- */
+    .benefits-grid { margin: 20px 0; border-top: 1px solid #333; padding-top: 20px; }
+    .benefits-grid__list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .benefits-grid__item { display: flex; align-items: center; gap: 10px; }
+    .benefits-grid__text { font-size: 12px; line-height: 1.4; color: #b0b0b0; }
+    .benefits-grid__text strong { color: #fff; }
 
-    .benefits-grid__item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 1rem;
-    }
+    .shipbar { margin: 20px 0; background: #03231A; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 15px; }
+    .shipbar__text { font-size: 12px; color: #D2F1E3; font-weight: 500; }
 
-    /* Shipping Promise Bar */
-    .shipbar__inner {
-      background: var(--taima-green);
-      border-radius: 12px;
-      display: flex;
-      overflow: hidden;
-      margin: 2rem 0;
-    }
+    .pit-container { margin-top: 30px; border-top: 1px solid #454545; }
+    .pit-tabs { display: flex; border-bottom: 1px solid #454545; margin-bottom: 15px; }
+    .pit-tab { flex: 1; padding: 15px; background: transparent; border: none; color: #B0B0B0; cursor: pointer; font-weight: 600; border-bottom: 2px solid transparent; }
+    .pit-tab.is-active { color: #fff; border-bottom-color: #fff; }
+    .pit-panel { display: none; color: #B0B0B0; font-size: 14px; line-height: 1.6; }
+    .pit-panel.is-active { display: block; animation: fadeIn 0.5s; }
 
-    .shipbar__left {
-      padding: 15px 25px;
-      border-right: 1px solid rgba(255,255,255,0.1);
-      min-width: 120px;
-    }
+    .sticky-cta { position: fixed; z-index: 99; bottom: 20px; right: 20px; background: #1a1a1a; padding: 10px; border-radius: 12px; display: flex; align-items: center; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(200%); transition: transform 0.3s ease; border: 1px solid #333; }
+    .sticky-cta.is-visible { transform: translateY(0); }
+    .sticky-cta img { width: 50px; height: 50px; border-radius: 6px; object-fit: cover; }
+    .sticky-cta button { background: #fff; color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; }
 
-    /* Bundles Logic CSS */
-    .pb-card {
-      border: 1.5px solid var(--taima-off-white);
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
-      padding: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .pb-card.is-active { background: #F6F4F0; color: #121212; }
-    .pb-card.is-active .pb-price { color: var(--taima-gold); }
+    .upsell-section { margin-top: 40px; border-top: 1px solid #333; padding-top: 30px; }
+    .upsell-card { background: #fff; border-radius: 12px; padding: 15px; display: flex; gap: 15px; align-items: center; margin-top:10px; }
+
+    .sg-modal { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); }
+    .sg-panel { background: #fff; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; position: relative; color: #000; }
+    .sg-close { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #000; }
+    .sg-table td, .sg-table th { padding: 10px; border-bottom: 1px solid #eee; text-align: left; color:#000; }
     
-    .pb-includes-clip {
-      overflow: hidden;
-      height: 0;
-      transition: height 0.4s ease;
-    }
-    .pb-card.is-active .pb-includes-clip { height: auto; padding-top: 15px; }
-
-    /* Sticky CTA */
-    .sticky-cta-mobile {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #fff;
-      z-index: 100;
-      padding: 15px;
-      box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
-      display: none;
-    }
-    @media (max-width: 749px) {
-      .sticky-cta-mobile.is-visible { display: block; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   {%- endstyle -%}
+
+  <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
+
+  {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
 
   <div class="page-width">
     <div class="product grid grid--1-col grid--2-col-tablet">
       <div class="grid__item product__media-wrapper">
         {% render 'product-media-gallery', variant_images: variant_images %}
       </div>
-
       <div class="product__info-wrapper grid__item">
-        <product-info id="ProductInfo-{{ section.id }}" class="product__info-container">
-          
+        <product-info id="ProductInfo-{{ section.id }}" class="product__info-container" data-section="{{ section.id }}" data-url="{{ product.url }}">
+          {%- assign product_form_id = 'product-form-' | append: section.id -%}
+
           {%- for block in section.blocks -%}
             {%- case block.type -%}
-              
+              {%- when '@app' -%}
+                {% render block %}
               {%- when 'text' -%}
-                <p class="product__text inline-richtext" {{ block.shopify_attributes }} style="color: var(--taima-text-gray); margin-bottom: 10px;">
-                  {{ block.settings.text }}
-                </p>
-
+                <p class="product__text inline-richtext" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
               {%- when 'title' -%}
-                <h1 class="product__title" {{ block.shopify_attributes }} style="font-size: 3.2rem; color: #fff;">
-                  {{ product.title | escape }}
-                </h1>
-
-              {%- when 'rating' -%}
-                <div class="rating-wrapper" {{ block.shopify_attributes }}>
-                   {% comment %} Loox or standard rating integration {% endcomment %}
-                   <div class="loox-rating" data-id="{{ product.id }}" data-rating="{{ product.metafields.reviews.rating.value }}"></div>
-                </div>
-
+                <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title | escape }}</h1>
               {%- when 'price' -%}
-                <div class="price-container" {{ block.shopify_attributes }}>
-                   <div class="ctm-price__row" style="display:flex; align-items:center; gap:15px; margin: 15px 0;">
-                      <span class="price-item" style="font-size: 4rem; color: var(--taima-off-white);">{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span>
-                      {%- if product.selected_or_first_available_variant.compare_at_price > product.price -%}
-                        <s style="font-size: 3rem; color: var(--taima-text-gray);">{{ product.selected_or_first_available_variant.compare_at_price | money_without_trailing_zeros }}</s>
-                        <span class="ctm-price__save">SALE ENDS SOON!</span>
-                      {%- endif -%}
-                   </div>
+                <div id="price-{{ section.id }}" {{ block.shopify_attributes }}>
+                  {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
                 </div>
-
-              {%- when 'benefits_grid' -%}
-                <div class="benefits-grid" {{ block.shopify_attributes }}>
-                  <div class="benefits-grid__list" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <div class="benefits-grid">
+                  <div class="benefits-grid__list">
                     <div class="benefits-grid__item">
-                      <img src="https://taimatitanium.com/cdn/shop/files/icons_31.svg" width="24" height="24">
-                      <div class="benefits-grid__text">No PFAS/PFOA. <strong>No hormone disruptors.</strong></div>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#fff" stroke-width="2"/><path d="M8 12L11 15L16 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      <div class="benefits-grid__text">No PFAS/PFOA.<br><strong>No hormone disruptors.</strong></div>
                     </div>
                     <div class="benefits-grid__item">
-                      <img src="https://taimatitanium.com/cdn/shop/files/icons_32.svg" width="24" height="24">
-                      <div class="benefits-grid__text">Heat Resistant up to <strong>600°C</strong></div>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3V5M12 19V21M5 12H3M21 12H19" stroke="#fff" stroke-width="2"/></svg>
+                      <div class="benefits-grid__text">Heat Resistant<br><strong>up to 600°C</strong></div>
                     </div>
                   </div>
                 </div>
-
-              {%- when 'bundles' -%}
-                <div class="product-bundles-wrapper" {{ block.shopify_attributes }}>
-                   <div class="pb-sizes">
-                     <div class="pb-sizes-head" style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                        <label class="pb-label" style="font-weight:500;">Select Size Variant</label>
-                        <a class="size-guide-trigger" style="text-decoration:underline; cursor:pointer; color: #fff;">Size Guide</a>
-                     </div>
-                     <div class="pb-size-tabs" style="display:grid; grid-template-columns: repeat(4, 1fr); border: 1px solid #454545; border-radius:12px; overflow:hidden;">
-                        {%- for variant in product.variants -%}
-                          <button type="button" class="pb-size-tab {% if forloop.first %}is-active{% endif %}" 
-                                  data-vid="{{ variant.id }}" 
-                                  style="padding:15px; background:transparent; color:#fff; border:none; cursor:pointer; border-right: 1px solid #454545;">
-                            {{ variant.title }}
-                          </button>
-                        {%- endfor -%}
-                     </div>
-                   </div>
-
-                   <div class="pb-title" style="margin: 20px 0 10px; font-weight:500;">Or Select Bundle & Save</div>
-                   <div class="pb-card" data-vid="YOUR_BUNDLE_ID">
-                      <div class="pb-head" style="display:flex; justify-content:space-between;">
-                         <div class="pb-hleft">
-                            <div class="pb-name" style="font-weight:600;">Everyday Duo (6 Piece)</div>
-                            <div class="pb-desc" style="font-size:1.2rem; color:var(--taima-text-gray);">Includes 2 Pans + Spatula + FREE Lids</div>
-                         </div>
-                         <div class="pb-hright" style="text-align:right;">
-                            <div class="pb-price" style="font-size:1.8rem;">$459</div>
-                            <div class="pb-value" style="font-size:1.2rem; color:var(--taima-text-gray);">($999 Value)</div>
-                         </div>
-                      </div>
-                      <div class="pb-includes-clip">
-                         <div style="display:flex; gap:5px; margin-top:10px;">
-                            {% comment %} Add small images for bundle items here {% endcomment %}
-                            <div style="width:50px; height:50px; background:#eee; border-radius:4px;"></div>
-                            <div style="width:50px; height:50px; background:#eee; border-radius:4px;"></div>
-                         </div>
-                      </div>
-                   </div>
-                </div>
-
+              {%- when 'description' -%}
+                <div class="product__description rte" {{ block.shopify_attributes }}>{{ product.description | truncatewords: 30 }}</div>
+              {%- when 'variant_picker' -%}
+                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                <button type="button" class="size-guide-trigger" style="background:none; border:none; color:#fff; text-decoration:underline; cursor:pointer; margin-top:10px;">📏 Size Guide</button>
               {%- when 'buy_buttons' -%}
-                {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id -%}
-
-              {%- when 'shipping_promise' -%}
-                <div class="shipbar" {{ block.shopify_attributes }}>
-                   <div class="shipbar__left">
-                      <div style="color:var(--taima-gold); font-size:1.2rem;">Ships By</div>
-                      <div style="font-size:1.8rem; font-weight:600;">{{ "now" | date: "%s" | plus: 172800 | date: "%b %d" }}</div>
-                   </div>
-                   <div class="shipbar__right" style="padding: 10px 20px; display:flex; align-items:center; gap:10px;">
-                      <img src="https://taimatitanium.com/cdn/shop/files/icons_26.svg" width="20">
-                      <span style="font-size:1.2rem; color: var(--taima-off-white);">FREE Shipping & 30-Day Guarantee</span>
-                   </div>
+                {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
+                <div class="shipbar">
+                   <div style="font-size: 24px;">🚚</div>
+                   <div class="shipbar__text"><strong>Free Shipping & Easy Returns</strong><br>30-Day Guarantee • Lifetime Warranty</div>
                 </div>
-
-              {%- when 'tabs' -%}
-                <div class="pit-container" {{ block.shopify_attributes }}>
-                   <div class="pit-tabs">
-                      <button class="pit-tab is-active" data-target="health-panel">Health Benefits</button>
-                      <button class="pit-tab" data-target="purity-panel">Purity Cert.</button>
-                      <button class="pit-tab" data-target="care-panel">Care & Use</button>
-                   </div>
-                   <div id="health-panel" class="pit-panel is-active">
-                      <ul style="list-style:none; padding:0;">
-                        <li style="margin-bottom:15px;"><strong>99.86% Pure Titanium</strong> - Safest metal for human body contact.</li>
-                        <li style="margin-bottom:15px;"><strong>Toxin-Free Surface</strong> - No PFAS, lead, or hormone disruptors.</li>
-                      </ul>
-                      <div class="hb-extra-content" id="hb-reveal" style="display:none;">
-                         <p>Retains up to 30% more nutrients due to superior heat conductivity...</p>
-                      </div>
-                      <button id="hb-toggle-btn" style="width:100%; background:none; border:1px solid #fff; color:#fff; padding:10px; border-radius:8px; margin-top:10px; cursor:pointer;">Show More</button>
-                   </div>
-                   <div id="purity-panel" class="pit-panel">
-                      <p>Tested by SGS Labs. Grade 1 Medical Grade Titanium.</p>
-                   </div>
-                   <div id="care-panel" class="pit-panel">
-                      <p>Dishwasher safe. Metal utensil safe. Induction compatible.</p>
-                   </div>
-                </div>
-
-              {%- when 'payment_icons' -%}
-                <div class="secure-checkout" style="margin: 20px 0; text-align:center;">
-                   <div style="font-size:1.2rem; color:var(--taima-text-gray); margin-bottom:10px;">Guaranteed Safe & Secure Checkout</div>
-                   <div class="pay-badges" style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
-                      {% comment %} Add your specific payment image assets here {% endcomment %}
-                      <img src="https://taimatitanium.com/cdn/shop/files/Container_7.png" width="35">
-                      <img src="https://taimatitanium.com/cdn/shop/files/Container_6.png" width="35">
-                      <img src="https://taimatitanium.com/cdn/shop/files/Container_5.png" width="35">
-                   </div>
-                </div>
-
+              {%- when 'rating' -%}
+                {%- if product.metafields.reviews.rating.value != blank -%}
+                  <div class="rating-wrapper">{% render 'rating', product: product %}</div>
+                {%- endif -%}
             {%- endcase -%}
           {%- endfor -%}
 
+          <div class="pit-container">
+            <div class="pit-tabs">
+              <button class="pit-tab is-active" data-target="panel-desc">Description</button>
+              <button class="pit-tab" data-target="panel-health">Health Benefits</button>
+            </div>
+            <div id="panel-desc" class="pit-panel is-active">{{ product.description }}</div>
+            <div id="panel-health" class="pit-panel"><p>Naturally non-toxic titanium. Safe for induction and gas.</p></div>
+          </div>
+
+          <div class="upsell-section">
+            <h3 style="color:#fff; font-size:18px;">Complete Your Kitchen</h3>
+            <div class="upsell-card">
+              <div style="width:60px; height:60px; background:#eee; border-radius:8px;"></div>
+              <div style="flex:1;"><div style="font-weight:bold; color:#000;">Titanium Utensils</div><div style="font-size:12px; color:#555;">$199.00</div></div>
+              <button class="js-force-add-btn" data-variant-id="{{ product.selected_or_first_available_variant.id }}" style="background:#A3835F; color:#fff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Add</button>
+            </div>
+          </div>
         </product-info>
       </div>
     </div>
   </div>
+</section>
 
-  {% comment %} Modals & Sticky UI {% endcomment %}
-  <div id="sg-modal" class="sg-modal" hidden>
-    <div class="sg-panel">
-      <header style="display:flex; justify-content:space-between; align-items:center;">
-        <h2 style="margin:0;">Size Guide</h2>
-        <button class="sg-close">&times;</button>
-      </header>
-      <div class="unit-toggle" style="margin: 15px 0;">
-         <span id="unit-in" style="font-weight:bold;">In</span> / <span id="unit-cm">Cm</span>
-      </div>
-      <table class="sg-table" style="width:100%; margin-top:20px; border-collapse:collapse;">
-        <thead><tr style="background:#f9f9f9;"><th>Size</th><th id="dim-label">Diameter</th></tr></thead>
-        <tbody id="sg-tbody">
-          <tr><td>Standard</td><td class="dim-val" data-in='10.2"' data-cm="26cm">10.2"</td></tr>
-          <tr><td>Large</td><td class="dim-val" data-in='11.8"' data-cm="30cm">11.8"</td></tr>
-        </tbody>
-      </table>
+<div id="sticky-cta-wrapper" class="sticky-cta">
+  <div style="display:flex; gap:10px; align-items:center;">
+    <img src="{{ product.featured_image | image_url: width: 100 }}">
+    <div style="color:#fff;">
+      <div style="font-weight:bold; font-size:14px;">{{ product.title | truncate: 20 }}</div>
+      <div style="color:#ff2422; font-size:12px; font-weight:bold;">⚠️ ALMOST SOLD OUT</div>
     </div>
   </div>
+  <button id="sticky-add-to-cart">ADD TO CART</button>
+</div>
 
-  <div class="sticky-cta-mobile" id="sticky-atc">
-     <button class="button button--full-width button--primary" onclick="document.querySelector('.product-form__submit').click()">ADD TO CART</button>
+<div id="sg-modal" class="sg-modal" hidden>
+  <div class="sg-panel">
+    <button class="sg-close" onclick="document.getElementById('sg-modal').hidden = true">&times;</button>
+    <h2>Size Guide</h2>
+    <table class="sg-table" style="width:100%;">
+      <thead><tr style="background:#f4f4f4;"><th>Size</th><th>Diameter</th></tr></thead>
+      <tbody><tr><td>Standard</td><td>10.2"</td></tr><tr><td>Large</td><td>11.8"</td></tr></tbody>
+    </table>
   </div>
-
-</section>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // 1. Tab Switching Logic
-  const tabs = document.querySelectorAll('.pit-tab');
-  const panels = document.querySelectorAll('.pit-panel');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('is-active'));
-      panels.forEach(p => p.classList.remove('is-active'));
-      tab.classList.add('is-active');
-      document.getElementById(tab.dataset.target).classList.add('is-active');
-    });
-  });
+  
+  // FIX: Force Drawer Update and Open
+  function updateAndOpenCart() {
+    fetch(window.Shopify.routes.root + '?section_id=cart-drawer')
+      .then(res => res.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const cartDrawer = document.querySelector('cart-drawer');
+        const cartIcon = document.querySelector('#cart-icon-bubble');
 
-  // 2. Health Benefits "Show More"
-  const hbBtn = document.getElementById('hb-toggle-btn');
-  const hbReveal = document.getElementById('hb-reveal');
-  if(hbBtn) {
-    hbBtn.addEventListener('click', () => {
-      const isHidden = hbReveal.style.display === 'none';
-      hbReveal.style.display = isHidden ? 'block' : 'none';
-      hbBtn.textContent = isHidden ? 'Show Less' : 'Show More';
+        if (cartDrawer && doc.querySelector('cart-drawer')) {
+          cartDrawer.innerHTML = doc.querySelector('cart-drawer').innerHTML;
+          cartDrawer.classList.remove('is-empty');
+          // Dawn custom element open method
+          if (typeof cartDrawer.open === 'function') cartDrawer.open();
+          else cartDrawer.setAttribute('open', '');
+        } else if (cartIcon) {
+          cartIcon.click();
+        }
+      });
+  }
+
+  function forceAddToCart(formData, button) {
+    if(button) {
+      button.disabled = true;
+      button.classList.add('loading');
+    }
+
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data.status && data.status === 422) {
+         alert(data.description);
+      } else {
+         updateAndOpenCart();
+      }
+    })
+    .catch(err => console.error(err))
+    .finally(() => {
+      if(button) {
+        button.disabled = false;
+        button.classList.remove('loading');
+      }
     });
   }
 
-  // 3. Size Guide Modal & Unit Toggle
-  const sgModal = document.getElementById('sg-modal');
-  document.querySelector('.size-guide-trigger')?.addEventListener('click', () => sgModal.hidden = false);
-  document.querySelector('.sg-close')?.addEventListener('click', () => sgModal.hidden = true);
-  
-  const unitCm = document.getElementById('unit-cm');
-  const unitIn = document.getElementById('unit-in');
-  const dims = document.querySelectorAll('.dim-val');
+  // Intercept main form
+  const mainForm = document.querySelector('product-form form');
+  if(mainForm) {
+    mainForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      forceAddToCart(new FormData(mainForm), mainForm.querySelector('[type="submit"]'));
+    });
+  }
 
-  unitCm?.addEventListener('click', () => {
-    unitCm.style.fontWeight = 'bold'; unitIn.style.fontWeight = 'normal';
-    dims.forEach(d => d.textContent = d.dataset.cm);
-  });
-  unitIn?.addEventListener('click', () => {
-    unitIn.style.fontWeight = 'bold'; unitCm.style.fontWeight = 'normal';
-    dims.forEach(d => d.textContent = d.dataset.in);
+  // Sticky Button click triggers main form
+  document.getElementById('sticky-add-to-cart')?.addEventListener('click', () => {
+    if(mainForm) mainForm.dispatchEvent(new Event('submit', { cancelable: true }));
   });
 
-  // 4. Bundle Selection logic
-  const bundleCards = document.querySelectorAll('.pb-card');
-  const sizeTabs = document.querySelectorAll('.pb-size-tab');
-  
-  bundleCards.forEach(card => {
-    card.addEventListener('click', () => {
-      bundleCards.forEach(c => c.classList.remove('is-active'));
-      sizeTabs.forEach(t => t.classList.remove('is-active'));
-      card.classList.add('is-active');
-      // Update hidden variant input
-      const variantId = card.dataset.vid;
-      document.querySelector('input[name="id"]').value = variantId;
+  // Sticky Scroll Visibility
+  window.addEventListener('scroll', () => {
+    const cta = document.getElementById('sticky-cta-wrapper');
+    const mainBtn = document.querySelector('.product-form__submit');
+    if(mainBtn && cta) {
+      if(mainBtn.getBoundingClientRect().bottom < 0) cta.classList.add('is-visible');
+      else cta.classList.remove('is-visible');
+    }
+  });
+
+  // Tabs
+  document.querySelectorAll('.pit-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.pit-tab, .pit-panel').forEach(el => el.classList.remove('is-active'));
+      this.classList.add('is-active');
+      document.getElementById(this.dataset.target).classList.add('is-active');
     });
   });
 
-  // 5. Sticky Mobile ATC Visibility
-  window.addEventListener('scroll', () => {
-    const mainAtc = document.querySelector('.product-form__submit');
-    const stickyAtc = document.getElementById('sticky-atc');
-    if(mainAtc && stickyAtc) {
-      if(mainAtc.getBoundingClientRect().bottom < 0) stickyAtc.classList.add('is-visible');
-      else stickyAtc.classList.remove('is-visible');
-    }
+  // Size Guide
+  document.querySelector('.size-guide-trigger')?.addEventListener('click', () => {
+    document.getElementById('sg-modal').hidden = false;
+  });
+
+  // Upsell
+  document.querySelectorAll('.js-force-add-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const fd = new FormData();
+      fd.append('id', this.dataset.variantId);
+      fd.append('quantity', 1);
+      forceAddToCart(fd, this);
+    });
   });
 });
 </script>
 
 {% schema %}
 {
-  "name": "Professional Product Page",
+  "name": "Custom Product Section",
   "tag": "section",
   "blocks": [
-    { "type": "@app" },
-    { "type": "text", "name": "Text", "settings": [{ "type": "inline_richtext", "id": "text", "label": "Text" }] },
-    { "type": "title", "name": "Title", "limit": 1 },
-    { "type": "price", "name": "Price", "limit": 1 },
-    { "type": "benefits_grid", "name": "Benefits Grid", "limit": 1 },
-    { "type": "bundles", "name": "Product Bundles", "limit": 1 },
-    { "type": "buy_buttons", "name": "Buy Buttons", "limit": 1 },
-    { "type": "shipping_promise", "name": "Shipping Promise", "limit": 1 },
-    { "type": "tabs", "name": "Product Info Tabs", "limit": 1 },
-    { "type": "payment_icons", "name": "Payment Icons", "limit": 1 },
-    { "type": "rating", "name": "Rating", "limit": 1 }
+    {"type": "@app"},
+    {"type": "text", "name": "Text", "settings": [{"type": "inline_richtext", "id": "text", "label": "Text"}]},
+    {"type": "title", "name": "Title", "limit": 1},
+    {"type": "price", "name": "Price", "limit": 1},
+    {"type": "variant_picker", "name": "Variant Picker", "limit": 1},
+    {"type": "buy_buttons", "name": "Buy Buttons", "limit": 1, "settings": [{"type": "checkbox", "id": "show_dynamic_checkout", "default": true, "label": "Show Dynamic Checkout"}]},
+    {"type": "description", "name": "Description", "limit": 1},
+    {"type": "rating", "name": "Rating", "limit": 1}
   ],
   "settings": [
-    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top Padding", "default": 36 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom Padding", "default": 36 }
+    {"type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top Padding", "default": 36},
+    {"type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom Padding", "default": 36}
   ]
 }
 {% endschema %}
