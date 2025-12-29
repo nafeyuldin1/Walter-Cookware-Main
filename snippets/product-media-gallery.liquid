@@ -1,15 +1,10 @@
 {% comment %}
   Renders a product media gallery. Should be used with 'media-gallery.js'
   Also see 'product-media-modal'
-
-  Accepts:
-  - product: {Object} Product liquid object
-  - variant_images: {Array} Product images associated with a variant
-  - limit: {Number} (optional) When passed, limits the number of media items to render
-
-  Usage:
-  {% render 'product-media-gallery' %}
+  File: product-media-gallery.liquid
 {% endcomment %}
+
+<script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
   if section.settings.hide_variants and variant_images.size == product.media.size
@@ -330,3 +325,55 @@
     </slider-component>
   {%- endif -%}
 </media-gallery>
+
+<script>
+  (function() {
+    function initFallbackGallery() {
+      // Find the gallery container using the section ID
+      const gallery = document.getElementById('MediaGallery-{{ section.id }}');
+      if (!gallery) return;
+
+      // Select thumbnails and the main slider
+      const thumbnails = gallery.querySelectorAll('.thumbnail-list__item button');
+      const slider = gallery.querySelector('#Slider-Gallery-{{ section.id }}');
+
+      if (!thumbnails.length || !slider) return;
+
+      thumbnails.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          // Prevent default if it wasn't caught by theme JS
+          e.preventDefault();
+
+          // Get the target ID from the parent List Item
+          const targetId = this.closest('li').dataset.target;
+          
+          // Find the corresponding main slide
+          const targetSlide = gallery.querySelector(`[data-media-id="${targetId}"]`);
+          
+          if (targetSlide && slider) {
+            // Scroll logic: Scroll to the slide's position
+            slider.scrollTo({
+              left: targetSlide.offsetLeft,
+              behavior: 'smooth'
+            });
+
+            // Update Active Classes manually
+            thumbnails.forEach(t => {
+               t.setAttribute('aria-current', 'false');
+               if(t.closest('li')) t.closest('li').classList.remove('is-active'); 
+            });
+            this.setAttribute('aria-current', 'true');
+            if(this.closest('li')) this.closest('li').classList.add('is-active');
+          }
+        });
+      });
+    }
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFallbackGallery);
+    } else {
+      initFallbackGallery();
+    }
+  })();
+</script>
