@@ -2,14 +2,13 @@
   
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
-  {{ 'component-loading-spinner.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
   {% endunless %}
 
   {%- style -%}
-    /* --- 1. CORE THEME & LAYOUT --- */
+    /* --- 1. DARK THEME BASE --- */
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -24,88 +23,100 @@
       }
     }
 
-    /* Headings & Text */
+    /* Text Colors */
     #MainProduct-{{ section.id }} h1, 
     #MainProduct-{{ section.id }} .product__title,
     #MainProduct-{{ section.id }} .price-item { color: #ffffff !important; }
     #MainProduct-{{ section.id }} .product__text, .product__description { color: #B0B0B0 !important; }
 
-    /* --- 2. VARIANT PICKER FIX (No Repetition & No White Boxes) --- */
+    /* --- 2. VARIANT PICKER REPETITION & DEFAULT TITLE FIX --- */
     
-    /* 1. Hide the "Default Title" label and button completely */
+    /* "Default Title" ko har jagah se khatam karne ke liye */
     label[for*="Default-Title"], 
     input[value="Default Title"] + label,
-    .product-form__input option[value="Default Title"] {
+    .product-form__input option[value="Default Title"],
+    [data-product-option-value="Default Title"] {
       display: none !important;
     }
 
-    /* 2. Styling the valid variant pills */
+    /* Container for Variants */
+    .product-form__input--pill {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      border: none !important;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    .form__label {
+      color: #fff !important;
+      margin-bottom: 10px;
+      display: block;
+      font-weight: bold;
+    }
+
+    /* Styling Individual Variant Buttons */
     #MainProduct-{{ section.id }} .product-form__input input[type='radio'] + label {
       background-color: transparent !important;
       color: #ffffff !important;
       border: 1px solid #454545 !important;
-      border-radius: 4px;
-      padding: 12px 24px;
-      margin: 0 8px 8px 0;
-      display: inline-block;
+      border-radius: 6px;
+      padding: 12px 20px;
       cursor: pointer;
+      flex: 0 1 auto; /* Repetition aur overlap rokne ke liye */
+      min-width: 80px;
+      text-align: center;
       transition: all 0.2s ease;
-      font-size: 14px;
+      margin: 0 !important; /* Extra spacing khatam */
     }
 
-    /* 3. Selected variant style */
+    /* Selected State */
     #MainProduct-{{ section.id }} .product-form__input input[type='radio']:checked + label {
       background-color: #ffffff !important;
       color: #000000 !important;
       border-color: #ffffff !important;
     }
 
-    /* --- 3. CUSTOM BLOCKS --- */
-    .benefits-grid { margin: 20px 0; border-top: 1px solid #333; padding-top: 20px; }
-    .benefits-grid__list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    /* --- 3. OTHER BLOCKS (Benefits, Shipbar, Tabs) --- */
+    .benefits-grid { margin: 25px 0; border-top: 1px solid #333; padding-top: 20px; }
+    .benefits-grid__list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     .benefits-grid__item { display: flex; align-items: center; gap: 10px; }
-    .benefits-grid__text { font-size: 12px; color: #b0b0b0; }
+    .benefits-grid__text { font-size: 13px; color: #b0b0b0; }
 
     .shipbar { 
-      margin: 20px 0; background: #03231A; border-radius: 8px; 
-      padding: 15px; display: flex; align-items: center; gap: 15px; 
+      margin: 20px 0; background: #03231A; border-radius: 8px; padding: 15px; 
+      display: flex; align-items: center; gap: 15px; border: 1px solid #06402e;
     }
-    .shipbar__text { font-size: 12px; color: #D2F1E3; line-height: 1.4; }
+    .shipbar__text { font-size: 13px; color: #D2F1E3; }
 
-    /* Tabs */
-    .pit-container { margin-top: 30px; border-top: 1px solid #454545; }
-    .pit-tabs { display: flex; border-bottom: 1px solid #454545; }
+    /* Custom Tabs */
+    .pit-container { margin-top: 35px; border-top: 1px solid #333; }
+    .pit-tabs { display: flex; border-bottom: 1px solid #333; }
     .pit-tab { 
       flex: 1; padding: 15px; background: transparent; border: none; 
       color: #666; cursor: pointer; font-weight: bold; border-bottom: 2px solid transparent; 
     }
     .pit-tab.is-active { color: #fff; border-bottom-color: #fff; }
-    .pit-panel { display: none; padding: 20px 0; color: #B0B0B0; font-size: 14px; }
-    .pit-panel.is-active { display: block; animation: fadeIn 0.4s; }
+    .pit-panel { display: none; padding: 20px 0; color: #b0b0b0; font-size: 14px; line-height: 1.6; }
+    .pit-panel.is-active { display: block; }
 
-    /* Upsell */
-    .upsell-card { 
-      background: #1a1a1a; border: 1px solid #333; border-radius: 12px; 
-      padding: 15px; display: flex; gap: 15px; align-items: center; margin-top:15px; 
-    }
-
-    /* Sticky Button */
+    /* Sticky CTA */
     .sticky-cta { 
-      position: fixed; z-index: 99; bottom: 20px; right: 20px; 
-      background: #1a1a1a; padding: 10px 20px; border-radius: 50px; 
-      display: flex; align-items: center; gap: 15px; 
-      border: 1px solid #333; transform: translateY(200%); transition: 0.3s;
+      position: fixed; z-index: 100; bottom: 20px; right: 20px; 
+      background: #1a1a1a; padding: 12px 25px; border-radius: 50px; 
+      display: flex; align-items: center; gap: 15px; border: 1px solid #333;
+      transform: translateY(200%); transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
     .sticky-cta.is-visible { transform: translateY(0); }
-    .sticky-cta button { background: #fff; color: #000; border: none; padding: 8px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
+    .sticky-cta button { background: #fff; color: #000; border: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
 
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   {%- endstyle -%}
 
   <div class="page-width">
     <div class="product grid grid--1-col grid--2-col-tablet">
       <div class="grid__item product__media-wrapper">
-        {% render 'product-media-gallery', variant_images: variant_images %}
+        {% render 'product-media-gallery' %}
       </div>
       
       <div class="product__info-wrapper grid__item">
@@ -115,68 +126,59 @@
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'title' -%}
-                <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title | escape }}</h1>
+                <h1 class="product__title">{{ product.title | escape }}</h1>
               {%- when 'price' -%}
-                <div id="price-{{ section.id }}" {{ block.shopify_attributes }}>
+                <div id="price-{{ section.id }}">
                   {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
                 </div>
               {%- when 'variant_picker' -%}
-                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
-                <button type="button" class="size-guide-trigger" style="background:none; border:none; color:#888; text-decoration:underline; cursor:pointer; font-size:12px; margin-top:10px;">📏 Size Guide</button>
+                {%- unless product.has_only_default_variant -%}
+                   {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                {%- endunless -%}
               {%- when 'buy_buttons' -%}
                 {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id -%}
                 <div class="shipbar">
-                   <div style="font-size: 20px;">🚚</div>
-                   <div class="shipbar__text"><strong>Free Shipping & 30-Day Returns</strong><br>Your order is protected by our lifetime warranty.</div>
+                   <div style="font-size: 22px;">🛡️</div>
+                   <div class="shipbar__text"><strong>Safe Checkout Guarantee</strong><br>Your data is encrypted and secure.</div>
                 </div>
-              {%- when 'description' -%}
-                <div class="product__description rte" {{ block.shopify_attributes }}>{{ product.description }}</div>
             {%- endcase -%}
           {%- endfor -%}
 
           <div class="pit-container">
             <div class="pit-tabs">
-              <button class="pit-tab is-active" data-target="panel-desc">Details</button>
-              <button class="pit-tab" data-target="panel-health">Benefits</button>
+              <button class="pit-tab is-active" data-target="p1">Description</button>
+              <button class="pit-tab" data-target="p2">Shipping</button>
             </div>
-            <div id="panel-desc" class="pit-panel is-active">{{ product.description | truncatewords: 50 }}</div>
-            <div id="panel-health" class="pit-panel"><p>Our titanium is naturally non-toxic and non-stick. Safe for all stovetops.</p></div>
+            <div id="p1" class="pit-panel is-active">{{ product.description }}</div>
+            <div id="p2" class="pit-panel">Free shipping on orders over $50. Delivery in 3-5 business days.</div>
           </div>
+
         </product-info>
       </div>
     </div>
   </div>
 </section>
 
-<div id="sticky-cta-wrapper" class="sticky-cta">
-  <div style="color:#fff; font-size: 13px; font-weight: bold;">{{ product.title | truncate: 15 }}</div>
-  <button id="sticky-add-to-cart">ADD TO CART</button>
+<div id="sticky-cta-{{ section.id }}" class="sticky-cta">
+  <div style="color:#fff; font-weight:bold; font-size:14px;">{{ product.title | truncate: 20 }}</div>
+  <button onclick="document.querySelector('.product-form__submit').click()">ADD TO CART</button>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const sectionId = "{{ section.id }}";
-  
-  // 1. Force Remove any duplicate Default Titles that JS might inject
-  document.querySelectorAll('.product-form__input').forEach(input => {
-    if(input.innerText.includes('Default Title')) {
-       input.style.display = 'none';
-    }
-  });
-
-  // 2. Tabs Logic
+  // Tabs Toggle
   document.querySelectorAll('.pit-tab').forEach(tab => {
     tab.addEventListener('click', function() {
-      const container = this.closest('.pit-container');
-      container.querySelectorAll('.pit-tab, .pit-panel').forEach(el => el.classList.remove('is-active'));
+      const parent = this.closest('.pit-container');
+      parent.querySelectorAll('.pit-tab, .pit-panel').forEach(el => el.classList.remove('is-active'));
       this.classList.add('is-active');
       document.getElementById(this.dataset.target).classList.add('is-active');
     });
   });
 
-  // 3. Sticky Button Logic
+  // Sticky Scroll
   window.addEventListener('scroll', () => {
-    const sticky = document.getElementById('sticky-cta-wrapper');
+    const sticky = document.getElementById('sticky-cta-{{ section.id }}');
     const mainBtn = document.querySelector('.product-form__submit');
     if(mainBtn && sticky) {
       if(mainBtn.getBoundingClientRect().bottom < 0) sticky.classList.add('is-visible');
@@ -184,9 +186,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  document.getElementById('sticky-add-to-cart')?.addEventListener('click', () => {
-    document.querySelector('.product-form__submit')?.click();
-  });
+  // Repetition Clean-up (Anti-Ghosting Script)
+  // Baaz dafa Shopify JS dubara render karti hai, ye script usey clean rakhega
+  const cleanVariants = () => {
+    document.querySelectorAll('label').forEach(label => {
+      if (label.innerText.trim() === 'Default Title') {
+        label.parentElement.style.display = 'none';
+      }
+    });
+  };
+  
+  cleanVariants();
+  setTimeout(cleanVariants, 500); // Buffer for slow JS
 });
 </script>
 
