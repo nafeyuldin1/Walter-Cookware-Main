@@ -16,16 +16,25 @@
           "type": "text",
           "settings": {
             "text": "Many Imitate. Only One Is Real.",
-            "text_style": "body"
+            "text_style": "body",
+            "color_text": "#121212",
+            "font_size": 16
           }
         },
         "title_fkmVzK": {
           "type": "title",
-          "settings": {}
+          "settings": {
+            "color_text": "#121212",
+            "font_size": 30
+          }
         },
         "price_Fkwx4M": {
           "type": "price",
-          "settings": {}
+          "settings": {
+            "color": "#ffffff",
+            "color_sale": "#e23223",
+            "font_size": 21
+          }
         },
         "sticky_atc_DWhMJx": {
           "type": "sticky_atc",
