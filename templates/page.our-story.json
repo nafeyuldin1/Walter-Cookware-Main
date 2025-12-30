@@ -11,13 +11,45 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "video_banner_dK6BAE": {
+      "type": "video-banner",
+      "name": "Hero Video & Logos",
+      "settings": {
+        "enable_overlap": false,
+        "height_desktop": 60,
+        "height_mobile": 40,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "video_desktop": "shopify://files/videos/1babc7fb06554e9d8da1129320300533_b230aa65-baa8-4bd3-afe2-5258018fb7b2.mp4",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "kicker": "",
+        "heading": "The World’s Safest No-Toxin Kitchenware",
+        "heading_size": 56,
+        "text": "<p>Engineered For Health & Longevity</p>",
+        "btn_label": "",
+        "btn_link": "",
+        "text_color": "#ffffff",
+        "btn_bg": "#932933",
+        "btn_text": "#ffffff",
+        "show_stars": false,
+        "review_text": "4.9 (550,000+ Customers)",
+        "marquee_bg": "rgba(0,0,0,0.3)",
+        "marquee_speed": 30,
+        "logo_height": 24,
+        "logo_opacity": 80,
+        "logo_filter": "brightness(0) invert(1)"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "video_banner_dK6BAE"
   ]
 }
