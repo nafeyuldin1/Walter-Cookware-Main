@@ -31,37 +31,46 @@
     font-family: 'Neue Montreal', sans-serif, var(--font-heading-family);
   }
 
-  /* --- COMPETITOR LAYOUT FIX (Thumbnails Left, Image Right) --- */
+  /* ========================================= */
+  /* === LAYOUT FIX: Vertical Thumbs Left === */
+  /* ========================================= */
   @media screen and (min-width: 990px) {
-    .product__media-wrapper media-gallery {
+    /* Force Flexbox layout to override Grid */
+    #MainProduct-{{ section.id }} media-gallery {
       display: flex !important;
-      flex-direction: row-reverse !important; /* Slider Right, Thumbs Left */
-      align-items: flex-start;
-      gap: 20px;
-    }
-    
-    /* Main Slider */
-    #GalleryViewer-{{ section.id }} {
-      flex: 1;
-      width: calc(100% - 100px);
+      flex-direction: row !important; /* Left to Right */
+      align-items: flex-start !important;
+      gap: 20px !important;
     }
 
-    /* Thumbnails Strip */
+    /* Thumbnail Column (Left) */
     #GalleryThumbnails-{{ section.id }} {
-      width: 90px !important;
+      width: 100px !important;
+      flex-shrink: 0 !important;
+      order: 1 !important; /* Force First */
       display: block !important;
     }
 
-    /* Vertical List */
     #GalleryThumbnails-{{ section.id }} .thumbnail-list {
       display: flex !important;
-      flex-direction: column !important;
-      gap: 10px;
+      flex-direction: column !important; /* Vertical Stack */
+      gap: 10px !important;
     }
-    
-    /* Hide slider arrows on desktop vertical strip */
+
+    #GalleryThumbnails-{{ section.id }} .thumbnail-list__item {
+      width: 100% !important;
+    }
+
+    /* Hide Slider Arrows on Desktop */
     #GalleryThumbnails-{{ section.id }} .slider-button {
       display: none !important;
+    }
+
+    /* Main Image (Right) */
+    #GalleryViewer-{{ section.id }} {
+      flex-grow: 1 !important;
+      width: calc(100% - 120px) !important;
+      order: 2 !important;
     }
   }
 
@@ -398,10 +407,12 @@
                 
                 <script>
                   function updateBundleVariant(element) {
+                    // UI Update
                     document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
                     document.querySelectorAll('.pb-card').forEach(el => el.classList.remove('active'));
                     element.classList.add('is-active');
                     
+                    // Value Update
                     const id = element.dataset.variantId;
                     const price = element.dataset.price;
                     const mediaId = element.dataset.mediaId;
@@ -409,16 +420,19 @@
                     document.getElementById('bundle-variant-input').value = id;
                     document.getElementById('bundle-price-display').innerText = price;
 
+                    // Trigger Image Switch Globally via Click
                     if (mediaId && window.goToMedia) {
                       window.goToMedia(mediaId);
                     }
                   }
 
                   function selectBundle(element, id, price, mediaId) {
+                    // UI Update
                     document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
                     document.querySelectorAll('.pb-card').forEach(el => el.classList.remove('active'));
                     element.classList.add('active');
                     
+                    // Value Update
                     document.getElementById('bundle-variant-input').value = id;
                     document.getElementById('bundle-price-display').innerText = price;
                     
