@@ -32,10 +32,10 @@
           "type": "price",
           "settings": {
             "price_color": "#121212",
-            "main_price_size": 24,
-            "sale_price_color": "#e23223",
+            "main_price_size": 32,
+            "sale_price_color": "#03f472",
             "compare_price_color": "#888888",
-            "compare_price_size": 18
+            "compare_price_size": 16
           }
         },
         "sticky_atc_DWhMJx": {
