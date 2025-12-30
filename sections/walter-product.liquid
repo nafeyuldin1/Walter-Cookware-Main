@@ -364,10 +364,12 @@
                 
                 <script>
                   function updateBundleVariant(element) {
+                    // UI Update
                     document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
                     document.querySelectorAll('.pb-card').forEach(el => el.classList.remove('active'));
                     element.classList.add('is-active');
                     
+                    // Value Update
                     const id = element.dataset.variantId;
                     const price = element.dataset.price;
                     const mediaId = element.dataset.mediaId;
@@ -375,16 +377,19 @@
                     document.getElementById('bundle-variant-input').value = id;
                     document.getElementById('bundle-price-display').innerText = price;
 
+                    // Trigger Image Switch Globally via Click
                     if (mediaId && window.goToMedia) {
                       window.goToMedia(mediaId);
                     }
                   }
 
                   function selectBundle(element, id, price, mediaId) {
+                    // UI Update
                     document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
                     document.querySelectorAll('.pb-card').forEach(el => el.classList.remove('active'));
                     element.classList.add('active');
                     
+                    // Value Update
                     document.getElementById('bundle-variant-input').value = id;
                     document.getElementById('bundle-price-display').innerText = price;
                     
