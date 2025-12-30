@@ -34,7 +34,7 @@
             "bg_color": "rgba(0,0,0,0)",
             "price_color": "#121212",
             "main_price_size": 32,
-            "sale_price_color": "#03f472",
+            "sale_price_color": "#ffffff",
             "compare_price_color": "#888888",
             "compare_price_size": 16
           }
