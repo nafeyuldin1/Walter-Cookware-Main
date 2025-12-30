@@ -389,13 +389,12 @@ a.product__text {
 .product .price__container {
   margin-bottom: 0.5rem;
   display: flex;
-  padding: 12px 24px;
+  padding: 12px 0px;
   align-items: center;
   justify-content: space-between;
   gap: 4px;
   align-self: stretch;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
 }
 
 .product .price dl {
