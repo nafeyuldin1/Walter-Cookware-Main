@@ -365,44 +365,39 @@
                 <div id="pb-bundles-{{ section.id }}" class="pb-wrap" {{ block.shopify_attributes }}>
                   <style>
                     #pb-bundles-{{ section.id }} .pb-wrap { margin: 24px 0; border-radius: 12px; overflow: hidden; }
-                    
-                    /* --- Option Tabs (Size) --- */
                     #pb-bundles-{{ section.id }} .pb-option-group { margin-bottom: 20px; }
                     #pb-bundles-{{ section.id }} .pb-option-title { margin-bottom: 10px; font-weight: bold; font-size: 14px; display:flex; justify-content:space-between; align-items:center; color:{{ block.settings.label_color }}; }
                     
-                    /* Size Tabs */
-                    #pb-bundles-{{ section.id }} .pb-size-tabs { 
-                      display: flex; gap: 10px; flex-wrap: wrap;
+                    /* --- Option Row 1 (e.g. Size/Set) Styling --- */
+                    #pb-bundles-{{ section.id }} .pb-opt-row-1 { 
+                      display: grid; grid-template-columns: repeat(3, 1fr); gap:10px;
                     }
-                    #pb-bundles-{{ section.id }} .pb-size-tab { 
-                      flex: 1; min-width: 80px; text-align: center; padding: 12px 10px; cursor: pointer; transition: 0.3s; 
+                    #pb-bundles-{{ section.id }} .pb-opt-btn-1 { 
+                      text-align: center; padding: 12px 5px; cursor: pointer; transition: 0.3s; 
                       background: {{ block.settings.tab_bg_inactive }}; 
                       color: {{ block.settings.tab_text_inactive }};
                       border: 1px solid {{ block.settings.tab_border }}; 
-                      border-radius: 6px;
-                      font-size: 13px;
+                      border-radius: 6px; font-size: 13px; position: relative;
                     }
-                    #pb-bundles-{{ section.id }} .pb-size-tab.is-active { 
+                    #pb-bundles-{{ section.id }} .pb-opt-btn-1.active { 
                       background: {{ block.settings.tab_bg_active }}; 
                       color: {{ block.settings.tab_text_active }}; 
-                      font-weight: bold; 
-                      border-color: {{ block.settings.tab_bg_active }};
+                      font-weight: bold; border-color: {{ block.settings.tab_bg_active }};
                     }
 
-                    /* Color Buttons */
-                    #pb-bundles-{{ section.id }} .pb-color-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
-                    #pb-bundles-{{ section.id }} .pb-color-tab {
-                      padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px;
+                    /* --- Option Row 2 (e.g. Color) Styling --- */
+                    #pb-bundles-{{ section.id }} .pb-opt-row-2 { display: flex; gap: 10px; flex-wrap: wrap; }
+                    #pb-bundles-{{ section.id }} .pb-opt-btn-2 {
+                      padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 13px;
                       background: {{ block.settings.color_btn_bg }};
                       color: {{ block.settings.color_btn_text }};
                       border: 1px solid {{ block.settings.color_btn_border }};
                       transition: 0.3s;
                     }
-                    #pb-bundles-{{ section.id }} .pb-color-tab.is-active {
+                    #pb-bundles-{{ section.id }} .pb-opt-btn-2.active {
                       background: {{ block.settings.color_btn_active_bg }};
                       color: {{ block.settings.color_btn_active_text }};
-                      font-weight: bold;
-                      border-color: {{ block.settings.color_btn_active_bg }};
+                      font-weight: bold; border-color: {{ block.settings.color_btn_active_bg }};
                     }
                     
                     /* Bundle Cards */
@@ -459,21 +454,22 @@
                     #pb-bundles-{{ section.id }} .secure-note { color: {{ block.settings.guarantee_color }}; }
                   </style>
 
-                  {% comment %} --- LOGIC FOR MULTIPLE OPTIONS (Size / Color) --- {% endcomment %}
-                  {%- if product.has_only_default_variant == false -%}
-                    <div class="pb-options">
+                  {% comment %} --- DYNAMIC VARIANT OPTIONS RENDERER --- {% endcomment %}
+                  {%- unless product.has_only_default_variant -%}
+                    <div class="pb-options-container" id="pb-options-{{ section.id }}">
                       {%- for option in product.options_with_values -%}
                         <div class="pb-option-group">
                           <div class="pb-option-title">
                             <span>{{ option.name }}</span>
                             {% if forloop.index == 1 %}<button type="button" onclick="toggleSizeGuide(true)" style="background:none;border:none;text-decoration:underline;cursor:pointer;color:inherit;font-size:12px;">{{ block.settings.size_guide_text }}</button>{% endif %}
                           </div>
-                          <div class="{% if forloop.index == 1 %}pb-size-tabs{% else %}pb-color-tabs{% endif %}">
+                          {% comment %} Row 1 style for first option, Row 2 style for second option {% endcomment %}
+                          <div class="{% if forloop.index == 1 %}pb-opt-row-1{% else %}pb-opt-row-2{% endif %}">
                             {%- for value in option.values -%}
-                              <div class="{% if forloop.parentloop.index == 1 %}pb-size-tab{% else %}pb-color-tab{% endif %} {% if option.selected_value == value %}is-active{% endif %}"
+                              <div class="{% if forloop.parentloop.index == 1 %}pb-opt-btn-1{% else %}pb-opt-btn-2{% endif %} {% if option.selected_value == value %}active{% endif %}"
                                    data-option-index="{{ forloop.parentloop.index0 }}"
                                    data-value="{{ value | escape }}"
-                                   onclick="updateOption(this, {{ forloop.parentloop.index0 }})">
+                                   onclick="handleBundleOptionChange(this, {{ forloop.parentloop.index0 }})">
                                 {{ value }}
                               </div>
                             {%- endfor -%}
@@ -481,7 +477,7 @@
                         </div>
                       {%- endfor -%}
                     </div>
-                  {%- endif -%}
+                  {%- endunless -%}
 
                   {% if block.settings.enable_bundles %}
                     <div class="pb-title" style="margin: 20px 0 10px; font-weight:500; color: {{ block.settings.label_color }}">{{ block.settings.bundles_heading }}</div>
@@ -522,47 +518,56 @@
                 </div>
                 
                 <script>
-                  var metaVariants = {{ product.variants | json }};
-                  var currentOptions = [
-                    "{{ product.options_with_values[0].selected_value | escape }}",
-                    "{{ product.options_with_values[1].selected_value | escape }}",
-                    "{{ product.options_with_values[2].selected_value | escape }}"
-                  ];
+                  (function() {
+                    var bundleVariants = {{ product.variants | json }};
+                    // Initialize current selection with current defaults
+                    var selectedOpts = [
+                      "{{ product.options_with_values[0].selected_value | escape }}",
+                      "{{ product.options_with_values[1].selected_value | escape }}",
+                      "{{ product.options_with_values[2].selected_value | escape }}"
+                    ];
 
-                  function updateOption(element, index) {
-                    // Update UI
-                    var siblings = element.parentElement.children;
-                    for(var i=0; i<siblings.length; i++) siblings[i].classList.remove('is-active');
-                    element.classList.add('is-active');
-                    
-                    // Update State
-                    currentOptions[index] = element.getAttribute('data-value');
-                    
-                    // Find Match
-                    var matchedVariant = metaVariants.find(function(variant) {
-                      var match = true;
-                      if(currentOptions[0] && variant.option1 !== currentOptions[0]) match = false;
-                      if(currentOptions[1] && variant.option2 !== currentOptions[1]) match = false;
-                      if(currentOptions[2] && variant.option3 !== currentOptions[2]) match = false;
-                      return match;
-                    });
-
-                    if(matchedVariant) {
-                      document.getElementById('bundle-variant-input').value = matchedVariant.id;
-                      // Format price (basic formatter)
-                      var price = (matchedVariant.price / 100).toFixed(2);
-                      document.getElementById('bundle-price-display').innerText = '$' + price; // Assuming USD or currency symbol needs liquid logic for perfection, but simplified here
-                      
-                      // Change Image
-                      if(matchedVariant.featured_media) {
-                         const sectionId = "{{ section.id }}";
-                         const gallery = document.querySelector(`product-info[id="MainProduct-${sectionId}"] media-gallery`);
-                         if (gallery && gallery.setActiveMedia) { 
-                           gallery.setActiveMedia(`${sectionId}-${matchedVariant.featured_media.id}`, true); 
-                         }
+                    window.handleBundleOptionChange = function(element, optionIndex) {
+                      // 1. UI Update: Toggle Active Class
+                      var siblings = element.parentNode.children;
+                      for(var i=0; i<siblings.length; i++) {
+                        siblings[i].classList.remove('active');
                       }
-                    }
-                  }
+                      element.classList.add('active');
+
+                      // 2. Update State
+                      var value = element.getAttribute('data-value');
+                      selectedOpts[optionIndex] = value;
+
+                      // 3. Find Matching Variant
+                      var matched = bundleVariants.find(function(v) {
+                        var match = true;
+                        if(selectedOpts[0] && v.option1 !== selectedOpts[0]) match = false;
+                        if(selectedOpts[1] && v.option2 !== selectedOpts[1]) match = false;
+                        if(selectedOpts[2] && v.option3 !== selectedOpts[2]) match = false;
+                        return match;
+                      });
+
+                      if(matched) {
+                        // Update Hidden Input
+                        var input = document.getElementById('bundle-variant-input');
+                        if(input) input.value = matched.id;
+
+                        // Update Price Button
+                        var btnPrice = document.getElementById('bundle-price-display');
+                        if(btnPrice) btnPrice.innerText = (matched.price / 100).toFixed(2); // Simplified formatting
+
+                        // Update Media (optional integration with Dawn)
+                        if(matched.featured_media) {
+                           const sectionId = "{{ section.id }}";
+                           const gallery = document.querySelector(`product-info[id="MainProduct-${sectionId}"] media-gallery`);
+                           if (gallery && gallery.setActiveMedia) { 
+                             gallery.setActiveMedia(`${sectionId}-${matched.featured_media.id}`, true); 
+                           }
+                        }
+                      }
+                    };
+                  })();
                 </script>
 
               {%- when 'shipping_bar' -%}
@@ -1123,8 +1128,7 @@
     },
     {
       "type": "header",
-      "content": "t:sections.main-product.settings.header.content"
-    },
+      "content": "Media Settings" },
     {
       "type": "select",
       "id": "media_size",
