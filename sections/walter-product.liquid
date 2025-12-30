@@ -31,47 +31,77 @@
     font-family: 'Neue Montreal', sans-serif, var(--font-heading-family);
   }
 
-  /* ========================================= */
-  /* === LAYOUT FIX: Vertical Thumbs Left === */
-  /* ========================================= */
+  /* ================================================= */
+  /* === LAYOUT FIX: Vertical Thumbs Left (Strict) === */
+  /* ================================================= */
   @media screen and (min-width: 990px) {
-    /* Force Flexbox layout to override Grid */
+    /* 1. Flex Container for Gallery */
     #MainProduct-{{ section.id }} media-gallery {
       display: flex !important;
-      flex-direction: row !important; /* Left to Right */
+      flex-direction: row !important; /* Thumbnails First */
       align-items: flex-start !important;
       gap: 20px !important;
+      height: auto !important;
     }
 
-    /* Thumbnail Column (Left) */
+    /* 2. Thumbnails Column */
     #GalleryThumbnails-{{ section.id }} {
-      width: 100px !important;
-      flex-shrink: 0 !important;
-      order: 1 !important; /* Force First */
+      width: 90px !important;
+      min-width: 90px !important;
       display: block !important;
+      order: 1 !important; /* First */
     }
 
     #GalleryThumbnails-{{ section.id }} .thumbnail-list {
       display: flex !important;
-      flex-direction: column !important; /* Vertical Stack */
+      flex-direction: column !important;
       gap: 10px !important;
     }
 
     #GalleryThumbnails-{{ section.id }} .thumbnail-list__item {
       width: 100% !important;
+      margin-bottom: 0 !important;
+    }
+    
+    /* Ensure Thumbnail Images Fit */
+    #GalleryThumbnails-{{ section.id }} .thumbnail {
+      width: 100% !important;
+      height: auto !important;
+      aspect-ratio: 1 / 1;
     }
 
-    /* Hide Slider Arrows on Desktop */
-    #GalleryThumbnails-{{ section.id }} .slider-button {
-      display: none !important;
-    }
-
-    /* Main Image (Right) */
+    /* 3. Main Viewer Column */
     #GalleryViewer-{{ section.id }} {
-      flex-grow: 1 !important;
-      width: calc(100% - 120px) !important;
-      order: 2 !important;
+      flex: 1 !important;
+      width: calc(100% - 110px) !important;
+      order: 2 !important; /* Second */
+      overflow: hidden !important; /* Crucial for slider to work */
     }
+
+    /* Ensure Main Slider Scrolls Horizontally */
+    #Slider-Gallery-{{ section.id }} {
+      display: flex !important;
+      overflow-x: auto !important;
+      scroll-behavior: smooth !important;
+      scroll-snap-type: x mandatory;
+      width: 100% !important;
+      flex-wrap: nowrap !important; /* Prevent wrapping */
+      margin: 0 !important;
+    }
+    
+    #Slider-Gallery-{{ section.id }}::-webkit-scrollbar {
+       display: none;
+    }
+
+    #Slider-Gallery-{{ section.id }} .product__media-item {
+      min-width: 100% !important;
+      width: 100% !important;
+      flex: 0 0 100% !important;
+      scroll-snap-align: start;
+    }
+    
+    /* Hide Default Arrows */
+    #GalleryThumbnails-{{ section.id }} .slider-button { display: none !important; }
   }
 
   /* --- Price --- */
@@ -407,12 +437,10 @@
                 
                 <script>
                   function updateBundleVariant(element) {
-                    // UI Update
                     document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
                     document.querySelectorAll('.pb-card').forEach(el => el.classList.remove('active'));
                     element.classList.add('is-active');
                     
-                    // Value Update
                     const id = element.dataset.variantId;
                     const price = element.dataset.price;
                     const mediaId = element.dataset.mediaId;
@@ -420,19 +448,16 @@
                     document.getElementById('bundle-variant-input').value = id;
                     document.getElementById('bundle-price-display').innerText = price;
 
-                    // Trigger Image Switch Globally via Click
                     if (mediaId && window.goToMedia) {
                       window.goToMedia(mediaId);
                     }
                   }
 
                   function selectBundle(element, id, price, mediaId) {
-                    // UI Update
                     document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
                     document.querySelectorAll('.pb-card').forEach(el => el.classList.remove('active'));
                     element.classList.add('active');
                     
-                    // Value Update
                     document.getElementById('bundle-variant-input').value = id;
                     document.getElementById('bundle-price-display').innerText = price;
                     
