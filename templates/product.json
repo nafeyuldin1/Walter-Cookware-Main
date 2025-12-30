@@ -58,8 +58,16 @@
             "card_border": "#f6f4f0",
             "card_text": "#ffffff",
             "card_price_color": "#ffffff",
-            "active_card_bg": "#ffffff",
+            "active_card_bg": "rgba(0,0,0,0)",
             "active_card_border": "#097350",
+            "badge_bg": "#e7d9bf",
+            "badge_text": "#000000",
+            "badge_font_size": 10,
+            "desc_color": "#555555",
+            "desc_font_size": 12,
+            "price_font_size": 16,
+            "compare_note_color": "#888888",
+            "compare_note_size": 12,
             "btn_bg": "#ffffff",
             "btn_text": "#121212",
             "btn_hover_bg": "#075e41",
@@ -72,8 +80,11 @@
             "enable_bundles": true,
             "bundles_heading": "Or Select Bundle & Save",
             "bundle_product_1": "cheese-knife-set",
+            "bundle_badge_1": "MOST POPULAR",
             "bundle_product_2": "haelyra-2-0",
-            "bundle_product_3": "serving-tongs"
+            "bundle_badge_2": "GREAT VALUE",
+            "bundle_product_3": "serving-tongs",
+            "bundle_badge_3": "LIMITED OFFER"
           }
         },
         "shipping_bar_Na8Erx": {
