@@ -18,7 +18,7 @@
     }
   }
 
-  /* --- Global Styles --- */
+  /* --- Styles --- */
   #MainProduct-{{ section.id }} {
     background: {{ section.settings.bg_gradient | default: '#121212' }};
     color: {{ section.settings.text_color }};
@@ -33,7 +33,7 @@
     margin-top: 0;
   }
 
-  /* --- Price Styling --- */
+  /* Price */
   .ctm-price__row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 15px; }
   .ctm-price__current { font-size: 32px; font-weight: 500; color: {{ section.settings.price_color }}; line-height: 1.2; }
   .ctm-price__compare { font-size: 24px; text-decoration: line-through; color: {{ section.settings.compare_price_color }}; opacity: 0.7; }
@@ -46,23 +46,42 @@
   /* --- BUNDLE WIDGET --- */
   .pb-wrap { margin: 24px 0; color: inherit; }
   
-  /* Size Tabs */
+  /* Size/Option Tabs - GRID LAYOUT FIXED */
   .pb-sizes-head { display: flex; justify-content: space-between; margin-bottom: 12px; font-weight: 500; font-size: 16px; }
   .sbp-size-guide { text-decoration: underline; opacity: 0.9; cursor: pointer; font-size: 14px; }
   
   .pb-size-tabs { 
-    display: flex; /* Changed from Grid to Flex to prevent empty columns */
+    display: grid; 
+    /* Force exactly 4 columns like competitor */
+    grid-template-columns: repeat(4, 1fr); 
     border: 1px solid {{ section.settings.bundle_border_color }}; 
     border-radius: 8px; 
     overflow: hidden; 
   }
+  
   .pb-size-tab { 
-    flex: 1;
-    padding: 14px 4px; text-align: center; cursor: pointer; background: transparent; 
-    color: {{ section.settings.text_color }}; border-right: 1px solid {{ section.settings.bundle_border_color }}; 
-    font-size: 14px; opacity: 0.7; transition: all 0.2s; font-weight: 500;
+    padding: 14px 4px; 
+    text-align: center; 
+    cursor: pointer; 
+    background: transparent; 
+    color: {{ section.settings.text_color }}; 
+    border-right: 1px solid {{ section.settings.bundle_border_color }}; 
+    border-bottom: 1px solid {{ section.settings.bundle_border_color }}; 
+    font-size: 13px; 
+    opacity: 0.7; 
+    transition: all 0.2s; 
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
   }
-  .pb-size-tab:last-child { border-right: none; }
+  
+  /* Remove borders for last item in row */
+  .pb-size-tab:nth-child(4n) { border-right: none; }
+  /* Remove bottom border for last row elements (if 4 items) */
+  .pb-size-tab:nth-last-child(-n+4) { border-bottom: none; }
+
   .pb-size-tab:hover { opacity: 1; background: rgba(255,255,255,0.05); }
   .pb-size-tab.is-active { background: {{ section.settings.bundle_active_bg }}; color: #121212; opacity: 1; font-weight: 700; }
 
@@ -103,7 +122,6 @@
   }
   .quantity { width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; }
   .quantity__input { color: inherit; background: transparent; border: none; text-align: center; width: 100%; font-weight: bold; appearance: none; -moz-appearance: textfield; }
-  .quantity__input::-webkit-outer-spin-button, .quantity__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   .quantity__button { color: inherit; background: transparent; border: none; cursor: pointer; width: 30px; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
   
   .pb-atc-btn {
@@ -116,38 +134,37 @@
   }
   .pb-atc-btn:hover { opacity: 0.9; }
 
-  /* Utilities */
-  .no-js-hidden.variant-picker-hidden { display: none; }
-  .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
-  .benefits-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #B0B0B0; }
-  .benefits-item img { width: 24px; height: 24px; }
-  .benefits-item strong { color: #fff; font-weight: 500; }
-  
-  /* Secure Badge */
+  /* Secure & Extras */
   .secure-checkout { text-align: center; margin-top: 15px; opacity: 0.8; font-size: 12px; }
   .pay-badges { margin-top: 8px; display: flex; justify-content: center; gap: 5px; }
   .pay-badges svg { width: 38px; height: 24px; border-radius: 4px; }
+  .shipbar { display: flex; align-items: center; gap: 20px; padding: 14px 20px; border-radius: 8px; margin: 20px 0; font-size: 13px; }
+  .shipbar__label { font-weight: 700; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.2); padding-right: 20px; }
+  .shipbar__list { display: flex; gap: 15px; flex-wrap: wrap; }
+  .shipbar__item { display: flex; align-items: center; gap: 6px; }
 
   /* Sticky ATC */
-  .sticky-atc {
-    position: fixed; bottom: 20px; right: 20px; z-index: 99;
-    background: #1a1a1a; color: #fff; padding: 12px; border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; gap: 15px; align-items: center;
-    transform: translateY(200%); transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    max-width: 400px;
-  }
+  .sticky-atc { position: fixed; bottom: 20px; right: 20px; z-index: 99; background: #1a1a1a; color: #fff; padding: 12px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; gap: 15px; align-items: center; transform: translateY(200%); transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); max-width: 400px; }
   .sticky-atc.is-visible { transform: translateY(0); }
   .sticky-img { width: 60px; height: 60px; border-radius: 6px; object-fit: cover; }
   .sticky-info { font-size: 13px; line-height: 1.2; }
   .sticky-title { font-weight: bold; margin-bottom: 2px; }
   .sticky-alert { color: #e23223; font-weight: bold; font-size: 11px; text-transform: uppercase; }
   .sticky-btn { background: #fff; color: #000; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 13px;}
-
   @media screen and (max-width: 749px) {
     .sticky-atc { left: 0; right: 0; bottom: 0; border-radius: 0; width: 100%; max-width: 100%; justify-content: space-between; padding: 15px; }
     .sticky-img, .sticky-info { display: none; }
     .sticky-btn { width: 100%; padding: 15px; font-size: 16px; }
+    .pb-size-tabs { grid-template-columns: repeat(2, 1fr); }
+    .pb-size-tab:nth-child(2n) { border-right: none; }
+    .pb-size-tab:nth-child(4n) { border-right: 1px solid {{ section.settings.bundle_border_color }}; } /* Reset desktop */
   }
+
+  .no-js-hidden.variant-picker-hidden { display: none; }
+  .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .benefits-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #B0B0B0; }
+  .benefits-item img { width: 24px; height: 24px; }
+  .benefits-item strong { color: #fff; font-weight: 500; }
 
 {%- endstyle -%}
 
@@ -237,10 +254,11 @@
                         <label class="pb-label">{{ block.settings.size_label }}</label>
                         <span class="sbp-size-guide">{{ block.settings.size_guide_text }}</span>
                       </div>
+                      
                       <div class="pb-size-tabs">
                         {%- assign main_option = product.options_with_values[0] -%}
                         {%- for value in main_option.values -%}
-                          {%- assign variant_match = product.variants | where: main_option.name, value | first -%}
+                          {%- assign variant_match = product.variants | where: "option1", value | first -%}
                           
                           <div class="pb-size-tab {% if product.selected_or_first_available_variant.option1 == value %}is-active{% endif %}"
                                data-variant-id="{{ variant_match.id }}"
@@ -275,7 +293,7 @@
                     {% if block.settings.bundle_2_product != blank %}
                       {% assign b2 = block.settings.bundle_2_product %}
                       <div class="pb-card" data-variant-id="{{ b2.selected_or_first_available_variant.id }}" data-price="{{ b2.price | money }}" data-compare="{{ b2.compare_at_price | money }}" data-type="bundle">
-                        <span class="pb-badge">Great Value</span>
+                        <span class="pb-badge">Best Value</span>
                         <div class="pb-left">
                           <span class="pb-name">{{ b2.title }}</span>
                           <span class="pb-desc">{{ block.settings.bundle_2_desc }}</span>
