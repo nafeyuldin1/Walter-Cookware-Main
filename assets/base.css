@@ -3602,5 +3602,5 @@ details-disclosure > details {
   font-size: 25px;
 }
 .price.badge.price__badge-sale{
-  display: none;
+  display: none !important;
 }
