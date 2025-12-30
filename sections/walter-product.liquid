@@ -38,7 +38,7 @@
       }
     }
 
-    /* --- Global Styles for Custom Widgets --- */
+    /* --- Global Styles --- */
     .rh-wrap { margin: 15px 0; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px; }
     .rh-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
     .rh-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: #333; }
@@ -95,7 +95,7 @@
     .pit-panel.is-active { display: block; animation: fadeIn 0.5s; }
     @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
-    /* Size Guide Modal */
+    /* Size Guide */
     .sg-modal { 
       position: fixed; inset: 0; z-index: 2147483647; 
       display: none; align-items: center; justify-content: center; 
@@ -194,23 +194,19 @@
               {%- when 'price' -%}
                 <div id="block-{{ block.id }}" role="status" {{ block.shopify_attributes }}>
                    <style>
-                     /* Container Background & Padding */
                      #block-{{ block.id }} {
                         background-color: {{ block.settings.bg_color }};
                         padding: 10px; 
                         border-radius: 8px;
                      }
-                     /* Main Price */
                      #block-{{ block.id }} .price-item--regular, 
                      #block-{{ block.id }} .price-item--sale {
                        font-size: {{ block.settings.main_price_size }}px !important;
                        color: {{ block.settings.price_color }} !important;
                      }
-                     /* Sale Color Override */
                      #block-{{ block.id }} .price-item--sale {
                         color: {{ block.settings.sale_price_color }} !important;
                      }
-                     /* Compare Price */
                      #block-{{ block.id }} .price__sale .price-item--regular {
                         font-size: {{ block.settings.compare_price_size }}px !important;
                         color: {{ block.settings.compare_price_color }} !important;
@@ -330,7 +326,9 @@
                 </div>
 
               {%- when 'variant_picker' -%}
-                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                {% unless product.has_only_default_variant %}
+                  {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                {% endunless %}
 
               {%- when 'buy_buttons' -%}
                 <div id="block-{{ block.id }}" {{ block.shopify_attributes }}>
@@ -368,7 +366,7 @@
                   <style>
                     #pb-bundles-{{ section.id }} .pb-wrap { margin: 24px 0; border-radius: 12px; overflow: hidden; }
                     
-                    /* --- Variant Tabs Settings --- */
+                    /* Tabs */
                     #pb-bundles-{{ section.id }} .pb-size-tabs { 
                       display: grid; grid-template-columns: repeat(4, 1fr); 
                       border: 1px solid {{ block.settings.tab_border }}; border-radius: 8px; overflow: hidden; 
@@ -381,14 +379,13 @@
                       font-size: 13px; position: relative;
                     }
                     #pb-bundles-{{ section.id }} .pb-size-tab:last-child { border-right: none; }
-                    /* Active Tab */
                     #pb-bundles-{{ section.id }} .pb-size-tab.is-active { 
                       background: {{ block.settings.tab_bg_active }}; 
                       color: {{ block.settings.tab_text_active }}; 
                       font-weight: bold; 
                     }
                     
-                    /* --- Bundle Cards Settings --- */
+                    /* Cards */
                     #pb-bundles-{{ section.id }} .pb-card { 
                       background: {{ block.settings.card_bg }}; 
                       border: 1px solid {{ block.settings.card_border }};
@@ -404,13 +401,10 @@
                       color: {{ block.settings.compare_note_color }};
                       font-size: {{ block.settings.compare_note_size }}px;
                     }
-                    
-                    /* Active Card */
                     #pb-bundles-{{ section.id }} .pb-card.active { 
                       border-color: {{ block.settings.active_card_border }}; 
                       background: {{ block.settings.active_card_bg }}; 
                     }
-
                     #pb-bundles-{{ section.id }} .pb-card__title { font-weight: bold; font-size: 15px; margin-bottom: 4px; }
                     #pb-bundles-{{ section.id }} .pb-card__desc { 
                       font-size: {{ block.settings.desc_font_size }}px; 
@@ -419,7 +413,7 @@
                     }
                     #pb-bundles-{{ section.id }} .pb-card__price { margin-top: 8px; font-weight: bold; }
 
-                    /* Badge Style */
+                    /* Badges */
                     #pb-bundles-{{ section.id }} .pb-card__badge {
                       position: absolute; top: 0; right: 0;
                       background: {{ block.settings.badge_bg }};
@@ -431,7 +425,7 @@
                       font-weight: bold;
                     }
 
-                    /* --- Button Settings --- */
+                    /* Button */
                     #pb-bundles-{{ section.id }} .pb-atc-btn {
                       width: 100%; padding: 16px; 
                       background: {{ block.settings.btn_bg }}; 
@@ -445,10 +439,8 @@
                       color: {{ block.settings.btn_hover_text }};
                     }
 
-                    /* --- Label Colors --- */
+                    /* Labels & Notes */
                     #pb-bundles-{{ section.id }} .pb-label { color: {{ block.settings.label_color }}; }
-                    
-                    /* --- Guarantee Text Color --- */
                     #pb-bundles-{{ section.id }} .secure-note { color: {{ block.settings.guarantee_color }}; }
                   </style>
 
