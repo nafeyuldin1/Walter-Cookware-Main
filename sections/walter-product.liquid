@@ -370,10 +370,10 @@
                     
                     /* --- Option Row 1 (e.g. Size/Set) Styling --- */
                     #pb-bundles-{{ section.id }} .pb-opt-row-1 { 
-                      display: grid; grid-template-columns: repeat(3, 1fr); gap:10px;
+                      display: flex; gap:10px; flex-wrap:wrap;
                     }
                     #pb-bundles-{{ section.id }} .pb-opt-btn-1 { 
-                      text-align: center; padding: 12px 5px; cursor: pointer; transition: 0.3s; 
+                      flex:1; text-align: center; padding: 12px 5px; cursor: pointer; transition: 0.3s; 
                       background: {{ block.settings.tab_bg_inactive }}; 
                       color: {{ block.settings.tab_text_inactive }};
                       border: 1px solid {{ block.settings.tab_border }}; 
@@ -463,7 +463,7 @@
                             <span>{{ option.name }}</span>
                             {% if forloop.index == 1 %}<button type="button" onclick="toggleSizeGuide(true)" style="background:none;border:none;text-decoration:underline;cursor:pointer;color:inherit;font-size:12px;">{{ block.settings.size_guide_text }}</button>{% endif %}
                           </div>
-                          {% comment %} Row 1 style for first option, Row 2 style for second option {% endcomment %}
+                          {% comment %} Row 1 style for first option (Color), Row 2 style for second option (Size/Set) {% endcomment %}
                           <div class="{% if forloop.index == 1 %}pb-opt-row-1{% else %}pb-opt-row-2{% endif %}">
                             {%- for value in option.values -%}
                               <div class="{% if forloop.parentloop.index == 1 %}pb-opt-btn-1{% else %}pb-opt-btn-2{% endif %} {% if option.selected_value == value %}active{% endif %}"
@@ -520,7 +520,7 @@
                 <script>
                   (function() {
                     var bundleVariants = {{ product.variants | json }};
-                    // Initialize current selection with current defaults
+                    // Initialize with defaults from Liquid
                     var selectedOpts = [
                       "{{ product.options_with_values[0].selected_value | escape }}",
                       "{{ product.options_with_values[1].selected_value | escape }}",
@@ -528,8 +528,9 @@
                     ];
 
                     window.handleBundleOptionChange = function(element, optionIndex) {
-                      // 1. UI Update: Toggle Active Class
-                      var siblings = element.parentNode.children;
+                      // 1. UI Update: Clear active from siblings ONLY
+                      var container = element.parentElement;
+                      var siblings = container.children;
                       for(var i=0; i<siblings.length; i++) {
                         siblings[i].classList.remove('active');
                       }
@@ -542,8 +543,11 @@
                       // 3. Find Matching Variant
                       var matched = bundleVariants.find(function(v) {
                         var match = true;
+                        // Check Option 1
                         if(selectedOpts[0] && v.option1 !== selectedOpts[0]) match = false;
+                        // Check Option 2 (only if exists)
                         if(selectedOpts[1] && v.option2 !== selectedOpts[1]) match = false;
+                        // Check Option 3 (only if exists)
                         if(selectedOpts[2] && v.option3 !== selectedOpts[2]) match = false;
                         return match;
                       });
@@ -555,9 +559,9 @@
 
                         // Update Price Button
                         var btnPrice = document.getElementById('bundle-price-display');
-                        if(btnPrice) btnPrice.innerText = (matched.price / 100).toFixed(2); // Simplified formatting
+                        if(btnPrice) btnPrice.innerText = '$' + (matched.price / 100).toFixed(2);
 
-                        // Update Media (optional integration with Dawn)
+                        // Update Media (optional integration)
                         if(matched.featured_media) {
                            const sectionId = "{{ section.id }}";
                            const gallery = document.querySelector(`product-info[id="MainProduct-${sectionId}"] media-gallery`);
@@ -1128,7 +1132,8 @@
     },
     {
       "type": "header",
-      "content": "Media Settings" },
+      "content": "t:sections.main-product.settings.header.content"
+    },
     {
       "type": "select",
       "id": "media_size",
