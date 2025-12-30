@@ -74,9 +74,19 @@
             "size_guide_text": "Size Guide",
             "guarantee_text": "Guaranteed Safe & Secure Checkout",
             "enable_bundles": true,
-            "bundle_1_product": "frens-flatware",
-            "bundle_1_title": "",
-            "bundle_1_desc": "Includes Pan + Spatula. Great value!"
+            "bundles_heading": "Or Select Bundle & Save",
+            "bundle_product_1": "cheese-knife-set",
+            "bundle_title_1": "",
+            "bundle_desc_1": "Includes Pan + Spatula.",
+            "bundle_badge_1": "Most Popular",
+            "bundle_product_2": "haelyra-2-0",
+            "bundle_title_2": "",
+            "bundle_desc_2": "Great Value Set.",
+            "bundle_badge_2": "Best Value",
+            "bundle_product_3": "serving-tongs",
+            "bundle_title_3": "",
+            "bundle_desc_3": "Ultimate Kitchen Set.",
+            "bundle_badge_3": ""
           }
         },
         "shipping_bar_Na8Erx": {
