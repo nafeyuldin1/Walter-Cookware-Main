@@ -39,8 +39,10 @@
     }
 
     /* --- Custom Widget Styles --- */
-    .ctm-price__current { font-size: 32px; font-weight: 500; color: {{ section.settings.price_color | default: '#000' }} !important; display: block; }
-    .ctm-price__compare { font-size: 32px; text-decoration: line-through; color: {{ section.settings.compare_price_color | default: '#888' }} !important; opacity: 0.7; display: block; }
+    /* Note: Individual block styles are now handled dynamically below inside the block loop */
+    
+    .ctm-price__current { font-weight: 500; display: block; }
+    .ctm-price__compare { text-decoration: line-through; opacity: 0.7; display: block; }
     .ctm-price__save { 
       background: {{ section.settings.sale_badge_bg | default: '#097350' }}; 
       color: {{ section.settings.sale_badge_text | default: '#fff' }}; 
@@ -199,12 +201,29 @@
                 {% render block %}
               
               {%- when 'text' -%}
-                <p class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}" {{ block.shopify_attributes }}>
-                  {{- block.settings.text -}}
-                </p>
+                <div id="block-{{ block.id }}" style="margin-bottom: 12px;">
+                  <style>
+                    #block-{{ block.id }} .product__text {
+                      color: {{ block.settings.color_text }} !important;
+                      font-size: {{ block.settings.font_size }}px !important;
+                    }
+                  </style>
+                  <p class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}" {{ block.shopify_attributes }}>
+                    {{- block.settings.text -}}
+                  </p>
+                </div>
 
               {%- when 'title' -%}
-                <div class="product__title" {{ block.shopify_attributes }}>
+                <div id="block-{{ block.id }}" class="product__title" {{ block.shopify_attributes }}>
+                  <style>
+                    #block-{{ block.id }} h1 {
+                      color: {{ block.settings.color_text }} !important;
+                      font-size: {{ block.settings.font_size }}px !important;
+                    }
+                    @media(max-width: 768px) {
+                       #block-{{ block.id }} h1 { font-size: {{ block.settings.font_size | times: 0.8 }}px !important; }
+                    }
+                  </style>
                   <h1>{{ product.title | escape }}</h1>
                   <a href="{{ product.url }}" class="product__title">
                     <h2 class="h1">
@@ -214,7 +233,18 @@
                 </div>
 
               {%- when 'price' -%}
-                <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
+                <div id="block-{{ block.id }}" role="status" {{ block.shopify_attributes }}>
+                   <style>
+                     /* Settings for Price Block */
+                     #block-{{ block.id }} .price-item, 
+                     #block-{{ block.id }} .price .price-item {
+                       font-size: {{ block.settings.font_size }}px !important;
+                       color: {{ block.settings.color }} !important;
+                     }
+                     #block-{{ block.id }} .price-item--sale {
+                        color: {{ block.settings.color_sale | default: block.settings.color }} !important;
+                     }
+                   </style>
                   {%- render 'price',
                     product: product,
                     use_variant: true,
@@ -268,7 +298,14 @@
 
               {%- when 'description' -%}
                 {%- if product.description != blank -%}
-                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
+                  <div id="block-{{ block.id }}" class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
+                    <style>
+                       #block-{{ block.id }} {
+                          color: {{ block.settings.color_text }} !important;
+                          font-size: {{ block.settings.font_size }}px !important;
+                       }
+                       #block-{{ block.id }} p { color: inherit; font-size: inherit; }
+                    </style>
                     {{ product.description }}
                   </div>
                 {%- endif -%}
@@ -337,7 +374,22 @@
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
 
               {%- when 'buy_buttons' -%}
-                {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
+                <div id="block-{{ block.id }}" {{ block.shopify_attributes }}>
+                   <style>
+                      #block-{{ block.id }} .product-form__submit {
+                         background: {{ block.settings.bg_color }} !important;
+                         color: {{ block.settings.text_color }} !important;
+                         border: 1px solid {{ block.settings.border_color }} !important;
+                         transition: 0.3s ease;
+                      }
+                      #block-{{ block.id }} .product-form__submit:hover {
+                         background: {{ block.settings.bg_color_hover }} !important;
+                         color: {{ block.settings.text_color_hover }} !important;
+                         opacity: 0.9;
+                      }
+                   </style>
+                   {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
+                </div>
 
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
@@ -816,18 +868,35 @@
           ],
           "default": "body",
           "label": "t:sections.main-product.blocks.text.settings.text_style.label"
-        }
+        },
+        {
+           "type": "header",
+           "content": "Custom Settings"
+        },
+        { "type": "color", "id": "color_text", "label": "Text Color", "default": "#121212" },
+        { "type": "range", "id": "font_size", "min": 10, "max": 40, "step": 1, "unit": "px", "label": "Font Size", "default": 16 }
       ]
     },
     {
       "type": "title",
       "name": "t:sections.main-product.blocks.title.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        { "type": "header", "content": "Custom Settings" },
+        { "type": "color", "id": "color_text", "label": "Text Color", "default": "#121212" },
+        { "type": "range", "id": "font_size", "min": 18, "max": 60, "step": 1, "unit": "px", "label": "Font Size", "default": 30 }
+      ]
     },
     {
       "type": "price",
       "name": "t:sections.main-product.blocks.price.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+         { "type": "header", "content": "Custom Settings" },
+         { "type": "color", "id": "color", "label": "Price Color", "default": "#121212" },
+         { "type": "color", "id": "color_sale", "label": "Sale Price Color", "default": "#E23223" },
+         { "type": "range", "id": "font_size", "min": 14, "max": 60, "step": 1, "unit": "px", "label": "Font Size", "default": 24 }
+      ]
     },
     {
       "type": "sku",
@@ -917,13 +986,24 @@
           "default": true,
           "label": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.label",
           "info": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.info"
-        }
+        },
+        { "type": "header", "content": "Button Colors (Custom)" },
+        { "type": "color", "id": "bg_color", "label": "Background", "default": "#000000" },
+        { "type": "color", "id": "text_color", "label": "Text", "default": "#ffffff" },
+        { "type": "color", "id": "border_color", "label": "Border", "default": "#000000" },
+        { "type": "color", "id": "bg_color_hover", "label": "Hover Background", "default": "#333333" },
+        { "type": "color", "id": "text_color_hover", "label": "Hover Text", "default": "#ffffff" }
       ]
     },
     {
       "type": "description",
       "name": "t:sections.main-product.blocks.description.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        { "type": "header", "content": "Custom Settings" },
+        { "type": "color", "id": "color_text", "label": "Text Color", "default": "#121212" },
+        { "type": "range", "id": "font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font Size", "default": 16 }
+      ]
     },
     {
       "type": "share",
