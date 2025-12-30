@@ -24,16 +24,18 @@
         "title_fkmVzK": {
           "type": "title",
           "settings": {
-            "color_text": "#121212",
+            "color_text": "#ffffff",
             "font_size": 30
           }
         },
         "price_Fkwx4M": {
           "type": "price",
           "settings": {
-            "color": "#ffffff",
-            "color_sale": "#e23223",
-            "font_size": 21
+            "price_color": "#121212",
+            "main_price_size": 24,
+            "sale_price_color": "#e23223",
+            "compare_price_color": "#888888",
+            "compare_price_size": 18
           }
         },
         "sticky_atc_DWhMJx": {
@@ -43,33 +45,15 @@
             "btn_text": "ADD TO CART"
           }
         },
-        "benefits_grid_LHFABy": {
-          "type": "benefits_grid",
-          "settings": {
-            "text_color": "#b0b0b0",
-            "icon_1": "shopify://shop_images/icons_31.svg",
-            "text_1": "No PFAS, PTFE & PFOA.",
-            "icon_2": "shopify://shop_images/icons_32.svg",
-            "text_2": "Extreme Heat Resistant",
-            "icon_3": "shopify://shop_images/icons_33.svg",
-            "text_3": "Non-Stick Surface",
-            "icon_4": "shopify://shop_images/icons_34.svg",
-            "text_4": "Compatible With All Cooktops"
-          }
-        },
-        "scrolling_icons_cMB9yG": {
-          "type": "scrolling_icons",
-          "settings": {
-            "text_color": "#d4c7b4",
-            "label_1": "",
-            "label_2": "",
-            "label_3": "",
-            "label_4": ""
-          }
-        },
         "bundle_widget_NPmFLG": {
           "type": "bundle_widget",
           "settings": {
+            "card_bg": "#f6f4f0",
+            "active_card_bg": "#ffffff",
+            "text_color": "#000000",
+            "border_color": "#454545",
+            "btn_bg": "#097350",
+            "btn_text": "#ffffff",
             "size_label": "",
             "size_guide_text": "Size Guide",
             "guarantee_text": "Guaranteed Safe & Secure Checkout",
@@ -121,8 +105,6 @@
         "title_fkmVzK",
         "price_Fkwx4M",
         "sticky_atc_DWhMJx",
-        "benefits_grid_LHFABy",
-        "scrolling_icons_cMB9yG",
         "bundle_widget_NPmFLG",
         "shipping_bar_Na8Erx",
         "impact_note_KwNV8U",
@@ -143,11 +125,7 @@
         "hide_variants": false,
         "enable_video_looping": false,
         "padding_top": 36,
-        "padding_bottom": 36,
-        "price_color": "#e9e2d8",
-        "compare_price_color": "#888888",
-        "sale_badge_bg": "#097350",
-        "sale_badge_text": "#e9e2d8"
+        "padding_bottom": 36
       }
     },
     "main": {
