@@ -286,9 +286,9 @@
                     })();
                   </script>
                 </div>
-
-              {%- when 'bundle_widget' -%}
+{%- when 'bundle_widget' -%}
                 <div id="pb-bundles-{{ section.id }}" class="pb-wrap" {{ block.shopify_attributes }}>
+                  
                   <div class="pb-sizes">
                     <div class="pb-sizes-head">
                       <label class="pb-label">{{ block.settings.size_label }}</label>
@@ -313,16 +313,32 @@
                   </div>
 
                   {% if block.settings.enable_bundles %}
-                    <div class="pb-title" style="margin: 20px 0 10px; font-weight:500;">Or Select Bundle & Save</div>
-                    {% if block.settings.bundle_1_product != blank %}
-                      {% assign b1 = block.settings.bundle_1_product %}
-                      <div class="pb-card" onclick="selectBundle(this, '{{ b1.selected_or_first_available_variant.id }}', '{{ b1.price | money }}')">
-                        <span class="pb-card__badge">Most Popular</span>
-                        <div class="pb-card__title">{{ block.settings.bundle_1_title | default: b1.title }}</div>
-                        <div class="pb-card__desc">{{ block.settings.bundle_1_desc }}</div>
-                        <div class="pb-card__price">{{ b1.price | money }}</div>
-                      </div>
-                    {% endif %}
+                    <div class="pb-title" style="margin: 20px 0 10px; font-weight:500;">{{ block.settings.bundles_heading }}</div>
+                    
+                    {%- for i in (1..3) -%}
+                      {%- capture prod_setting -%}bundle_product_{{ i }}{%- endcapture -%}
+                      {%- capture title_setting -%}bundle_title_{{ i }}{%- endcapture -%}
+                      {%- capture desc_setting -%}bundle_desc_{{ i }}{%- endcapture -%}
+                      {%- capture badge_setting -%}bundle_badge_{{ i }}{%- endcapture -%}
+                      
+                      {%- assign b_prod = all_products[block.settings[prod_setting]] -%}
+                      
+                      {%- if b_prod != empty -%}
+                        <div class="pb-card" onclick="selectBundle(this, '{{ b_prod.selected_or_first_available_variant.id }}', '{{ b_prod.price | money }}', '{{ b_prod.featured_media.id }}')">
+                          {% if block.settings[badge_setting] != blank %}
+                            <span class="pb-card__badge">{{ block.settings[badge_setting] }}</span>
+                          {% endif %}
+                          <div class="pb-card__title">{{ block.settings[title_setting] | default: b_prod.title }}</div>
+                          <div class="pb-card__desc">{{ block.settings[desc_setting] }}</div>
+                          <div class="pb-card__price">
+                            {{ b_prod.price | money }} 
+                            {% if b_prod.compare_at_price > b_prod.price %}
+                              <s style="opacity:0.7; font-size:0.9em; margin-left:5px;">{{ b_prod.compare_at_price | money }}</s>
+                            {% endif %}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
                   {% endif %}
                   
                   <div class="pb-atc-wrap">
@@ -348,12 +364,12 @@
                 
                 <script>
                   function updateBundleVariant(element) {
-                    // UI Updates
+                    // UI Update
                     document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
                     document.querySelectorAll('.pb-card').forEach(el => el.classList.remove('active'));
                     element.classList.add('is-active');
                     
-                    // Data Updates
+                    // Value Update
                     const id = element.dataset.variantId;
                     const price = element.dataset.price;
                     const mediaId = element.dataset.mediaId;
@@ -361,26 +377,27 @@
                     document.getElementById('bundle-variant-input').value = id;
                     document.getElementById('bundle-price-display').innerText = price;
 
-                    // --- IMAGE SWITCHING LOGIC (Functional Fix) ---
-                    if (mediaId) {
-                      // Try to find the media item in the standard Shopify gallery
-                      const mediaItem = document.querySelector(`[data-media-id="${mediaId}"]`);
-                      if (mediaItem) {
-                        mediaItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-                        // Trigger click if it's a thumbnail slider
-                        if(mediaItem.tagName === 'LI' || mediaItem.classList.contains('thumbnail-list__item')) {
-                           mediaItem.querySelector('button')?.click();
-                        }
-                      }
+                    // Trigger Image Switch Globally
+                    if (mediaId && window.goToMedia) {
+                      window.goToMedia(mediaId);
                     }
                   }
 
-                  function selectBundle(element, id, price) {
+                  function selectBundle(element, id, price, mediaId) {
+                    // UI Update
                     document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
                     document.querySelectorAll('.pb-card').forEach(el => el.classList.remove('active'));
                     element.classList.add('active');
+                    
+                    // Value Update
                     document.getElementById('bundle-variant-input').value = id;
                     document.getElementById('bundle-price-display').innerText = price;
+                    
+                    // Trigger Image Switch (if bundle product has media loaded on this page)
+                    // Note: Cross-product media switching is complex, but this handles same-product variants
+                    if (mediaId && window.goToMedia) {
+                      window.goToMedia(mediaId);
+                    }
                   }
                 </script>
 
@@ -655,19 +672,35 @@
         { "type": "image_picker", "id": "icon_8", "label": "Icon 8" }, { "type": "text", "id": "label_8", "label": "Label 8" }
       ]
     },
-    {
+  {
       "type": "bundle_widget",
       "name": "Bundle / Variants",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "size_label", "label": "Label", "default": "Size:" },
+        { "type": "text", "id": "size_label", "label": "Label", "default": "Select Size Variant" },
         { "type": "text", "id": "size_guide_text", "label": "Guide Link Text", "default": "Size Guide" },
         { "type": "text", "id": "guarantee_text", "label": "Guarantee Text", "default": "Guaranteed Safe & Secure Checkout" },
-        { "type": "header", "content": "Bundle Deals (Cards)" },
+        { "type": "header", "content": "Bundle Settings" },
         { "type": "checkbox", "id": "enable_bundles", "label": "Enable Bundle Cards", "default": true },
-        { "type": "product", "id": "bundle_1_product", "label": "Bundle Product 1" },
-        { "type": "text", "id": "bundle_1_title", "label": "Bundle 1 Title Override" },
-        { "type": "text", "id": "bundle_1_desc", "label": "Bundle 1 Description", "default": "Includes Pan + Spatula. Great value!" }
+        { "type": "text", "id": "bundles_heading", "label": "Bundles Heading", "default": "Or Select Bundle & Save" },
+        
+        { "type": "header", "content": "Bundle 1" },
+        { "type": "product", "id": "bundle_product_1", "label": "Product" },
+        { "type": "text", "id": "bundle_title_1", "label": "Title Override" },
+        { "type": "text", "id": "bundle_desc_1", "label": "Description", "default": "Includes Pan + Spatula." },
+        { "type": "text", "id": "bundle_badge_1", "label": "Badge", "default": "Most Popular" },
+
+        { "type": "header", "content": "Bundle 2" },
+        { "type": "product", "id": "bundle_product_2", "label": "Product" },
+        { "type": "text", "id": "bundle_title_2", "label": "Title Override" },
+        { "type": "text", "id": "bundle_desc_2", "label": "Description", "default": "Great Value Set." },
+        { "type": "text", "id": "bundle_badge_2", "label": "Badge", "default": "Best Value" },
+
+        { "type": "header", "content": "Bundle 3" },
+        { "type": "product", "id": "bundle_product_3", "label": "Product" },
+        { "type": "text", "id": "bundle_title_3", "label": "Title Override" },
+        { "type": "text", "id": "bundle_desc_3", "label": "Description", "default": "Ultimate Kitchen Set." },
+        { "type": "text", "id": "bundle_badge_3", "label": "Badge" }
       ]
     },
     {
