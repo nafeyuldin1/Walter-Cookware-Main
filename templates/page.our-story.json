@@ -215,6 +215,7 @@
       "type": "cta-banner",
       "name": "CTA Image Banner",
       "settings": {
+        "image_desktop": "shopify://shop_images/Background-3_2000x_749649a5-c506-45c2-b38a-fd999b460ea2.webp",
         "bg_fallback": "#121212",
         "heading": "Experience Taima® Difference Today!",
         "subtext": "<p>550,000+ Health-Conscious People Are Already Using Taima In Their Kitchens.</p>",
@@ -233,6 +234,54 @@
         "padding_top_mobile": 120,
         "padding_bottom_mobile": 120
       }
+    },
+    "link_button_AgctQt": {
+      "type": "link-button",
+      "blocks": {
+        "link_button_AMyfrC": {
+          "type": "link_button",
+          "settings": {
+            "label": "See Science Behind Titanium",
+            "link": ""
+          }
+        },
+        "link_button_6MQDGF": {
+          "type": "link_button",
+          "settings": {
+            "label": "Read FAQ’s",
+            "link": ""
+          }
+        },
+        "link_button_XwdV4H": {
+          "type": "link_button",
+          "settings": {
+            "label": "Shop Best Seller Pan",
+            "link": ""
+          }
+        },
+        "link_button_Yz4Fak": {
+          "type": "link_button",
+          "settings": {
+            "label": "Shop Best Seller Board",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "link_button_AMyfrC",
+        "link_button_6MQDGF",
+        "link_button_XwdV4H",
+        "link_button_Yz4Fak"
+      ],
+      "name": "Link Button Row",
+      "settings": {
+        "bg_color": "#121212",
+        "text_color": "#ffffff",
+        "border_color": "#333333",
+        "font_size": 24,
+        "padding_top": 24,
+        "padding_bottom": 120
+      }
     }
   },
   "order": [
@@ -241,6 +290,7 @@
     "rich_text_RrAy9F",
     "story_slider_CmYqQR",
     "responsibility_icons_NEVzGk",
-    "cta_banner_KEGX7y"
+    "cta_banner_KEGX7y",
+    "link_button_AgctQt"
   ]
 }
