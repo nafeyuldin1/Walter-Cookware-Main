@@ -1,0 +1,448 @@
+{%- comment -%}
+  Titanium Benefits Section
+  Fully Dynamic with Block Cards and Sidebar Settings
+{%- endcomment -%}
+
+{%- style -%}
+  #ti-benefits-{{ section.id }} .ti-benefits__wrap {
+    /* CSS Variables from Settings */
+    --bg: {{ section.settings.bg_color }};
+    --text: {{ section.settings.text_color }};
+    --heading: {{ section.settings.heading_color }};
+    --border: {{ section.settings.border_color }};
+    --icon: {{ section.settings.icon_color }};
+    --subtext: {{ section.settings.subtext_color }};
+    
+    background: var(--bg);
+    color: var(--text);
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    padding-left: 120px;
+    padding-right: 120px;
+    margin: 0 auto;
+  }
+
+  #ti-benefits-{{ section.id }} .ti-benefits__grid {
+    display: grid;
+    grid-template-columns: 1fr 500px;
+    gap: 120px;
+    align-items: start;
+  }
+
+  /* --- SIDEBAR (Right Column) --- */
+  #ti-benefits-{{ section.id }} .ti-benefits__heading {
+    margin: 0 0 24px;
+    color: var(--heading);
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: 1.92px;
+    text-transform: capitalize;
+  }
+  
+  #ti-benefits-{{ section.id }} .ti-benefits__heading p { margin: 0; }
+
+  #ti-benefits-{{ section.id }} .ti-benefits__subcopy {
+    margin-bottom: 48px;
+  }
+  
+  #ti-benefits-{{ section.id }} .ti-benefits__subcopy p {
+    color: var(--subtext);
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.64px;
+    margin-bottom: 16px;
+  }
+  
+  #ti-benefits-{{ section.id }} .ti-benefits__subcopy strong {
+    color: var(--heading);
+    font-weight: 500;
+  }
+
+  #ti-benefits-{{ section.id }} .ti-benefits__subcopy h6 {
+    color: {{ section.settings.highlight_color }};
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 140%;
+    letter-spacing: 0.4px;
+    text-transform: capitalize;
+    margin-top: 24px;
+  }
+
+  #ti-benefits-{{ section.id }} .ti-benefits__media {
+    overflow: hidden;
+    max-width: 375px;
+    aspect-ratio: 3 / 4;
+  }
+  
+  #ti-benefits-{{ section.id }} .ti-benefits__media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 24px;
+  }
+
+  /* --- CARDS (Left Column) --- */
+  #ti-benefits-{{ section.id }} .ti-benefits__cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  #ti-benefits-{{ section.id }} .benefit-card {
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 16px;
+    align-content: start;
+  }
+
+  #ti-benefits-{{ section.id }} .benefit-card__icon {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: var(--icon);
+  }
+  
+  /* Force SVG colors to match setting */
+  #ti-benefits-{{ section.id }} .benefit-card__icon svg {
+    display: block;
+    width: 32px;
+    height: 32px;
+  }
+  #ti-benefits-{{ section.id }} .benefit-card__icon svg path {
+    stroke: var(--icon);
+  }
+
+  #ti-benefits-{{ section.id }} .benefit-card__title {
+    margin: 0;
+    color: var(--heading);
+    font-size: {{ section.settings.card_title_size }}px;
+    font-weight: 500;
+    line-height: 140%;
+    letter-spacing: 0.4px;
+    text-transform: capitalize;
+  }
+
+  #ti-benefits-{{ section.id }} .benefit-card__text {
+    color: var(--text);
+    font-size: {{ section.settings.card_text_size }}px;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.64px;
+  }
+  
+  #ti-benefits-{{ section.id }} .benefit-card__text p { margin: 0; }
+
+  /* --- RESPONSIVE SCALING --- */
+
+  /* Laptop (-10%) */
+  @media (min-width: 751px) and (max-width: 1799px) {
+    #ti-benefits-{{ section.id }} .ti-benefits__wrap { 
+      padding-top: calc({{ section.settings.padding_top }}px * 0.9);
+      padding-bottom: calc({{ section.settings.padding_bottom }}px * 0.9);
+      padding-left: 108px; padding-right: 108px;
+    }
+    #ti-benefits-{{ section.id }} .ti-benefits__grid { grid-template-columns: 1fr 450px; gap: 108px; }
+
+    #ti-benefits-{{ section.id }} .ti-benefits__heading { font-size: calc({{ section.settings.heading_size }}px * 0.9); letter-spacing: 1.728px; margin-bottom: 21.6px; }
+    
+    #ti-benefits-{{ section.id }} .ti-benefits__subcopy { margin-bottom: 43.2px; }
+    #ti-benefits-{{ section.id }} .ti-benefits__subcopy p { font-size: 14.4px; letter-spacing: 0.576px; }
+    #ti-benefits-{{ section.id }} .ti-benefits__subcopy h6 { font-size: 18px; letter-spacing: 0.36px; }
+    #ti-benefits-{{ section.id }} .ti-benefits__media { max-width: 337.5px; }
+
+    #ti-benefits-{{ section.id }} .ti-benefits__cards { grid-template-columns: repeat(2, minmax(252px, 1fr)); gap: 21.6px; }
+    #ti-benefits-{{ section.id }} .benefit-card { padding: 18px; border-radius: 14.4px; }
+    #ti-benefits-{{ section.id }} .benefit-card__title { font-size: calc({{ section.settings.card_title_size }}px * 0.9); letter-spacing: 0.36px; }
+    #ti-benefits-{{ section.id }} .benefit-card__text { font-size: calc({{ section.settings.card_text_size }}px * 0.9); letter-spacing: 0.576px; }
+  }
+
+  /* Large Screen (+30%) */
+  @media (min-width: 2200px) {
+    #ti-benefits-{{ section.id }} .ti-benefits__wrap { 
+      padding-top: calc({{ section.settings.padding_top }}px * 1.3);
+      padding-bottom: calc({{ section.settings.padding_bottom }}px * 1.3);
+      padding-left: 156px; padding-right: 156px;
+    }
+    #ti-benefits-{{ section.id }} .ti-benefits__grid { grid-template-columns: 1fr 650px; gap: 156px; }
+
+    #ti-benefits-{{ section.id }} .ti-benefits__heading { font-size: calc({{ section.settings.heading_size }}px * 1.3); letter-spacing: 2.496px; margin-bottom: 31.2px; }
+    
+    #ti-benefits-{{ section.id }} .ti-benefits__subcopy { margin-bottom: 62.4px; }
+    #ti-benefits-{{ section.id }} .ti-benefits__subcopy p { font-size: 20.8px; letter-spacing: 0.832px; }
+    #ti-benefits-{{ section.id }} .ti-benefits__subcopy h6 { font-size: 26px; letter-spacing: 0.52px; }
+    #ti-benefits-{{ section.id }} .ti-benefits__media { max-width: 487.5px; }
+
+    #ti-benefits-{{ section.id }} .ti-benefits__cards { grid-template-columns: repeat(2, minmax(364px, 1fr)); gap: 31.2px; }
+    #ti-benefits-{{ section.id }} .benefit-card { padding: 26px; border-radius: 20.8px; }
+    #ti-benefits-{{ section.id }} .benefit-card__title { font-size: calc({{ section.settings.card_title_size }}px * 1.3); letter-spacing: 0.52px; }
+    #ti-benefits-{{ section.id }} .benefit-card__text { font-size: calc({{ section.settings.card_text_size }}px * 1.3); letter-spacing: 0.832px; }
+    #ti-benefits-{{ section.id }} .benefit-card__icon svg { width: 41.6px; height: 41.6px; }
+  }
+
+  /* Mobile */
+  @media (max-width: 1100px) {
+    #ti-benefits-{{ section.id }} .ti-benefits__grid { grid-template-columns: 1fr; gap: 0; }
+    #ti-benefits-{{ section.id }} .ti-benefits__aside { order: -1; display: flex; flex-direction: column-reverse; margin-bottom: 32px; }
+  }
+
+  @media (max-width: 749px) {
+    #ti-benefits-{{ section.id }} .ti-benefits__wrap { 
+      padding: 32px 16px 64px 16px;
+    }
+    #ti-benefits-{{ section.id }} .ti-benefits__heading { font-size: 24px; letter-spacing: .96px; margin-bottom: 24px; }
+    
+    #ti-benefits-{{ section.id }} .ti-benefits__subcopy { margin-bottom: 32px; }
+    #ti-benefits-{{ section.id }} .ti-benefits__subcopy p { font-size: 14px; letter-spacing: 0.56px; }
+    #ti-benefits-{{ section.id }} .ti-benefits__subcopy h6 { font-size: 16px; letter-spacing: 0.32px; margin-top: 8px; }
+    
+    #ti-benefits-{{ section.id }} .ti-benefits__cards { grid-template-columns: 1fr; gap: 12px; }
+    #ti-benefits-{{ section.id }} .benefit-card { padding: 16px; }
+    #ti-benefits-{{ section.id }} .benefit-card__title { font-size: 16px; letter-spacing: 0.32px; }
+    #ti-benefits-{{ section.id }} .benefit-card__text { font-size: 14px; letter-spacing: 0.56px; }
+    #ti-benefits-{{ section.id }} .benefit-card__icon svg { width: 24px; height: 24px; }
+  }
+{%- endstyle -%}
+
+<section id="ti-benefits-{{ section.id }}" class="ti-benefits" aria-label="Titanium Benefits">
+  <div class="ti-benefits__wrap">
+    <div class="ti-benefits__grid">
+
+      <div class="ti-benefits__cards">
+        {%- for block in section.blocks -%}
+          <div class="benefit-card" {{ block.shopify_attributes }}>
+            <div class="benefit-card__icon">
+              {%- if block.settings.svg_code != blank -%}
+                {{ block.settings.svg_code }}
+              {%- else -%}
+                <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="10" stroke="currentColor" stroke-width="1.5"/></svg>
+              {%- endif -%}
+              <h3 class="benefit-card__title">{{ block.settings.title }}</h3>
+            </div>
+            <div class="benefit-card__text rte">{{ block.settings.text }}</div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <aside class="ti-benefits__aside">
+        <div class="ti-benefits-heading-wrapper">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="ti-benefits__heading">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+
+          {%- if section.settings.subtext != blank -%}
+            <div class="ti-benefits__subcopy rte">
+              {{ section.settings.subtext }}
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.image != blank -%}
+          <div class="ti-benefits__media">
+            {{ section.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.heading }}
+          </div>
+        {%- endif -%}
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Titanium Benefits",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Sidebar Content (Right)"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Real Pure Titanium.</p><p>Real Benefits.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "<p>Not all titanium is created equal. Most cut costs by using titanium coatings...</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Sidebar Image"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#bca588"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Text Color",
+      "default": "#cfcfcf"
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Sidebar Text Color",
+      "default": "#B0B0B0"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Sidebar Highlight (h6)",
+      "default": "#E7E7E7"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Card Border Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon & Title Color",
+      "default": "#bca588"
+    },
+    {
+      "type": "header",
+      "content": "Typography (Desktop Base)"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 24,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Sidebar Heading Size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "min": 14,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Card Title Size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Card Text Size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 152
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 152
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit_card",
+      "name": "Benefit Card",
+      "settings": [
+        {
+          "type": "html",
+          "id": "svg_code",
+          "label": "SVG Code",
+          "info": "Paste the SVG code for the icon here."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Benefit Title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "default": "<p>Description of the benefit.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Titanium Benefits",
+      "blocks": [
+        {
+          "type": "benefit_card",
+          "settings": {
+            "title": "Completely Toxin-Free",
+            "text": "<p>Pure titanium is chemically stable in cooking conditions.</p>"
+          }
+        },
+        {
+          "type": "benefit_card",
+          "settings": {
+            "title": "Most Biocompatible",
+            "text": "<p>That’s why surgeons trust it in the body. It doesn’t break down or leach toxins.</p>"
+          }
+        },
+        {
+          "type": "benefit_card",
+          "settings": {
+            "title": "Naturally Kills Bacteria",
+            "text": "<p>Titanium’s dense, non-porous surface leaves nowhere for bacteria to hide.</p>"
+          }
+        },
+        {
+          "type": "benefit_card",
+          "settings": {
+            "title": "Never Rusts",
+            "text": "<p>Titanium forms a stable dioxide layer that works like permanent armor.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
