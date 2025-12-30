@@ -95,12 +95,6 @@
     .pit-panel.is-active { display: block; animation: fadeIn 0.5s; }
     @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
-    .sg-modal { position: fixed; inset: 0; z-index: 99999; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.5); }
-    .sg-modal.is-open { display: flex; }
-    .sg-content { background: #fff; padding: 30px; border-radius: 12px; position: relative; max-width: 600px; width: 90%; color: #000; }
-    .sg-switch-wrap { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; justify-content: flex-end; }
-    .sg-btn-switch { padding: 5px 10px; border: 1px solid #000; background: #fff; cursor: pointer; font-size: 12px; border-radius: 4px; }
-    .sg-btn-switch.active { background: #000; color: #fff; }
   {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
@@ -356,29 +350,58 @@
                 <div id="pb-bundles-{{ section.id }}" class="pb-wrap" {{ block.shopify_attributes }}>
                   <style>
                     #pb-bundles-{{ section.id }} .pb-wrap { margin: 24px 0; border-radius: 12px; overflow: hidden; }
-                    #pb-bundles-{{ section.id }} .pb-size-tabs { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid {{ block.settings.border_color }}; border-radius: 8px; overflow: hidden; }
+                    /* Tabs Settings */
+                    #pb-bundles-{{ section.id }} .pb-size-tabs { 
+                      display: grid; grid-template-columns: repeat(4, 1fr); 
+                      border: 1px solid {{ block.settings.tab_border }}; border-radius: 8px; overflow: hidden; 
+                    }
                     #pb-bundles-{{ section.id }} .pb-size-tab { 
                       text-align: center; padding: 12px 5px; cursor: pointer; transition: 0.3s; 
-                      background: transparent; color: {{ block.settings.text_color }};
-                      border-right: 1px solid {{ block.settings.border_color }}; font-size: 13px; position: relative;
+                      background: {{ block.settings.tab_bg_inactive }}; 
+                      color: {{ block.settings.tab_text_inactive }};
+                      border-right: 1px solid {{ block.settings.tab_border }}; 
+                      font-size: 13px; position: relative;
                     }
                     #pb-bundles-{{ section.id }} .pb-size-tab:last-child { border-right: none; }
-                    #pb-bundles-{{ section.id }} .pb-size-tab.is-active { background: {{ block.settings.card_bg }}; color: {{ block.settings.text_color }}; font-weight: bold; }
-                    #pb-bundles-{{ section.id }} .pb-card { 
-                      background: {{ block.settings.card_bg }}; border-radius: 12px; padding: 15px; margin-top: 15px; 
-                      cursor: pointer; border: 2px solid transparent; transition: 0.3s; 
-                      color: {{ block.settings.text_color }}; position: relative;
+                    /* Active Tab */
+                    #pb-bundles-{{ section.id }} .pb-size-tab.is-active { 
+                      background: {{ block.settings.tab_bg_active }}; 
+                      color: {{ block.settings.tab_text_active }}; 
+                      font-weight: bold; 
                     }
-                    #pb-bundles-{{ section.id }} .pb-card.active { border-color: {{ block.settings.btn_bg }}; background: {{ block.settings.active_card_bg }}; }
+                    
+                    /* Bundle Cards */
+                    #pb-bundles-{{ section.id }} .pb-card { 
+                      background: {{ block.settings.card_bg }}; 
+                      border-radius: 12px; padding: 15px; margin-top: 15px; 
+                      cursor: pointer; border: 2px solid transparent; transition: 0.3s; 
+                      color: {{ block.settings.card_text }}; position: relative;
+                    }
+                    #pb-bundles-{{ section.id }} .pb-card .pb-card__price { color: {{ block.settings.card_price_color }}; }
+                    
+                    /* Active Card */
+                    #pb-bundles-{{ section.id }} .pb-card.active { 
+                      border-color: {{ block.settings.active_card_border }}; 
+                      background: {{ block.settings.active_card_bg }}; 
+                    }
+
                     #pb-bundles-{{ section.id }} .pb-card__title { font-weight: bold; font-size: 15px; margin-bottom: 4px; }
                     #pb-bundles-{{ section.id }} .pb-card__desc { font-size: 12px; opacity: 0.8; }
-                    #pb-bundles-{{ section.id }} .pb-card__price { margin-top: 8px; font-weight: bold; color: {{ block.settings.btn_bg }}; }
+                    #pb-bundles-{{ section.id }} .pb-card__price { margin-top: 8px; font-weight: bold; }
+
+                    /* Button */
                     #pb-bundles-{{ section.id }} .pb-atc-btn {
-                      width: 100%; padding: 16px; background: {{ block.settings.btn_bg }}; color: {{ block.settings.btn_text }};
+                      width: 100%; padding: 16px; 
+                      background: {{ block.settings.btn_bg }}; 
+                      color: {{ block.settings.btn_text }};
                       border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer;
                       transition: opacity 0.2s; margin-top: 15px; text-transform: uppercase; letter-spacing: 1px;
                     }
-                    #pb-bundles-{{ section.id }} .pb-atc-btn:hover { opacity: 0.9; }
+                    #pb-bundles-{{ section.id }} .pb-atc-btn:hover { 
+                      opacity: 0.9; 
+                      background: {{ block.settings.btn_hover_bg }};
+                      color: {{ block.settings.btn_hover_text }};
+                    }
                   </style>
 
                   <div class="pb-sizes">
@@ -463,94 +486,6 @@
                     document.getElementById('bundle-price-display').innerText = price;
                   }
                 </script>
-
-              {%- when 'shipping_bar' -%}
-                <div class="shipbar" style="background: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};" {{ block.shopify_attributes }}>
-                  <div style="padding: 0 15px; border-right: 1px solid rgba(255,255,255,0.1);">
-                    <div class="shipbar__label">{{ block.settings.alert_text }}</div>
-                    <div class="shipbar__value" id="dynamic-ship-date">Jan 2nd</div>
-                  </div>
-                  <div class="shipbar__list">
-                    {% if block.settings.text_1 != blank %}
-                    <div class="shipbar__item">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>{{ block.settings.text_1 }}</span>
-                    </div>
-                    {% endif %}
-                    {% if block.settings.text_2 != blank %}
-                    <div class="shipbar__item">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span>{{ block.settings.text_2 }}</span>
-                    </div>
-                    {% endif %}
-                  </div>
-                </div>
-                <script>
-                  const date = new Date(); date.setDate(date.getDate() + 3); 
-                  const options = { month: 'short', day: 'numeric' };
-                  document.getElementById('dynamic-ship-date').innerText = date.toLocaleDateString('en-US', options);
-                </script>
-
-              {%- when 'info_tabs' -%}
-                <div class="pit" id="product-info-tabs-{{ block.id }}" {{ block.shopify_attributes }}>
-                  <div class="pit-tabs" role="tablist">
-                    <button class="pit-tab is-active" role="tab" onclick="openPitTab(event, 'panel-1-{{ block.id }}', '{{ block.id }}')">{{ block.settings.tab_1_label }} <span class="pit-underline"></span></button>
-                    <button class="pit-tab" role="tab" onclick="openPitTab(event, 'panel-2-{{ block.id }}', '{{ block.id }}')">{{ block.settings.tab_2_label }} <span class="pit-underline"></span></button>
-                    <button class="pit-tab" role="tab" onclick="openPitTab(event, 'panel-3-{{ block.id }}', '{{ block.id }}')">{{ block.settings.tab_3_label }} <span class="pit-underline"></span></button>
-                  </div>
-                  <div class="pit-panels">
-                    <div id="panel-1-{{ block.id }}" class="pit-panel is-active">
-                      <div class="pit-copy">{{ block.settings.tab_1_content }}</div>
-                      {% if block.settings.tab_1_image != blank %}<img src="{{ block.settings.tab_1_image | image_url: width: 600 }}" style="width:100%; border-radius:8px;">{% endif %}
-                    </div>
-                    <div id="panel-2-{{ block.id }}" class="pit-panel">{% if block.settings.tab_2_image != blank %}<img src="{{ block.settings.tab_2_image | image_url: width: 1200 }}" style="width:100%; border-radius:8px;">{% endif %}</div>
-                    <div id="panel-3-{{ block.id }}" class="pit-panel"><h3>{{ block.settings.tab_3_heading }}</h3><div class="pit-copy">{{ block.settings.tab_3_content }}</div></div>
-                  </div>
-                </div>
-                <script>
-                  function openPitTab(evt, panelId, blockId) {
-                    var container = document.getElementById('product-info-tabs-' + blockId);
-                    var panels = container.getElementsByClassName("pit-panel");
-                    for (var i = 0; i < panels.length; i++) { panels[i].classList.remove("is-active"); }
-                    var tabs = container.getElementsByClassName("pit-tab");
-                    for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove("is-active"); }
-                    document.getElementById(panelId).classList.add("is-active");
-                    evt.currentTarget.classList.add("is-active");
-                  }
-                </script>
-
-              {%- when 'accordion_custom' -%}
-                <div class="pfaq-item" {{ block.shopify_attributes }}>
-                  <details><summary class="pfaq-head"><span class="pfaq-left" style="display: flex; gap: 12px; align-items: center;">{% if block.settings.icon != blank %}<img src="{{ block.settings.icon | image_url: width: 24 }}" width="24" height="24">{% endif %}<span class="pfaq-title">{{ block.settings.heading }}</span></span><span class="pfaq-plus">+</span></summary><div class="pfaq-body rte">{{ block.settings.content }}</div></details>
-                </div>
-
-              {%- when 'impact_note' -%}
-                <div id="impact-note-{{ block.id }}" class="impact-note" style="background: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};" {{ block.shopify_attributes }}>
-                  <div class="impact-note__icon">{% if block.settings.icon != blank %}<img src="{{ block.settings.icon | image_url: width: 64 }}" width="64" height="64">{% else %}🌿{% endif %}</div>
-                  <p class="impact-note__text">{{ block.settings.text }}</p>
-                </div>
-
-              {%- when 'upsells' -%}
-                <div class="upsell-two" {{ block.shopify_attributes }}>
-                  <h3 class="upsell-two__title">{{ block.settings.title }}</h3>
-                  {% for i in (1..2) %}
-                    {% capture prod_key %}product_{{ i }}{% endcapture %}
-                    {% assign up_prod = all_products[block.settings[prod_key]] %}
-                    {% if up_prod != empty %}
-                    <div class="upsell-card">
-                      <div class="upsell-card__media"><img src="{{ up_prod.featured_image | image_url: width: 200 }}" loading="lazy"></div>
-                      <div class="upsell-card__main">
-                        <h4 class="upsell-card__name">{{ up_prod.title }}</h4>
-                        <div class="upsell-price-with-button">
-                          <div class="upsell-card__price"><span class="upsell-card__sale">{{ up_prod.price | money }}</span></div>
-                          <form method="post" action="/cart/add">
-                            <input type="hidden" name="id" value="{{ up_prod.selected_or_first_available_variant.id }}">
-                            <button type="submit" class="upsell-card__atc">Add</button>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                    {% endif %}
-                  {% endfor %}
-                </div>
 
             {%- endcase -%}
           {%- endfor -%}
@@ -736,17 +671,31 @@
       "name": "Bundle / Variants",
       "limit": 1,
       "settings": [
-        { "type": "header", "content": "Colors & Styles" },
+        { "type": "header", "content": "Variant Tabs (Top)" },
+        { "type": "color", "id": "tab_text_inactive", "label": "Inactive Tab Text", "default": "#000000" },
+        { "type": "color", "id": "tab_bg_inactive", "label": "Inactive Tab BG", "default": "transparent" },
+        { "type": "color", "id": "tab_text_active", "label": "Active Tab Text", "default": "#000000" },
+        { "type": "color", "id": "tab_bg_active", "label": "Active Tab BG", "default": "#F6F4F0" },
+        { "type": "color", "id": "tab_border", "label": "Tabs Border Color", "default": "#454545" },
+
+        { "type": "header", "content": "Bundle Cards (Middle)" },
         { "type": "color", "id": "card_bg", "label": "Card Background", "default": "#F6F4F0" },
+        { "type": "color", "id": "card_text", "label": "Card Text Color", "default": "#000000" },
+        { "type": "color", "id": "card_price_color", "label": "Card Price Color", "default": "#097350" },
         { "type": "color", "id": "active_card_bg", "label": "Active Card BG", "default": "#FFFFFF" },
-        { "type": "color", "id": "text_color", "label": "Text Color", "default": "#000000" },
-        { "type": "color", "id": "border_color", "label": "Border Color", "default": "#454545" },
-        { "type": "color", "id": "btn_bg", "label": "Button Color", "default": "#097350" },
-        { "type": "color", "id": "btn_text", "label": "Button Text Color", "default": "#FFFFFF" },
+        { "type": "color", "id": "active_card_border", "label": "Active Card Border", "default": "#097350" },
+
+        { "type": "header", "content": "Add to Cart Button" },
+        { "type": "color", "id": "btn_bg", "label": "Button Background", "default": "#097350" },
+        { "type": "color", "id": "btn_text", "label": "Button Text", "default": "#FFFFFF" },
+        { "type": "color", "id": "btn_hover_bg", "label": "Button Hover BG", "default": "#075e41" },
+        { "type": "color", "id": "btn_hover_text", "label": "Button Hover Text", "default": "#FFFFFF" },
+        
         { "type": "header", "content": "Content" },
         { "type": "text", "id": "size_label", "label": "Label", "default": "Select Size Variant" },
         { "type": "text", "id": "size_guide_text", "label": "Guide Link Text", "default": "Size Guide" },
         { "type": "text", "id": "guarantee_text", "label": "Guarantee Text", "default": "Guaranteed Safe & Secure Checkout" },
+        { "type": "text", "id": "text_color", "label": "Headings Text Color", "default": "#000000" },
         { "type": "checkbox", "id": "enable_bundles", "label": "Enable Bundle Cards", "default": true },
         { "type": "text", "id": "bundles_heading", "label": "Bundles Heading", "default": "Or Select Bundle & Save" },
         { "type": "product", "id": "bundle_product_1", "label": "Bundle 1 Product" },
