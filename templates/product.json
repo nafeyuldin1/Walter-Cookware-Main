@@ -53,7 +53,7 @@
             "tab_bg_inactive": "rgba(0,0,0,0)",
             "tab_text_active": "#121212",
             "tab_bg_active": "#f6f4f0",
-            "tab_border": "#454545",
+            "tab_border": "#dddddd",
             "color_btn_bg": "#121212",
             "color_btn_text": "#ffffff",
             "color_btn_border": "#dddddd",
