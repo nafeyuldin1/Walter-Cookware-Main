@@ -210,6 +210,29 @@
         "padding_top": 80,
         "padding_bottom": 80
       }
+    },
+    "cta_banner_KEGX7y": {
+      "type": "cta-banner",
+      "name": "CTA Image Banner",
+      "settings": {
+        "bg_fallback": "#121212",
+        "heading": "Experience Taima® Difference Today!",
+        "subtext": "<p>550,000+ Health-Conscious People Are Already Using Taima In Their Kitchens.</p>",
+        "text_alignment": "center",
+        "btn_label": "Protect Your Health",
+        "btn_link": "",
+        "heading_color": "#FFFFFF",
+        "subtext_color": "#E9E2D8",
+        "btn_bg_color": "#FFFFFF",
+        "btn_text_color": "#121212",
+        "heading_size": 48,
+        "subtext_size": 24,
+        "btn_font_size": 20,
+        "padding_top": 135,
+        "padding_bottom": 135,
+        "padding_top_mobile": 120,
+        "padding_bottom_mobile": 120
+      }
     }
   },
   "order": [
@@ -217,6 +240,7 @@
     "video_banner_dK6BAE",
     "rich_text_RrAy9F",
     "story_slider_CmYqQR",
-    "responsibility_icons_NEVzGk"
+    "responsibility_icons_NEVzGk",
+    "cta_banner_KEGX7y"
   ]
 }
