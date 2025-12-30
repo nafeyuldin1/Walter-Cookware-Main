@@ -86,8 +86,8 @@
         "mobile_footer_link_KKbbEh": {
           "type": "mobile_footer_link",
           "settings": {
-            "title": "About us",
-            "url": "shopify://pages/about-us"
+            "title": "FAQs",
+            "url": "shopify://pages/faqs"
           }
         },
         "mobile_footer_link_BRbTkU": {
@@ -100,15 +100,15 @@
         "mobile_footer_link_cpHVYt": {
           "type": "mobile_footer_link",
           "settings": {
-            "title": "FAQ",
-            "url": "shopify://pages/faq"
+            "title": "Our Story",
+            "url": "shopify://pages/our-story"
           }
         },
         "mobile_footer_link_PGWK3g": {
           "type": "mobile_footer_link",
           "settings": {
-            "title": "Materials",
-            "url": "shopify://pages/materials"
+            "title": "Science",
+            "url": "shopify://pages/science"
           }
         },
         "mobile_footer_link_8NLJqt": {
@@ -341,7 +341,7 @@
       "settings": {
         "logo_position": "middle-center",
         "mobile_logo_position": "center",
-        "menu": "help",
+        "menu": "header-top-menu",
         "menu_type_desktop": "dropdown",
         "sticky_header_type": "always",
         "enable_sticky_blur": true,
