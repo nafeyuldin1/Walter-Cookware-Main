@@ -76,6 +76,7 @@
         "story_slide_Xj4qka": {
           "type": "story_slide",
           "settings": {
+            "image": "shopify://shop_images/first-min_800x800_73863615-a681-4208-b848-89ce3a67986c.webp",
             "title": "Where It All Began…",
             "text": "<p>I thought I was doing everything right - eating clean, filtering water, cooking healthy meals for my family. Then gut issues started hitting all of us.</p>"
           }
@@ -83,6 +84,7 @@
         "story_slide_h8HAAK": {
           "type": "story_slide",
           "settings": {
+            "image": "shopify://shop_images/overheated-min_800x800_6b70d31e-fae8-4387-8bcc-80928bb2a011.webp",
             "title": "The Breaking Point",
             "text": "<p>Not long after, I accidentally overheated a non-stick PTFE(Teflon) coated pan before cooking steak and got sick with “Teflon Flu”.</p>"
           }
@@ -90,6 +92,23 @@
         "story_slide_AmzD4E": {
           "type": "story_slide",
           "settings": {
+            "image": "shopify://shop_images/titanium_breakthrough-min_1_800x800_e533c807-1a63-4163-92dc-d470f75adfaa.webp",
+            "title": "The Discovery",
+            "text": "<p>So I started digging into every so-called safe kitchenware option out there. But every single choice came with hidden flaws.</p>"
+          }
+        },
+        "story_slide_GfqwQf": {
+          "type": "story_slide",
+          "settings": {
+            "image": "shopify://shop_images/prototypes-min_1_800x800_40e8f178-a116-4670-a52a-be2c9a173ff5.webp",
+            "title": "The Breakthrough",
+            "text": "<p>So I started digging into every so-called safe kitchenware option out there. But every single choice came with hidden flaws.</p>"
+          }
+        },
+        "story_slide_ciaphb": {
+          "type": "story_slide",
+          "settings": {
+            "image": "shopify://shop_images/happy_peaople-min_800x800_48dcec45-cc12-416f-b9ae-ab02f66d8be7.webp",
             "title": "The Discovery",
             "text": "<p>So I started digging into every so-called safe kitchenware option out there. But every single choice came with hidden flaws.</p>"
           }
@@ -98,7 +117,9 @@
       "block_order": [
         "story_slide_Xj4qka",
         "story_slide_h8HAAK",
-        "story_slide_AmzD4E"
+        "story_slide_AmzD4E",
+        "story_slide_GfqwQf",
+        "story_slide_ciaphb"
       ],
       "name": "Story Slider",
       "settings": {
