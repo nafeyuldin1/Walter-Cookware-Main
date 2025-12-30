@@ -126,8 +126,8 @@
         "bg_color": "#121212",
         "heading_color": "#bca588",
         "text_color": "#cfcfcf",
-        "subtext_color": "#B0B0B0",
-        "highlight_color": "#E7E7E7",
+        "subtext_color": "#b0b0b0",
+        "highlight_color": "#e7e7e7",
         "border_color": "#333333",
         "icon_color": "#bca588",
         "heading_size": 48,
@@ -136,11 +136,64 @@
         "padding_top": 152,
         "padding_bottom": 152
       }
+    },
+    "secreat_advanteage_XmpYTY": {
+      "type": "secreat-advanteage",
+      "blocks": {
+        "card_GUCEra": {
+          "type": "card",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"151\" height=\"151\" viewbox=\"0 0 151 151\" fill=\"none\"><path d=\"M98.4954 49.4908L61.707 88.895L63.4432 105.311L112.341 76.1922L98.4954 49.4908ZM98.4954 49.4908L116.23 35.7774L123.745 38.5666L103.621 59.3793M63.2813 96.6037L108.569 68.9176\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></path><line x1=\"1.25\" y1=\"114.28\" x2=\"149.341\" y2=\"114.28\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></line><path d=\"M41.8908 92.9926L46.5078 100.155L49.3437 95.7604L55.1189 104.716\" stroke=\"#4D5746\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></path><path d=\"M95.439 101.295L87.7969 105.066L87.6233 99.8381L78.0662 104.552\" stroke=\"#4D5746\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></path></svg>",
+            "title": "Stress Doesn’t Concentrate, It Disperses.",
+            "text": "<p>When your knife hits titanium, the force doesn’t crack or splinter like wood. Instead, it spreads evenly across thousands of tightly packed crystal boundaries.</p>"
+          }
+        },
+        "card_86tHmi": {
+          "type": "card",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"150\" height=\"151\" viewbox=\"0 0 150 151\" fill=\"none\"><circle cx=\"56.1029\" cy=\"65.5462\" r=\"11.6263\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></circle><circle cx=\"24.9654\" cy=\"40.6324\" r=\"9.96543\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></circle><circle cx=\"24.9625\" cy=\"81.5323\" r=\"8.92736\" stroke=\"#4D5746\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></circle><circle cx=\"104.483\" cy=\"74.6811\" r=\"10.7959\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></circle><circle cx=\"122.543\" cy=\"43.1238\" r=\"12.4568\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></circle><circle cx=\"80.6038\" cy=\"72.6048\" r=\"4.98271\" stroke=\"#4D5746\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></circle><circle cx=\"51.1272\" cy=\"36.4803\" r=\"4.98271\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></circle><circle cx=\"47.1786\" cy=\"90.6674\" r=\"5.19033\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></circle><line x1=\"35.0318\" y1=\"46.3059\" x2=\"47.2474\" y2=\"56.7251\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></line><line x1=\"52.882\" y1=\"92.756\" x2=\"57.1582\" y2=\"96.1769\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></line><line x1=\"36.0379\" y1=\"38.0063\" x2=\"44.7643\" y2=\"37.0367\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></line><line x1=\"96.7563\" y1=\"43.6253\" x2=\"108.791\" y2=\"43.1676\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></line><line x1=\"109.556\" y1=\"63.8596\" x2=\"114.462\" y2=\"54.4499\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></line><circle cx=\"88.4924\" cy=\"43.5393\" r=\"7.05884\" stroke=\"#4D5746\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></circle><circle cx=\"70.6435\" cy=\"104.993\" r=\"14.9481\" stroke=\"#4D5746\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></circle></svg>",
+            "title": "It gets tougher the more you use it.",
+            "text": "<p>Titanium has a rare property called work-hardening. Every time pressure is applied, the atoms actually shift and rearrange to make that exact spot more resistant.</p>"
+          }
+        },
+        "card_NAMKXC": {
+          "type": "card",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"150\" height=\"151\" viewbox=\"0 0 150 151\" fill=\"none\"><path d=\"M101.527 96.3701L80.7031 108.14\" stroke=\"#163025\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\" stroke-dasharray=\"8 8\"></path><path d=\"M62 93.667C62 96.4284 59.7614 98.667 57 98.667C54.2386 98.667 52 96.4284 52 93.667C52 90.9056 54.2386 88.667 57 88.667C59.7614 88.667 62 90.9056 62 93.667Z\" stroke=\"#163025\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></path><path d=\"M112 93.667C112 96.4284 109.761 98.667 107 98.667C104.239 98.667 102 96.4284 102 93.667C102 90.9056 104.239 88.667 107 88.667C109.761 88.667 112 90.9056 112 93.667Z\" stroke=\"#163025\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></path><path d=\"M80.7578 115.513L91.888 124.852\" stroke=\"#163025\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\" stroke-dasharray=\"8 8\"></path><path d=\"M51.5267 96.3703L30.7031 108.14M62.2499 93.417H100.75M60.7659 97.5902L70.9231 106.901M110.766 97.5902L120.923 106.901\" stroke=\"#163025\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\" stroke-dasharray=\"8 8\"></path><line x1=\"25.25\" y1=\"47.917\" x2=\"25.25\" y2=\"105.417\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></line><line x1=\"125.25\" y1=\"47.917\" x2=\"125.25\" y2=\"105.417\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></line><line x1=\"57.25\" y1=\"29.917\" x2=\"57.25\" y2=\"87.417\" stroke=\"#163025\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\" stroke-dasharray=\"8 8\"></line><line x1=\"107.25\" y1=\"29.917\" x2=\"107.25\" y2=\"87.417\" stroke=\"#163025\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\" stroke-dasharray=\"8 8\"></line><path d=\"M80 111.667C80 114.428 77.7614 116.667 75 116.667C72.2386 116.667 70 114.428 70 111.667C70 108.906 72.2386 106.667 75 106.667C77.7614 106.667 80 108.906 80 111.667Z\" stroke=\"#163025\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></path><path d=\"M69.6305 114.396L60.6785 120.215L51.7266 126.034\" stroke=\"#163025\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\" stroke-dasharray=\"8 8\"></path><path d=\"M29.1751 44.156L42.5809 55.4048M51.5269 25.3703L30.7033 37.1401M119.611 44.3913L102.724 55.0564M101.527 25.3703L80.7033 37.1401M69.6332 43.3963L51.7293 55.0338M52.25 59.417H90.75M62.25 22.417H100.75M80.761 44.5129L91.8912 53.8522M60.7661 26.5902L70.9232 35.9009M110.766 26.5902L120.923 35.9009M62 22.667C62 25.4284 59.7614 27.667 57 27.667C54.2386 27.667 52 25.4284 52 22.667C52 19.9056 54.2386 17.667 57 17.667C59.7614 17.667 62 19.9056 62 22.667ZM30 40.667C30 43.4284 27.7614 45.667 25 45.667C22.2386 45.667 20 43.4284 20 40.667C20 37.9056 22.2386 35.667 25 35.667C27.7614 35.667 30 37.9056 30 40.667ZM52 58.667C52 61.4284 49.7614 63.667 47 63.667C44.2386 63.667 42 61.4284 42 58.667C42 55.9056 44.2386 53.667 47 53.667C49.7614 53.667 52 55.9056 52 58.667ZM112 22.667C112 25.4284 109.761 27.667 107 27.667C104.239 27.667 102 25.4284 102 22.667C102 19.9056 104.239 17.667 107 17.667C109.761 17.667 112 19.9056 112 22.667ZM80 40.667C80 43.4284 77.7614 45.667 75 45.667C72.2386 45.667 70 43.4284 70 40.667C70 37.9056 72.2386 35.667 75 35.667C77.7614 35.667 80 37.9056 80 40.667ZM130 40.667C130 43.4284 127.761 45.667 125 45.667C122.239 45.667 120 43.4284 120 40.667C120 37.9056 122.239 35.667 125 35.667C127.761 35.667 130 37.9056 130 40.667ZM102 58.667C102 61.4284 99.7614 63.667 97 63.667C94.2386 63.667 92 61.4284 92 58.667C92 55.9056 94.2386 53.667 97 53.667C99.7614 53.667 102 55.9056 102 58.667Z\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></path><path d=\"M55 77.667C55 80.4284 52.7614 82.667 50 82.667C47.2386 82.667 45 80.4284 45 77.667C45 74.9056 47.2386 72.667 50 72.667C52.7614 72.667 55 74.9056 55 77.667Z\" fill=\"#4D5746\"></path><path d=\"M105 77.667C105 80.4284 102.761 82.667 100 82.667C97.2386 82.667 95 80.4284 95 77.667C95 74.9056 97.2386 72.667 100 72.667C102.761 72.667 105 74.9056 105 77.667Z\" fill=\"#4D5746\"></path><path d=\"M73 95.667C73 98.4284 70.7614 100.667 68 100.667C65.2386 100.667 63 98.4284 63 95.667C63 92.9056 65.2386 90.667 68 90.667C70.7614 90.667 73 92.9056 73 95.667Z\" fill=\"#4D5746\"></path><path d=\"M55.2495 77.417H93.7495M53.7656 81.5902L63.9227 90.9009M94.5267 80.3701L73.7031 92.14M55 77.667C55 80.4284 52.7614 82.667 50 82.667C47.2386 82.667 45 80.4284 45 77.667C45 74.9056 47.2386 72.667 50 72.667C52.7614 72.667 55 74.9056 55 77.667ZM105 77.667C105 80.4284 102.761 82.667 100 82.667C97.2386 82.667 95 80.4284 95 77.667C95 74.9056 97.2386 72.667 100 72.667C102.761 72.667 105 74.9056 105 77.667ZM73 95.667C73 98.4284 70.7614 100.667 68 100.667C65.2386 100.667 63 98.4284 63 95.667C63 92.9056 65.2386 90.667 68 90.667C70.7614 90.667 73 92.9056 73 95.667Z\" stroke=\"#4D5746\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></path><line x1=\"97.25\" y1=\"64.917\" x2=\"97.25\" y2=\"122.417\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></line><line x1=\"47.25\" y1=\"64.917\" x2=\"47.25\" y2=\"122.417\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></line><path d=\"M29.1751 115.156L42.5809 126.405M119.611 115.391L102.724 126.056M52.25 130.417H90.75M30 111.667C30 114.428 27.7614 116.667 25 116.667C22.2386 116.667 20 114.428 20 111.667C20 108.906 22.2386 106.667 25 106.667C27.7614 106.667 30 108.906 30 111.667ZM52 129.667C52 132.428 49.7614 134.667 47 134.667C44.2386 134.667 42 132.428 42 129.667C42 126.906 44.2386 124.667 47 124.667C49.7614 124.667 52 126.906 52 129.667ZM130 111.667C130 114.428 127.761 116.667 125 116.667C122.239 116.667 120 114.428 120 111.667C120 108.906 122.239 106.667 125 106.667C127.761 106.667 130 108.906 130 111.667ZM102 129.667C102 132.428 99.7614 134.667 97 134.667C94.2386 134.667 92 132.428 92 129.667C92 126.906 94.2386 124.667 97 124.667C99.7614 124.667 102 126.906 102 129.667Z\" stroke=\"#BCA588\" stroke-width=\"2.5\" stroke-miterlimit=\"10\" stroke-linecap=\"square\"></path></svg>",
+            "title": "Durability without compromise.",
+            "text": "<p>This unique structure explains why titanium doesn’t fatigue, doesn’t corrode, and doesn’t fracture the way other kitchen materials do. It simply endures.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "card_GUCEra",
+        "card_86tHmi",
+        "card_NAMKXC"
+      ],
+      "name": "Secret Advantage",
+      "settings": {
+        "heading": "Titanium’s Secret Advantage:",
+        "subheading": "A Molecular Structure Unlike Any Other",
+        "text": "<p>Every material breaks down in its own way - wood absorbs and cracks, plastic shaves into microplastics, and steel corrodes under heat and acids - but titanium’s crystal structure resists all of it.</p><p>Its atoms arrange in what’s called a Hexagonal Close-Packed (HCP) crystal structure - think of it like an interlocking 3D puzzle where every piece supports the others. There are no weak links.</p><h6>Here’s why that matters in your kitchen:</h6>",
+        "bg_color": "#03231a",
+        "heading_color": "#bca588",
+        "subheading_color": "#ffffff",
+        "text_color": "#b0b0b0",
+        "card_title_color": "#ffffff",
+        "accent_color": "#c9a371",
+        "heading_size": 48,
+        "subheading_size": 24,
+        "card_title_size": 20,
+        "card_text_size": 16,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
     "main",
     "science_sticky_qpGgMU",
-    "benefits_cards_FeykYQ"
+    "benefits_cards_FeykYQ",
+    "secreat_advanteage_XmpYTY"
   ]
 }
