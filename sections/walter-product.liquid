@@ -368,16 +368,16 @@
                     #pb-bundles-{{ section.id }} .pb-option-group { margin-bottom: 20px; }
                     #pb-bundles-{{ section.id }} .pb-option-title { margin-bottom: 10px; font-weight: bold; font-size: 14px; display:flex; justify-content:space-between; align-items:center; color:{{ block.settings.label_color }}; }
                     
-                    /* --- Option Row 1 (e.g. Size/Set) Styling --- */
+                    /* --- Option Row 1 (e.g. Size/Set) - Flex Style --- */
                     #pb-bundles-{{ section.id }} .pb-opt-row-1 { 
                       display: flex; gap:10px; flex-wrap:wrap;
                     }
                     #pb-bundles-{{ section.id }} .pb-opt-btn-1 { 
-                      flex:1; text-align: center; padding: 12px 5px; cursor: pointer; transition: 0.3s; 
+                      flex: 1; text-align: center; padding: 12px 10px; cursor: pointer; transition: 0.3s; 
                       background: {{ block.settings.tab_bg_inactive }}; 
                       color: {{ block.settings.tab_text_inactive }};
                       border: 1px solid {{ block.settings.tab_border }}; 
-                      border-radius: 6px; font-size: 13px; position: relative;
+                      border-radius: 6px; font-size: 13px;
                     }
                     #pb-bundles-{{ section.id }} .pb-opt-btn-1.active { 
                       background: {{ block.settings.tab_bg_active }}; 
@@ -385,10 +385,12 @@
                       font-weight: bold; border-color: {{ block.settings.tab_bg_active }};
                     }
 
-                    /* --- Option Row 2 (e.g. Color) Styling --- */
-                    #pb-bundles-{{ section.id }} .pb-opt-row-2 { display: flex; gap: 10px; flex-wrap: wrap; }
+                    /* --- Option Row 2 (e.g. Color) - Grid Style (Select Set) --- */
+                    #pb-bundles-{{ section.id }} .pb-opt-row-2 { 
+                        display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; 
+                    }
                     #pb-bundles-{{ section.id }} .pb-opt-btn-2 {
-                      padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 13px;
+                      padding: 12px 10px; border-radius: 6px; cursor: pointer; font-size: 13px; text-align:center;
                       background: {{ block.settings.color_btn_bg }};
                       color: {{ block.settings.color_btn_text }};
                       border: 1px solid {{ block.settings.color_btn_border }};
@@ -458,18 +460,18 @@
                   {%- unless product.has_only_default_variant -%}
                     <div class="pb-options-container" id="pb-options-{{ section.id }}">
                       {%- for option in product.options_with_values -%}
-                        <div class="pb-option-group">
+                        <div class="pb-option-group" data-option-index="{{ forloop.index0 }}">
                           <div class="pb-option-title">
                             <span>{{ option.name }}</span>
                             {% if forloop.index == 1 %}<button type="button" onclick="toggleSizeGuide(true)" style="background:none;border:none;text-decoration:underline;cursor:pointer;color:inherit;font-size:12px;">{{ block.settings.size_guide_text }}</button>{% endif %}
                           </div>
-                          {% comment %} Row 1 style for first option (Color), Row 2 style for second option (Size/Set) {% endcomment %}
+                          
+                          {% comment %} Style 1: Colors (Usually 1st) | Style 2: Sets/Sizes (Usually 2nd) {% endcomment %}
                           <div class="{% if forloop.index == 1 %}pb-opt-row-1{% else %}pb-opt-row-2{% endif %}">
                             {%- for value in option.values -%}
                               <div class="{% if forloop.parentloop.index == 1 %}pb-opt-btn-1{% else %}pb-opt-btn-2{% endif %} {% if option.selected_value == value %}active{% endif %}"
-                                   data-option-index="{{ forloop.parentloop.index0 }}"
                                    data-value="{{ value | escape }}"
-                                   onclick="handleBundleOptionChange(this, {{ forloop.parentloop.index0 }})">
+                                   onclick="handleBundleOptionChange(this)">
                                 {{ value }}
                               </div>
                             {%- endfor -%}
@@ -519,49 +521,54 @@
                 
                 <script>
                   (function() {
+                    // Raw variant data
                     var bundleVariants = {{ product.variants | json }};
-                    // Initialize with defaults from Liquid
-                    var selectedOpts = [
+                    
+                    // State tracker for current selections
+                    var state = [
                       "{{ product.options_with_values[0].selected_value | escape }}",
                       "{{ product.options_with_values[1].selected_value | escape }}",
                       "{{ product.options_with_values[2].selected_value | escape }}"
                     ];
 
-                    window.handleBundleOptionChange = function(element, optionIndex) {
-                      // 1. UI Update: Clear active from siblings ONLY
-                      var container = element.parentElement;
-                      var siblings = container.children;
-                      for(var i=0; i<siblings.length; i++) {
-                        siblings[i].classList.remove('active');
-                      }
+                    window.handleBundleOptionChange = function(element) {
+                      // 1. Identify which Option Group this belongs to (0, 1, or 2)
+                      var group = element.closest('.pb-option-group');
+                      var optionIndex = parseInt(group.getAttribute('data-option-index'));
+
+                      // 2. UI: Update Active Class (Only within THIS group)
+                      var buttons = group.querySelectorAll('div[data-value]');
+                      buttons.forEach(function(btn) {
+                        btn.classList.remove('active');
+                      });
                       element.classList.add('active');
 
-                      // 2. Update State
+                      // 3. Update State
                       var value = element.getAttribute('data-value');
-                      selectedOpts[optionIndex] = value;
+                      state[optionIndex] = value;
 
-                      // 3. Find Matching Variant
+                      // 4. Find Matching Variant
                       var matched = bundleVariants.find(function(v) {
                         var match = true;
-                        // Check Option 1
-                        if(selectedOpts[0] && v.option1 !== selectedOpts[0]) match = false;
-                        // Check Option 2 (only if exists)
-                        if(selectedOpts[1] && v.option2 !== selectedOpts[1]) match = false;
-                        // Check Option 3 (only if exists)
-                        if(selectedOpts[2] && v.option3 !== selectedOpts[2]) match = false;
+                        // Option 1 Check
+                        if(state[0] && v.option1 !== state[0]) match = false;
+                        // Option 2 Check (if exists)
+                        if(state[1] && v.option2 !== state[1]) match = false;
+                        // Option 3 Check (if exists)
+                        if(state[2] && v.option3 !== state[2]) match = false;
                         return match;
                       });
 
                       if(matched) {
-                        // Update Hidden Input
+                        // Update Hidden Input ID
                         var input = document.getElementById('bundle-variant-input');
                         if(input) input.value = matched.id;
 
-                        // Update Price Button
+                        // Update Price on Button
                         var btnPrice = document.getElementById('bundle-price-display');
                         if(btnPrice) btnPrice.innerText = '$' + (matched.price / 100).toFixed(2);
 
-                        // Update Media (optional integration)
+                        // Update Media (if available)
                         if(matched.featured_media) {
                            const sectionId = "{{ section.id }}";
                            const gallery = document.querySelector(`product-info[id="MainProduct-${sectionId}"] media-gallery`);
