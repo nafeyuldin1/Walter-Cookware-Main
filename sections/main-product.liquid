@@ -18,7 +18,7 @@
     }
   }
 
-  /* --- COMPETITOR STYLING REPLICATION --- */
+  /* --- Global Styles --- */
   #MainProduct-{{ section.id }} {
     background: {{ section.settings.bg_gradient | default: '#121212' }};
     color: {{ section.settings.text_color }};
@@ -33,7 +33,7 @@
     margin-top: 0;
   }
 
-  /* Price */
+  /* --- Price Styling --- */
   .ctm-price__row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 15px; }
   .ctm-price__current { font-size: 32px; font-weight: 500; color: {{ section.settings.price_color }}; line-height: 1.2; }
   .ctm-price__compare { font-size: 24px; text-decoration: line-through; color: {{ section.settings.compare_price_color }}; opacity: 0.7; }
@@ -43,7 +43,7 @@
     padding: 6px 14px; border-radius: 30px; font-size: 14px; font-weight: 600; text-transform: uppercase;
   }
 
-  /* --- BUNDLE & SIZE WIDGET (PB-WRAP) --- */
+  /* --- BUNDLE WIDGET --- */
   .pb-wrap { margin: 24px 0; color: inherit; }
   
   /* Size Tabs */
@@ -51,13 +51,13 @@
   .sbp-size-guide { text-decoration: underline; opacity: 0.9; cursor: pointer; font-size: 14px; }
   
   .pb-size-tabs { 
-    display: grid; 
-    grid-template-columns: repeat(4, 1fr); 
+    display: flex; /* Changed from Grid to Flex to prevent empty columns */
     border: 1px solid {{ section.settings.bundle_border_color }}; 
     border-radius: 8px; 
     overflow: hidden; 
   }
   .pb-size-tab { 
+    flex: 1;
     padding: 14px 4px; text-align: center; cursor: pointer; background: transparent; 
     color: {{ section.settings.text_color }}; border-right: 1px solid {{ section.settings.bundle_border_color }}; 
     font-size: 14px; opacity: 0.7; transition: all 0.2s; font-weight: 500;
@@ -115,18 +115,18 @@
     display: flex; justify-content: center; align-items: center; gap: 10px;
   }
   .pb-atc-btn:hover { opacity: 0.9; }
-  .pb-atc-btn .spinner { width: 20px; height: 20px; }
 
+  /* Utilities */
+  .no-js-hidden.variant-picker-hidden { display: none; }
+  .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .benefits-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #B0B0B0; }
+  .benefits-item img { width: 24px; height: 24px; }
+  .benefits-item strong { color: #fff; font-weight: 500; }
+  
   /* Secure Badge */
   .secure-checkout { text-align: center; margin-top: 15px; opacity: 0.8; font-size: 12px; }
   .pay-badges { margin-top: 8px; display: flex; justify-content: center; gap: 5px; }
   .pay-badges svg { width: 38px; height: 24px; border-radius: 4px; }
-
-  /* Shipping Bar */
-  .shipbar { display: flex; align-items: center; gap: 20px; padding: 14px 20px; border-radius: 8px; margin: 20px 0; font-size: 13px; }
-  .shipbar__label { font-weight: 700; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.2); padding-right: 20px; }
-  .shipbar__list { display: flex; gap: 15px; flex-wrap: wrap; }
-  .shipbar__item { display: flex; align-items: center; gap: 6px; }
 
   /* Sticky ATC */
   .sticky-atc {
@@ -148,13 +148,6 @@
     .sticky-img, .sticky-info { display: none; }
     .sticky-btn { width: 100%; padding: 15px; font-size: 16px; }
   }
-
-  /* Utilities */
-  .no-js-hidden.variant-picker-hidden { display: none; }
-  .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
-  .benefits-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #B0B0B0; }
-  .benefits-item img { width: 24px; height: 24px; }
-  .benefits-item strong { color: #fff; font-weight: 500; }
 
 {%- endstyle -%}
 
@@ -238,23 +231,28 @@
               {%- when 'bundle_widget' -%}
                 <bundle-widget class="pb-wrap" data-section="{{ section.id }}" {{ block.shopify_attributes }}>
                   
-                  <div class="pb-sizes">
-                    <div class="pb-sizes-head">
-                      <label class="pb-label">{{ block.settings.size_label }}</label>
-                      <span class="sbp-size-guide">{{ block.settings.size_guide_text }}</span>
+                  {%- unless product.has_only_default_variant -%}
+                    <div class="pb-sizes">
+                      <div class="pb-sizes-head">
+                        <label class="pb-label">{{ block.settings.size_label }}</label>
+                        <span class="sbp-size-guide">{{ block.settings.size_guide_text }}</span>
+                      </div>
+                      <div class="pb-size-tabs">
+                        {%- assign main_option = product.options_with_values[0] -%}
+                        {%- for value in main_option.values -%}
+                          {%- assign variant_match = product.variants | where: main_option.name, value | first -%}
+                          
+                          <div class="pb-size-tab {% if product.selected_or_first_available_variant.option1 == value %}is-active{% endif %}"
+                               data-variant-id="{{ variant_match.id }}"
+                               data-price="{{ variant_match.price | money }}"
+                               data-compare="{{ variant_match.compare_at_price | money }}"
+                               data-type="variant">
+                            {{ value }}
+                          </div>
+                        {%- endfor -%}
+                      </div>
                     </div>
-                    <div class="pb-size-tabs">
-                      {% for variant in product.variants %}
-                        <div class="pb-size-tab {% if forloop.first %}is-active{% endif %}"
-                             data-variant-id="{{ variant.id }}"
-                             data-price="{{ variant.price | money }}"
-                             data-compare="{{ variant.compare_at_price | money }}"
-                             data-type="variant">
-                          {{ variant.title }}
-                        </div>
-                      {% endfor %}
-                    </div>
-                  </div>
+                  {%- endunless -%}
 
                   {% if block.settings.show_bundles %}
                     <div class="pb-title">Or Select Bundle & Save</div>
@@ -277,7 +275,7 @@
                     {% if block.settings.bundle_2_product != blank %}
                       {% assign b2 = block.settings.bundle_2_product %}
                       <div class="pb-card" data-variant-id="{{ b2.selected_or_first_available_variant.id }}" data-price="{{ b2.price | money }}" data-compare="{{ b2.compare_at_price | money }}" data-type="bundle">
-                        <span class="pb-badge">Best Value</span>
+                        <span class="pb-badge">Great Value</span>
                         <div class="pb-left">
                           <span class="pb-name">{{ b2.title }}</span>
                           <span class="pb-desc">{{ block.settings.bundle_2_desc }}</span>
@@ -285,6 +283,21 @@
                         <div class="pb-price-wrap">
                           <span class="pb-price">{{ b2.price | money }}</span>
                           <span class="pb-val">{{ b2.compare_at_price | money }}</span>
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    {% if block.settings.bundle_3_product != blank %}
+                      {% assign b3 = block.settings.bundle_3_product %}
+                      <div class="pb-card" data-variant-id="{{ b3.selected_or_first_available_variant.id }}" data-price="{{ b3.price | money }}" data-compare="{{ b3.compare_at_price | money }}" data-type="bundle">
+                        <span class="pb-badge">Limited Offer</span>
+                        <div class="pb-left">
+                          <span class="pb-name">{{ b3.title }}</span>
+                          <span class="pb-desc">{{ block.settings.bundle_3_desc }}</span>
+                        </div>
+                        <div class="pb-price-wrap">
+                          <span class="pb-price">{{ b3.price | money }}</span>
+                          <span class="pb-val">{{ b3.compare_at_price | money }}</span>
                         </div>
                       </div>
                     {% endif %}
@@ -398,7 +411,7 @@
           const trigger = document.querySelector('.pb-atc-btn');
           if(sticky && trigger) {
             const rect = trigger.getBoundingClientRect();
-            if(rect.top < 0) { // If ATC button has scrolled past top
+            if(rect.top < 0) {
               sticky.classList.add('is-visible');
             } else {
               sticky.classList.remove('is-visible');
@@ -426,7 +439,7 @@ class BundleWidget extends HTMLElement {
     this.mainPrice = document.querySelector('.ctm-price__current');
     this.mainCompare = document.querySelector('.ctm-price__compare');
 
-    // Tab Clicks (Main Product Variants)
+    // Handle Tab Clicks (Product Variants)
     this.tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         this.resetAll();
@@ -436,7 +449,7 @@ class BundleWidget extends HTMLElement {
       });
     });
 
-    // Card Clicks (Bundle Products)
+    // Handle Bundle Cards (Different Products)
     this.cards.forEach(card => {
       card.addEventListener('click', () => {
         this.resetAll();
@@ -465,17 +478,12 @@ class BundleWidget extends HTMLElement {
   }
 
   updateImage(id) {
-    // 1. Update URL without reload
     const url = new URL(window.location);
     url.searchParams.set('variant', id);
     window.history.replaceState({}, '', url);
-
-    // 2. Dispatch change event for Standard Themes
     window.dispatchEvent(new Event('resize')); 
     
-    // 3. Try to find the image in the gallery matching this variant and click it
-    // Most themes tag images with data-media-id or attached variants
-    // This is a generic "best guess" attempt for Shopify themes
+    // Attempt standard Shopify theme gallery switch
     const mediaToSelect = document.querySelector(`[data-target*="${id}"], [data-media-id*="${id}"]`);
     if(mediaToSelect) mediaToSelect.click();
   }
@@ -546,19 +554,22 @@ customElements.define('bundle-widget', BundleWidget);
     },
     { 
       "type": "bundle_widget", 
-      "name": "Bundle & Size Selector", 
+      "name": "Bundle Widget", 
       "limit": 1, 
       "settings": [
-        { "type": "text", "id": "size_label", "label": "Size Label", "default": "Select Size Variant" },
+        { "type": "text", "id": "size_label", "label": "Size Label", "default": "Size Variant" },
         { "type": "text", "id": "size_guide_text", "label": "Size Guide Link Text", "default": "Size Guide" },
         { "type": "text", "id": "guarantee_text", "label": "Guarantee Text", "default": "Guaranteed Safe & Secure Checkout" },
         { "type": "checkbox", "id": "show_bundles", "label": "Show Bundle Upsells", "default": true },
         { "type": "header", "content": "Bundle 1 Configuration" },
         { "type": "product", "id": "bundle_1_product", "label": "Product Bundle 1" },
-        { "type": "text", "id": "bundle_1_desc", "label": "Bundle 1 Description", "default": "Includes Standard & Extra Large Pan." },
+        { "type": "text", "id": "bundle_1_desc", "label": "Bundle 1 Description", "default": "Includes standard items." },
         { "type": "header", "content": "Bundle 2 Configuration" },
         { "type": "product", "id": "bundle_2_product", "label": "Product Bundle 2" },
-        { "type": "text", "id": "bundle_2_desc", "label": "Bundle 2 Description", "default": "Complete 10-piece set." }
+        { "type": "text", "id": "bundle_2_desc", "label": "Bundle 2 Description", "default": "Complete set 10 piece." },
+        { "type": "header", "content": "Bundle 3 Configuration" },
+        { "type": "product", "id": "bundle_3_product", "label": "Product Bundle 3" },
+        { "type": "text", "id": "bundle_3_desc", "label": "Bundle 3 Description", "default": "Complete set 14 piece." }
       ]
     },
     { 
