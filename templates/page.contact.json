@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -9,6 +18,7 @@
     },
     "form": {
       "type": "contact-form",
+      "disabled": true,
       "settings": {
         "heading": "",
         "heading_size": "h1",
@@ -16,10 +26,58 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "walter_contact_form_CCEUMV": {
+      "type": "walter-contact-form",
+      "blocks": {
+        "option_NYBWwU": {
+          "type": "option",
+          "settings": {
+            "option_label": "New York",
+            "option_value": "NY"
+          }
+        },
+        "option_LjUAQc": {
+          "type": "option",
+          "settings": {
+            "option_label": "Florida",
+            "option_value": "FL"
+          }
+        },
+        "option_ANqFfV": {
+          "type": "option",
+          "settings": {
+            "option_label": "Alabama",
+            "option_value": "AL"
+          }
+        }
+      },
+      "block_order": [
+        "option_NYBWwU",
+        "option_LjUAQc",
+        "option_ANqFfV"
+      ],
+      "name": "Contact Split Form",
+      "settings": {
+        "image": "shopify://shop_images/4.pan-min.jpg",
+        "image_width": 50,
+        "btn_label": "Submit",
+        "selector_label": "State",
+        "bg_color": "#121212",
+        "text_color": "#ffffff",
+        "input_text_color": "#ffffff",
+        "border_color": "#333333",
+        "focus_color": "#bca588",
+        "btn_bg_color": "#ffffff",
+        "btn_text_color": "#121212",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
     "main",
-    "form"
+    "form",
+    "walter_contact_form_CCEUMV"
   ]
 }
