@@ -57,7 +57,7 @@
             "card_bg": "rgba(0,0,0,0)",
             "card_border": "#f6f4f0",
             "card_text": "#ffffff",
-            "card_price_color": "#d4ece4",
+            "card_price_color": "#ffffff",
             "active_card_bg": "#ffffff",
             "active_card_border": "#097350",
             "btn_bg": "#ffffff",
