@@ -31,6 +31,40 @@
     font-family: 'Neue Montreal', sans-serif, var(--font-heading-family);
   }
 
+  /* --- COMPETITOR LAYOUT FIX (Thumbnails Left, Image Right) --- */
+  @media screen and (min-width: 990px) {
+    .product__media-wrapper media-gallery {
+      display: flex !important;
+      flex-direction: row-reverse !important; /* Slider Right, Thumbs Left */
+      align-items: flex-start;
+      gap: 20px;
+    }
+    
+    /* Main Slider */
+    #GalleryViewer-{{ section.id }} {
+      flex: 1;
+      width: calc(100% - 100px);
+    }
+
+    /* Thumbnails Strip */
+    #GalleryThumbnails-{{ section.id }} {
+      width: 90px !important;
+      display: block !important;
+    }
+
+    /* Vertical List */
+    #GalleryThumbnails-{{ section.id }} .thumbnail-list {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 10px;
+    }
+    
+    /* Hide slider arrows on desktop vertical strip */
+    #GalleryThumbnails-{{ section.id }} .slider-button {
+      display: none !important;
+    }
+  }
+
   /* --- Price --- */
   .ctm-price__current { font-size: 32px; font-weight: 500; color: {{ section.settings.price_color }} !important; display: block; }
   .ctm-price__compare { font-size: 32px; text-decoration: line-through; color: {{ section.settings.compare_price_color }} !important; opacity: 0.7; display: block; }
@@ -41,7 +75,7 @@
   }
   .ctm-price__row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;}
 
-  /* --- Review Highlights (Competitor Style) --- */
+  /* --- Review Highlights --- */
   .rh-wrap { margin: 15px 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
   .rh-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
   .rh-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: #333; }
@@ -50,7 +84,7 @@
   .rh-text { font-size: 13px; color: #bbb; font-style: italic; margin: 0; }
   .rh-stars svg { width: 14px; height: 14px; color: #B57C46; }
 
-  /* --- Bundle Widget (Tabs + Cards) --- */
+  /* --- Bundle Widget --- */
   .pb-wrap { margin: 24px 0; border-radius: 12px; overflow: hidden; }
   .pb-sizes-head { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 500; }
   .pb-size-tabs { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid {{ section.settings.bundle_border_color }}; border-radius: 8px; overflow: hidden; }
@@ -62,7 +96,6 @@
   .pb-size-tab:last-child { border-right: none; }
   .pb-size-tab.is-active { background: {{ section.settings.bundle_active_bg }}; color: #000; font-weight: bold; }
   
-  /* Bundle Cards (The "Or Select Bundle" part) */
   .pb-card { 
     background: #F6F4F0; border-radius: 12px; padding: 15px; margin-top: 15px; cursor: pointer; border: 2px solid transparent; transition: 0.3s; color: #000; position: relative;
   }
@@ -97,7 +130,7 @@
   .impact-note__icon { display: flex; align-items: center; justify-content: center; padding: 15px; border-right: 1px solid rgba(255,255,255,0.1); }
   .impact-note__text { padding: 20px; flex: 1; font-size: 14px; line-height: 1.5; margin: 0; }
 
-  /* --- Scrolling Icons with Progress Bar --- */
+  /* --- Scrolling Icons --- */
   .pf-wrap { margin: 20px 0; }
   .pf-track { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
   .pf-track::-webkit-scrollbar { display: none; }
@@ -132,7 +165,7 @@
   .upsell-card__price { font-size: 16px; font-weight: 600; color: #000; }
   .upsell-card__atc { background: #A3835F; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px; }
 
-  /* --- Advanced Tabs (PIT) --- */
+  /* --- Advanced Tabs --- */
   .pit-tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 20px; }
   .pit-tab { background: transparent; border: none; padding: 15px 5px; cursor: pointer; color: inherit; opacity: 0.6; font-size: 14px; font-weight: 500; position: relative; }
   .pit-tab.is-active { opacity: 1; }
@@ -286,7 +319,8 @@
                     })();
                   </script>
                 </div>
-{%- when 'bundle_widget' -%}
+
+              {%- when 'bundle_widget' -%}
                 <div id="pb-bundles-{{ section.id }}" class="pb-wrap" {{ block.shopify_attributes }}>
                   
                   <div class="pb-sizes">
@@ -364,12 +398,10 @@
                 
                 <script>
                   function updateBundleVariant(element) {
-                    // UI Update
                     document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
                     document.querySelectorAll('.pb-card').forEach(el => el.classList.remove('active'));
                     element.classList.add('is-active');
                     
-                    // Value Update
                     const id = element.dataset.variantId;
                     const price = element.dataset.price;
                     const mediaId = element.dataset.mediaId;
@@ -377,24 +409,19 @@
                     document.getElementById('bundle-variant-input').value = id;
                     document.getElementById('bundle-price-display').innerText = price;
 
-                    // Trigger Image Switch Globally
                     if (mediaId && window.goToMedia) {
                       window.goToMedia(mediaId);
                     }
                   }
 
                   function selectBundle(element, id, price, mediaId) {
-                    // UI Update
                     document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
                     document.querySelectorAll('.pb-card').forEach(el => el.classList.remove('active'));
                     element.classList.add('active');
                     
-                    // Value Update
                     document.getElementById('bundle-variant-input').value = id;
                     document.getElementById('bundle-price-display').innerText = price;
                     
-                    // Trigger Image Switch (if bundle product has media loaded on this page)
-                    // Note: Cross-product media switching is complex, but this handles same-product variants
                     if (mediaId && window.goToMedia) {
                       window.goToMedia(mediaId);
                     }
@@ -672,7 +699,7 @@
         { "type": "image_picker", "id": "icon_8", "label": "Icon 8" }, { "type": "text", "id": "label_8", "label": "Label 8" }
       ]
     },
-  {
+    {
       "type": "bundle_widget",
       "name": "Bundle / Variants",
       "limit": 1,
