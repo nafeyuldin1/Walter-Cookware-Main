@@ -25,7 +25,7 @@
           "type": "title",
           "settings": {
             "color_text": "#ffffff",
-            "font_size": 30
+            "font_size": 41
           }
         },
         "price_Fkwx4M": {
@@ -130,7 +130,7 @@
         "media_size": "small",
         "constrain_to_viewport": true,
         "media_fit": "contain",
-        "gallery_layout": "thumbnail",
+        "gallery_layout": "thumbnail_slider",
         "mobile_thumbnails": "show",
         "media_position": "left",
         "image_zoom": "lightbox",
