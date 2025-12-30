@@ -471,6 +471,7 @@
                           <div class="pb-size-tab {% if product.selected_or_first_available_variant.option1 == variant.option1 %}is-active{% endif %}" 
                                data-variant-id="{{ variant.id }}"
                                data-price="{{ variant.price | money }}"
+                               data-media-id="{{ variant.featured_media.id }}"
                                onclick="updateBundleVariant(this)">
                             {{ variant.option1 }}
                           </div>
@@ -526,6 +527,14 @@
                 </div>
                 
                 <script>
+                  // Helper function to talk to Dawn's Media Gallery
+                  function changeDawnImage(mediaId) {
+                    const gallery = document.querySelector('media-gallery');
+                    if (gallery && gallery.setActiveMedia && mediaId) {
+                      gallery.setActiveMedia(mediaId, true);
+                    }
+                  }
+
                   function updateBundleVariant(element) {
                     // UI Update
                     document.querySelectorAll('.pb-size-tab').forEach(el => el.classList.remove('is-active'));
@@ -535,8 +544,13 @@
                     // Value Update
                     const id = element.dataset.variantId;
                     const price = element.dataset.price;
+                    const mediaId = element.dataset.mediaId;
+
                     document.getElementById('bundle-variant-input').value = id;
                     document.getElementById('bundle-price-display').innerText = price;
+
+                    // Trigger Image Change
+                    changeDawnImage(mediaId);
                   }
 
                   function selectBundle(element, id, price) {
