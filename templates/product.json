@@ -141,7 +141,8 @@
       ],
       "custom_css": [
         "@media screen and (min-width: 750px) {.product {padding: 40px 0px; }}",
-        ".product{overflow-x: hidden;}"
+        ".product {overflow-x: hidden;}",
+        ".pb-opt-row-1 div {min-width: fit-content;}"
       ],
       "name": "Main Product Dynamic",
       "settings": {
