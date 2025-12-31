@@ -3604,3 +3604,8 @@ details-disclosure > details {
 .price .badge.price__badge-sale{
   display: none !important;
 }
+@media screen and (max-width: 750px){
+  .chiild{
+    padding-left: 0px !important;
+  }
+}
