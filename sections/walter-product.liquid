@@ -639,33 +639,61 @@
                   document.getElementById('dynamic-ship-date').innerText = date.toLocaleDateString('en-US', options);
                 </script>
 
-              {%- when 'info_tabs' -%}
-                <div class="pit" id="product-info-tabs-{{ block.id }}" {{ block.shopify_attributes }}>
-                  <div class="pit-tabs" role="tablist">
-                    <button class="pit-tab is-active" role="tab" onclick="openPitTab(event, 'panel-1-{{ block.id }}', '{{ block.id }}')">{{ block.settings.tab_1_label }} <span class="pit-underline"></span></button>
-                    <button class="pit-tab" role="tab" onclick="openPitTab(event, 'panel-2-{{ block.id }}', '{{ block.id }}')">{{ block.settings.tab_2_label }} <span class="pit-underline"></span></button>
-                    <button class="pit-tab" role="tab" onclick="openPitTab(event, 'panel-3-{{ block.id }}', '{{ block.id }}')">{{ block.settings.tab_3_label }} <span class="pit-underline"></span></button>
-                  </div>
-                  <div class="pit-panels">
-                    <div id="panel-1-{{ block.id }}" class="pit-panel is-active">
-                      <div class="pit-copy">{{ block.settings.tab_1_content }}</div>
-                      {% if block.settings.tab_1_image != blank %}<img src="{{ block.settings.tab_1_image | image_url: width: 600 }}" style="width:100%; border-radius:8px;">{% endif %}
-                    </div>
-                    <div id="panel-2-{{ block.id }}" class="pit-panel">{% if block.settings.tab_2_image != blank %}<img src="{{ block.settings.tab_2_image | image_url: width: 1200 }}" style="width:100%; border-radius:8px;">{% endif %}</div>
-                    <div id="panel-3-{{ block.id }}" class="pit-panel"><h3>{{ block.settings.tab_3_heading }}</h3><div class="pit-copy">{{ block.settings.tab_3_content }}</div></div>
-                  </div>
-                </div>
-                <script>
-                  function openPitTab(evt, panelId, blockId) {
-                    var container = document.getElementById('product-info-tabs-' + blockId);
-                    var panels = container.getElementsByClassName("pit-panel");
-                    for (var i = 0; i < panels.length; i++) { panels[i].classList.remove("is-active"); }
-                    var tabs = container.getElementsByClassName("pit-tab");
-                    for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove("is-active"); }
-                    document.getElementById(panelId).classList.add("is-active");
-                    evt.currentTarget.classList.add("is-active");
-                  }
-                </script>
+            {%- when 'info_tabs' -%}
+  <div class="pit" id="product-info-tabs-{{ block.id }}" {{ block.shopify_attributes }}>
+    <div class="pit-tabs" role="tablist">
+      <button class="pit-tab is-active" role="tab" onclick="openPitTab(event, 'panel-1-{{ block.id }}', '{{ block.id }}')">
+        {{ block.settings.tab_1_label }} <span class="pit-underline"></span>
+      </button>
+      <button class="pit-tab" role="tab" onclick="openPitTab(event, 'panel-2-{{ block.id }}', '{{ block.id }}')">
+        {{ block.settings.tab_2_label }} <span class="pit-underline"></span>
+      </button>
+      <button class="pit-tab" role="tab" onclick="openPitTab(event, 'panel-3-{{ block.id }}', '{{ block.id }}')">
+        {{ block.settings.tab_3_label }} <span class="pit-underline"></span>
+      </button>
+    </div>
+    
+    <div class="pit-panels">
+      <div id="panel-1-{{ block.id }}" class="pit-panel is-active">
+        <div class="pit-copy rte">{{ block.settings.tab_1_content }}</div>
+        {% if block.settings.tab_1_image != blank %}
+          <div class="pit-image" style="margin-top: 15px;">
+            <img src="{{ block.settings.tab_1_image | image_url: width: 800 }}" loading="lazy" style="width:100%; height:auto; border-radius:8px;">
+          </div>
+        {% endif %}
+      </div>
+
+      <div id="panel-2-{{ block.id }}" class="pit-panel">
+        <div class="pit-copy rte">{{ block.settings.tab_2_content }}</div>
+        {% if block.settings.tab_2_image != blank %}
+          <div class="pit-image" style="margin-top: 15px;">
+            <img src="{{ block.settings.tab_2_image | image_url: width: 800 }}" loading="lazy" style="width:100%; height:auto; border-radius:8px;">
+          </div>
+        {% endif %}
+      </div>
+
+      <div id="panel-3-{{ block.id }}" class="pit-panel">
+        <div class="pit-copy rte">{{ block.settings.tab_3_content }}</div>
+        {% if block.settings.tab_3_image != blank %}
+          <div class="pit-image" style="margin-top: 15px;">
+            <img src="{{ block.settings.tab_3_image | image_url: width: 800 }}" loading="lazy" style="width:100%; height:auto; border-radius:8px;">
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openPitTab(evt, panelId, blockId) {
+      var container = document.getElementById('product-info-tabs-' + blockId);
+      var panels = container.getElementsByClassName("pit-panel");
+      for (var i = 0; i < panels.length; i++) { panels[i].classList.remove("is-active"); }
+      var tabs = container.getElementsByClassName("pit-tab");
+      for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove("is-active"); }
+      document.getElementById(panelId).classList.add("is-active");
+      evt.currentTarget.classList.add("is-active");
+    }
+  </script>
 
               {%- when 'accordion_custom' -%}
                 <div class="pfaq-item" {{ block.shopify_attributes }}>
@@ -1109,15 +1137,25 @@
         { "type": "text", "id": "text_2", "label": "Text 2", "default": "Lifetime Warranty" }
       ]
     },
-    {
+   {
       "type": "info_tabs",
       "name": "Advanced Tabs (PIT)",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "tab_1_label", "label": "Tab 1 Label", "default": "Purity" },
+        { "type": "header", "content": "Tab 1 Settings" },
+        { "type": "text", "id": "tab_1_label", "label": "Tab 1 Label", "default": "Details" },
         { "type": "richtext", "id": "tab_1_content", "label": "Tab 1 Content" },
-        { "type": "text", "id": "tab_2_label", "label": "Tab 2 Label", "default": "Comparison" },
-        { "type": "text", "id": "tab_3_label", "label": "Tab 3 Label", "default": "Benefits" }
+        { "type": "image_picker", "id": "tab_1_image", "label": "Tab 1 Image (Bottom)" },
+
+        { "type": "header", "content": "Tab 2 Settings" },
+        { "type": "text", "id": "tab_2_label", "label": "Tab 2 Label", "default": "Specifications" },
+        { "type": "richtext", "id": "tab_2_content", "label": "Tab 2 Content" },
+        { "type": "image_picker", "id": "tab_2_image", "label": "Tab 2 Image (Bottom)" },
+
+        { "type": "header", "content": "Tab 3 Settings" },
+        { "type": "text", "id": "tab_3_label", "label": "Tab 3 Label", "default": "Shipping" },
+        { "type": "richtext", "id": "tab_3_content", "label": "Tab 3 Content" },
+        { "type": "image_picker", "id": "tab_3_image", "label": "Tab 3 Image (Bottom)" }
       ]
     },
     {
