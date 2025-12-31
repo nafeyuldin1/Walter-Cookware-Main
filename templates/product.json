@@ -392,7 +392,47 @@
         "padding_bottom_m": 64
       }
     },
-      "walter_scroll_text_fade_VVKey4": {
+    "walter_behind_scene_FizBeJ": {
+      "type": "walter-behind-scene",
+      "name": "Behind The Scenes",
+      "settings": {
+        "bg_color": "#121212",
+        "max_width": 1600,
+        "layout_flip": true,
+        "col_gap": 48,
+        "heading": "Prioritizing Your Health In Everything We Create.",
+        "heading_color": "#ffffff",
+        "heading_size_d": 48,
+        "heading_size_m": 24,
+        "text": "<p>Titanium has long been used in medical & aerospace industries.</p>",
+        "body_color": "#b0b0b0",
+        "body_size_d": 16,
+        "body_size_m": 14,
+        "quote": "Health Is The Most Valuable Thing We Have.",
+        "quote_color": "#e9e2d8",
+        "quote_size_d": 24,
+        "quote_size_m": 16,
+        "founder_name": "Paul S., Founder",
+        "founder_color": "#b0b0b0",
+        "founder_size_d": 20,
+        "founder_size_m": 20,
+        "signature_img": "shopify://shop_images/Signature_founder_1_1.avif",
+        "sig_width_d": 120,
+        "sig_width_m": 100,
+        "video": "shopify://files/videos/1babc7fb06554e9d8da1129320300533_b230aa65-baa8-4bd3-afe2-5258018fb7b2.mp4",
+        "video_url_mp4": "",
+        "video_radius": 0,
+        "overlay_opacity": 30,
+        "pt_d": 80,
+        "pb_d": 80,
+        "pl_d": 0,
+        "pr_d": 80,
+        "pt_m": 0,
+        "pb_m": 64,
+        "pad_x_m": 0
+      }
+    },
+    "walter_scroll_text_fade_VVKey4": {
       "type": "walter-scroll-text-fade",
       "blocks": {
         "line_UCemiJ": {
@@ -490,46 +530,6 @@
         "pb_m": 140
       }
     },
-    "walter_behind_scene_FizBeJ": {
-      "type": "walter-behind-scene",
-      "name": "Behind The Scenes",
-      "settings": {
-        "bg_color": "#121212",
-        "max_width": 1600,
-        "layout_flip": true,
-        "col_gap": 48,
-        "heading": "Prioritizing Your Health In Everything We Create.",
-        "heading_color": "#ffffff",
-        "heading_size_d": 48,
-        "heading_size_m": 24,
-        "text": "<p>Titanium has long been used in medical & aerospace industries.</p>",
-        "body_color": "#b0b0b0",
-        "body_size_d": 16,
-        "body_size_m": 14,
-        "quote": "Health Is The Most Valuable Thing We Have.",
-        "quote_color": "#e9e2d8",
-        "quote_size_d": 24,
-        "quote_size_m": 16,
-        "founder_name": "Paul S., Founder",
-        "founder_color": "#b0b0b0",
-        "founder_size_d": 20,
-        "founder_size_m": 20,
-        "signature_img": "shopify://shop_images/Signature_founder_1_1.avif",
-        "sig_width_d": 120,
-        "sig_width_m": 100,
-        "video": "shopify://files/videos/1babc7fb06554e9d8da1129320300533_b230aa65-baa8-4bd3-afe2-5258018fb7b2.mp4",
-        "video_url_mp4": "",
-        "video_radius": 0,
-        "overlay_opacity": 30,
-        "pt_d": 80,
-        "pb_d": 80,
-        "pl_d": 0,
-        "pr_d": 80,
-        "pt_m": 0,
-        "pb_m": 64,
-        "pad_x_m": 0
-      }
-    },
     "walter_rethink_cookware_MyXhDw": {
       "type": "walter-rethink-cookware",
       "blocks": {
@@ -546,7 +546,7 @@
         "card_Amxkbp": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/pan_7-min_a4756bb1-2df2-477f-aa72-faca4dff9604.webp",
+            "image": "shopify://shop_images/board_9-min_3c8a74f1-e8ef-4d6f-b216-71a175e29248.webp",
             "title": "Non-Stick / Teflon",
             "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
             "link_text": "Read More…",
@@ -556,7 +556,7 @@
         "card_jxn998": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/pan_7-min_a4756bb1-2df2-477f-aa72-faca4dff9604.webp",
+            "image": "shopify://shop_images/chef_pan-min_59dd09c3-bc24-496b-9866-a37324176598.webp",
             "title": "Non-Stick / Teflon",
             "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
             "link_text": "Read More…",
@@ -566,7 +566,7 @@
         "card_FTbHKR": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/pan_7-min_a4756bb1-2df2-477f-aa72-faca4dff9604.webp",
+            "image": "shopify://shop_images/review_man-min.webp",
             "title": "Non-Stick / Teflon",
             "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
             "link_text": "Read More…",
@@ -576,7 +576,7 @@
         "card_76b6RG": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/pan_7-min_a4756bb1-2df2-477f-aa72-faca4dff9604.webp",
+            "image": "shopify://shop_images/board-min_17b1843e-87da-43ae-b30b-95c6c3a5d98a.webp",
             "title": "Non-Stick / Teflon",
             "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
             "link_text": "Read More…",
