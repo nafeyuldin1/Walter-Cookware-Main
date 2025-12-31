@@ -39,6 +39,17 @@
             "compare_price_size": 16
           }
         },
+        "benefits_grid_AbMNV3": {
+          "type": "benefits_grid",
+          "settings": {
+            "text_color": "#b0b0b0",
+            "icon_1": "shopify://shop_images/icons_31.svg",
+            "text_1": "No PFASNo microplastics. No hormone disruptors.",
+            "text_2": "Heat Resistant",
+            "text_3": "Non-Stick",
+            "text_4": "All Cooktops"
+          }
+        },
         "sticky_atc_DWhMJx": {
           "type": "sticky_atc",
           "settings": {
@@ -136,6 +147,7 @@
         "text_BzQfKy",
         "title_fkmVzK",
         "price_Fkwx4M",
+        "benefits_grid_AbMNV3",
         "sticky_atc_DWhMJx",
         "bundle_widget_NPmFLG",
         "shipping_bar_Na8Erx",
