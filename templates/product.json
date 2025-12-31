@@ -140,7 +140,8 @@
         "upsells_fwcWLq"
       ],
       "custom_css": [
-        "@media screen and (min-width: 750px){.product {padding: 40px 0px; }}"
+        "@media screen and (min-width: 750px) {.product {padding: 40px 0px; }}",
+        ".product{overflow-x: hidden;}"
       ],
       "name": "Main Product Dynamic",
       "settings": {
