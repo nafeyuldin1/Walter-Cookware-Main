@@ -214,6 +214,131 @@
         "padding_bottom": 152
       }
     },
+     "walter_material_E66app": {
+      "type": "walter-material",
+      "blocks": {
+        "category_eyD7mB": {
+          "type": "category",
+          "settings": {
+            "title": "Pans",
+            "cat_id": "cat1"
+          }
+        },
+        "category_tRGwUc": {
+          "type": "category",
+          "settings": {
+            "title": "Cutting Boards",
+            "cat_id": "cat2"
+          }
+        },
+        "category_g4qVKD": {
+          "type": "category",
+          "settings": {
+            "title": "Utensils",
+            "cat_id": "cat3"
+          }
+        },
+        "category_zVLQ87": {
+          "type": "category",
+          "settings": {
+            "title": "Water Bottles",
+            "cat_id": "cat3"
+          }
+        },
+        "card_cpfxmP": {
+          "type": "card",
+          "settings": {
+            "cat_id": "cat1",
+            "image": "shopify://shop_images/non_stick-min.jpg",
+            "badge_text": "FOREVER CHEMICALS",
+            "badge_bg": "",
+            "badge_text_color": "",
+            "title": "Non-Stick Coated / Teflon",
+            "text": "Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins."
+          }
+        },
+        "card_jA6dHG": {
+          "type": "card",
+          "settings": {
+            "cat_id": "cat1",
+            "image": "shopify://shop_images/steel-min_ffa0915f-a72e-44ed-84d6-12d76921a216.webp",
+            "badge_text": "Stainless Steel",
+            "badge_bg": "",
+            "badge_text_color": "",
+            "title": "Stainless Steel",
+            "text": "Requires lots of oil to prevent sticking, and reacts with acidic foods - altering taste and potentially leaching metals in lower-quality pans. Tougher to clean, high effort to maintain."
+          }
+        },
+        "card_khxby6": {
+          "type": "card",
+          "settings": {
+            "cat_id": "cat1",
+            "image": "shopify://shop_images/ceramic-min_c6855de1-b4bc-4ad4-8545-880b3ec41164.webp",
+            "badge_text": "FOREVER CHEMICALS",
+            "badge_bg": "",
+            "badge_text_color": "",
+            "title": "Ceramic",
+            "text": "Ceramic coatings are very fragile, once chipped, they expose toxic aluminum base. Most only last 1- 2 years before losing their non-stick. Expensive to replace, unreliable\nlong-term."
+          }
+        },
+        "card_68YLXk": {
+          "type": "card",
+          "settings": {
+            "cat_id": "cat1",
+            "image": "shopify://shop_images/ceramic-min_c6855de1-b4bc-4ad4-8545-880b3ec41164.webp",
+            "badge_text": "FOREVER CHEMICALS",
+            "badge_bg": "",
+            "badge_text_color": "",
+            "title": "Cast Iron",
+            "text": "Ceramic coatings are very fragile, once chipped, they expose toxic aluminum base. Most only last 1- 2 years before losing their non-stick. Expensive to replace, unreliable\nlong-term."
+          }
+        }
+      },
+      "block_order": [
+        "category_eyD7mB",
+        "category_tRGwUc",
+        "category_g4qVKD",
+        "category_zVLQ87",
+        "card_cpfxmP",
+        "card_jA6dHG",
+        "card_khxby6",
+        "card_68YLXk"
+      ],
+      "name": "Materials Comparison",
+      "settings": {
+        "cols_desktop": 5,
+        "cols_mobile": 1.1,
+        "bg_color": "#121212",
+        "text_color": "#ede6da",
+        "heading": "Titanium Isn’t Competing. It’s Replacing.",
+        "heading_color": "#bca588",
+        "heading_size_d": 48,
+        "heading_size_m": 31,
+        "subtext": "From toxin & bacteria risks to high maintenance, these “outdated” kitchenware materials just don’t measure up.",
+        "sub_color": "#b0b0b0",
+        "sub_size_d": 16,
+        "sub_size_m": 14,
+        "border_color": "#454545",
+        "tab_text_color": "#b0b0b0",
+        "tab_active_bg": "#a3835f",
+        "tab_active_text": "#121212",
+        "card_bg": "#121212",
+        "card_border": "#333333",
+        "badge_bg": "#c20c25",
+        "badge_text": "#ffffff",
+        "card_title_color": "#ffffff",
+        "card_title_size": 24,
+        "card_body_color": "#b0b0b0",
+        "card_body_size": 16,
+        "max_width": 1920,
+        "pt_d": 120,
+        "pb_d": 120,
+        "pad_x_d": 120,
+        "pt_m": 64,
+        "pb_m": 64,
+        "pad_x_m": 16
+      }
+    },
     "secreat_advanteage_XmpYTY": {
       "type": "secreat-advanteage",
       "blocks": {
@@ -294,6 +419,7 @@
     "science_sticky_qpGgMU",
     "walter_rethink_cookware_MyXhDw",
     "benefits_cards_FeykYQ",
+    "walter_material_E66app",
     "secreat_advanteage_XmpYTY",
     "walter_video_cta_K3jaGt"
   ]
