@@ -392,6 +392,104 @@
         "padding_bottom_m": 64
       }
     },
+      "walter_scroll_text_fade_VVKey4": {
+      "type": "walter-scroll-text-fade",
+      "blocks": {
+        "line_UCemiJ": {
+          "type": "line",
+          "settings": {
+            "text": "At Taima®, Non-Toxic Isn’t A Feature.",
+            "visibility": "desktop",
+            "base_opacity": 40,
+            "base_size_d": 64,
+            "base_size_m": 24
+          }
+        },
+        "line_NVKppD": {
+          "type": "line",
+          "settings": {
+            "text": "At Taima®",
+            "visibility": "mobile",
+            "base_opacity": 40,
+            "base_size_d": 48,
+            "base_size_m": 30
+          }
+        },
+        "line_t3f397": {
+          "type": "line",
+          "settings": {
+            "text": "Non-Toxic",
+            "visibility": "mobile",
+            "base_opacity": 40,
+            "base_size_d": 48,
+            "base_size_m": 30
+          }
+        },
+        "line_Q8nxN7": {
+          "type": "line",
+          "settings": {
+            "text": "Isn’t A Feature.",
+            "visibility": "mobile",
+            "base_opacity": 40,
+            "base_size_d": 48,
+            "base_size_m": 28
+          }
+        },
+        "line_rGpHLY": {
+          "type": "line",
+          "settings": {
+            "text": "It’s The Foundation.",
+            "visibility": "always",
+            "base_opacity": 30,
+            "base_size_d": 48,
+            "base_size_m": 24
+          }
+        },
+        "line_LPJ8ze": {
+          "type": "line",
+          "settings": {
+            "text": "Perfection Isn't a Goal.",
+            "visibility": "always",
+            "base_opacity": 20,
+            "base_size_d": 48,
+            "base_size_m": 24
+          }
+        },
+        "line_VTQ4Vz": {
+          "type": "line",
+          "settings": {
+            "text": "It's Where We Begin.",
+            "visibility": "always",
+            "base_opacity": 10,
+            "base_size_d": 32,
+            "base_size_m": 24
+          }
+        }
+      },
+      "block_order": [
+        "line_UCemiJ",
+        "line_NVKppD",
+        "line_t3f397",
+        "line_Q8nxN7",
+        "line_rGpHLY",
+        "line_LPJ8ze",
+        "line_VTQ4Vz"
+      ],
+      "name": "Scroll Text Fade",
+      "settings": {
+        "bg_color": "#00221c",
+        "active_color": "#bca588",
+        "inactive_color": "#bca588",
+        "font_family": "bebas_neue_n4",
+        "active_font_size_d": 64,
+        "active_font_size_m": 32,
+        "line_gap": 24,
+        "pt_d": 240,
+        "pb_d": 240,
+        "pt_m": 140,
+        "pb_m": 140
+      }
+    },
     "walter_behind_scene_FizBeJ": {
       "type": "walter-behind-scene",
       "name": "Behind The Scenes",
@@ -866,6 +964,7 @@
     "walter_trust_video_xJUVTn",
     "walter_logo_testimonial_FdQhBX",
     "walter_behind_scene_FizBeJ",
+    "walter_scroll_text_fade_VVKey4",
     "walter_rethink_cookware_MyXhDw",
     "walter_benefits_EAnCxx",
     "scroll_text_with_image_8XhRp4",
