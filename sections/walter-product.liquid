@@ -673,7 +673,7 @@
                 </div>
 
               {%- when 'impact_note' -%}
-                <div id="impact-note-{{ block.id }}" class="impact-note" style="background: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }}; display: flex; align-items: center; gap: 15px;" {{ block.shopify_attributes }}>
+                <div id="impact-note-{{ block.id }}" class="impact-note" style="background: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }}; display: flex; align-items: center; gap: 15px; padding: 0px 10px;" {{ block.shopify_attributes }}>
                   <div class="impact-note__icon">{% if block.settings.icon != blank %}<img src="{{ block.settings.icon | image_url: width: 64 }}" width="64" height="64">{% else %}🌿{% endif %}</div>
                   <p class="impact-note__text">{{ block.settings.text }}</p>
                 </div>
