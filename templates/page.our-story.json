@@ -175,6 +175,83 @@
         "pad_x_m": 0
       }
     },
+     "walter_rethink_cookware_MyXhDw": {
+      "type": "walter-rethink-cookware",
+      "blocks": {
+        "card_BM4wqE": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/pan_7-min_a4756bb1-2df2-477f-aa72-faca4dff9604.webp",
+            "title": "Non-Stick / Teflon",
+            "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
+            "link_text": "Read More…",
+            "link_url": ""
+          }
+        },
+        "card_Amxkbp": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/board_9-min_3c8a74f1-e8ef-4d6f-b216-71a175e29248.webp",
+            "title": "Non-Stick / Teflon",
+            "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
+            "link_text": "Read More…",
+            "link_url": ""
+          }
+        },
+        "card_jxn998": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/chef_pan-min_59dd09c3-bc24-496b-9866-a37324176598.webp",
+            "title": "Non-Stick / Teflon",
+            "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
+            "link_text": "Read More…",
+            "link_url": ""
+          }
+        },
+        "card_FTbHKR": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/review_man-min.webp",
+            "title": "Non-Stick / Teflon",
+            "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
+            "link_text": "Read More…",
+            "link_url": ""
+          }
+        },
+        "card_76b6RG": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/board-min_17b1843e-87da-43ae-b30b-95c6c3a5d98a.webp",
+            "title": "Non-Stick / Teflon",
+            "text": "<p>Worst type of pan surface there is. Teflon / majority of non-stick pans release toxic PFAS chemicals, known as \"forever chemicals\" which have been linked to cancer and liver damage. The coating easily shaves off over time and can’t handle the heat exposing your food to toxins. </p>",
+            "link_text": "Read More…",
+            "link_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_BM4wqE",
+        "card_Amxkbp",
+        "card_jxn998",
+        "card_FTbHKR",
+        "card_76b6RG"
+      ],
+      "name": "Rethink Cookware",
+      "settings": {
+        "bg_color": "#121212",
+        "heading_color": "#d4c7b4",
+        "subheading_color": "#b0b0b0",
+        "card_text_color": "#b0b0b0",
+        "card_title_color": "#ffffff",
+        "border_color": "#333333",
+        "title": "It’s Time To Rethink Your Cookware",
+        "subtitle": "From toxin risks to high maintenance, these outdated pans just don’t measure up to Titanium…",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_m": 64,
+        "padding_bottom_m": 64
+      }
+    },
     "responsibility_icons_NEVzGk": {
       "type": "responsibility-icons",
       "blocks": {
@@ -330,6 +407,7 @@
     "rich_text_RrAy9F",
     "story_slider_CmYqQR",
     "walter_behind_scene_FizBeJ",
+    "walter_rethink_cookware_MyXhDw",
     "responsibility_icons_NEVzGk",
     "cta_banner_KEGX7y",
     "link_button_AgctQt"
