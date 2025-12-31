@@ -3609,3 +3609,6 @@ details-disclosure > details {
     padding-left: 0px !important;
   }
 }
+.pit-tabs .pit-tab.is-active{
+  left: 0px !important;
+}
