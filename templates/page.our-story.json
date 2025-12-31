@@ -135,13 +135,13 @@
         "padding_bottom": 64
       }
     },
-     "walter_behind_scene_FizBeJ": {
+    "walter_behind_scene_FizBeJ": {
       "type": "walter-behind-scene",
       "name": "Behind The Scenes",
       "settings": {
         "bg_color": "#121212",
         "max_width": 1600,
-        "layout_flip": true,
+        "layout_flip": false,
         "col_gap": 48,
         "heading": "Prioritizing Your Health In Everything We Create.",
         "heading_color": "#ffffff",
@@ -175,7 +175,7 @@
         "pad_x_m": 0
       }
     },
-     "walter_rethink_cookware_MyXhDw": {
+    "walter_rethink_cookware_MyXhDw": {
       "type": "walter-rethink-cookware",
       "blocks": {
         "card_BM4wqE": {
@@ -339,9 +339,9 @@
         "text_alignment": "center",
         "btn_label": "Protect Your Health",
         "btn_link": "",
-        "heading_color": "#FFFFFF",
-        "subtext_color": "#E9E2D8",
-        "btn_bg_color": "#FFFFFF",
+        "heading_color": "#ffffff",
+        "subtext_color": "#e9e2d8",
+        "btn_bg_color": "#ffffff",
         "btn_text_color": "#121212",
         "heading_size": 48,
         "subtext_size": 24,
