@@ -3616,3 +3616,6 @@ details-disclosure > details {
   position: fixed !important;
   height: 100%;
 }
+.product-card__title span {
+  color: #BCA588;
+}
