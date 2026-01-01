@@ -3612,3 +3612,7 @@ details-disclosure > details {
 .pit-tabs .pit-tab.is-active .pit-underline{
   left: 0px !important;
 }
+.collection-list  .card__heading a:after{
+  position: fixed !important;
+  height: 100%;
+}
