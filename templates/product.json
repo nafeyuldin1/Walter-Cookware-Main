@@ -148,14 +148,31 @@
             "bundle_badge_3": "LIMITED OFFER"
           }
         },
-        "shipping_bar_Na8Erx": {
-          "type": "shipping_bar",
+        "shipping_promise_bar_gCTx4U": {
+          "type": "shipping_promise_bar",
           "settings": {
             "bg_color": "#03231a",
+            "border_color": "rgba(0,0,0,0)",
+            "divider_color": "#ffffff14",
+            "margin_top": 16,
+            "margin_bottom": 16,
+            "label_text": "Ships By",
+            "label_color": "#d4c7b4",
+            "fs_label": 16,
+            "date_text": "Jan 4th",
+            "date_color": "#ffffff",
+            "fs_date": 20,
             "text_color": "#d4c7b4",
-            "alert_text": "⚠️ Might Not Arrive Before Christmas",
+            "fs_list": 12,
+            "icon_size": 24,
+            "default_icon_1": "//taimatitanium.com/cdn/shop/files/icons_26.svg?v=1754881915",
             "text_1": "FREE Shipping & Easy Returns",
-            "text_2": "Lifetime Warranty"
+            "default_icon_2": "//taimatitanium.com/cdn/shop/files/icons_27.svg?v=1754881940",
+            "text_2": "30-Day-Guarantee",
+            "default_icon_3": "//taimatitanium.com/cdn/shop/files/icons_28.svg?v=1754881963",
+            "text_3": "Lifetime Warranty",
+            "default_icon_4": "//taimatitanium.com/cdn/shop/files/icons_29.svg?v=1754881985",
+            "text_4": "100% Toxin-Free Guarantee"
           }
         },
         "impact_note_KwNV8U": {
@@ -238,7 +255,7 @@
         "product_icons_block_HVDikV",
         "sticky_atc_DWhMJx",
         "bundle_widget_NPmFLG",
-        "shipping_bar_Na8Erx",
+        "shipping_promise_bar_gCTx4U",
         "impact_note_KwNV8U",
         "collapsible_tab_6xK6QW",
         "collapsible_tab_ymbgQi",
