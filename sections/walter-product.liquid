@@ -191,6 +191,109 @@
                   </a>
                 </div>
 
+              {% when 'product_icons_block' %}
+  {%- when 'product_icons_block' -%}
+  {%- comment -%}
+    BLOCK NAME: Multiple Icons with Text
+    PLACE THIS INSIDE: {% case block.type %} ... {% endcase %}
+  {%- endcomment -%}
+
+  <div class="pf-wrap product-block-icons" {{ block.shopify_attributes }}>
+    <div class="pf-track" role="list">
+      
+      {%- comment -%} Loop through 8 possible icons defined in schema {%- endcomment -%}
+      {%- for i in (1..8) -%}
+        {%- capture icon_img_key -%}icon_{{ i }}{%- endcapture -%}
+        {%- capture text_l1_key -%}text_{{ i }}_l1{%- endcapture -%}
+        {%- capture text_l2_key -%}text_{{ i }}_l2{%- endcapture -%}
+        
+        {%- assign icon_image = block.settings[icon_img_key] -%}
+        {%- assign text_line1 = block.settings[text_l1_key] -%}
+        {%- assign text_line2 = block.settings[text_l2_key] -%}
+
+        {%- if text_line1 != blank or icon_image != blank -%}
+          <div class="pf-item" role="listitem">
+            <div class="pf-icon">
+              {%- if icon_image != blank -%}
+                <img
+                  src="{{ icon_image | img_url: '80x80' }}"
+                  alt="{{ text_line1 }} {{ text_line2 }}"
+                  width="40" height="40" loading="lazy">
+              {%- else -%}
+                {%- comment -%} Fallback Placeholder if no image selected {%- endcomment -%}
+                <div class="pf-icon__ph"></div> 
+              {%- endif -%}
+            </div>
+            <div class="pf-text">
+              <span class="pf-line1">{{ text_line1 }}</span>
+              <span class="pf-line2">{{ text_line2 }}</span>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="pf-progress" aria-hidden="true">
+      <span class="pf-progress__bar" style="width: 0%;"></span>
+    </div>
+  </div>
+
+  <style>
+    /* Scoped CSS for Block */
+    .product-block-icons.pf-wrap { 
+      margin: {{ block.settings.margin_top }}px 0 {{ block.settings.margin_bottom }}px 0;
+      color: {{ block.settings.text_color }};
+      max-width: 100%; overflow: hidden;
+    }
+    .product-block-icons .pf-track {
+      display: flex; gap: 12px; align-items: flex-start;
+      overflow-x: auto; scrollbar-width: none;
+      padding-bottom: 5px; /* space for scroll */
+    }
+    .product-block-icons .pf-track::-webkit-scrollbar { display: none; }
+    
+    .product-block-icons .pf-item { width: 87px; flex: 0 0 87px; text-align: center; }
+    .product-block-icons .pf-icon { width: 40px; height: 40px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; }
+    .product-block-icons .pf-icon img { width: 40px; height: 40px; object-fit: contain; }
+    .product-block-icons .pf-icon__ph { width: 40px; height: 40px; background: #eee; border-radius: 50%; }
+
+    .product-block-icons .pf-text {
+      font-size: 12px; line-height: 1.4; color: inherit;
+    }
+    .product-block-icons .pf-line1, .product-block-icons .pf-line2 { display: block; }
+
+    /* Progress Bar */
+    .product-block-icons .pf-progress {
+      display: none; height: 4px; border-radius: 99px; margin-top: 10px;
+      background: rgba(0,0,0,0.05); overflow: hidden; width: 100px; margin-left: auto; margin-right: auto;
+    }
+    .product-block-icons .pf-progress__bar {
+      display: block; height: 100%; width: 0; background: {{ block.settings.bar_color }}; transition: width 0.1s;
+    }
+
+    @media (max-width: 768px){
+      .product-block-icons .pf-progress { display: block; }
+      .product-block-icons .pf-track { gap: 6px; }
+      .product-block-icons .pf-item { width: 80px; flex: 0 0 80px; }
+    }
+  </style>
+
+  <script>
+    // Simple JS for this specific block instance
+    (function(){
+      var wrap = document.currentScript.previousElementSibling.previousElementSibling; // targets .pf-wrap
+      if(!wrap) return;
+      var track = wrap.querySelector('.pf-track');
+      var bar = wrap.querySelector('.pf-progress__bar');
+      if(track && bar){
+        track.addEventListener('scroll', function(){
+          var max = track.scrollWidth - track.clientWidth;
+          var percent = (track.scrollLeft / max) * 100;
+          bar.style.width = percent + '%';
+        });
+      }
+    })();
+  </script>
               {%- when 'price' -%}
                 <div id="block-{{ block.id }}" role="status" {{ block.shopify_attributes }}>
                     <style>
