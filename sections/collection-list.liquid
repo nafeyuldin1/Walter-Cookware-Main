@@ -15,12 +15,20 @@
     --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
   }
 
+  /* .section-{{ section.id }} .collection-list {
+    column-gap: var(--grid-gap);
+    row-gap: var(--grid-gap);
+  } */
+  
   /* Override Grid Gap for Desktop */
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
+    /* .section-{{ section.id }} .collection-list {
+      column-gap: var(--grid-gap); 
+    } */
   }
 
   /* Card Radius & Overlay Logic */
@@ -30,7 +38,6 @@
   }
   .section-{{ section.id }} .card-wrapper {
     border-radius: var(--card-radius) !important;
-    height: 100%; /* Ensure card fills the anchor tag */
   }
 
   /* Title Over Image Logic */
@@ -94,14 +101,6 @@
     font-size: 1.4rem;
     text-decoration: underline;
     text-underline-offset: 4px;
-  }
-  
-  /* Fix for Anchor Tag Layout */
-  .collection-card-link {
-    display: block;
-    height: 100%;
-    text-decoration: none;
-    color: inherit;
   }
 
 {%- endstyle -%}
@@ -171,24 +170,16 @@
             {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
             {%- assign placeholder_image = 'collection-apparel-' | append: placeholder_image_index -%}
             
-            {%- comment -%} 
-              FIXED ANCHOR TAG BELOW: 
-              1. Using block.settings.collection.url
-              2. Added class 'collection-card-link' for correct display
-            {%- endcomment -%}
-            
-            <a href="{{ block.settings.collection.url | default: '#' }}" class="collection-card-link">
-              {% render 'card-collection',
-                card_collection: block.settings.collection,
-                custom_image: block.settings.custom_image,
-                media_aspect_ratio: section.settings.image_ratio,
-                columns: columns,
-                placeholder_image: placeholder_image,
-                badge_text: block.settings.badge_text,
-                badge_bg: block.settings.badge_bg,
-                badge_color: block.settings.badge_color
-              %}
-            </a>
+            {% render 'card-collection',
+              card_collection: block.settings.collection,
+              custom_image: block.settings.custom_image,
+              media_aspect_ratio: section.settings.image_ratio,
+              columns: columns,
+              placeholder_image: placeholder_image,
+              badge_text: block.settings.badge_text,
+              badge_bg: block.settings.badge_bg,
+              badge_color: block.settings.badge_color
+            %}
 
           </li>
         {%- endfor -%}
