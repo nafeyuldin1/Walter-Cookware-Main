@@ -27,8 +27,8 @@
   assign price_max = product.price_max
   assign available = target.available | default: false
   assign money_price = price | money
-  assign money_price_min = price_min | money
-  assign money_price_max = price_max | money
+  assign money_price_min = price_min | money_with_currency
+  assign money_price_max = price_max | money_with_currency
   if settings.currency_code_enabled
     assign money_price = price | money_with_currency
     assign money_price_min = price_min | money_with_currency
@@ -114,7 +114,7 @@
     </div>
     {%- if show_badges -%}
       <span class="badge price__badge-sale color-{{ settings.sale_badge_color_scheme }}">
-        {{ 'products.product.on_sale' | t }}
+        SALE ENDS SOON!
       </span>
 
       <span class="badge price__badge-sold-out color-{{ settings.sold_out_badge_color_scheme }}">
