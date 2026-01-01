@@ -3601,9 +3601,7 @@ details-disclosure > details {
 .card__heading a{
   font-size: 25px;
 }
-.price .badge.price__badge-sale{
-  display: none !important;
-}
+
 @media screen and (max-width: 750px){
   .chiild{
     padding-left: 0px !important;
