@@ -175,13 +175,17 @@
             "text_4": "100% Toxin-Free Guarantee"
           }
         },
-        "impact_note_KwNV8U": {
-          "type": "impact_note",
+        "info_tabs_zVjBHC": {
+          "type": "info_tabs",
           "settings": {
-            "icon": "shopify://shop_images/icons_2.avif",
-            "bg_color": "#03231a",
-            "text_color": "#d4c7b4",
-            "text": "Part of your order helps create the future of toxin-free living – by funding the development of the next generation of safe, non-toxic kitchenware."
+            "tab_1_label": "Purity Certification",
+            "tab_1_content": "<p>only the purest for your safety. Every pan is made from <strong>Grade 1 Titanium (lab-graded 99.86%)</strong> - the absolute purest form available, also known as <strong>medical-grade titanium</strong>. It’s also FDA-compliant to be food contact-safe.</p><p>With Taima® You're Guaranteed Safety.</p>",
+            "tab_2_label": "Titanium Vs The Rest",
+            "tab_2_content": "<p>only the purest for your safety. Every pan is made from <strong>Grade 1 Titanium (lab-graded 99.86%)</strong> - the absolute purest form available, also known as <strong>medical-grade titanium</strong>. It’s also FDA-compliant to be food contact-safe.</p><p>With Taima® You're Guaranteed Safety.</p>",
+            "tab_2_image": "shopify://shop_images/sticker-min_1200x_d3d70f13-a97a-41f2-9753-333fc0b63e9c.jpg",
+            "tab_3_label": "Health Benefits",
+            "tab_3_content": "<p>only the purest for your safety. Every pan is made from <strong>Grade 1 Titanium (lab-graded 99.86%)</strong> - the absolute purest form available, also known as <strong>medical-grade titanium</strong>. It’s also FDA-compliant to be food contact-safe.</p><p>With Taima® You're Guaranteed Safety.</p>",
+            "tab_3_image": "shopify://shop_images/2_c93a3d0e-2d50-4b06-8330-147257cf8321.png"
           }
         },
         "collapsible_tab_6xK6QW": {
@@ -224,17 +228,13 @@
             "page": ""
           }
         },
-        "info_tabs_zVjBHC": {
-          "type": "info_tabs",
+        "impact_note_KwNV8U": {
+          "type": "impact_note",
           "settings": {
-            "tab_1_label": "Purity Certification",
-            "tab_1_content": "<p>only the purest for your safety. Every pan is made from <strong>Grade 1 Titanium (lab-graded 99.86%)</strong> - the absolute purest form available, also known as <strong>medical-grade titanium</strong>. It’s also FDA-compliant to be food contact-safe.</p><p>With Taima® You're Guaranteed Safety.</p>",
-            "tab_2_label": "Titanium Vs The Rest",
-            "tab_2_content": "<p>only the purest for your safety. Every pan is made from <strong>Grade 1 Titanium (lab-graded 99.86%)</strong> - the absolute purest form available, also known as <strong>medical-grade titanium</strong>. It’s also FDA-compliant to be food contact-safe.</p><p>With Taima® You're Guaranteed Safety.</p>",
-            "tab_2_image": "shopify://shop_images/sticker-min_1200x_d3d70f13-a97a-41f2-9753-333fc0b63e9c.jpg",
-            "tab_3_label": "Health Benefits",
-            "tab_3_content": "<p>only the purest for your safety. Every pan is made from <strong>Grade 1 Titanium (lab-graded 99.86%)</strong> - the absolute purest form available, also known as <strong>medical-grade titanium</strong>. It’s also FDA-compliant to be food contact-safe.</p><p>With Taima® You're Guaranteed Safety.</p>",
-            "tab_3_image": "shopify://shop_images/2_c93a3d0e-2d50-4b06-8330-147257cf8321.png"
+            "icon": "shopify://shop_images/icons_2.avif",
+            "bg_color": "#03231a",
+            "text_color": "#d4c7b4",
+            "text": "Part of your order helps create the future of toxin-free living – by funding the development of the next generation of safe, non-toxic kitchenware."
           }
         },
         "upsells_fwcWLq": {
@@ -256,12 +256,12 @@
         "sticky_atc_DWhMJx",
         "bundle_widget_NPmFLG",
         "shipping_promise_bar_gCTx4U",
-        "impact_note_KwNV8U",
+        "info_tabs_zVjBHC",
         "collapsible_tab_6xK6QW",
         "collapsible_tab_ymbgQi",
         "collapsible_tab_Xg64Ew",
         "collapsible_tab_rKd7FV",
-        "info_tabs_zVjBHC",
+        "impact_note_KwNV8U",
         "upsells_fwcWLq"
       ],
       "custom_css": [
