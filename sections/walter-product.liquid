@@ -191,7 +191,152 @@
                   </a>
                 </div>
 
-              {% when 'product_icons_block' %}
+             {%- when 'shipping_promise_bar' -%}
+  <div id="shipbar-{{ block.id }}" class="shipbar" {{ block.shopify_attributes }}>
+    <div class="shipbar__inner">
+
+      <div class="shipbar__left">
+        <div class="shipbar__label">{{ block.settings.label_text }}</div>
+        <div class="shipbar__value">{{ block.settings.date_text }}</div>
+      </div>
+
+      <div class="shipbar__listwrap">
+        <ul class="shipbar__list" role="list">
+          {%- for i in (1..4) -%}
+            {%- capture icon_img -%}icon_{{ i }}{%- endcapture -%}
+            {%- capture icon_txt -%}text_{{ i }}{%- endcapture -%}
+            {%- capture default_img -%}default_icon_{{ i }}{%- endcapture -%}
+            
+            {%- assign image = block.settings[icon_img] -%}
+            {%- assign text = block.settings[icon_txt] -%}
+            {%- assign def_url = block.settings[default_img] -%}
+
+            {%- if text != blank -%}
+              <li class="shipbar__item">
+                {%- if image != blank -%}
+                  <img class="shipbar__icon" src="{{ image | img_url: '50x' }}" alt="{{ text }}" width="{{ block.settings.icon_size }}" height="{{ block.settings.icon_size }}" loading="lazy">
+                {%- elsif def_url != blank -%}
+                   <img class="shipbar__icon" src="{{ def_url }}" alt="{{ text }}" width="{{ block.settings.icon_size }}" height="{{ block.settings.icon_size }}" loading="lazy">
+                {%- endif -%}
+                <span class="shipbar__text">{{ text }}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    #shipbar-{{ block.id }} { 
+      margin: {{ block.settings.margin_top }}px 0 {{ block.settings.margin_bottom }}px 0; 
+    }
+    #shipbar-{{ block.id }} .shipbar__inner {
+      background: {{ block.settings.bg_color }};
+      border-radius: 12px;
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      padding: 11px 0;
+      border: 1px solid {{ block.settings.border_color }};
+    }
+    
+    /* Left Side Styles */
+    #shipbar-{{ block.id }} .shipbar__left {
+      min-width: 132px;
+      padding: 12px 41px;
+      border-right: 1px solid {{ block.settings.divider_color }};
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    #shipbar-{{ block.id }} .shipbar__label {
+      color: {{ block.settings.label_color }};
+      font-family: 'Neue Montreal', sans-serif;
+      font-weight: 500;
+      font-size: {{ block.settings.fs_label }}px;
+      line-height: 140%;
+      letter-spacing: 0.02em;
+      text-transform: capitalize;
+    }
+    #shipbar-{{ block.id }} .shipbar__value {
+      color: {{ block.settings.date_color }};
+      font-family: 'Neue Montreal', sans-serif;
+      font-weight: 500;
+      font-size: {{ block.settings.fs_date }}px;
+      line-height: 140%;
+      letter-spacing: 0.02em;
+      text-transform: capitalize;
+      margin-top: 8px;
+    }
+
+    /* Right Side Styles */
+    #shipbar-{{ block.id }} .shipbar__listwrap { flex: 1; overflow: hidden; display: flex; }
+    #shipbar-{{ block.id }} .shipbar__list {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 20px;
+      padding: 16px 40px;
+      margin: 0;
+      list-style: none;
+    }
+    #shipbar-{{ block.id }} .shipbar__item {
+      display: flex; align-items: center; gap: 8px; position: relative;
+    }
+    #shipbar-{{ block.id }} .shipbar__icon {
+      width: {{ block.settings.icon_size }}px;
+      height: {{ block.settings.icon_size }}px;
+      display: block;
+      object-fit: contain;
+    }
+    #shipbar-{{ block.id }} .shipbar__text {
+      color: {{ block.settings.text_color }};
+      font-family: 'Neue Montreal', sans-serif;
+      font-weight: 400;
+      font-size: {{ block.settings.fs_list }}px;
+      line-height: 150%;
+      letter-spacing: 0.04em;
+    }
+
+    /* Responsive: Mobile */
+    @media (max-width: 749px) {
+      #shipbar-{{ block.id }} .shipbar__listwrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      #shipbar-{{ block.id }} .shipbar__list { gap: 16px; flex-wrap: wrap; padding: 12px; }
+      #shipbar-{{ block.id }} .shipbar__left {
+        padding: 12px;
+        min-width: 112px;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 8px;
+        border-right: none;
+        border-bottom: 1px solid {{ block.settings.divider_color }};
+      }
+      #shipbar-{{ block.id }} .shipbar__inner { flex-direction: column; }
+      #shipbar-{{ block.id }} .shipbar__item { width: calc(50% - 8px); }
+      #shipbar-{{ block.id }} .shipbar__value { margin-top: 0; font-size: 16px; }
+      #shipbar-{{ block.id }} .shipbar__label { font-size: 14px; }
+    }
+
+    /* Responsive: Laptop/Tablet Overrides */
+    @media (min-width: 750px) {
+      #shipbar-{{ block.id }} .shipbar__left {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        text-align: left !important;
+      }
+    }
+    
+    /* Responsive: Large Screens (2200px+) */
+    @media (min-width: 2200px) {
+      #shipbar-{{ block.id }} .shipbar__label { font-size: calc({{ block.settings.fs_label }}px * 1.3); }
+      #shipbar-{{ block.id }} .shipbar__value { font-size: calc({{ block.settings.fs_date }}px * 1.3); }
+      #shipbar-{{ block.id }} .shipbar__icon { width: calc({{ block.settings.icon_size }}px * 1.3); height: calc({{ block.settings.icon_size }}px * 1.3); }
+      #shipbar-{{ block.id }} .shipbar__text { font-size: calc({{ block.settings.fs_list }}px * 1.3); }
+    }
+  </style>
   {%- when 'product_icons_block' -%}
   {%- comment -%}
     BLOCK NAME: Multiple Icons with Text
