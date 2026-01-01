@@ -893,6 +893,108 @@
         "padding_bottom": 80
       }
     },
+      "walter_reviews_xyX3x4": {
+      "type": "walter-reviews",
+      "blocks": {
+        "tab_L6HpX4": {
+          "type": "tab",
+          "settings": {
+            "title": "Wellness",
+            "cat_id": "wellness"
+          }
+        },
+        "tab_eLNzFF": {
+          "type": "tab",
+          "settings": {
+            "title": "Chefs",
+            "cat_id": "chefs"
+          }
+        },
+        "review_xTpnNE": {
+          "type": "review",
+          "settings": {
+            "cat_id": "wellness",
+            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
+            "name": "Sarah",
+            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
+          }
+        },
+        "review_Un6Egy": {
+          "type": "review",
+          "settings": {
+            "cat_id": "wellness",
+            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
+            "name": "Sarah",
+            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
+          }
+        },
+        "review_NfDGni": {
+          "type": "review",
+          "settings": {
+            "cat_id": "wellness",
+            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
+            "name": "Sarah",
+            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
+          }
+        },
+        "review_wDRWWV": {
+          "type": "review",
+          "settings": {
+            "cat_id": "wellness",
+            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
+            "name": "Sarah",
+            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
+          }
+        },
+        "review_B6LENH": {
+          "type": "review",
+          "settings": {
+            "cat_id": "wellness",
+            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
+            "name": "Sarah",
+            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
+          }
+        }
+      },
+      "block_order": [
+        "tab_L6HpX4",
+        "tab_eLNzFF",
+        "review_xTpnNE",
+        "review_Un6Egy",
+        "review_NfDGni",
+        "review_wDRWWV",
+        "review_B6LENH"
+      ],
+      "name": "Reviews Slider Custom",
+      "settings": {
+        "heading": "5,000+ 5-Star Reviews",
+        "center_heading": false,
+        "slides_desktop": 4,
+        "slides_mobile": 1,
+        "card_gap": 10,
+        "bg_color": "#121212",
+        "heading_color": "#bca588",
+        "border_color": "#454545",
+        "tab_text_inactive": "#b0b0b0",
+        "tab_bg_active": "#a3835f",
+        "tab_text_active": "#121212",
+        "arrow_border": "#454545",
+        "arrow_icon": "#454545",
+        "arrow_bg_active": "#a3835f",
+        "arrow_icon_active": "#121212",
+        "card_bg": "#f6f4f0",
+        "card_text": "#252525",
+        "name_color": "#2c1f1c",
+        "star_color": "#b57c46",
+        "max_width": 1600,
+        "heading_size_d": 48,
+        "heading_size_m": 24,
+        "pt_d": 120,
+        "pb_d": 120,
+        "pt_m": 64,
+        "pb_m": 64
+      }
+    },
     "walter_not_available_L7GyMg": {
       "type": "walter-not-available",
       "blocks": {
@@ -1089,6 +1191,7 @@
     "walter_rethink_cookware_MyXhDw",
     "walter_benefits_EAnCxx",
     "scroll_text_with_image_8XhRp4",
+    "walter_reviews_xyX3x4",
     "walter_not_available_L7GyMg",
     "walter_engineered_layers_TWrRby",
     "walter_faqs_JyccRK"
