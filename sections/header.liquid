@@ -10,12 +10,10 @@
 
 {% liquid
   # --- LOGIC START ---
-  # Define Scheme Classes
   assign default_scheme_class = 'color-' | append: section.settings.color_scheme
   assign home_scheme_class = 'color-' | append: section.settings.color_scheme_home
   assign sticky_scheme_class = 'color-' | append: section.settings.color_scheme_sticky
   
-  # Determine Initial State via Liquid (Server Side for Zero Flicker)
   if request.page_type == 'index'
     assign is_home = true
     assign initial_state = 'transparent'
@@ -28,6 +26,7 @@
 %}
 
 <style>
+  /* --- BASE HEADER STYLES --- */
   header-drawer { justify-self: start; margin-left: -1.2rem; }
   
   {%- if section.settings.sticky_header_type == 'reduce-logo-size' -%}
@@ -47,9 +46,7 @@
   
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
-  /* --- CRITICAL STATE-BASED STYLING --- */
-  
-  /* Base Wrapper */
+  /* --- HEADER STATE STYLING --- */
   .header-wrapper {
       position: relative;
       z-index: 3;
@@ -57,61 +54,40 @@
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
   }
+  .header-wrapper.no-transition { transition: none !important; }
 
-  /* Prevent flickering on page load/refresh */
-  .header-wrapper.no-transition {
-      transition: none !important;
-  }
-
-  /* STATE 1: Transparent (Home Top) */
+  /* Transparent */
   .header-wrapper[data-state="transparent"] {
       background-color: transparent !important;
       border-bottom: none !important;
-      position: absolute; /* Ensures it sits over the banner */
-      width: 100%;
-      top: 0;
-      left: 0;
-      
-      /* Optional: Enable blur on transparent state too if desired */
+      position: absolute;
+      width: 100%; top: 0; left: 0;
       {% if section.settings.enable_sticky_blur %}
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
       {% endif %}
   }
 
-  /* STATE 2: Sticky (Scrolled Down) - FIX APPLIED HERE */
+  /* Sticky */
   .header-wrapper[data-state="sticky"] {
-      position: fixed;
-      top: 0;
-      width: 100%;
+      position: fixed; top: 0; width: 100%;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      
-      /* Default Solid Background */
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
-
-      /* BLUR LOGIC: Must use RGBA for transparency */
       {% if section.settings.enable_sticky_blur %}
-        background-color: rgba(var(--color-background), 0.8) !important; /* 80% Opacity */
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        background-color: rgba(var(--color-background), 0.8) !important;
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       {% endif %}
   }
 
-  /* STATE 3: Standard (Other Pages Top) */
+  /* Standard */
   .header-wrapper[data-state="standard"] {
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
       border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
   }
-
-  /* Helper for hiding header on scroll down (if selected) */
-  .shopify-section-header-hidden {
-      transform: translateY(-100%);
-      transition: transform 0.3s ease;
-  }
+  .shopify-section-header-hidden { transform: translateY(-100%); transition: transform 0.3s ease; }
   
-  /* --- MEGA MENU CSS --- */
+  /* --- MEGA MENU & PRODUCT CARD STYLES (COMPETITOR MATCH) --- */
   .cat-strip { 
       display: flex; justify-content: center; gap: 20px; padding: 0 20px; 
       background: inherit; 
@@ -125,28 +101,63 @@
       border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; letter-spacing: 0.5px; 
   }
   .cat-strip__item:hover, .cat-strip__item.is-active { opacity: 0.7; border-bottom-color: rgb(var(--color-foreground)); }
+  
   .cat-portals-wrapper { position: absolute; left: 0; top: 100%; width: 100%; background: transparent; z-index: 99; display: none; }
   .cat-portals-wrapper.is-open { display: block; animation: fadeIn 0.3s ease; }
+  
   .cat-portal { 
       display: none; max-width: 100%; margin: 0 auto; padding: 40px; gap: 40px; 
       background-color: rgb(var(--color-background)); color: rgb(var(--color-foreground));
       border-bottom: 1px solid rgba(var(--color-foreground), 0.1); box-shadow: 0 10px 20px rgba(0,0,0,0.05);
   }
   .cat-portal[aria-hidden="false"] { display: flex; }
+  
+  /* Sidebar */
   .cat-portal__left { width: 25%; padding-right: 30px; border-right: 1px solid rgba(var(--color-foreground), 0.1); display: flex; flex-direction: column; justify-content: space-between; }
   .cat-portal__title { font-size: 22px; font-weight: 800; margin: 0 0 10px 0; color: rgb(var(--color-foreground)); }
   .cat-portal__link { font-size: 14px; font-weight: 600; text-decoration: underline; color: rgb(var(--color-foreground)); opacity: 0.8; }
   .cat-portal__desc { font-size: 14px; line-height: 1.5; color: rgb(var(--color-foreground)); opacity: 0.7; margin-top: 15px; font-style: italic; }
+  
+  /* Product Grid */
   .cat-portal__grid { width: 75%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .cat-prod { text-decoration: none; color: rgb(var(--color-foreground)); text-align: center; }
+  .cat-prod { text-decoration: none; color: rgb(var(--color-foreground)); text-align: left; display: flex; flex-direction: column; }
+  
+  /* Product Image & Badge */
   .cat-prod__media { position: relative; display: block; border-radius: 8px; overflow: hidden; margin-bottom: 10px; aspect-ratio: 1; background: rgba(var(--color-foreground), 0.05); }
   .cat-prod__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
   .cat-prod:hover .cat-prod__media img { transform: scale(1.05); }
-  .cat-prod__badge { position: absolute; top: 8px; left: 8px; background: #932933; color: #fff; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; z-index: 2; }
-  .cat-prod__title { font-size: 13px; font-weight: 600; margin-bottom: 5px; color: rgb(var(--color-foreground)); line-height: 1.3; }
-  .cat-prod__price { font-size: 13px; color: rgb(var(--color-foreground)); }
-  .cat-prod__price .cmp { text-decoration: line-through; opacity: 0.6; margin-right: 5px; }
-  .cat-prod__price .prc { font-weight: 700; }
+  
+  .cat-prod__sale-badge {
+      position: absolute; top: 8px; left: 8px; z-index: 2;
+      background: #932933; color: #fff;
+      font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  /* Product Body */
+  .cat-prod__body { padding: 0 4px; }
+  
+  /* Stars */
+  .loox-rating-content { display: flex; align-items: center; gap: 4px; margin-bottom: 6px; }
+  .endorse__star svg { width: 12px; height: 12px; display: block; fill: #B57C46; } /* Gold Color */
+  .loox-rating-label { font-size: 11px; color: rgba(var(--color-foreground), 0.6); margin-top: 2px; }
+
+  /* Title */
+  .cat-prod__title { font-size: 14px; font-weight: 700; margin: 0 0 8px 0; color: rgb(var(--color-foreground)); line-height: 1.3; }
+
+  /* Bullets */
+  .cat-prod__bullets { list-style: none; padding: 0; margin: 0 0 10px 0; display: flex; flex-direction: column; gap: 4px; }
+  .cat-bullet { font-size: 11px; color: rgba(var(--color-foreground), 0.8); display: flex; align-items: center; gap: 6px; }
+  .cat-bullet img, .cat-bullet svg { width: 14px; height: 14px; object-fit: contain; }
+
+  /* Price Section */
+  .cat-prod__price { display: flex; align-items: center; gap: 8px; font-size: 14px; flex-wrap: wrap; }
+  .cat-prod_cmp-price { text-decoration: line-through; opacity: 0.5; font-weight: 400; }
+  .cat-prod_price { font-weight: 800; color: rgb(var(--color-foreground)); }
+  .price-badge { 
+      background: #000; color: #fff; 
+      font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; 
+  }
 
   @media screen and (max-width: 990px) { .cat-strip, .cat-portals-wrapper { display: none !important; } }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
@@ -154,7 +165,7 @@
 
 {%- style -%}
   .header { padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem; }
-  .section-header { position: sticky; /* Placeholder for relative positioning context */ }
+  .section-header { position: sticky; }
   @media screen and (min-width: 750px) { .section-header { margin-bottom: {{ section.settings.margin_bottom }}px; } }
   @media screen and (min-width: 990px) { .header { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; } }
 {%- endstyle -%}
@@ -171,14 +182,11 @@
 <{{ header_tag }}
   {% if header_tag == 'sticky-header' %}
     data-sticky-type="{{ section.settings.sticky_header_type }}"
-    
     data-class-home="{{ home_scheme_class }}"
     data-class-default="{{ default_scheme_class }}"
     data-class-sticky="{{ sticky_scheme_class }}"
-    
     data-is-home="{{ is_home }}"
   {% endif %}
-  
   data-state="{{ initial_state }}"
   class="header-wrapper {{ initial_class }} gradient no-transition"
 >
@@ -323,6 +331,7 @@
             </div>
             {% endif %}
           </aside>
+
           <div class="cat-portal__grid">
             {% assign collection = collections[block.settings.collection] %}
             {% if collection != blank %}
@@ -330,16 +339,72 @@
                 <a href="{{ product.url }}" class="cat-prod">
                   <div class="cat-prod__media">
                     <img src="{{ product.featured_image | image_url: width: 400 }}" loading="lazy" alt="{{ product.title }}">
-                    {% if product.compare_at_price > product.price %}
-                      <span class="cat-prod__badge">Sale</span>
-                    {% endif %}
+                    
+                    {%- comment -%} LOGIC: SALE BADGE / LOW STOCK {%- endcomment -%}
+                    {%- assign badge_text = "" -%}
+                    {%- if product.available -%}
+                        {%- if product.compare_at_price > product.price -%}
+                            {%- assign badge_text = "Sale" -%}
+                        {%- endif -%}
+                        {%- if product.tags contains 'Low Stock' -%}
+                            {%- assign badge_text = "Low Stock!" -%}
+                        {%- endif -%}
+                        {%- if product.tags contains 'Best Seller' -%}
+                            {%- assign badge_text = "Best Seller" -%}
+                        {%- endif -%}
+                    {%- endif -%}
+
+                    {%- if badge_text != "" -%}
+                      <span class="cat-prod__sale-badge">{{ badge_text }}</span>
+                    {%- endif -%}
                   </div>
-                  <div class="cat-prod__title">{{ product.title }}</div>
-                  <div class="cat-prod__price">
-                    {% if product.compare_at_price > product.price %}
-                      <span class="cmp">{{ product.compare_at_price | money }}</span>
-                    {% endif %}
-                    <span class="prc">{{ product.price | money }}</span>
+
+                  <div class="cat-prod__body">
+                    <div class="loox-rating-content" aria-label="5 out of 5 stars">
+                        <span class="endorse__star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg></span>
+                        <span class="endorse__star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg></span>
+                        <span class="endorse__star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg></span>
+                        <span class="endorse__star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg></span>
+                        <span class="endorse__star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg></span>
+                        <span class="loox-rating-label">({{ product.id | divided_by: 1000000000 | plus: 875 }})</span>
+                    </div>
+
+                    <div class="cat-prod__title">{{ product.title }}</div>
+
+                    <ul class="cat-prod__bullets">
+                        {% if block.settings.feature_text_1 != blank %}
+                        <li class="cat-bullet">
+                            {% if block.settings.feature_icon_1 != blank %}
+                                <img src="{{ block.settings.feature_icon_1 | image_url: width: 30 }}" loading="lazy">
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                            {% endif %}
+                            {{ block.settings.feature_text_1 }}
+                        </li>
+                        {% endif %}
+                        {% if block.settings.feature_text_2 != blank %}
+                        <li class="cat-bullet">
+                            {% if block.settings.feature_icon_2 != blank %}
+                                <img src="{{ block.settings.feature_icon_2 | image_url: width: 30 }}" loading="lazy">
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                            {% endif %}
+                            {{ block.settings.feature_text_2 }}
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                    <div class="cat-prod__price">
+                      {% if product.compare_at_price > product.price %}
+                        <span class="cat-prod_cmp-price">{{ product.compare_at_price | money }}</span>
+                      {% endif %}
+                      <span class="cat-prod_price">{{ product.price | money }}</span>
+                      
+                      {% if product.compare_at_price > product.price %}
+                        {% assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
+                        <span class="price-badge">SAVE {{ savings }}%</span>
+                      {% endif %}
+                    </div>
                   </div>
                 </a>
               {% endfor %}
@@ -383,16 +448,10 @@
       this.currentScrollTop = 0;
       this.onScrollHandler = this.onScroll.bind(this);
       
-      // Use standard scroll event (More reliable than IntersectionObserver for this use case)
       window.addEventListener('scroll', this.onScrollHandler, { passive: true });
+      this.onScroll(); // Force init
       
-      // Force run on load to fix "Page Switch" state
-      this.onScroll();
-      
-      // Remove transition block
-      setTimeout(() => {
-        if(this.wrapper) this.wrapper.classList.remove('no-transition');
-      }, 300);
+      setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 300);
     }
 
     setHeaderHeight() { 
@@ -413,7 +472,6 @@
       const isAtTop = scrollTop <= triggerPoint;
 
       if (isScrollDown || isScrollUp) {
-         // --- STICKY MODE ---
          if (isScrollDown && !this.headerIsAlwaysSticky) {
              this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
          } else {
@@ -423,7 +481,6 @@
          this.updateState('sticky');
 
       } else if (isAtTop) {
-         // --- TOP MODE ---
          this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
          
          if (this.isHome) {
@@ -442,7 +499,6 @@
        if(currentState === newState) return;
        
        this.wrapper.setAttribute('data-state', newState);
-
        this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
        
        if(newState === 'sticky') {
@@ -662,6 +718,14 @@
         { "type": "text", "id": "tab_label", "label": "Tab Label", "default": "Best Sellers" },
         { "type": "color_scheme", "id": "color_scheme", "label": "Dropdown Color Scheme", "default": "scheme-1" },
         { "type": "collection", "id": "collection", "label": "Select Collection" },
+        
+        { "type": "header", "content": "Product Card Features" },
+        { "type": "text", "id": "feature_text_1", "label": "Feature Bullet 1", "default": "100% Toxin-Free" },
+        { "type": "image_picker", "id": "feature_icon_1", "label": "Icon 1 (Optional)" },
+        { "type": "text", "id": "feature_text_2", "label": "Feature Bullet 2", "default": "Antibacterial" },
+        { "type": "image_picker", "id": "feature_icon_2", "label": "Icon 2 (Optional)" },
+
+        { "type": "header", "content": "Sidebar Settings" },
         { "type": "text", "id": "sidebar_title", "label": "Sidebar Title" },
         { "type": "url", "id": "btn_link", "label": "Button Link" },
         { "type": "text", "id": "btn_label", "label": "Button Label", "default": "Shop All" },
