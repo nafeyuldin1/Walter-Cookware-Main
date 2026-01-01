@@ -377,7 +377,7 @@
             </a>
 
             <div class="product-card__content">
-              <a href="{{ product.url }}" class="product-card__title">{{ product.title }}</a>
+              <a href="{{ product.url }}" class="product-card__title">{{ product.title }} ( {{ product.metafields.custom.pieces_count }} ) </a>
               
               <div class="product-card__price">
                 {%- if product.compare_at_price > product.price -%}
