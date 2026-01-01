@@ -62,6 +62,31 @@
             "text_4": "Preserves knife surface."
           }
         },
+        "product_icons_block_HVDikV": {
+          "type": "product_icons_block",
+          "settings": {
+            "text_color": "#d4c7b4",
+            "bar_color": "#333333",
+            "margin_top": 10,
+            "margin_bottom": 10,
+            "text_1_l1": "Lifetime",
+            "text_1_l2": "Warranty",
+            "text_2_l1": "Metal",
+            "text_2_l2": "Utensils-Safe",
+            "text_3_l1": "Oven-",
+            "text_3_l2": "Safe",
+            "text_4_l1": "Dishwasher",
+            "text_4_l2": "Safe",
+            "text_5_l1": "No Heavy",
+            "text_5_l2": "Metals",
+            "text_6_l1": "Corrosion",
+            "text_6_l2": "Resistant",
+            "text_7_l1": "Induction",
+            "text_7_l2": "Ready",
+            "text_8_l1": "Stay-Cool",
+            "text_8_l2": "Handle"
+          }
+        },
         "sticky_atc_DWhMJx": {
           "type": "sticky_atc",
           "settings": {
@@ -202,6 +227,7 @@
         "text_TCBfXG",
         "price_Fkwx4M",
         "benefits_grid_AbMNV3",
+        "product_icons_block_HVDikV",
         "sticky_atc_DWhMJx",
         "bundle_widget_NPmFLG",
         "shipping_bar_Na8Erx",
