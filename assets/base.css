@@ -3617,3 +3617,7 @@ details-disclosure > details {
 .product-card__title span {
   color: #BCA588;
 }
+.product__info-container  .price {
+  display: flex;
+  align-items: center;
+}
