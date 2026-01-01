@@ -28,6 +28,15 @@
             "font_size": 45
           }
         },
+        "text_TCBfXG": {
+          "type": "text",
+          "settings": {
+            "text": "The first and only certified, FDA-compliant 99.86% pure titanium classic cookware set for every day limitless cooking that’s <strong>100% toxin-free & lasts a lifetime.</strong>",
+            "text_style": "body",
+            "color_text": "#ffffff",
+            "font_size": 16
+          }
+        },
         "price_Fkwx4M": {
           "type": "price",
           "settings": {
@@ -190,6 +199,7 @@
       "block_order": [
         "text_BzQfKy",
         "title_fkmVzK",
+        "text_TCBfXG",
         "price_Fkwx4M",
         "benefits_grid_AbMNV3",
         "sticky_atc_DWhMJx",
