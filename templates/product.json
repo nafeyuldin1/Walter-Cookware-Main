@@ -53,13 +53,13 @@
           "settings": {
             "text_color": "#b0b0b0",
             "icon_1": "shopify://shop_images/icons_31.svg",
-            "text_1": "No microplastics. No hormone disruptors.",
+            "text_1": "No microplastics. <strong>No hormone disruptors.</strong>",
             "icon_2": "shopify://shop_images/icons_33.svg",
-            "text_2": "Prevents food cross-contamination.",
+            "text_2": "Prevents food <strong>cross-contamination.</strong>",
             "icon_3": "shopify://shop_images/icons_32.svg",
-            "text_3": "Kills bacteria at molecular level.",
+            "text_3": "<strong>Kills bacteria </strong>at molecular level.",
             "icon_4": "shopify://shop_images/icons_34.svg",
-            "text_4": "Preserves knife surface."
+            "text_4": "<strong>Preserves knife surface.</strong>"
           }
         },
         "product_icons_block_HVDikV": {
