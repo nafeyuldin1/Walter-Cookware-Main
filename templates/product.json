@@ -893,7 +893,7 @@
         "padding_bottom": 80
       }
     },
-      "walter_reviews_xyX3x4": {
+    "walter_reviews_xyX3x4": {
       "type": "walter-reviews",
       "blocks": {
         "tab_L6HpX4": {
@@ -904,6 +904,20 @@
           }
         },
         "tab_eLNzFF": {
+          "type": "tab",
+          "settings": {
+            "title": "Chefs",
+            "cat_id": "chefs"
+          }
+        },
+        "tab_HHDHt9": {
+          "type": "tab",
+          "settings": {
+            "title": "Chefs",
+            "cat_id": "chefs"
+          }
+        },
+        "tab_d3YrVH": {
           "type": "tab",
           "settings": {
             "title": "Chefs",
@@ -959,6 +973,8 @@
       "block_order": [
         "tab_L6HpX4",
         "tab_eLNzFF",
+        "tab_HHDHt9",
+        "tab_d3YrVH",
         "review_xTpnNE",
         "review_Un6Egy",
         "review_NfDGni",
