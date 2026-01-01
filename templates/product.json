@@ -32,7 +32,7 @@
           "type": "price",
           "settings": {
             "bg_color": "rgba(0,0,0,0)",
-            "price_color": "#121212",
+            "price_color": "#ffffff",
             "main_price_size": 32,
             "sale_price_color": "#ffffff",
             "compare_price_color": "#888888",
