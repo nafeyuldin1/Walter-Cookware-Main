@@ -307,6 +307,16 @@
   }
     </style>
   {% endif %}
+   {% if template contains 'product' %}
+    <style>
+
+  sticky-header{
+        background: rgba(18, 18, 18, 0.4) !important;
+    backdrop-filter: blur(13px);
+  }
+    </style>
+  {% endif %}
+  
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
