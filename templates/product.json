@@ -15,7 +15,7 @@
         "text_BzQfKy": {
           "type": "text",
           "settings": {
-            "text": "Many Imitate. Only One Is Real.",
+            "text": "<p>Many Imitate. Only One Is Real.</p>",
             "text_style": "body",
             "color_text": "#ffffff",
             "font_size": 16
@@ -31,7 +31,7 @@
         "text_TCBfXG": {
           "type": "text",
           "settings": {
-            "text": "The first and only certified, FDA-compliant 99.86% pure titanium classic cookware set for every day limitless cooking that’s <strong>100% toxin-free & lasts a lifetime.</strong>",
+            "text": "{{ product.metafields.custom.product_short_info | metafield_tag }}",
             "text_style": "body",
             "color_text": "#ffffff",
             "font_size": 14
