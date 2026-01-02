@@ -193,7 +193,7 @@ Antibacterial</li></ul>
       display: none; 
   }
 
-  .drawer__step { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; background: rgb(var(--color-background)); transition: transform 0.3s ease; transform: translateX(100%); z-index: 1; }
+  .drawer__step { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; background: rgb(var(--color-background)); transition: transform 0.3s ease; transform: translateX(100%); z-index: 999999999999999999999999999999999; }
   .drawer__step.is-active { transform: translateX(0); z-index: 2; }
   
   .drawer__header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid rgba(var(--color-foreground), 0.1); height: 60px; }
