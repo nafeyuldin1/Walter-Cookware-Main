@@ -219,7 +219,7 @@
                        #block-{{ block.id }} h1 { font-size: {{ block.settings.font_size | times: 0.8 }}px !important; }
                     }
                   </style>
-                  <h1>{{ product.title | escape }}</h1>
+                  <h1 class="product_title">{{ product.title | escape }}</h1>
                   <a href="{{ product.url }}" class="product__title">
                     <h2 class="h1">
                       {{ product.title | escape }}
