@@ -37,7 +37,12 @@
         padding-bottom: {{ section.settings.padding_bottom }}px;
       }
     }
-
+   @media screen and (max-width:750px){
+    .impact-note__icon img{
+      height: 50px;
+      width: auto;
+    }
+   }
     /* --- Global Styles --- */
     .rh-wrap { margin: 15px 0; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px; }
     .rh-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
