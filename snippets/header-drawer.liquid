@@ -1,6 +1,6 @@
 {% comment %}
   Custom Taima-Style Mobile Drawer
-  FIX: Resolved Sticky Header Freeze and Scroll Locking
+  FIX: Forces 'overflow-y: scroll' on HTML tag on close
 {% endcomment %}
 
 <header-drawer data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}">
@@ -242,12 +242,6 @@ Antibacterial</li></ul>
   .icon-hamburger, .icon-close { width: 24px; height: 24px; }
   details[open] .icon-hamburger { display: none; }
   details:not([open]) .icon-close { display: none; }
-  
-  /* Helper class for locking scroll */
-  .overflow-hidden {
-    overflow: hidden !important;
-    height: 100vh;
-  }
 </style>
 
 <script>
@@ -260,13 +254,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // === FORCE SCROLL FUNCTION (UPDATED) ===
     function forceUnlockScroll() {
-        document.body.classList.remove('overflow-hidden');
-        document.documentElement.classList.remove('overflow-hidden');
+        // Aapki request ke mutabiq HTML tag par scroll add kar raha hun
+        const htmlTag = document.documentElement;
+        const bodyTag = document.body;
+
+        // 1. Pehle purani styles clear karein
+        htmlTag.style.overflow = '';
+        bodyTag.style.overflow = '';
+        htmlTag.classList.remove('overflow-hidden');
+        bodyTag.classList.remove('overflow-hidden');
+
+        // 2. Ab ZABARDASTI scroll laga dein
+        htmlTag.style.overflowY = 'scroll'; // Yeh HTML tag pe scroll layega
+        bodyTag.style.overflowY = 'scroll'; 
+        
+        // Ensure height is auto
+        htmlTag.style.height = 'auto';
+        bodyTag.style.height = 'auto';
     }
 
     function lockScroll() {
-        document.body.classList.add('overflow-hidden');
-        document.documentElement.classList.add('overflow-hidden');
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden'; // HTML lock
     }
 
     // Toggle Listener
