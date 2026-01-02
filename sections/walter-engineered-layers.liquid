@@ -29,7 +29,7 @@
           {% assign step = forloop.index %}
           
           {%- comment -%} Z-Index Logic: Pan (0) is highest, layers go down {%- endcomment -%}
-          {% assign z_index = 1000 | minus: i %}
+          {% assign z_index = 1 | minus: i %}
 
           {%- comment -%} 
             Auto Offset Logic: 
