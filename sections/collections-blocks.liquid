@@ -42,11 +42,11 @@
     display: grid;
     gap: 0;
     align-items: center;
-    grid-template-columns: 1fr 1020px;
+    grid-template-columns: 1fr auto;
     background: #181818; /* Hero specific background or make dynamic */
   }
 
-  #shopify-section-{{ section.id }} .cbx-hero-text { padding: 0 80px; }
+  #shopify-section-{{ section.id }} .cbx-hero-text { padding: 0 80px; min-width: 405px; }
   
   #shopify-section-{{ section.id }} .cbx-title {
     color: var(--accent);
