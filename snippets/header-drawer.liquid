@@ -1,6 +1,6 @@
 {% comment %}
-  Custom Taima-Style Mobile Drawer
-  FIX: Forces 'overflow-y: scroll' on HTML tag on close
+  Custom Taima-Style Mobile Drawer (Hybrid: User Logic + Competitor UI)
+  Includes: Reviews, Product Bullets, Subtitles, and Competitor Styling
 {% endcomment %}
 
 <header-drawer data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}">
@@ -18,127 +18,160 @@
 
     <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
       
-      <div class="drawer__step drawer__step--1 is-active" data-step="1">
-        <div class="drawer__header">
-            <div class="drawer__logo">
+      <div class="mm__step mm__step--1 is-active" data-step="1">
+        
+        <div class="mm__top">
+            <div class="mm__brand">
                {%- if settings.logo != blank -%}
-                 {{ settings.logo | image_url: width: 120 | image_tag }}
+                 {{ settings.logo | image_url: width: 120 | image_tag: loading: 'lazy' }}
                {%- else -%}
                  <span class="h4">{{ shop.name }}</span>
                {%- endif -%}
             </div>
-            <button class="drawer__close-btn js-close-drawer" type="button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            <button class="mm__close js-close-drawer" type="button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
         </div>
 
-        <div class="drawer__scroll">
+        <div class="mm__scroll-area">
+            
             {%- assign slider_blocks = section.blocks | where: "type", "mobile_slider_product" -%}
             {% if slider_blocks.size > 0 %}
-                <div class="drawer__slider-section">
-                    <div class="drawer__slider-title">{{ section.settings.drawer_slider_title }}</div>
-                    <div class="drawer__slider-track">
-                        {% for block in slider_blocks %}
-                            {% assign prod = block.settings.product %}
-                            {% if prod != blank %}
-                                <a href="{{ prod.url }}" class="d-slide">
-                                    <div class="d-slide__img">
-                                        <img src="{{ prod.featured_image | image_url: width: 300 }}" loading="lazy">
-                                        {% if block.settings.custom_badge != blank %}
-                                            <span class="d-slide__badge">{{ block.settings.custom_badge }}</span>
+                <div class="mm_top-title">
+                    <svg width="16" height="16" viewBox="0 0 16 17" fill="none" stroke="currentColor"><path d="M14.15 11.05C14.49 10.24 14.66 9.37 14.66 8.5C14.66 6.73 13.96 5.03 12.71 3.78C11.46 2.53 9.76 1.83 8 1.83C6.23 1.83 4.53 2.53 3.28 3.78C2.03 5.03 1.33 6.73 1.33 8.5C1.33 9.37 1.5 10.24 1.84 11.05C2.17 11.85 2.66 12.59 3.28 13.21C3.9 13.83 4.64 14.32 5.45 14.65C6.25 14.99 7.12 15.16 8 15.16C8.87 15.16 9.74 14.99 10.55 14.65C11.36 14.32 12.09 13.83 12.71 13.21C13.33 12.59 13.82 11.85 14.15 11.05Z" stroke-width="0.7"></path><path d="M11.66 7.41C11.66 7.47 11.62 7.54 11.55 7.61L10.03 9.1L10.39 11.2C10.39 11.22 10.39 11.25 10.39 11.28C10.39 11.34 10.38 11.39 10.35 11.43C10.33 11.45 10.31 11.47 10.29 11.48C10.27 11.49 10.24 11.5 10.22 11.49C10.17 11.49 10.11 11.48 10.05 11.44L8.17 10.45L6.28 11.45C6.22 11.48 6.16 11.49 6.11 11.49C6.05 11.49 6.01 11.47 5.98 11.43C5.95 11.39 5.93 11.34 5.93 11.28C5.93 11.27 5.94 11.24 5.94 11.2L6.3 9.1L4.78 7.61C4.7 7.54 4.67 7.47 4.67 7.41C4.67 7.31 4.75 7.24 4.91 7.22L7.01 6.91L7.96 5C8.01 4.89 8.08 4.83 8.16 4.83C8.25 4.83 8.32 4.89 8.37 5L9.32 6.91L11.42 7.22C11.58 7.24 11.66 7.31 11.66 7.41Z" stroke-width="0.7"></path></svg>
+                    {{ section.settings.drawer_slider_title | default: 'BEST SELLERS' }}
+                </div>
+                <div class="mm__scroller">
+                    {% for block in slider_blocks %}
+                        {% assign prod = block.settings.product %}
+                        {% if prod != blank %}
+                            <a href="{{ prod.url }}" class="mm-prod">
+                                <div class="mm-prod__img">
+                                    <img src="{{ prod.featured_image | image_url: width: 360 }}" loading="lazy" alt="{{ prod.title }}">
+                                    {% if block.settings.custom_badge != blank %}
+                                        <span class="mm-prod__badge">{{ block.settings.custom_badge }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="mm-prod__body">
+                                    <div class="mm-prod__title"><p>{{ prod.title | truncate: 40 }}</p></div>
+                                    
+                                    <ul class="mm-prod__bullets">
+                                        <li class="mm-bullet">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0l1.5 4.5h4.5l-3.5 2.5 1.5 4.5-3.5-2.5-3.5 2.5 1.5-4.5-3.5-2.5h4.5z"/></svg> 
+                                            Top Rated
+                                        </li>
+                                        <li class="mm-bullet">
+                                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                           Quality Assured
+                                        </li>
+                                    </ul>
+
+                                    <div class="mm-prod__price">
+                                        {% if prod.compare_at_price > prod.price %}
+                                            <span class="mm-price mm-price--cmp">{{ prod.compare_at_price | money }}</span>
                                         {% endif %}
+                                        <span class="mm-price mm-price--cur">{{ prod.price | money }}</span>
                                     </div>
-                                    <div class="d-slide__info">
-                                        <div class="d-slide__title">{{ prod.title | truncate: 30 }}</div>
-                                        <div class="d-slide__price">
-                                            {% if prod.compare_at_price > prod.price %}
-                                                <span class="cmp">{{ prod.compare_at_price | money }}</span>
-                                            {% endif %}
-                                            <span class="prc">{{ prod.price | money }}</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             {% endif %}
 
-            <div class="drawer__cats">
-                <div class="drawer__cats-title">CATEGORIES</div>
-                <div class="drawer__cats-list">
+            <div class="mm__cats">
+                <div class="mm__cats-h">CATEGORIES</div>
+                <div class="mm__cats-list">
                     {%- assign cat_blocks = section.blocks | where: "type", "mobile_category" -%}
                     {% for block in cat_blocks %}
-                        <button class="d-cat-btn" data-target="step-2-{{ block.id }}" data-cat-title="{{ block.settings.title }}">
-                            <div class="d-cat-left">
+                        <button class="mm-cat__btn" data-target="step-2-{{ block.id }}" data-cat-title="{{ block.settings.title }}">
+                            <span class="mm-cat__icon">
                                 {% if block.settings.icon %}
-                                    <img src="{{ block.settings.icon | image_url: width: 64 }}" class="d-cat-icon">
+                                    <img src="{{ block.settings.icon | image_url: width: 64 }}" width="64" height="64" loading="lazy">
                                 {% else %}
-                                    <div class="d-cat-placeholder"></div>
+                                    <span style="background:#eee; width:100%; height:100%; display:block;"></span>
                                 {% endif %}
-                                <span class="d-cat-name">{{ block.settings.title }}</span>
-                            </div>
+                            </span>
+                            <span class="mm-cat__title">{{ block.settings.title }}</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.916 5.833L12.083 10L7.916 14.166" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path></svg>
                         </button>
                     {% endfor %}
                 </div>
             </div>
 
-            <div class="drawer__footer">
-                <ul class="d-footer-list">
+            <footer class="mm__footer">
+                <ul class="mm__footer-row">
                     {%- assign footer_blocks = section.blocks | where: "type", "mobile_footer_link" -%}
                     {% for block in footer_blocks %}
-                        <li><a href="{{ block.settings.url }}">{{ block.settings.title }}</a></li>
+                        <li><a class="mm__footer-link" href="{{ block.settings.url }}">{{ block.settings.title }}</a></li>
                     {% endfor %}
                 </ul>
-            </div>
+            </footer>
         </div>
       </div>
 
       {% for block in cat_blocks %}
-      <div id="step-2-{{ block.id }}" class="drawer__step drawer__step--2" data-step="2">
-        <div class="drawer__header">
-            <div class="drawer__header-left">
-                <button class="drawer__back-btn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      <div id="step-2-{{ block.id }}" class="mm__step mm__step--2" data-step="2">
+        <div class="mm__top">
+            <div class="mm__left">
+                <button class="mm2__back drawer__back-btn" type="button">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M16.9 8.1L11 14L16.9 19.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="round"></path></svg>
                 </button>
-                <span class="drawer__crumb">{{ block.settings.title }}</span>
+                <span class="mm__crumb">{{ block.settings.title }}</span>
             </div>
-            <button class="drawer__close-btn js-close-drawer" type="button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            <button class="mm__close js-close-drawer" type="button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
         </div>
 
-        <div class="drawer__scroll">
-            <div class="d-prod-list">
+        <div class="mm__scroll-area">
+            <div class="mm2__list">
                 {% assign coll = collections[block.settings.collection] %}
                 {% if coll != blank %}
-                    {% for product in coll.products limit: 10 %}
-                        <a href="{{ product.url }}" class="d-prod-item">
-                            <div class="d-prod-item__img">
-                                <img src="{{ product.featured_image | image_url: width: 150 }}" loading="lazy">
-                            </div>
-                            <div class="d-prod-item__info">
-                                <div class="d-prod-item__title">{{ product.title }}</div>
-                                <div class="d-prod-item__price">{{ product.price | money }}</div>
-                            </div>
+                    {% for product in coll.products limit: 12 %}
+                        <a href="{{ product.url }}" class="mm2-item">
+                            <span class="mm2-item__img">
+                                <img src="{{ product.featured_image | image_url: width: 160 }}" width="160" height="160" loading="lazy">
+                            </span>
+                            <span class="mm2-item__body">
+                                <span class="mm2-item__title">{{ product.title }}</span>
+                                {% if product.available %}
+                                    <span class="mm2-item__sub">In Stock - Ready to ship</span>
+                                {% else %}
+                                    <span class="mm2-item__sub" style="color:red;">Sold Out</span>
+                                {% endif %}
+                                <div style="margin-top:4px; font-weight:bold; font-size:13px;">{{ product.price | money }}</div>
+                            </span>
                         </a>
                     {% endfor %}
                 {% else %}
-                    <p style="padding:20px; opacity:0.6;">Select a collection in block settings.</p>
+                    <p style="padding:20px; text-align:center; opacity:0.6;">Select a collection</p>
                 {% endif %}
             </div>
+
             {% if block.settings.step2_review != blank %}
-            <div class="d-review">
-                <div class="d-review__text">"{{ block.settings.step2_review }}"</div>
-                <div class="d-review__meta">
-                    {% if block.settings.step2_avatar %}
-                        <img src="{{ block.settings.step2_avatar | image_url: width: 40 }}" class="d-review__avatar">
-                    {% endif %}
-                    <div class="d-review__name">{{ block.settings.step2_reviewer }}</div>
-                    <div>★★★★★</div>
+            <footer class="mm2__footer">
+                <div class="rev rev--withtitle">
+                    <div class="rev__row rev__row--top">
+                        <div class="rev__title">"Customer Favorite"</div>
+                        <div class="rev__person">
+                             {% if block.settings.step2_avatar %}
+                                <img src="{{ block.settings.step2_avatar | image_url: width: 40 }}" class="rev__avatar">
+                            {% else %}
+                                <div class="rev__avatar" style="background:#ddd;"></div>
+                            {% endif %}
+                            <div class="rev__meta">
+                                <div class="rev__name-wrapper">
+                                    <div class="rev__name">{{ block.settings.step2_reviewer | default: 'Verified Buyer' }}</div>
+                                    <svg width="16" height="16" viewBox="0 0 16 17" fill="none"><path d="M12.6 13.1H12.66M12.6 13.1C12.2 13.5 11.4 13.4 10.9 13.4C10.3 13.4 10 13.6 9.5 14C9.1 14.4 8.6 15.1 7.9 15.1C7.3 15.1 6.8 14.4 6.4 14C5.9 13.6 5.6 13.4 5 13.4C4.5 13.4 3.7 13.5 3.3 13.1C2.9 12.7 3 11.9 3 11.4C3 10.7 2.8 10.4 2.3 10C1.6 9.2 1.3 8.9 1.3 8.4C1.3 8 1.6 7.7 2.3 6.9C2.8 6.5 3 6.1 3 5.5C3 5 2.9 4.2 3.3 3.8C3.7 3.4 4.5 3.5 5 3.5C5.6 3.5 6 3.3 6.4 2.8C7.2 2.1 7.5 1.8 7.9 1.8C8.4 1.8 8.7 2.1 9.5 2.8C9.9 3.3 10.3 3.5 10.9 3.5C11.4 3.5 12.2 3.4 12.6 3.8C13 4.2 12.9 5 12.9 5.5C12.9 6.2 13.1 6.5 13.5 6.9C14.3 7.7 14.6 8 14.6 8.4C14.6 8.9 14.3 9.2 13.5 10C13.1 10.4 12.9 10.7 12.9 11.4C12.9 11.9 13 12.7 12.6 13.1ZM5.9 9L7.1 10.1L9.9 6.8" stroke="currentColor" stroke-width="1.5"></path></svg>
+                                </div>
+                                <div class="rev__stars">★★★★★</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rev__row rev__row--body">"{{ block.settings.step2_review }}"</div>
                 </div>
-            </div>
+            </footer>
             {% endif %}
         </div>
       </div>
@@ -149,74 +182,91 @@
 </header-drawer>
 
 <style>
-  /* Base Drawer */
+  /* Base Setup */
+  .menu-drawer-container { display: flex; }
   .menu-drawer { 
-      position: fixed; 
-      top: 0; left: 0; width: 100vw; height: 100vh; 
-      background: rgb(var(--color-background)); 
-      z-index: 9999;
-      visibility: hidden; 
-      transition: visibility 0s 0.3s; 
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+      background: rgb(var(--color-background)); z-index: 9999;
+      visibility: hidden; transition: visibility 0s 0.3s; 
+      overflow: hidden; /* Prevent body scroll bleed */
   }
-  
-  details[open] .menu-drawer { 
-      visibility: visible; 
-      transition: visibility 0s 0s; 
-      pointer-events: auto; 
+  details[open] .menu-drawer { visibility: visible; transition: visibility 0s 0s; pointer-events: auto; }
+  details:not([open]) .menu-drawer { pointer-events: none; display: none; }
+
+  /* Steps Logic */
+  .mm__step { 
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+      display: flex; flex-direction: column; background: rgb(var(--color-background)); 
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+      transform: translateX(100%); z-index: 1; 
   }
+  .mm__step.is-active { transform: translateX(0); z-index: 2; }
   
-  details:not([open]) .menu-drawer { 
-      pointer-events: none; 
-      display: none; 
-  }
+  /* Shared Layout */
+  .mm__top { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; height: 50px; border-bottom: 1px solid rgba(var(--color-foreground), 0.05); flex-shrink: 0; }
+  .mm__brand img { max-height: 24px; width: auto; object-fit: contain; }
+  .mm__close, .mm2__back { background: none; border: none; padding: 5px; cursor: pointer; color: rgb(var(--color-foreground)); display: flex; }
+  .mm__left { display: flex; align-items: center; gap: 8px; }
+  .mm__crumb { font-weight: 600; font-size: 14px; text-transform: uppercase; }
 
-  .drawer__step { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; background: rgb(var(--color-background)); transition: transform 0.3s ease; transform: translateX(100%); z-index: 1; }
-  .drawer__step.is-active { transform: translateX(0); z-index: 2; }
+  .mm__scroll-area { flex: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 40px; -webkit-overflow-scrolling: touch; }
+
+  /* --- COMPETITOR STYLE COMPONENTS --- */
   
-  .drawer__header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid rgba(var(--color-foreground), 0.1); height: 60px; }
-  .drawer__logo img { height: 20px; width: auto; }
-  .drawer__close-btn, .drawer__back-btn { background: none; border: none; cursor: pointer; color: rgb(var(--color-foreground)); padding: 5px; display: flex; align-items: center; z-index: 10; }
-  .drawer__header-left { display: flex; align-items: center; gap: 10px; font-weight: 600; text-transform: uppercase; font-size: 14px; }
+  /* Step 1: Slider */
+  .mm_top-title { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; margin: 20px 20px 10px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
+  .mm__scroller { display: flex; gap: 12px; overflow-x: auto; padding: 0 20px 20px; scrollbar-width: none; }
+  .mm__scroller::-webkit-scrollbar { display: none; }
   
-  .drawer__scroll { flex: 1; overflow-y: auto; padding-bottom: 50px; -webkit-overflow-scrolling: touch; }
+  .mm-prod { min-width: 260px; width: 260px; background: rgba(var(--color-foreground), 0.02); border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; border: 1px solid rgba(var(--color-foreground), 0.08); }
+  .mm-prod__img { position: relative; aspect-ratio: 1; background: #f4f4f4; }
+  .mm-prod__img img { width: 100%; height: 100%; object-fit: cover; }
+  .mm-prod__badge { position: absolute; top: 8px; left: 8px; background: #000; color: #fff; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
+  
+  .mm-prod__body { padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .mm-prod__title p { margin: 0; font-weight: 600; font-size: 14px; line-height: 1.3; }
+  .mm-prod__bullets { list-style: none; padding: 0; margin: 5px 0; display: flex; flex-direction: column; gap: 4px; }
+  .mm-bullet { font-size: 11px; color: rgba(var(--color-foreground), 0.7); display: flex; align-items: center; gap: 5px; }
+  .mm-prod__price { margin-top: auto; font-size: 14px; display: flex; gap: 6px; align-items: center; }
+  .mm-price--cmp { text-decoration: line-through; opacity: 0.5; font-size: 13px; }
+  .mm-price--cur { font-weight: 700; }
 
-  .drawer__slider-section { padding: 15px 0 20px 20px; border-bottom: 1px solid rgba(var(--color-foreground), 0.05); }
-  .drawer__slider-title { font-size: 11px; font-weight: 700; color: #dcb14a; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
-  .drawer__slider-track { display: flex; gap: 12px; overflow-x: auto; padding-right: 20px; padding-bottom: 10px; }
-  .d-slide { min-width: 140px; width: 140px; text-decoration: none; color: inherit; display: block; }
-  .d-slide__img { position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 1; background: #f5f5f5; margin-bottom: 8px; }
-  .d-slide__img img { width: 100%; height: 100%; object-fit: cover; }
-  .d-slide__badge { position: absolute; top: 6px; left: 6px; background: #932933; color: #fff; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
-  .d-slide__title { font-size: 12px; line-height: 1.2; margin-bottom: 4px; font-weight: 500; height: 28px; overflow: hidden; }
-  .d-slide__price { font-size: 12px; }
-  .d-slide__price .cmp { text-decoration: line-through; opacity: 0.6; margin-right: 4px; }
-  .d-slide__price .prc { font-weight: 700; }
+  /* Step 1: Categories */
+  .mm__cats { padding: 20px 20px 0; }
+  .mm__cats-h { font-size: 12px; font-weight: 700; opacity: 0.5; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
+  .mm-cat__btn { width: 100%; display: flex; justify-content: space-between; align-items: center; background: transparent; border: none; border-bottom: 1px solid rgba(var(--color-foreground), 0.08); padding: 12px 0; cursor: pointer; color: inherit; text-align: left; }
+  .mm-cat__icon { width: 40px; height: 40px; border-radius: 6px; overflow: hidden; background: #eee; margin-right: 12px; display: flex; align-items: center; justify-content: center; }
+  .mm-cat__icon img { width: 100%; height: 100%; object-fit: cover; }
+  .mm-cat__title { font-size: 15px; font-weight: 600; flex: 1; text-transform: uppercase; }
 
-  .drawer__cats { padding: 20px; }
-  .drawer__cats-title { font-size: 12px; font-weight: 700; opacity: 0.5; margin-bottom: 15px; letter-spacing: 1px; }
-  .d-cat-btn { width: 100%; display: flex; border-bottom:  1px solid #353232  !important;  justify-content: space-between; align-items: center; background: transparent; border: none; padding: 12px 0px; margin-bottom: 8px;  cursor: pointer; color: rgb(var(--color-foreground));  }
-  .d-cat-btn:hover { background: rgba(var(--color-foreground), 0.08); }
-  .d-cat-left { display: flex; align-items: center; gap: 12px; }
-  .d-cat-icon { width: 32px; height: 32px; object-fit: contain; border-radius: 4px; }
-  .d-cat-placeholder { width: 32px; height: 32px; background: #eee; border-radius: 4px; }
-  .d-cat-name { font-size: 14px; font-weight: 600; text-transform: uppercase; }
+  /* Step 1: Footer */
+  .mm__footer { padding: 30px 20px; background: rgba(var(--color-foreground), 0.02); margin-top: 20px; }
+  .mm__footer-row { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 15px 25px; }
+  .mm__footer-link { text-decoration: none; color: rgba(var(--color-foreground), 0.7); font-size: 13px; font-weight: 500; }
 
-  .drawer__footer { padding: 0 20px 40px; border-top: 1px solid rgba(var(--color-foreground), 0.05); padding-top: 20px; }
-  .d-footer-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; display: flex; gap: 15px; }
-  .d-footer-list a { text-decoration: none; color: rgb(var(--color-foreground)); font-size: 13px; font-weight: 500; opacity: 0.8; }
+  /* Step 2: List */
+  .mm2__list { padding: 0 20px; }
+  .mm2-item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(var(--color-foreground), 0.05); text-decoration: none; color: inherit; gap: 15px; }
+  .mm2-item__img { width: 70px; height: 70px; border-radius: 6px; overflow: hidden; background: #f0f0f0; flex-shrink: 0; }
+  .mm2-item__img img { width: 100%; height: 100%; object-fit: cover; }
+  .mm2-item__body { display: flex; flex-direction: column; justify-content: center; }
+  .mm2-item__title { font-weight: 600; font-size: 14px; line-height: 1.2; margin-bottom: 4px; }
+  .mm2-item__sub { font-size: 12px; opacity: 0.6; line-height: 1.2; }
 
-  .d-prod-list { padding: 10px; }
-  .d-prod-item { display: flex; align-items: center; gap: 15px; padding: 10px; text-decoration: none; color: inherit; border-bottom: 1px solid rgba(var(--color-foreground), 0.05); }
-  .d-prod-item__img { width: 60px; height: 60px; border-radius: 6px; overflow: hidden; background: #f5f5f5; flex-shrink: 0; }
-  .d-prod-item__img img { width: 100%; height: 100%; object-fit: cover; }
-  .d-prod-item__title { font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
-  .d-prod-item__price { font-size: 13px; opacity: 0.8; }
+  /* Step 2: Footer Review (The "Taima" Box) */
+  .mm2__footer { padding: 20px; }
+  .rev { background: rgba(var(--color-foreground), 0.04); border-radius: 12px; padding: 20px; border: 1px solid rgba(var(--color-foreground), 0.05); }
+  .rev__row--top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-direction: column; gap: 10px; }
+  .rev__title { font-family: serif; font-style: italic; font-size: 18px; font-weight: 500; color: #dcb14a; }
+  .rev__person { display: flex; align-items: center; gap: 10px; width: 100%; }
+  .rev__avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+  .rev__meta { flex: 1; }
+  .rev__name-wrapper { display: flex; align-items: center; gap: 6px; }
+  .rev__name { font-size: 12px; font-weight: 700; }
+  .rev__stars { font-size: 10px; color: #dcb14a; letter-spacing: 1px; margin-top: 2px; }
+  .rev__row--body { font-size: 13px; line-height: 1.5; opacity: 0.8; font-style: italic; }
 
-  .d-review { margin: 20px; padding: 20px; background: rgba(var(--color-foreground), 0.03); border-radius: 12px; border: 1px solid rgba(var(--color-foreground), 0.05); }
-  .d-review__text { font-style: italic; font-size: 13px; margin-bottom: 15px; line-height: 1.5; }
-  .d-review__meta { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; }
-  .d-review__avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
-
+  /* Icons */
   .icon-hamburger, .icon-close { width: 24px; height: 24px; }
   details[open] .icon-hamburger { display: none; }
   details:not([open]) .icon-close { display: none; }
@@ -230,33 +280,24 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if(!drawerContainer || !drawer) return;
 
-    // === FORCE SCROLL FUNCTION (UPDATED) ===
+    // === FORCE SCROLL (As per your request) ===
     function forceUnlockScroll() {
-        // Aapki request ke mutabiq HTML tag par scroll add kar raha hun
         const htmlTag = document.documentElement;
         const bodyTag = document.body;
-
-        // 1. Pehle purani styles clear karein
         htmlTag.style.overflow = '';
         bodyTag.style.overflow = '';
-        htmlTag.classList.remove('overflow-hidden');
-        bodyTag.classList.remove('overflow-hidden');
-
-        // 2. Ab ZABARDASTI scroll laga dein
-        htmlTag.style.overflowY = 'scroll'; // Yeh HTML tag pe scroll layega
+        htmlTag.style.overflowY = 'scroll'; 
         bodyTag.style.overflowY = 'scroll'; 
-        
-        // Ensure height is auto
         htmlTag.style.height = 'auto';
         bodyTag.style.height = 'auto';
     }
 
     function lockScroll() {
         document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = 'hidden'; // HTML lock
+        document.documentElement.style.overflow = 'hidden';
     }
 
-    // Toggle Listener
+    // Drawer Toggle Logic
     drawerContainer.addEventListener('toggle', (e) => {
         if (drawerContainer.open) {
             lockScroll();
@@ -266,18 +307,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Close Button Listener
     closeBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             drawerContainer.removeAttribute('open'); 
-            forceUnlockScroll(); // Call immediately
+            forceUnlockScroll();
         });
     });
 
-    // Step Logic (Same as before)
-    const catBtns = drawer.querySelectorAll('.d-cat-btn');
-    const backBtns = drawer.querySelectorAll('.drawer__back-btn');
+    // === STEP NAVIGATION LOGIC (Hybrid) ===
+    const catBtns = drawer.querySelectorAll('.mm-cat__btn');
+    const backBtns = drawer.querySelectorAll('.mm2__back');
 
     catBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -289,13 +329,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     backBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            const activeStep = btn.closest('.drawer__step--2');
+            const activeStep = btn.closest('.mm__step--2');
             if(activeStep) activeStep.classList.remove('is-active');
         });
     });
 
     function resetDrawerSteps() {
-        const activeSteps = drawer.querySelectorAll('.drawer__step--2.is-active');
+        const activeSteps = drawer.querySelectorAll('.mm__step--2.is-active');
         activeSteps.forEach(step => step.classList.remove('is-active'));
     }
 });
