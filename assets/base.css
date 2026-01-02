@@ -3629,3 +3629,7 @@ details-disclosure > details {
   font-size: 14px;
   line-height: 1.5;
 }
+.metafield-rich_text_field p{
+  margin: 0px;
+  padding: 0px;
+}
