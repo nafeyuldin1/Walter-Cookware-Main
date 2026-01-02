@@ -336,7 +336,7 @@
                   {% if product.metafields.custom.short_description != blank %}
                     <span class="cbx-badge-item">{{ product.metafields.custom.short_description }}</span>
                   {% else %}
-                    <span class="cbx-badge-item"> {% if product.metafields.custom.product_short_description != blank %} {{product.metafields.custom.product_short_description }}   {% else %} {{ product.description | strip_html | truncatewords: 8 }} {% endif %} </span>
+                    <span class="cbx-badge-item"> {% if product.metafields.custom.product_short_description != blank %} {{product.metafields.custom.product_short_description | metafield_tag }}   {% else %} {{ product.description | strip_html | truncatewords: 8 }} {% endif %} </span>
                   {% endif %}
                 </div>
 
