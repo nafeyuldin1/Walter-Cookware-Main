@@ -378,7 +378,7 @@
 
             <div class="product-card__content">
               <a href="{{ product.url }}" class="product-card__title">{{ product.title }} {%  if product.metafields.custom.pieces_count != blank  %}  <span> ({{ product.metafields.custom.pieces_count }}) </span> {%  endif %} </a>
-              <div style="font-size: 12px; line-height: 1.3; color: #D4C7B4;" class="product-card__subtitle"> {% if product.metafields.custom.product_short_description != blank %} {{ product.metafields.custom.product_short_description }} {% else %} The ultimate toxin-free collection for limitless cooking (14-piece) {% endif %} </div>
+              <div style="font-size: 12px; line-height: 1.3; color: #D4C7B4;" class="product-card__subtitle"> {% if product.metafields.custom.product_short_description != blank %} {{ product.metafields.custom.product_short_description | metafield_tag }} {% else %} The ultimate toxin-free collection for limitless cooking (14-piece) {% endif %} </div>
               <div class="product-card__price">
                 {%- if product.compare_at_price > product.price -%}
                   <span class="price-compare">{{ product.compare_at_price | money }}</span>
