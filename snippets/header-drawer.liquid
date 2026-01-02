@@ -45,7 +45,7 @@
                                     <div class="d-slide__img">
                                         <img src="{{ prod.featured_image | image_url: width: 300 }}" loading="lazy">
                                         {% if block.settings.custom_badge != blank %}
-                                            <span class="d-slide__badge">{{ block.settings.custom_badge }}</span>
+                                            <span class="d-slide__badge"> {% if prod.metafields.custom.badge_text %} {{ prod.metafields.custom.badge_text }}  {%else %} {{ block.settings.custom_badge }} {% endif %} </span>
                                         {% endif %}
                                     </div>
                                     <div style="padding: 8px;" class="d-slide__info">
