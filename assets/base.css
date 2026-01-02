@@ -3625,3 +3625,7 @@ details-disclosure > details {
   font-size: 16px;
   padding: 5px 12px;
 }
+.impact-note__text {
+  font-size: 14px;
+  line-height: 1.5;
+}
