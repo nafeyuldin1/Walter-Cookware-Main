@@ -358,7 +358,7 @@
                     {%- endif -%}
 
                     {%- if badge_text != "" -%}
-                      <span class="cat-prod__sale-badge">{{ badge_text }}</span>
+                      <span class="cat-prod__sale-badge"> {% if product.metafields.custom.badge_text %} {{ product.metafields.custom.badge_text }}  {%else %} {{ badge_text }} {% endif %} </span>
                     {%- endif -%}
                   </div>
 
