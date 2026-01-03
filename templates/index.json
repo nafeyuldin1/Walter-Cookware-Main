@@ -1049,6 +1049,15 @@
             "name": "Emma",
             "text": "I cook a lot and this board stays neutral. No smells, no stains."
           }
+        },
+        "review_iLncxK": {
+          "type": "review",
+          "settings": {
+            "cat_id": "board",
+            "image": "shopify://shop_images/240_F_448408464_AAI9YjQesKAojm0BH3Bsky0g12zk35oc.jpg",
+            "name": "Peter L.",
+            "text": "Very low maintenance. That’s the biggest win for me."
+          }
         }
       },
       "block_order": [
@@ -1069,7 +1078,8 @@
         "review_kPUBLY",
         "review_XUQj4p",
         "review_8Baryp",
-        "review_jfFwHe"
+        "review_jfFwHe",
+        "review_iLncxK"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
