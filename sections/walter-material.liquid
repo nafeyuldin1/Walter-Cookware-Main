@@ -1,13 +1,14 @@
 {% comment %}
-  Section: Materials Comparison Tabs (Fixed for Mobile Slider)
-  Based on Reference Site Logic: Variable Width + Fixed CSS Width
+  Section: Materials Comparison Tabs (Fixed with Swiper for Smooth Mobile Experience)
 {% endcomment %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
 {%- style -%}
   #shopify-section-{{ section.id }} .materials {
     background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
-    overflow: hidden; /* Prevent horizontal scrollbar */
+    overflow: hidden;
   }
 
   #shopify-section-{{ section.id }} .materials__inner {
@@ -44,6 +45,7 @@
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 48px;
+    max-width: 800px; /* Limit width for better aesthetics */
   }
 
   #shopify-section-{{ section.id }} .materials__tab {
@@ -69,17 +71,31 @@
     color: {{ section.settings.tab_active_text }};
   }
 
-  /* Slider & Cards - Desktop Defaults */
-  #shopify-section-{{ section.id }} .slick-list { margin: 0 -16px; }
-  #shopify-section-{{ section.id }} .slick-slide { margin: 0 16px; }
+  /* SWIPER CONTAINER STYLES */
+  #shopify-section-{{ section.id }} .swiper {
+    width: 100%;
+    height: 100%;
+    overflow: visible; /* Allows shadows/badges to not be cut off */
+  }
+  
+  #shopify-section-{{ section.id }} .swiper-wrapper {
+    align-items: stretch; /* Ensure equal height */
+  }
 
+  #shopify-section-{{ section.id }} .swiper-slide {
+    height: auto;
+    display: flex;
+    box-sizing: border-box;
+  }
+
+  /* Cards Styling */
   #shopify-section-{{ section.id }} .comp-card {
     border-radius: 24px;
     border: 1.5px solid {{ section.settings.card_border }};
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: auto;
+    height: 100%;
     width: 100%;
     background: {{ section.settings.card_bg }};
   }
@@ -134,29 +150,34 @@
   }
 
   /* =========================================
-     Responsive Mobile (Reference Site Style)
+     Responsive Mobile
      ========================================= */
   @media (max-width: 768px) {
     #shopify-section-{{ section.id }} .materials__inner {
       padding-top: {{ section.settings.pt_m }}px;
       padding-bottom: {{ section.settings.pb_m }}px;
+      /* Remove side padding on container so slider goes edge-to-edge */
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    #shopify-section-{{ section.id }} .materials__header {
       padding-left: {{ section.settings.pad_x_m }}px;
-      padding-right: 0; /* Remove right padding to let slider bleed */
+      padding-right: {{ section.settings.pad_x_m }}px;
     }
 
     #shopify-section-{{ section.id }} .materials__title {
       font-size: {{ section.settings.heading_size_m }}px;
-      padding-right: {{ section.settings.pad_x_m }}px; /* Add padding back to text */
     }
 
     #shopify-section-{{ section.id }} .materials__sub {
       font-size: {{ section.settings.sub_size_m }}px;
-      padding-right: {{ section.settings.pad_x_m }}px; /* Add padding back to text */
     }
 
     #shopify-section-{{ section.id }} .materials__tabs {
-      grid-template-columns: 1fr 1fr; 
-      margin-right: {{ section.settings.pad_x_m }}px; /* Align tabs */
+      grid-template-columns: 1fr 1fr;
+      margin-left: {{ section.settings.pad_x_m }}px;
+      margin-right: {{ section.settings.pad_x_m }}px;
     }
     
     #shopify-section-{{ section.id }} .materials__tab {
@@ -173,27 +194,10 @@
        border-bottom: 0;
     }
 
-    /* SLIDER MOBILE FIXES */
-    #shopify-section-{{ section.id }} .materials__slider {
-      /* Ensure slider container handles overflow correctly */
-      display: block;
-      width: 100%;
-    }
-
-    #shopify-section-{{ section.id }} .slick-list {
-      margin: 0;
-      padding: 0;
-      overflow: visible; /* Allows the next card to be seen cleanly */
-    }
-
-    #shopify-section-{{ section.id }} .slick-slide {
-      margin: 0 8px; /* Tighter margins like reference */
-    }
-
-    /* THE KEY FIX: Fixed width on mobile cards + variableWidth in JS */
-    #shopify-section-{{ section.id }} .comp-card {
-      width: 260px; /* Fixed width like reference site */
-      flex-shrink: 0;
+    /* CARD WIDTH FIX FOR MOBILE */
+    #shopify-section-{{ section.id }} .swiper-slide {
+      width: 260px; /* Fixed width for peek effect */
+      /* No margin needed here, Swiper spaceBetween handles it */
     }
   }
 {%- endstyle -%}
@@ -210,48 +214,57 @@
       {%- endif -%}
     </header>
 
-    <nav class="materials__tabs" role="tablist">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'category' -%}
-          <button class="materials__tab {% if forloop.first %}is-active{% endif %}" 
-                  data-cat="{{ block.settings.cat_id }}" 
-                  role="tab" 
-                  aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-                  {{ block.shopify_attributes }}>
-            {{ block.settings.title }}
-          </button>
-        {%- endif -%}
-      {%- endfor -%}
-    </nav>
+    <div class="materials__tabs-wrap">
+      <nav class="materials__tabs" role="tablist">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'category' -%}
+            <button class="materials__tab {% if forloop.first %}is-active{% endif %}" 
+                    data-cat="{{ block.settings.cat_id }}" 
+                    role="tab" 
+                    aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                    {{ block.shopify_attributes }}>
+              {{ block.settings.title }}
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    </div>
 
-    <div class="materials__slider js-materials-slider-{{ section.id }}">
+    <div class="swiper js-materials-swiper-{{ section.id }}">
+      <div class="swiper-wrapper">
+        </div>
+      </div>
+
+    <div id="materials-storage-{{ section.id }}" style="display:none;">
       {%- for block in section.blocks -%}
         {%- if block.type == 'card' -%}
-          <article class="comp-card" data-cat="{{ block.settings.cat_id }}" {{ block.shopify_attributes }}>
-            <div class="comp-card__media">
-              {%- if block.settings.image != blank -%}
-                {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.title }}
-              {%- else -%}
-                {{ 'product-1' | placeholder_svg_tag }}
-              {%- endif -%}
-              
-              {%- if block.settings.badge_text != blank -%}
-                <span class="mat-top-badge" 
-                      style="background:{{ block.settings.badge_bg | default: section.settings.badge_bg }}; color:{{ block.settings.badge_text_color | default: section.settings.badge_text }}">
-                  {{ block.settings.badge_text }}
-                </span>
-              {%- endif -%}
-            </div>
+          <div class="swiper-slide" data-cat="{{ block.settings.cat_id }}">
+            <article class="comp-card" {{ block.shopify_attributes }}>
+              <div class="comp-card__media">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.title }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag }}
+                {%- endif -%}
+                
+                {%- if block.settings.badge_text != blank -%}
+                  <span class="mat-top-badge" 
+                        style="background:{{ block.settings.badge_bg | default: section.settings.badge_bg }}; color:{{ block.settings.badge_text_color | default: section.settings.badge_text }}">
+                    {{ block.settings.badge_text }}
+                  </span>
+                {%- endif -%}
+              </div>
 
-            <div class="comp-card__body">
-              {%- if block.settings.title != blank -%}
-                <h3 class="comp-card__title">{{ block.settings.title }}</h3>
-              {%- endif -%}
-              {%- if block.settings.text != blank -%}
-                <p class="comp-card__text">{{ block.settings.text }}</p>
-              {%- endif -%}
-            </div>
-          </article>
+              <div class="comp-card__body">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="comp-card__title">{{ block.settings.title }}</h3>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <p class="comp-card__text">{{ block.settings.text }}</p>
+                {%- endif -%}
+              </div>
+            </article>
+          </div>
         {%- endif -%}
       {%- endfor -%}
     </div>
@@ -259,126 +272,119 @@
   </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-  var $ = window.jQuery;
-  if (!$ || !$.fn || !$.fn.slick) return;
-
   var SECTION_ID = "{{ section.id }}";
-  var $wrap      = $('#materials-sec-' + SECTION_ID);
-  var $slider    = $wrap.find('.js-materials-slider-' + SECTION_ID);
-  var $cards     = $slider.children('.comp-card');
+  var containerId = '#materials-sec-' + SECTION_ID;
+  var swiperClass = '.js-materials-swiper-' + SECTION_ID;
+  var storageId = '#materials-storage-' + SECTION_ID;
   
+  var swiperInstance = null;
   var colsDesktop = {{ section.settings.cols_desktop }};
+  
+  // Select DOM elements
+  var $wrap = document.querySelector(containerId);
+  var $swiperEl = $wrap.querySelector(swiperClass);
+  var $swiperWrapper = $swiperEl.querySelector('.swiper-wrapper');
+  var $storage = document.querySelector(storageId);
+  var $tabs = $wrap.querySelectorAll('.materials__tab');
 
-  // Find first category ID to set active initially
-  var $firstTab = $wrap.find('.materials__tab').first();
-  var activeCat = $firstTab.length ? $firstTab.attr('data-cat') : 'cat1';
+  // Initial active category
+  var activeCat = $tabs.length > 0 ? $tabs[0].getAttribute('data-cat') : 'cat1';
 
-  function equalizeHeights(){
-    var maxH = 0;
-    $slider.find('.comp-card:visible').css('height','auto').each(function(){
-      var h = this.offsetHeight;
-      if (h > maxH) maxH = h;
-    });
-    if (maxH > 0) $slider.find('.comp-card').css('height', maxH + 'px');
-  }
+  function initSwiper() {
+    if (swiperInstance) swiperInstance.destroy(true, true);
 
-  function initSlick(itemsToShowDesktop) {
-    if ($slider.hasClass('slick-initialized')) return;
-    
-    $slider.slick({
-      arrows: false,
-      dots: false,
-      infinite: false,
-      slidesToShow: itemsToShowDesktop,
-      slidesToScroll: 1,
-      swipeToSlide: true,
-      variableWidth: false, // Desktop default
-      responsive: [
-        { 
-          breakpoint: 1024, 
-          settings: { 
-            slidesToShow: Math.min(itemsToShowDesktop, 3) 
-          } 
+    swiperInstance = new Swiper(swiperEl, {
+      slidesPerView: 'auto', // Allows fixed width on mobile
+      spaceBetween: 16,      // Gap between cards
+      grabCursor: true,
+      observer: true,
+      observeParents: true,
+      slidesOffsetBefore: 0, // Reset for desktop
+      slidesOffsetAfter: 0,
+      breakpoints: {
+        // Mobile Settings
+        320: {
+          slidesPerView: 'auto', // Must be auto for fixed width slides
+          spaceBetween: 16,
+          // This creates the left padding effect without breaking the swipe flow
+          slidesOffsetBefore: {{ section.settings.pad_x_m }}, 
+          slidesOffsetAfter: {{ section.settings.pad_x_m }} 
         },
-        { 
-          breakpoint: 768,  
-          settings: { 
-            slidesToShow: 1, // Doesn't matter much because of variableWidth
-            variableWidth: true, // THIS IS THE KEY FIX
-            centerMode: false
-          } 
+        // Desktop Settings
+        769: {
+          slidesPerView: colsDesktop,
+          spaceBetween: 24,
+          slidesOffsetBefore: 0,
+          slidesOffsetAfter: 0
         }
-      ]
+      }
     });
-    $slider.on('setPosition', equalizeHeights);
-    setTimeout(equalizeHeights, 50);
   }
 
-  function destroySlick(){
-    if ($slider.hasClass('slick-initialized')) {
-      $slider.off('setPosition', equalizeHeights);
-      $slider.slick('unslick');
-    }
+  function filterSlides(catId) {
+    // 1. Clear current slides
+    $swiperWrapper.innerHTML = '';
+    
+    // 2. Get matching slides from hidden storage
+    var allSlides = $storage.querySelectorAll('.swiper-slide');
+    var hasSlides = false;
+    
+    allSlides.forEach(function(slide) {
+      if (slide.getAttribute('data-cat') === catId) {
+        // Clone slide to avoid removing from storage
+        var clone = slide.cloneNode(true);
+        $swiperWrapper.appendChild(clone);
+        hasSlides = true;
+      }
+    });
+
+    // 3. Re-initialize Swiper
+    initSwiper();
   }
 
-  function showCategory(cat){
-    destroySlick();
-    // Filter logic
-    var $visible = $cards.hide().filter('[data-cat="'+cat+'"]').show();
-    
-    // Determine responsive columns: Don't exceed available items
-    var actualCols = Math.min($visible.length, colsDesktop);
-    actualCols = Math.max(actualCols, 1);
-    
-    initSlick(actualCols);
-    
-    // Reset position
-    if ($slider.hasClass('slick-initialized')) {
-      $slider.slick('slickGoTo', 0, true);
-      $slider.slick('setPosition');
-    } else {
-      equalizeHeights();
-    }
+  function setActiveTab(catId) {
+    $tabs.forEach(function(btn) {
+      if(btn.getAttribute('data-cat') === catId) {
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-selected', 'true');
+      } else {
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-selected', 'false');
+      }
+    });
   }
 
-  function setActiveTab(cat){
-    activeCat = cat;
-    $wrap.find('.materials__tab').removeClass('is-active').attr('aria-selected','false');
-    $wrap.find('.materials__tab[data-cat="'+cat+'"]').addClass('is-active').attr('aria-selected','true');
-  }
+  // Initialize on Load
+  filterSlides(activeCat);
 
-  // Init
-  setActiveTab(activeCat);
-  showCategory(activeCat);
-
-  // Event Listeners
-  $wrap.on('click', '.materials__tab', function(){
-    var cat = this.getAttribute('data-cat');
-    if (cat === activeCat) return;
-    setActiveTab(cat);
-    showCategory(cat);
-  });
-
-  var t;
-  window.addEventListener('resize', function(){
-    clearTimeout(t);
-    t = setTimeout(function(){ showCategory(activeCat); }, 150);
-  });
-
-  // Shopify Editor Event
-  document.addEventListener('shopify:section:load', function(e){
-    if (e.detail.sectionId !== SECTION_ID) return;
-    $wrap   = $('#materials-sec-' + SECTION_ID);
-    $slider = $wrap.find('.js-materials-slider-' + SECTION_ID);
-    $cards  = $slider.children('.comp-card');
-    
-    var $first = $wrap.find('.materials__tab').first();
-    if($first.length) {
-      var cat = $first.attr('data-cat');
+  // Tab Click Events
+  $tabs.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var cat = this.getAttribute('data-cat');
+      if (cat === activeCat) return; // Ignore if already active
+      
+      activeCat = cat;
       setActiveTab(cat);
-      showCategory(cat);
+      filterSlides(cat);
+    });
+  });
+
+  // Handle Shopify Editor Events (Re-init on changes)
+  document.addEventListener('shopify:section:load', function(e) {
+    if (e.detail.sectionId === SECTION_ID) {
+       // Re-select elements as DOM refreshed
+       $wrap = document.querySelector(containerId);
+       $swiperEl = $wrap.querySelector(swiperClass);
+       $swiperWrapper = $swiperEl.querySelector('.swiper-wrapper');
+       $storage = document.querySelector(storageId);
+       $tabs = $wrap.querySelectorAll('.materials__tab');
+       
+       var firstCat = $tabs.length > 0 ? $tabs[0].getAttribute('data-cat') : 'cat1';
+       filterSlides(firstCat);
     }
   });
 });
@@ -399,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function(){
       "max": 5,
       "step": 1,
       "label": "Cards per row (Desktop)",
-      "default": 4
+      "default": 3
     },
     {
       "type": "header",
