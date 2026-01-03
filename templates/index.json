@@ -1076,6 +1076,15 @@
             "name": "Ryan M.",
             "text": "I was skeptical, but after a few weeks I get why people like this.”"
           }
+        },
+        "review_6DcKMq": {
+          "type": "review",
+          "settings": {
+            "cat_id": "board",
+            "image": "shopify://shop_images/240_F_443711688_LCPcTeda2wlKFJNTPjTLPVFmuf0nnP1F.jpg",
+            "name": "Anna",
+            "text": "Simple, clean, and practical. That’s all I really want in my kitchen."
+          }
         }
       },
       "block_order": [
@@ -1099,7 +1108,8 @@
         "review_jfFwHe",
         "review_iLncxK",
         "review_CJC8fW",
-        "review_TcgwBR"
+        "review_TcgwBR",
+        "review_6DcKMq"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
