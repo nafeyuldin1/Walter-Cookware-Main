@@ -129,6 +129,7 @@
     },
     "promo_link_C4bpaz": {
       "type": "promo-link",
+      "disabled": true,
       "name": " Promo Link",
       "settings": {
         "text_prefix": "Save $200 On Our",
