@@ -986,6 +986,15 @@
             "name": "Thomas W.",
             "text": "Used it on gas and induction, works perfectly on both. No learning curve, just a solid pan that performs consistently."
           }
+        },
+        "review_xdQiYp": {
+          "type": "review",
+          "settings": {
+            "cat_id": "pans",
+            "image": "shopify://shop_images/240_F_548704461_KqiE8A53nXLaE30s3pFmX2uwm0nszjIG.jpg",
+            "name": "Anna",
+            "text": "This feels like cookware made by someone who actually cooks. Practical, durable, and not overdesigned. Very happy with it"
+          }
         }
       },
       "block_order": [
@@ -999,7 +1008,8 @@
         "review_X4Yg4b",
         "review_f6MBfY",
         "review_zHtfFC",
-        "review_qab6mW"
+        "review_qab6mW",
+        "review_xdQiYp"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
