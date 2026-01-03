@@ -633,22 +633,6 @@
             "cat_id": "cat2"
           }
         },
-        "category_g4qVKD": {
-          "type": "category",
-          "disabled": true,
-          "settings": {
-            "title": "Utensils",
-            "cat_id": "cat3"
-          }
-        },
-        "category_zVLQ87": {
-          "type": "category",
-          "disabled": true,
-          "settings": {
-            "title": "Water Bottles",
-            "cat_id": "cat4"
-          }
-        },
         "card_cpfxmP": {
           "type": "card",
           "settings": {
@@ -725,8 +709,6 @@
       "block_order": [
         "category_eyD7mB",
         "category_tRGwUc",
-        "category_g4qVKD",
-        "category_zVLQ87",
         "card_cpfxmP",
         "card_jA6dHG",
         "card_khxby6",
