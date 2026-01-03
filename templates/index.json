@@ -221,7 +221,7 @@
         "featured_collection_Cym7wy": {
           "type": "featured_collection",
           "settings": {
-            "collection": "bundles",
+            "collection": "pans",
             "custom_image": "shopify://shop_images/first_top-min.webp",
             "badge_text": "Up To 55% OFF",
             "badge_bg": "#d42a2a",
