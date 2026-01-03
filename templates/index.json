@@ -713,6 +713,7 @@
           "type": "card",
           "settings": {
             "cat_id": "cat2",
+            "image": "shopify://shop_images/Gemini_Generated_Image_48lh9b48lh9b48lh.png",
             "badge_text": "BINDERS & RESINS",
             "badge_bg": "",
             "badge_text_color": "",
