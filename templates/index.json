@@ -1040,6 +1040,15 @@
             "name": "Daniel S.",
             "text": "This feels like something you buy once and don’t think about again."
           }
+        },
+        "review_jfFwHe": {
+          "type": "review",
+          "settings": {
+            "cat_id": "board",
+            "image": "shopify://shop_images/240_F_488491148_HfKqygPZcDdDHTZJMr2KZQrQxjDY6X3f.jpg",
+            "name": "Emma",
+            "text": "I cook a lot and this board stays neutral. No smells, no stains."
+          }
         }
       },
       "block_order": [
@@ -1059,7 +1068,8 @@
         "review_tnpqGa",
         "review_kPUBLY",
         "review_XUQj4p",
-        "review_8Baryp"
+        "review_8Baryp",
+        "review_jfFwHe"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
