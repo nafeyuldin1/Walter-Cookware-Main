@@ -995,6 +995,15 @@
             "name": "Anna",
             "text": "This feels like cookware made by someone who actually cooks. Practical, durable, and not overdesigned. Very happy with it"
           }
+        },
+        "review_MEryHM": {
+          "type": "review",
+          "settings": {
+            "cat_id": "board",
+            "image": "shopify://shop_images/240_F_567507965_MGA37X5EKGSiKWMQYjlCF9m40FBel8ZQ.jpg",
+            "name": "Mark J.",
+            "text": "I didn’t expect to replace all my boards, but here we are. This one is just easier to live with."
+          }
         }
       },
       "block_order": [
@@ -1009,7 +1018,8 @@
         "review_f6MBfY",
         "review_zHtfFC",
         "review_qab6mW",
-        "review_xdQiYp"
+        "review_xdQiYp",
+        "review_MEryHM"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
