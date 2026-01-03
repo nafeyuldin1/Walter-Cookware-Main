@@ -1022,6 +1022,15 @@
             "name": "Laura",
             "text": "I like that it doesn’t absorb anything. It feels cleaner when prepping food."
           }
+        },
+        "review_XUQj4p": {
+          "type": "review",
+          "settings": {
+            "cat_id": "board",
+            "image": "shopify://shop_images/240_F_436299039_nMXOyMWsoDPJIXK05mGK7emCRAa6FlWs.jpg",
+            "name": "Thomas B.",
+            "text": "At first it felt different, now it feels normal. My old wooden boards feel outdated."
+          }
         }
       },
       "block_order": [
@@ -1039,7 +1048,8 @@
         "review_xdQiYp",
         "review_MEryHM",
         "review_tnpqGa",
-        "review_kPUBLY"
+        "review_kPUBLY",
+        "review_XUQj4p"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
