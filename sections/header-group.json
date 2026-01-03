@@ -355,7 +355,7 @@
         "mobile_logo_position": "center",
         "menu": "header-top-menu",
         "menu_type_desktop": "dropdown",
-        "sticky_header_type": "always",
+        "sticky_header_type": "on-scroll-up",
         "enable_sticky_blur": true,
         "show_line_separator": true,
         "color_scheme": "scheme-e7441e89-4976-4c30-b017-d9d299769174",
