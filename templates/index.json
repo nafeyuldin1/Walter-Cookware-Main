@@ -697,7 +697,7 @@
       "name": "Materials Comparison",
       "settings": {
         "cols_desktop": 5,
-        "cols_mobile": 1.1,
+        "cols_mobile": 1.2,
         "bg_color": "#121212",
         "text_color": "#ede6da",
         "heading": "Titanium Isn’t Competing. It’s Replacing.",
