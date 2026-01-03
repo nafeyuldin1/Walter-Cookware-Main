@@ -1067,6 +1067,15 @@
             "name": "Sophie K.",
             "text": "I didn’t know a cutting board could feel this solid. It doesn’t move or flex."
           }
+        },
+        "review_TcgwBR": {
+          "type": "review",
+          "settings": {
+            "cat_id": "board",
+            "image": "shopify://shop_images/1000_F_581648206_YD6pOlR16m82WLdjqpd30eiMkgCZGJRl.jpg",
+            "name": "Ryan M.",
+            "text": "I was skeptical, but after a few weeks I get why people like this.”"
+          }
         }
       },
       "block_order": [
@@ -1089,7 +1098,8 @@
         "review_8Baryp",
         "review_jfFwHe",
         "review_iLncxK",
-        "review_CJC8fW"
+        "review_CJC8fW",
+        "review_TcgwBR"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
