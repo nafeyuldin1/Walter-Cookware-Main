@@ -510,6 +510,7 @@
       "blocks": {
         "line_UCemiJ": {
           "type": "line",
+          "disabled": true,
           "settings": {
             "text": "At Taima®, Non-Toxic Isn’t A Feature.",
             "visibility": "desktop",
