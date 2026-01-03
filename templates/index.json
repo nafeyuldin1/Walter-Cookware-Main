@@ -521,7 +521,7 @@
         "line_NVKppD": {
           "type": "line",
           "settings": {
-            "text": "At Taima®",
+            "text": "At Walter®",
             "visibility": "mobile",
             "base_opacity": 40,
             "base_size_d": 48,
@@ -541,7 +541,7 @@
         "line_Q8nxN7": {
           "type": "line",
           "settings": {
-            "text": "Isn’t A Feature.",
+            "text": "Isn’t an Extra.",
             "visibility": "mobile",
             "base_opacity": 40,
             "base_size_d": 48,
@@ -551,7 +551,7 @@
         "line_rGpHLY": {
           "type": "line",
           "settings": {
-            "text": "It’s The Foundation.",
+            "text": "It’s the Standard.",
             "visibility": "always",
             "base_opacity": 30,
             "base_size_d": 48,
@@ -561,7 +561,7 @@
         "line_LPJ8ze": {
           "type": "line",
           "settings": {
-            "text": "Perfection Isn't a Goal.",
+            "text": "Excellence Isn’t the Goal.",
             "visibility": "always",
             "base_opacity": 20,
             "base_size_d": 48,
@@ -571,7 +571,7 @@
         "line_VTQ4Vz": {
           "type": "line",
           "settings": {
-            "text": "It's Where We Begin.",
+            "text": "It’s the Starting Point.",
             "visibility": "always",
             "base_opacity": 10,
             "base_size_d": 32,
@@ -597,10 +597,10 @@
         "active_font_size_d": 64,
         "active_font_size_m": 32,
         "line_gap": 24,
-        "pt_d": 240,
-        "pb_d": 240,
-        "pt_m": 140,
-        "pb_m": 140
+        "pt_d": 30,
+        "pb_d": 30,
+        "pt_m": 25,
+        "pb_m": 30
       }
     },
     "walter_material_E66app": {
