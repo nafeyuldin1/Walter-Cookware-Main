@@ -1,6 +1,6 @@
 {% comment %}
-  Section: Materials Comparison Tabs (Ultra Sensitive Touch Fix)
-  Fixes: Hard sliding issue ("Zoor lagana"), Stuck slides, and Smoothness.
+  Section: Materials Comparison Tabs (Final Logic - Direct Slide Locking)
+  Fixes: Back-and-forth locking issue.
 {% endcomment %}
 
 {%- style -%}
@@ -70,20 +70,22 @@
     color: {{ section.settings.tab_active_text }};
   }
 
-  /* Slider Styling */
+  /* Slider Styling - Clean Slate */
   #shopify-section-{{ section.id }} .materials__slider {
-    /* Critical for touch events */
+    /* Removes browser default touch actions to let Slick handle it */
     touch-action: pan-y; 
-    -webkit-user-select: none; 
-    user-select: none;
-    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  #shopify-section-{{ section.id }} .slick-list { margin: 0 -16px; }
+  #shopify-section-{{ section.id }} .slick-list { 
+    margin: 0 -16px; 
+    overflow: hidden; /* Keep hidden to prevent scrollbar flicker */
+  }
+  
   #shopify-section-{{ section.id }} .slick-slide { 
     margin: 0 16px; 
     height: auto; 
-    float: left; 
+    outline: none; /* Removes click outline */
   }
 
   #shopify-section-{{ section.id }} .comp-card {
@@ -108,7 +110,6 @@
     display: block;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* Prevents image dragging from blocking slide */
   }
 
   #shopify-section-{{ section.id }} .mat-top-badge {
@@ -180,26 +181,25 @@
     #shopify-section-{{ section.id }} .materials__tab:nth-child(2n) { border-right: 0; }
     #shopify-section-{{ section.id }} .materials__tab:nth-last-child(-n+2) { border-bottom: 0; }
 
-    /* MOBILE SLIDER FIXES */
+    /* MOBILE SLIDER */
     #shopify-section-{{ section.id }} .materials__slider {
       display: block;
       width: 100%;
-      /* Ensure no overflow hidden blocks touch */
-      overflow: visible; 
     }
 
+    /* Slick Specific Mobile Fixes */
     #shopify-section-{{ section.id }} .slick-list {
       margin: 0;
       padding: 0;
-      overflow: visible; /* Important: Allows seeing next slide */
+      overflow: visible; /* Important: Allows next card to be seen */
     }
 
     #shopify-section-{{ section.id }} .slick-slide {
-      margin: 0 8px; 
+      margin: 0 8px; /* Tighter margin for mobile */
     }
 
     #shopify-section-{{ section.id }} .comp-card {
-      width: 260px; /* Reference Site Width */
+      width: 280px; /* Increased slightly for better grip */
     }
   }
 {%- endstyle -%}
@@ -283,10 +283,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function equalizeHeights(){
     var maxH = 0;
-    // Reset heights first
+    // Reset
     $slider.find('.comp-card').css('height', 'auto');
     
-    // Calculate max height of visible cards
+    // Calculate
     $slider.find('.comp-card:visible').each(function(){
       var h = $(this).outerHeight();
       if (h > maxH) maxH = h;
@@ -306,10 +306,7 @@ document.addEventListener('DOMContentLoaded', function(){
       infinite: false,
       slidesToShow: itemsToShowDesktop,
       slidesToScroll: 1,
-      swipeToSlide: true, 
-      touchThreshold: 10,
       variableWidth: false, 
-      accessibility: false, /* Prevents auto-focus scrolling issues */
       responsive: [
         { 
           breakpoint: 1024, 
@@ -322,14 +319,13 @@ document.addEventListener('DOMContentLoaded', function(){
           settings: { 
             slidesToShow: 1,
             variableWidth: true,
-            centerMode: false,
-            swipe: true,
-            draggable: true,
-            swipeToSlide: true,
-            touchThreshold: 100, /* SUPER SENSITIVE TOUCH */
-            edgeFriction: 0.1,   /* Easier to pull at edges */
-            waitForAnimate: false,
-            speed: 250
+            /* Fix: Disable swipeToSlide to prevent confusion.
+              Increase touchThreshold for easy triggering. 
+            */
+            swipeToSlide: false, 
+            touchThreshold: 50,
+            slidesToScroll: 1,
+            centerMode: false
           } 
         }
       ]
@@ -350,17 +346,18 @@ document.addEventListener('DOMContentLoaded', function(){
   function showCategory(cat){
     destroySlick();
     
-    // Filter logic
+    // Filter
     var $visible = $cards.hide().filter('[data-cat="'+cat+'"]').show();
     
+    // Calculate Columns
     var actualCols = Math.min($visible.length, colsDesktop);
     actualCols = Math.max(actualCols, 1);
     
     initSlick(actualCols);
     
+    // Reset Position
     if ($slider.hasClass('slick-initialized')) {
       $slider.slick('slickGoTo', 0, true);
-      $slider.slick('setPosition');
     } else {
       equalizeHeights();
     }
