@@ -1013,6 +1013,15 @@
             "name": "Kevin R",
             "text": "Cleaning used to annoy me. With this board it’s a non-issue."
           }
+        },
+        "review_kPUBLY": {
+          "type": "review",
+          "settings": {
+            "cat_id": "board",
+            "image": "shopify://shop_images/240_F_306161749_BmNByNMUXfsk5iBWXY3L02wFgkRYrG7s.jpg",
+            "name": "Laura",
+            "text": "I like that it doesn’t absorb anything. It feels cleaner when prepping food."
+          }
         }
       },
       "block_order": [
@@ -1029,7 +1038,8 @@
         "review_qab6mW",
         "review_xdQiYp",
         "review_MEryHM",
-        "review_tnpqGa"
+        "review_tnpqGa",
+        "review_kPUBLY"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
