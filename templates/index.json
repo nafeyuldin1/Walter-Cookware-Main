@@ -977,6 +977,15 @@
             "name": "Laura",
             "text": "I was mainly looking for something easier to clean. Ended up loving how evenly it cooks as well. Big upgrade from my old pan."
           }
+        },
+        "review_qab6mW": {
+          "type": "review",
+          "settings": {
+            "cat_id": "pans",
+            "image": "shopify://shop_images/240_F_310879035_AigVCcewILsIlmibph8MmAMioBYHK9NL.jpg",
+            "name": "Thomas W.",
+            "text": "Used it on gas and induction, works perfectly on both. No learning curve, just a solid pan that performs consistently."
+          }
         }
       },
       "block_order": [
@@ -989,7 +998,8 @@
         "review_B6LENH",
         "review_X4Yg4b",
         "review_f6MBfY",
-        "review_zHtfFC"
+        "review_zHtfFC",
+        "review_qab6mW"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
