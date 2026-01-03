@@ -25,9 +25,14 @@
 %}
 
 <style>
-  /* --- FIX: Proper Z-Index Management --- */
+  /* --- CRITICAL FIX: Custom Element Display --- */
+  sticky-header {
+      display: block; /* Zaroori hai taake height calculate ho sake */
+      position: relative;
+  }
+
   #shopify-section-{{ section.id }}{
-    z-index: 40; /* High enough to be sticky, lower than modal/drawer (usually 100+) */
+    z-index: 100; /* Increased Z-Index for safety */
     position: relative;
   }
   
@@ -55,7 +60,7 @@
   .header-wrapper {
       position: relative;
       z-index: 3;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
       width: 100%;
@@ -80,8 +85,8 @@
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
       {% if section.settings.enable_sticky_blur %}
-        background-color: rgba(var(--color-background), 0.8) !important;
-        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        background-color: rgba(var(--color-background), 0.95) !important;
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       {% endif %}
   }
 
@@ -92,11 +97,15 @@
       border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
   }
   
-  /* FIX: Ensure hidden class works but doesn't break layout */
+  /* Hide header transformation */
   .shopify-section-header-hidden { 
       transform: translateY(-100%); 
   }
   
+  .shopify-section-header-sticky {
+     /* Class added by JS when sticky mode is active */
+  }
+
   /* --- MEGA MENU & PRODUCT CARD STYLES --- */
   .cat-strip { 
       display: flex; justify-content: center; gap: 20px; padding: 0 20px; 
@@ -175,7 +184,7 @@
 
 {%- style -%}
   .header { padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem; }
-  .section-header { position: sticky; }
+  .section-header { position: sticky; /* Placeholder for CSS only sticky */ }
   @media screen and (min-width: 750px) { .section-header { margin-bottom: {{ section.settings.margin_bottom }}px; } }
   @media screen and (min-width: 990px) { .header { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; } }
 {%- endstyle -%}
@@ -416,13 +425,21 @@
   {%- render 'cart-notification', color_scheme: section.settings.color_scheme, desktop_menu_type: section.settings.menu_type_desktop -%}
 {%- endif -%}
 
-{% javascript %}
+{% comment %} 
+  CHANGED: Using standard script tag instead of liquid tag 
+  to ensure immediate execution 
+{% endcomment %}
+<script>
   class StickyHeader extends HTMLElement {
     constructor() { super(); }
     
     connectedCallback() {
+      // Direct Selectors for safety
       this.header = document.querySelector('.section-header');
       this.wrapper = this.querySelector('.header-wrapper');
+      
+      if (!this.header || !this.wrapper) return;
+
       this.headerIsAlwaysSticky = this.getAttribute('data-sticky-type') === 'always' || this.getAttribute('data-sticky-type') === 'reduce-logo-size';
       
       // Data Attributes
@@ -431,10 +448,11 @@
       this.classSticky = this.getAttribute('data-class-sticky');
       this.isHome = this.getAttribute('data-is-home') === 'true';
 
-      // Set initial height CSS var
+      // Set initial height
       this.setHeaderHeight();
       window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
       
+      // Init Sticky Class if "Always"
       if (this.headerIsAlwaysSticky) { 
         this.header.classList.add('shopify-section-header-sticky'); 
       }
@@ -447,14 +465,13 @@
       
       setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 300);
 
-      // --- FIX: Listen for Drawer Toggle to prevent hiding ---
+      // --- FIX: Prevent Header Hiding when Drawer Toggles ---
       const details = document.getElementById('Details-menu-drawer-container');
       if (details) {
           details.addEventListener('toggle', (event) => {
               if (details.open) {
-                   // Ensure header is visible when menu opens
-                   this.header.classList.remove('shopify-section-header-hidden');
                    this.header.classList.add('shopify-section-header-sticky');
+                   this.header.classList.remove('shopify-section-header-hidden');
                    this.updateState('sticky');
               }
           });
@@ -470,13 +487,12 @@
     }
 
     onScroll() {
-      // --- FIX: Stop logic if Menu Drawer is Open ---
+      // --- FIX: Logic to check if Drawer is Open ---
       const menuDrawer = document.querySelector('details[id^="Details-menu-drawer-container"]');
       if (menuDrawer && menuDrawer.hasAttribute('open')) return;
-      // ----------------------------------------------
 
       const scrollTop = window.scrollY;
-      const headerHeight = this.header.offsetHeight;
+      const headerHeight = this.header.offsetHeight || 120; // Fallback height
       const triggerPoint = headerHeight / 2;
 
       const isScrollDown = scrollTop > this.currentScrollTop && scrollTop > triggerPoint;
@@ -522,7 +538,10 @@
        }
     }
   }
-  customElements.define('sticky-header', StickyHeader);
+  
+  if (!customElements.get('sticky-header')) {
+    customElements.define('sticky-header', StickyHeader);
+  }
 
   // Mega Menu JS
   document.addEventListener('DOMContentLoaded', function() {
@@ -563,7 +582,7 @@
         headerSection.addEventListener('mouseleave', closeMenu);
     }
   });
-{% endjavascript %}
+</script>
 
 <script type="application/ld+json">
   {
