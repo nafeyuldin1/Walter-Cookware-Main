@@ -1,6 +1,6 @@
 {% comment %}
-  Section: Materials Comparison Tabs (Mobile Slider Fix: Stuck Issue Resolved)
-  Fixes: variableWidth lock, touch sensitivity, and infinite scroll gaps.
+  Section: Materials Comparison Tabs (Final Fix: Removed Flex Track Conflict)
+  Fixes: Slider getting stuck at the last slide on mobile.
 {% endcomment %}
 
 {%- style -%}
@@ -71,22 +71,21 @@
 
   /* Slider & Cards - Desktop Defaults */
   #shopify-section-{{ section.id }} .slick-list { margin: 0 -16px; }
-  #shopify-section-{{ section.id }} .slick-slide { margin: 0 16px; }
-  
-  /* Flex Fix for Equal Height in Slick */
-  #shopify-section-{{ section.id }} .slick-track { display: flex !important; }
-  #shopify-section-{{ section.id }} .slick-slide { height: auto; display: flex; flex-direction: column; }
-
+  #shopify-section-{{ section.id }} .slick-slide { 
+    margin: 0 16px; 
+    height: auto; 
+    float: left; /* Essential for Slick Math */
+  }
 
   #shopify-section-{{ section.id }} .comp-card {
     border-radius: 24px;
     border: 1.5px solid {{ section.settings.card_border }};
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%; /* Fill flex height */
+    display: block; /* Removed Flex to fix slider stuck issue */
+    height: 100%;
     width: 100%;
     background: {{ section.settings.card_bg }};
+    position: relative;
   }
 
   #shopify-section-{{ section.id }} .comp-card__media {
@@ -120,7 +119,6 @@
   #shopify-section-{{ section.id }} .comp-card__body {
     padding: 24px;
     border-top: 1.5px solid {{ section.settings.card_border }};
-    flex-grow: 1;
   }
 
   #shopify-section-{{ section.id }} .comp-card__title {
@@ -139,7 +137,7 @@
   }
 
   /* =========================================
-     Responsive Mobile (Optimized for Sliding)
+     Responsive Mobile (Stable Layout)
      ========================================= */
   @media (max-width: 768px) {
     #shopify-section-{{ section.id }} .materials__inner {
@@ -183,16 +181,15 @@
     #shopify-section-{{ section.id }} .slick-list {
       margin: 0;
       padding: 0;
-      overflow: visible; /* Important for side peek */
+      overflow: visible; 
     }
 
     #shopify-section-{{ section.id }} .slick-slide {
       margin: 0 8px; 
-      flex: 0 0 auto; /* Fix for variable width flex box */
     }
 
     #shopify-section-{{ section.id }} .comp-card {
-      width: 260px; /* Fixed width for consistent slide size */
+      width: 260px; /* Fixed width */
     }
   }
 {%- endstyle -%}
@@ -274,18 +271,22 @@ document.addEventListener('DOMContentLoaded', function(){
   var $firstTab = $wrap.find('.materials__tab').first();
   var activeCat = $firstTab.length ? $firstTab.attr('data-cat') : 'cat1';
 
+  // JS Based Height Equalizer (Better for Slick Physics than CSS Flex)
   function equalizeHeights(){
-    // Use setTimeout to ensure slick has rendered before calculating
-    setTimeout(function(){
-      var maxH = 0;
-      $slider.find('.comp-card').css('height','100%'); // Reset
-      $slider.find('.comp-card:visible').each(function(){
-        var h = $(this).outerHeight();
-        if (h > maxH) maxH = h;
-      });
-      // Apply height to slick-slide to let flexbox stretch the card
-      if (maxH > 0) $slider.find('.slick-slide').css('height', maxH + 'px');
-    }, 100);
+    var maxH = 0;
+    // Reset heights first
+    $slider.find('.comp-card').css('height', 'auto');
+    
+    // Calculate max height of visible cards
+    $slider.find('.comp-card:visible').each(function(){
+      var h = $(this).outerHeight();
+      if (h > maxH) maxH = h;
+    });
+
+    // Apply max height to all cards (prevents jumping)
+    if (maxH > 0) {
+      $slider.find('.comp-card').css('height', maxH + 'px');
+    }
   }
 
   function initSlick(itemsToShowDesktop) {
@@ -297,9 +298,8 @@ document.addEventListener('DOMContentLoaded', function(){
       infinite: false,
       slidesToShow: itemsToShowDesktop,
       slidesToScroll: 1,
-      swipeToSlide: true, /* Allows free sliding */
-      touchThreshold: 20, /* Makes it more sensitive to touch */
-      waitForAnimate: false, /* FIX: Prevents getting stuck at ends */
+      swipeToSlide: true, 
+      touchThreshold: 10,
       variableWidth: false, 
       responsive: [
         { 
@@ -312,28 +312,30 @@ document.addEventListener('DOMContentLoaded', function(){
           breakpoint: 768,  
           settings: { 
             slidesToShow: 1,
-            variableWidth: true, /* Enable for mobile */
-            centerMode: false,
+            variableWidth: true, /* Mobile Reference Style */
             swipeToSlide: true,
-            touchThreshold: 20,
-            waitForAnimate: false /* Crucial for mobile experience */
+            infinite: false
           } 
         }
       ]
     });
     
-    $slider.on('setPosition', equalizeHeights);
+    // Run height equalizer after Slick calculates positions
+    $slider.on('setPosition', function(){
+      setTimeout(equalizeHeights, 10);
+    });
   }
 
   function destroySlick(){
     if ($slider.hasClass('slick-initialized')) {
-      $slider.off('setPosition', equalizeHeights);
+      $slider.off('setPosition');
       $slider.slick('unslick');
     }
   }
 
   function showCategory(cat){
     destroySlick();
+    
     // Filter logic
     var $visible = $cards.hide().filter('[data-cat="'+cat+'"]').show();
     
@@ -346,10 +348,10 @@ document.addEventListener('DOMContentLoaded', function(){
     // Reset position cleanly
     if ($slider.hasClass('slick-initialized')) {
       $slider.slick('slickGoTo', 0, true);
+      $slider.slick('setPosition');
+    } else {
+      equalizeHeights();
     }
-    
-    // Force Recalculation
-    equalizeHeights();
   }
 
   function setActiveTab(cat){
