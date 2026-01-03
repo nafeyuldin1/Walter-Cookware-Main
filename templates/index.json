@@ -578,6 +578,17 @@
             "base_size_d": 32,
             "base_size_m": 24
           }
+        },
+        "line_CdHUhf": {
+          "type": "line",
+          "disabled": true,
+          "settings": {
+            "text": "Your Text Here",
+            "visibility": "always",
+            "base_opacity": 30,
+            "base_size_d": 48,
+            "base_size_m": 24
+          }
         }
       },
       "block_order": [
@@ -587,7 +598,8 @@
         "line_Q8nxN7",
         "line_rGpHLY",
         "line_LPJ8ze",
-        "line_VTQ4Vz"
+        "line_VTQ4Vz",
+        "line_CdHUhf"
       ],
       "name": "Scroll Text Fade",
       "settings": {
@@ -623,6 +635,7 @@
         },
         "category_g4qVKD": {
           "type": "category",
+          "disabled": true,
           "settings": {
             "title": "Utensils",
             "cat_id": "cat3"
@@ -630,6 +643,7 @@
         },
         "category_zVLQ87": {
           "type": "category",
+          "disabled": true,
           "settings": {
             "title": "Water Bottles",
             "cat_id": "cat4"
