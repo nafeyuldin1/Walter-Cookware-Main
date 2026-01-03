@@ -684,6 +684,17 @@
             "title": "Ceramic Pans",
             "text": "At first, ceramic pans seem perfect — smooth, safe, and effortless. But the illusion fades fast. Within months, food starts sticking, coatings chip away, and what once felt premium turns into another short-lived disappointment."
           }
+        },
+        "card_Q4daGN": {
+          "type": "card",
+          "settings": {
+            "cat_id": "cat2",
+            "badge_text": "FOREVER CHEMICALS",
+            "badge_bg": "",
+            "badge_text_color": "",
+            "title": "Non-Stick / Teflon",
+            "text": "Description of why this material is bad."
+          }
         }
       },
       "block_order": [
@@ -693,11 +704,12 @@
         "category_zVLQ87",
         "card_cpfxmP",
         "card_jA6dHG",
-        "card_khxby6"
+        "card_khxby6",
+        "card_Q4daGN"
       ],
       "name": "Materials Comparison",
       "settings": {
-        "cols_desktop": 5,
+        "cols_desktop": 3,
         "cols_mobile": 1.2,
         "bg_color": "#121212",
         "text_color": "#ede6da",
