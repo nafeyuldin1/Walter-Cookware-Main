@@ -9,7 +9,6 @@
 {%- endif -%}
 
 {% liquid
-  # --- LOGIC START ---
   assign default_scheme_class = 'color-' | append: section.settings.color_scheme
   assign home_scheme_class = 'color-' | append: section.settings.color_scheme_home
   assign sticky_scheme_class = 'color-' | append: section.settings.color_scheme_sticky
@@ -26,9 +25,12 @@
 %}
 
 <style>
+  /* --- FIX: Proper Z-Index Management --- */
   #shopify-section-{{ section.id }}{
-    z-index: 111111111111111111111111111;
+    z-index: 40; /* High enough to be sticky, lower than modal/drawer (usually 100+) */
+    position: relative;
   }
+  
   /* --- BASE HEADER STYLES --- */
   header-drawer { justify-self: start; margin-left: -1.2rem; }
   
@@ -53,9 +55,10 @@
   .header-wrapper {
       position: relative;
       z-index: 3;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
+      width: 100%;
   }
   .header-wrapper.no-transition { transition: none !important; }
 
@@ -64,7 +67,7 @@
       background-color: transparent !important;
       border-bottom: none !important;
       position: absolute;
-      width: 100%; top: 0; left: 0;
+      top: 0; left: 0;
       {% if section.settings.enable_sticky_blur %}
         backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
       {% endif %}
@@ -72,7 +75,7 @@
 
   /* Sticky */
   .header-wrapper[data-state="sticky"] {
-      position: fixed; top: 0; width: 100%;
+      position: fixed; top: 0; left:0; width: 100%;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
@@ -88,9 +91,13 @@
       color: rgb(var(--color-foreground));
       border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
   }
-  .shopify-section-header-hidden { transform: translateY(-100%); transition: transform 0.3s ease; }
   
-  /* --- MEGA MENU & PRODUCT CARD STYLES (COMPETITOR MATCH) --- */
+  /* FIX: Ensure hidden class works but doesn't break layout */
+  .shopify-section-header-hidden { 
+      transform: translateY(-100%); 
+  }
+  
+  /* --- MEGA MENU & PRODUCT CARD STYLES --- */
   .cat-strip { 
       display: flex; justify-content: center; gap: 20px; padding: 0 20px; 
       background: inherit; 
@@ -142,7 +149,7 @@
   
   /* Stars */
   .loox-rating-content { display: flex; align-items: center; gap: 4px; margin-bottom: 6px; }
-  .endorse__star svg { width: 12px; height: 12px; display: block; fill: #B57C46; } /* Gold Color */
+  .endorse__star svg { width: 12px; height: 12px; display: block; fill: #B57C46; }
   .loox-rating-label { font-size: 11px; color: rgba(var(--color-foreground), 0.6); margin-top: 2px; }
 
   /* Title */
@@ -342,8 +349,6 @@
                 <a href="{{ product.url }}" class="cat-prod">
                   <div class="cat-prod__media">
                     <img src="{{ product.featured_image | image_url: width: 400 }}" loading="lazy" alt="{{ product.title }}">
-                    
-                    {%- comment -%} LOGIC: SALE BADGE / LOW STOCK {%- endcomment -%}
                     {%- assign badge_text = "" -%}
                     {%- if product.available -%}
                         {%- if product.compare_at_price > product.price -%}
@@ -365,10 +370,6 @@
                   <div class="cat-prod__body">
                     <div class="loox-rating-content" aria-label="5 out of 5 stars">
                         <span class="endorse__star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg></span>
-                        <span class="endorse__star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg></span>
-                        <span class="endorse__star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg></span>
-                        <span class="endorse__star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg></span>
-                        <span class="endorse__star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg></span>
                         <span class="loox-rating-label"> {% if product.metafields.custom.product_review_count != blank %}  ({{ product.metafields.custom.product_review_count }}) {% else %} (2,811 reviews) {% endif %} </span>
                     </div>
 
@@ -383,16 +384,6 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
                             {% endif %}
                             {{ block.settings.feature_text_1 }}
-                        </li>
-                        {% endif %}
-                        {% if block.settings.feature_text_2 != blank %}
-                        <li class="cat-bullet">
-                            {% if block.settings.feature_icon_2 != blank %}
-                                <img src="{{ block.settings.feature_icon_2 | image_url: width: 30 }}" loading="lazy">
-                            {% else %}
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-                            {% endif %}
-                            {{ block.settings.feature_text_2 }}
                         </li>
                         {% endif %}
                     </ul>
@@ -455,6 +446,19 @@
       this.onScroll(); // Force init
       
       setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 300);
+
+      // --- FIX: Listen for Drawer Toggle to prevent hiding ---
+      const details = document.getElementById('Details-menu-drawer-container');
+      if (details) {
+          details.addEventListener('toggle', (event) => {
+              if (details.open) {
+                   // Ensure header is visible when menu opens
+                   this.header.classList.remove('shopify-section-header-hidden');
+                   this.header.classList.add('shopify-section-header-sticky');
+                   this.updateState('sticky');
+              }
+          });
+      }
     }
 
     setHeaderHeight() { 
@@ -466,6 +470,11 @@
     }
 
     onScroll() {
+      // --- FIX: Stop logic if Menu Drawer is Open ---
+      const menuDrawer = document.querySelector('details[id^="Details-menu-drawer-container"]');
+      if (menuDrawer && menuDrawer.hasAttribute('open')) return;
+      // ----------------------------------------------
+
       const scrollTop = window.scrollY;
       const headerHeight = this.header.offsetHeight;
       const triggerPoint = headerHeight / 2;
