@@ -251,8 +251,8 @@
         "featured_collection_Kgfcff": {
           "type": "featured_collection",
           "settings": {
-            "collection": "bundles",
-            "custom_image": "shopify://shop_images/board-min_33fdc77c-269a-4cc5-84ec-06c41c4bb2d3.jpg",
+            "collection": "luxury-homeware",
+            "custom_image": "shopify://shop_images/1_ac548c12-8a0b-4601-b0f1-5fb0d533f662.jpg",
             "badge_text": "Up To 55% OFF",
             "badge_bg": "#d42a2a",
             "badge_color": "#ffffff"
