@@ -273,7 +273,7 @@
       ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
-        "title": "Shop By Category",
+        "title": "Shop Collections",
         "heading_size": "h0",
         "grid_gap": 26,
         "card_radius": 22,
