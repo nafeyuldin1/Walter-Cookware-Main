@@ -1,6 +1,6 @@
 {% comment %}
   Section: Materials Comparison Tabs
-  Fixed: Slick Slider Stuck Issue on Mobile (Edge Friction & Touch Threshold)
+  Fixes: Slider Stuck/Lock Issue on Mobile (Ultra High Sensitivity & Friction Fix)
 {% endcomment %}
 
 {%- style -%}
@@ -76,7 +76,7 @@
   /* Flex Fix for Equal Height in Slick */
   #shopify-section-{{ section.id }} .slick-track { 
     display: flex !important; 
-    touch-action: pan-y; /* FIX: Helps mobile scrolling interactions */
+    touch-action: pan-y; /* CRITICAL FIX: Allows vertical scroll while swiping horizontal */
   }
   #shopify-section-{{ section.id }} .slick-slide { height: auto; display: flex; flex-direction: column; }
 
@@ -87,7 +87,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 100%; /* Fill flex height */
+    height: 100%;
     width: 100%;
     background: {{ section.settings.card_bg }};
   }
@@ -142,7 +142,7 @@
   }
 
   /* =========================================
-      Responsive Mobile (Optimized for Sliding)
+      Responsive Mobile (Fixed for Smooth Sliding)
       ========================================= */
   @media (max-width: 768px) {
     #shopify-section-{{ section.id }} .materials__inner {
@@ -181,6 +181,7 @@
     #shopify-section-{{ section.id }} .materials__slider {
       display: block;
       width: 100%;
+      cursor: grab;
     }
 
     #shopify-section-{{ section.id }} .slick-list {
@@ -191,11 +192,13 @@
 
     #shopify-section-{{ section.id }} .slick-slide {
       margin: 0 8px; 
-      flex: 0 0 auto; /* Fix for variable width flex box */
+      flex: 0 0 auto;
     }
 
     #shopify-section-{{ section.id }} .comp-card {
-      width: 260px; /* Fixed width for consistent slide size */
+      /* Dynamic width based on screen to ensure peek effect works */
+      width: 85vw; 
+      max-width: 340px; 
     }
   }
 {%- endstyle -%}
@@ -278,17 +281,15 @@ document.addEventListener('DOMContentLoaded', function(){
   var activeCat = $firstTab.length ? $firstTab.attr('data-cat') : 'cat1';
 
   function equalizeHeights(){
-    // Use setTimeout to ensure slick has rendered before calculating
     setTimeout(function(){
       var maxH = 0;
-      $slider.find('.comp-card').css('height','100%'); // Reset
+      $slider.find('.comp-card').css('height','100%'); 
       $slider.find('.comp-card:visible').each(function(){
         var h = $(this).outerHeight();
         if (h > maxH) maxH = h;
       });
-      // Apply height to slick-slide to let flexbox stretch the card
       if (maxH > 0) $slider.find('.slick-slide').css('height', maxH + 'px');
-    }, 100);
+    }, 150);
   }
 
   function initSlick(itemsToShowDesktop) {
@@ -301,9 +302,11 @@ document.addEventListener('DOMContentLoaded', function(){
       slidesToShow: itemsToShowDesktop,
       slidesToScroll: 1,
       swipeToSlide: true, 
-      touchThreshold: 40, /* Sensitivity for Desktop */
+      touchThreshold: 200, /* 200 = Extremely sensitive (fixes Stuck issue) */
       waitForAnimate: false, 
-      variableWidth: false, 
+      variableWidth: false,
+      useTransform: true,
+      cssEase: 'ease-out',
       responsive: [
         { 
           breakpoint: 1024, 
@@ -316,12 +319,13 @@ document.addEventListener('DOMContentLoaded', function(){
           settings: { 
             slidesToShow: 1,
             slidesToScroll: 1,
-            variableWidth: true, /* Enable for mobile */
+            variableWidth: true,
             centerMode: false,
+            focusOnSelect: false, /* Prevents auto-scroll fighting */
             swipeToSlide: true,
-            touchThreshold: 80, /* FIX: High sensitivity prevents getting stuck */
-            edgeFriction: 0.05, /* FIX: Prevents hard lock at edges */
-            waitForAnimate: false, /* Crucial for mobile experience */
+            touchThreshold: 200, /* FIX: High sensitivity */
+            edgeFriction: 0.35, /* FIX: Allows bounce at edge instead of lock */
+            waitForAnimate: false, 
             infinite: false
           } 
         }
@@ -340,21 +344,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function showCategory(cat){
     destroySlick();
-    // Filter logic
     var $visible = $cards.hide().filter('[data-cat="'+cat+'"]').show();
     
-    // Determine responsive columns
     var actualCols = Math.min($visible.length, colsDesktop);
     actualCols = Math.max(actualCols, 1);
     
     initSlick(actualCols);
     
-    // Reset position cleanly
     if ($slider.hasClass('slick-initialized')) {
       $slider.slick('slickGoTo', 0, true);
     }
     
-    // Force Recalculation
     equalizeHeights();
   }
 
