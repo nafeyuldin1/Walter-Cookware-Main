@@ -1,14 +1,13 @@
 {% comment %}
-  Section: Materials Comparison Tabs (Fully Dynamic)
-  Updates: 
-  - Added 'Cards per row' settings for Desktop & Mobile.
-  - Fixed Range Steps to prevent errors.
+  Section: Materials Comparison Tabs (Fixed for Mobile Slider)
+  Based on Reference Site Logic: Variable Width + Fixed CSS Width
 {% endcomment %}
 
 {%- style -%}
   #shopify-section-{{ section.id }} .materials {
     background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
+    overflow: hidden; /* Prevent horizontal scrollbar */
   }
 
   #shopify-section-{{ section.id }} .materials__inner {
@@ -40,7 +39,6 @@
   /* Tabs Navigation */
   #shopify-section-{{ section.id }} .materials__tabs {
     display: grid;
-    /* Auto-fit columns based on content count usually, but handled by grid-template-columns below */
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     border: 1.5px solid {{ section.settings.border_color }};
     border-radius: 12px;
@@ -71,7 +69,7 @@
     color: {{ section.settings.tab_active_text }};
   }
 
-  /* Slider & Cards */
+  /* Slider & Cards - Desktop Defaults */
   #shopify-section-{{ section.id }} .slick-list { margin: 0 -16px; }
   #shopify-section-{{ section.id }} .slick-slide { margin: 0 16px; }
 
@@ -135,25 +133,30 @@
     line-height: 1.5;
   }
 
-  /* Responsive Mobile */
+  /* =========================================
+     Responsive Mobile (Reference Site Style)
+     ========================================= */
   @media (max-width: 768px) {
     #shopify-section-{{ section.id }} .materials__inner {
       padding-top: {{ section.settings.pt_m }}px;
       padding-bottom: {{ section.settings.pb_m }}px;
       padding-left: {{ section.settings.pad_x_m }}px;
-      padding-right: {{ section.settings.pad_x_m }}px;
+      padding-right: 0; /* Remove right padding to let slider bleed */
     }
 
     #shopify-section-{{ section.id }} .materials__title {
       font-size: {{ section.settings.heading_size_m }}px;
+      padding-right: {{ section.settings.pad_x_m }}px; /* Add padding back to text */
     }
 
     #shopify-section-{{ section.id }} .materials__sub {
       font-size: {{ section.settings.sub_size_m }}px;
+      padding-right: {{ section.settings.pad_x_m }}px; /* Add padding back to text */
     }
 
     #shopify-section-{{ section.id }} .materials__tabs {
-      grid-template-columns: 1fr 1fr; /* 2 per row on mobile */
+      grid-template-columns: 1fr 1fr; 
+      margin-right: {{ section.settings.pad_x_m }}px; /* Align tabs */
     }
     
     #shopify-section-{{ section.id }} .materials__tab {
@@ -163,12 +166,34 @@
       border-bottom: 1.5px solid {{ section.settings.border_color }};
     }
     
-    /* Remove borders for layout logic 2x2 */
     #shopify-section-{{ section.id }} .materials__tab:nth-child(2n) {
        border-right: 0;
     }
     #shopify-section-{{ section.id }} .materials__tab:nth-last-child(-n+2) {
        border-bottom: 0;
+    }
+
+    /* SLIDER MOBILE FIXES */
+    #shopify-section-{{ section.id }} .materials__slider {
+      /* Ensure slider container handles overflow correctly */
+      display: block;
+      width: 100%;
+    }
+
+    #shopify-section-{{ section.id }} .slick-list {
+      margin: 0;
+      padding: 0;
+      overflow: visible; /* Allows the next card to be seen cleanly */
+    }
+
+    #shopify-section-{{ section.id }} .slick-slide {
+      margin: 0 8px; /* Tighter margins like reference */
+    }
+
+    /* THE KEY FIX: Fixed width on mobile cards + variableWidth in JS */
+    #shopify-section-{{ section.id }} .comp-card {
+      width: 260px; /* Fixed width like reference site */
+      flex-shrink: 0;
     }
   }
 {%- endstyle -%}
@@ -244,9 +269,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var $slider    = $wrap.find('.js-materials-slider-' + SECTION_ID);
   var $cards     = $slider.children('.comp-card');
   
-  // Variables from Schema
   var colsDesktop = {{ section.settings.cols_desktop }};
-  var colsMobile  = {{ section.settings.cols_mobile }}; // Can be float e.g. 1.2
 
   // Find first category ID to set active initially
   var $firstTab = $wrap.find('.materials__tab').first();
@@ -271,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function(){
       slidesToShow: itemsToShowDesktop,
       slidesToScroll: 1,
       swipeToSlide: true,
-      variableWidth: false,
+      variableWidth: false, // Desktop default
       responsive: [
         { 
           breakpoint: 1024, 
@@ -282,9 +305,9 @@ document.addEventListener('DOMContentLoaded', function(){
         { 
           breakpoint: 768,  
           settings: { 
-            slidesToShow: colsMobile, 
-            variableWidth: false,
-            centerMode: false 
+            slidesToShow: 1, // Doesn't matter much because of variableWidth
+            variableWidth: true, // THIS IS THE KEY FIX
+            centerMode: false
           } 
         }
       ]
@@ -307,7 +330,6 @@ document.addEventListener('DOMContentLoaded', function(){
     
     // Determine responsive columns: Don't exceed available items
     var actualCols = Math.min($visible.length, colsDesktop);
-    // Ensure at least 1
     actualCols = Math.max(actualCols, 1);
     
     initSlick(actualCols);
@@ -352,7 +374,6 @@ document.addEventListener('DOMContentLoaded', function(){
     $slider = $wrap.find('.js-materials-slider-' + SECTION_ID);
     $cards  = $slider.children('.comp-card');
     
-    // Reset to first tab on reload
     var $first = $wrap.find('.materials__tab').first();
     if($first.length) {
       var cat = $first.attr('data-cat');
@@ -379,16 +400,6 @@ document.addEventListener('DOMContentLoaded', function(){
       "step": 1,
       "label": "Cards per row (Desktop)",
       "default": 4
-    },
-    {
-      "type": "range",
-      "id": "cols_mobile",
-      "min": 1,
-      "max": 3,
-      "step": 0.1,
-      "label": "Cards per row (Mobile)",
-      "default": 1.1,
-      "info": "Use decimals (e.g. 1.2) to show part of the next card."
     },
     {
       "type": "header",
