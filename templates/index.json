@@ -877,7 +877,7 @@
         "text_muted": "#b9b2a8",
         "icon_color": "#c9ad8e",
         "active_text_color": "#bca588",
-        "active_icon_color": "#ffffff",
+        "active_icon_color": "#bca588",
         "item_size_d": 24,
         "item_size_m": 14,
         "item_size_m_active": 20,
