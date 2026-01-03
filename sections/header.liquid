@@ -25,14 +25,15 @@
 %}
 
 <style>
-  /* --- CRITICAL FIX: Custom Element Display --- */
+  /* --- CRITICAL FIX: Z-Index and Positioning --- */
   sticky-header {
-      display: block; /* Zaroori hai taake height calculate ho sake */
+      display: block;
       position: relative;
+      z-index: 1000; /* Priority Z-Index */
   }
 
   #shopify-section-{{ section.id }}{
-    z-index: 100; /* Increased Z-Index for safety */
+    z-index: 1000;
     position: relative;
   }
   
@@ -58,16 +59,15 @@
   
   /* --- HEADER STATE STYLING --- */
   .header-wrapper {
-      position: relative;
-      z-index: 3;
-      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+      width: 100%;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
-      width: 100%;
+      /* Default Transition */
+      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
   }
   .header-wrapper.no-transition { transition: none !important; }
 
-  /* Transparent */
+  /* Transparent State */
   .header-wrapper[data-state="transparent"] {
       background-color: transparent !important;
       border-bottom: none !important;
@@ -78,34 +78,37 @@
       {% endif %}
   }
 
-  /* Sticky */
+  /* Sticky State (Scrolled Down) */
   .header-wrapper[data-state="sticky"] {
-      position: fixed; top: 0; left:0; width: 100%;
+      position: fixed; 
+      top: 0; left:0; width: 100%;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
+      z-index: 1000;
+      transform: translateY(0);
       {% if section.settings.enable_sticky_blur %}
         background-color: rgba(var(--color-background), 0.95) !important;
         backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       {% endif %}
   }
 
-  /* Standard */
+  /* Hidden State (Scroll Down + Hide option) */
+  .header-wrapper[data-state="hidden"] {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      transform: translateY(-100%); /* Slides Up */
+      z-index: 1000;
+  }
+
+  /* Standard State */
   .header-wrapper[data-state="standard"] {
+      position: relative;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
       border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
   }
   
-  /* Hide header transformation */
-  .shopify-section-header-hidden { 
-      transform: translateY(-100%); 
-  }
-  
-  .shopify-section-header-sticky {
-     /* Class added by JS when sticky mode is active */
-  }
-
   /* --- MEGA MENU & PRODUCT CARD STYLES --- */
   .cat-strip { 
       display: flex; justify-content: center; gap: 20px; padding: 0 20px; 
@@ -184,7 +187,7 @@
 
 {%- style -%}
   .header { padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem; }
-  .section-header { position: sticky; /* Placeholder for CSS only sticky */ }
+  .section-header { position: sticky; /* Placeholder */ }
   @media screen and (min-width: 750px) { .section-header { margin-bottom: {{ section.settings.margin_bottom }}px; } }
   @media screen and (min-width: 990px) { .header { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; } }
 {%- endstyle -%}
@@ -425,61 +428,57 @@
   {%- render 'cart-notification', color_scheme: section.settings.color_scheme, desktop_menu_type: section.settings.menu_type_desktop -%}
 {%- endif -%}
 
-{% comment %} 
-  CHANGED: Using standard script tag instead of liquid tag 
-  to ensure immediate execution 
-{% endcomment %}
 <script>
   class StickyHeader extends HTMLElement {
     constructor() { super(); }
     
     connectedCallback() {
-      // Direct Selectors for safety
-      this.header = document.querySelector('.section-header');
-      this.wrapper = this.querySelector('.header-wrapper');
-      
-      if (!this.header || !this.wrapper) return;
+      // --- CRITICAL FIX: The custom element IS the wrapper ---
+      // Pehlay hum child dhoond rahe thay jo ghalat tha.
+      this.wrapper = this; 
+      this.headerContent = this.querySelector('.header');
 
-      this.headerIsAlwaysSticky = this.getAttribute('data-sticky-type') === 'always' || this.getAttribute('data-sticky-type') === 'reduce-logo-size';
+      // Check settings from data attributes
+      this.stickyType = this.getAttribute('data-sticky-type');
+      this.headerIsAlwaysSticky = this.stickyType === 'always' || this.stickyType === 'reduce-logo-size';
       
-      // Data Attributes
+      // Data Attributes for Colors
       this.classHome = this.getAttribute('data-class-home');
       this.classDefault = this.getAttribute('data-class-default');
       this.classSticky = this.getAttribute('data-class-sticky');
       this.isHome = this.getAttribute('data-is-home') === 'true';
 
-      // Set initial height
+      // Set initial height CSS var
       this.setHeaderHeight();
       window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
       
-      // Init Sticky Class if "Always"
-      if (this.headerIsAlwaysSticky) { 
-        this.header.classList.add('shopify-section-header-sticky'); 
-      }
-
       this.currentScrollTop = 0;
       this.onScrollHandler = this.onScroll.bind(this);
       
       window.addEventListener('scroll', this.onScrollHandler, { passive: true });
-      this.onScroll(); // Force init
+      this.onScroll(); // Run immediately to set initial state
       
+      // Remove loading class
       setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 300);
 
-      // --- FIX: Prevent Header Hiding when Drawer Toggles ---
+      // --- FIX: Menu Drawer Logic ---
+      // Jab drawer open ho, sticky header ko active rakho aur hide mat hone do
       const details = document.getElementById('Details-menu-drawer-container');
       if (details) {
           details.addEventListener('toggle', (event) => {
               if (details.open) {
-                   this.header.classList.add('shopify-section-header-sticky');
-                   this.header.classList.remove('shopify-section-header-hidden');
-                   this.updateState('sticky');
+                   this.wrapper.setAttribute('data-state', 'sticky');
+                   this.wrapper.classList.remove(this.classHome, this.classDefault);
+                   if(this.classSticky) this.wrapper.classList.add(this.classSticky);
               }
           });
       }
     }
 
     setHeaderHeight() { 
-        document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`); 
+        if(this.headerContent) {
+            document.documentElement.style.setProperty('--header-height', `${this.headerContent.offsetHeight}px`); 
+        }
     }
 
     disconnectedCallback() { 
@@ -487,35 +486,38 @@
     }
 
     onScroll() {
-      // --- FIX: Logic to check if Drawer is Open ---
+      // Agar menu drawer open hai, to scroll logic ko bypass karo
       const menuDrawer = document.querySelector('details[id^="Details-menu-drawer-container"]');
       if (menuDrawer && menuDrawer.hasAttribute('open')) return;
 
       const scrollTop = window.scrollY;
-      const headerHeight = this.header.offsetHeight || 120; // Fallback height
+      const headerHeight = this.headerContent ? this.headerContent.offsetHeight : 100;
       const triggerPoint = headerHeight / 2;
 
+      // Scroll Direction Check
       const isScrollDown = scrollTop > this.currentScrollTop && scrollTop > triggerPoint;
       const isScrollUp = scrollTop < this.currentScrollTop && scrollTop > triggerPoint;
       const isAtTop = scrollTop <= triggerPoint;
 
-      if (isScrollDown || isScrollUp) {
-         if (isScrollDown && !this.headerIsAlwaysSticky) {
-             this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
-         } else {
-             this.header.classList.remove('shopify-section-header-hidden');
-             this.header.classList.add('shopify-section-header-sticky', 'animate');
-         }
-         this.updateState('sticky');
-
-      } else if (isAtTop) {
-         this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
-         
+      if (isAtTop) {
+         // Top par: Home hai to Transparent, warna Standard
          if (this.isHome) {
             this.updateState('transparent');
          } else {
             this.updateState('standard');
          }
+      } 
+      else if (isScrollDown) {
+         // Neechay scroll: Hide karo agar "On Scroll Up" setting hai, warna Sticky rakho
+         if (this.stickyType === 'on-scroll-up') {
+             this.updateState('hidden');
+         } else if (this.headerIsAlwaysSticky) {
+             this.updateState('sticky');
+         }
+      } 
+      else if (isScrollUp) {
+         // Upar scroll: Hamesha Show Sticky
+         this.updateState('sticky');
       }
 
       this.currentScrollTop = scrollTop;
@@ -527,8 +529,11 @@
        if(currentState === newState) return;
        
        this.wrapper.setAttribute('data-state', newState);
+       
+       // Clean old classes
        this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
        
+       // Apply new color class based on state
        if(newState === 'sticky') {
            if(this.classSticky) this.wrapper.classList.add(this.classSticky);
        } else if (newState === 'transparent') {
@@ -543,12 +548,12 @@
     customElements.define('sticky-header', StickyHeader);
   }
 
-  // Mega Menu JS
+  // Mega Menu Logic (Unchanged)
   document.addEventListener('DOMContentLoaded', function() {
     const wrapper = document.getElementById('cat-portals-wrapper');
     const tabs = document.querySelectorAll('.cat-strip__item');
     const portals = document.querySelectorAll('.cat-portal');
-    const headerSection = document.querySelector('.section-header');
+    const headerSection = document.querySelector('sticky-header'); // Fix selector
     
     if(!wrapper) return;
 
