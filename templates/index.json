@@ -274,7 +274,7 @@
       "name": "t:sections.collection-list.presets.name",
       "settings": {
         "title": "Shop Collections",
-        "heading_size": "h0",
+        "heading_size": "h1",
         "grid_gap": 26,
         "card_radius": 22,
         "enable_overlay": true,
