@@ -430,6 +430,7 @@
         "card_HCyaDP",
         "card_JYqxFd"
       ],
+      "disabled": true,
       "name": "Reviews Hero Slider",
       "settings": {
         "slides_desktop": 3,
@@ -459,7 +460,7 @@
         "pt_d": 120,
         "pb_d": 120,
         "pad_x_d": 80,
-        "pt_m": 60,
+        "pt_m": 84,
         "pb_m": 60,
         "pad_x_m": 16
       }
@@ -499,8 +500,8 @@
         "pb_d": 80,
         "pl_d": 0,
         "pr_d": 80,
-        "pt_m": 0,
-        "pb_m": 64,
+        "pt_m": 30,
+        "pb_m": 40,
         "pad_x_m": 0
       }
     },
