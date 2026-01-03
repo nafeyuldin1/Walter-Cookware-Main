@@ -1143,6 +1143,7 @@
     },
     "heritage_banner_x9fLfN": {
       "type": "heritage-banner",
+      "disabled": true,
       "name": "Heritage Banner",
       "settings": {
         "image_desktop": "shopify://shop_images/desktop_1-min_2000x_877c42c7-fbe3-41a2-bd63-2bbcc4052f64.webp",
@@ -1163,9 +1164,9 @@
       "settings": {
         "image_desktop": "shopify://shop_images/homepage_2-min.webp",
         "image_mobile": "shopify://shop_images/homepage_2_mob-min.avif",
-        "heading": "Our Mission Is Simple.",
-        "subheading": "<p>To create kitchenware so safe, so durable, and so effortless... you’d never have to think about it again.</p>",
-        "kicker": "That’s it.",
+        "heading": "The Mission Is Simple.",
+        "subheading": "<p>Safe. Durable. Effortless.<br/>Kitchenware you never have to worry about.</p>",
+        "kicker": "Simple as that.",
         "color_bg": "#121212",
         "color_text": "#ffffff",
         "color_subtext": "#b0b0b0"
