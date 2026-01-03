@@ -1,6 +1,5 @@
 {% comment %}
-  Section: Materials Comparison Tabs (Slick Slider Optimized)
-  Fixes: Smooth Scrolling, No Dragging Issues, Variable Width Support
+  Section: Materials Comparison (Fixed Mobile End Spacing)
 {% endcomment %}
 
 {%- style -%}
@@ -74,22 +73,20 @@
      SLIDER & CARDS (DESKTOP)
      ========================================= */
   
-  /* Reset Slick List */
   #shopify-section-{{ section.id }} .slick-list { 
     margin: 0; 
     padding: 0;
-    overflow: visible; /* Allows shadows/badges to show */
+    overflow: visible; 
   }
 
-  /* Desktop Grid Gap Logic */
   #shopify-section-{{ section.id }} .slick-track {
     display: flex;
-    gap: 24px; /* Real CSS Gap for Desktop */
+    gap: 24px; /* Desktop Gap */
   }
 
   #shopify-section-{{ section.id }} .slick-slide { 
     height: auto; 
-    display: flex; /* Ensures cards stretch to equal height */
+    display: flex; 
     flex-direction: column;
   }
 
@@ -99,7 +96,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 100%; /* Fill the slide height */
+    height: 100%;
     width: 100%;
     background: {{ section.settings.card_bg }};
     box-sizing: border-box;
@@ -163,7 +160,6 @@
       padding-bottom: {{ section.settings.pb_m }}px;
       padding-left: 0; 
       padding-right: 0;
-      /* Full bleed for slider */
     }
 
     #shopify-section-{{ section.id }} .materials__header {
@@ -199,31 +195,39 @@
        border-bottom: 0;
     }
 
-    /* SLIDER MOBILE FIXES */
+    /* SLIDER MOBILE CSS */
     #shopify-section-{{ section.id }} .materials__slider {
       display: block;
       width: 100%;
-      padding-left: {{ section.settings.pad_x_m }}px; /* Adds the left gap */
+      /* Left gap for the first card */
+      padding-left: {{ section.settings.pad_x_m }}px; 
+      /* Ensure no right padding on container */
+      padding-right: 0; 
+      box-sizing: border-box;
     }
 
     #shopify-section-{{ section.id }} .slick-track {
-      gap: 0; /* Slick handles margin via slide margin */
-      display: block; /* Return to block for slick variable width */
+      gap: 0; 
+      display: block; 
     }
 
     #shopify-section-{{ section.id }} .slick-list {
-      overflow: visible; /* Key for 'peeking' next card */
+      overflow: visible;
       margin: 0;
+      padding: 0;
     }
 
     #shopify-section-{{ section.id }} .slick-slide {
       margin-right: 16px; /* Space between cards */
-      width: 270px; /* Fixed width for cards */
-      opacity: 1;
+      width: 270px;
       transition: opacity 0.3s;
     }
-    
-    /* Optional: Fade out cards far off screen if needed, otherwise leave as is */
+
+    /* --- THE FIX IS HERE --- */
+    /* Last slide gets 0 margin so it hits the edge */
+    #shopify-section-{{ section.id }} .slick-slide:last-child {
+      margin-right: 0 !important;
+    }
   }
 {%- endstyle -%}
 
@@ -293,37 +297,26 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   var $ = window.jQuery;
-  if (!$ || !$.fn || !$.fn.slick) {
-    console.error('Slick slider not loaded');
-    return;
-  }
+  if (!$ || !$.fn || !$.fn.slick) return;
 
   var SECTION_ID = "{{ section.id }}";
   var $wrap      = $('#materials-sec-' + SECTION_ID);
   var $slider    = $wrap.find('.js-materials-slider-' + SECTION_ID);
   var colsDesktop = {{ section.settings.cols_desktop }};
 
-  // 1. Initial State: Get active tab or default to first
   var $firstTab = $wrap.find('.materials__tab').first();
   var activeCat = $firstTab.length ? $firstTab.attr('data-cat') : 'cat1';
 
-  // Helper: Equal Heights (Vital for Slick layout)
   function equalizeHeights(){
     var maxH = 0;
-    // Reset first
     $slider.find('.comp-card').css('height', '');
-    
-    // Calculate max height
     $slider.find('.slick-slide').each(function(){
        var h = $(this).find('.comp-card').outerHeight();
        if(h > maxH) maxH = h;
     });
-    
-    // Apply
     if (maxH > 0) $slider.find('.comp-card').css('height', maxH + 'px');
   }
 
-  // 2. Initialize Slick with "Bug-Free" Settings
   function initSlick() {
     if ($slider.hasClass('slick-initialized')) {
        $slider.slick('unslick');
@@ -332,12 +325,12 @@ document.addEventListener('DOMContentLoaded', function(){
     $slider.slick({
       arrows: false,
       dots: false,
-      infinite: false,       // False prevents cloning bugs in filtered lists
+      infinite: false,
       slidesToShow: colsDesktop,
       slidesToScroll: 1,
-      swipeToSlide: true,    // KEY FIX: Allows free scrolling (no sticking)
-      touchThreshold: 20,    // KEY FIX: High sensitivity (easy drag)
-      variableWidth: false,  // Desktop default
+      swipeToSlide: true,
+      touchThreshold: 20,
+      variableWidth: false,
       responsive: [
         { 
           breakpoint: 1024, 
@@ -349,39 +342,28 @@ document.addEventListener('DOMContentLoaded', function(){
           breakpoint: 768,  
           settings: { 
             slidesToShow: 1,
-            variableWidth: true, // Allows fixed width css (270px) to work
+            variableWidth: true,
             centerMode: false,
             swipeToSlide: true,
-            touchThreshold: 40   // Super sensitive for mobile
+            touchThreshold: 40
           } 
         }
       ]
     });
-    
-    // Recalculate heights after init
     setTimeout(equalizeHeights, 100);
   }
 
-  // 3. Filter Logic (The robust way: Unfilter -> Hide -> Filter)
   function updateSlider(cat) {
-    // Determine which slides match
-    // We use slickFilter if initialized, or simple DOM manipulation if not
-    
     if ($slider.hasClass('slick-initialized')) {
       $slider.slick('slickUnfilter');
     }
     
-    // Apply Filter
-    // Slick filter expects a function or selector. 
-    // We filter for items that match the category
     $slider.slick('slickFilter', function(index, element){
        return $(element).attr('data-cat') === cat;
     });
     
-    // Re-run height check
     equalizeHeights();
     
-    // Reset position to start
     if ($slider.hasClass('slick-initialized')) {
        $slider.slick('slickGoTo', 0, true);
     }
@@ -393,32 +375,26 @@ document.addEventListener('DOMContentLoaded', function(){
     $wrap.find('.materials__tab[data-cat="'+cat+'"]').addClass('is-active').attr('aria-selected','true');
   }
 
-  // Initialize
   initSlick();
   updateSlider(activeCat);
 
-  // Tab Click
   $wrap.on('click', '.materials__tab', function(){
     var cat = $(this).attr('data-cat');
     if (cat === activeCat) return;
-    
     setActiveTab(cat);
     updateSlider(cat);
   });
 
-  // Handle Resize to fix heights
   var t;
   $(window).on('resize', function(){
     clearTimeout(t);
     t = setTimeout(equalizeHeights, 200);
   });
 
-  // Shopify Editor Support
   document.addEventListener('shopify:section:load', function(e){
     if (e.detail.sectionId !== SECTION_ID) return;
     $wrap   = $('#materials-sec-' + SECTION_ID);
     $slider = $wrap.find('.js-materials-slider-' + SECTION_ID);
-    
     initSlick();
     var cat = $wrap.find('.materials__tab.is-active').attr('data-cat') || 'cat1';
     updateSlider(cat);
