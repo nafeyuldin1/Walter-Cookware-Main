@@ -959,6 +959,15 @@
             "name": "Nina S.",
             "text": "This pan replaced two others in my kitchen. I use it for everything now. Simple, sturdy, and does exactly what it’s supposed to do."
           }
+        },
+        "review_f6MBfY": {
+          "type": "review",
+          "settings": {
+            "cat_id": "pans",
+            "image": "shopify://shop_images/240_F_501018486_SQE0vK8bwMaFAbsHbp5JV2r1rnE1hT9z.jpg",
+            "name": "Robert J.",
+            "text": "You can tell this isn’t mass-market cookware. The build quality stands out, and I like that there’s nothing to flake or peel over time."
+          }
         }
       },
       "block_order": [
@@ -969,7 +978,8 @@
         "review_NfDGni",
         "review_wDRWWV",
         "review_B6LENH",
-        "review_X4Yg4b"
+        "review_X4Yg4b",
+        "review_f6MBfY"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
