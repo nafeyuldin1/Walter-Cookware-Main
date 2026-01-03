@@ -708,6 +708,17 @@
             "title": "Wooden",
             "text": "Wood is naturally porous.\nThat means moisture, food residue, and odors can absorb into the surface over time.\nWithout consistent care and maintenance, wooden boards can become difficult to fully clean."
           }
+        },
+        "card_DY47LW": {
+          "type": "card",
+          "settings": {
+            "cat_id": "cat2",
+            "badge_text": "BINDERS & RESINS",
+            "badge_bg": "",
+            "badge_text_color": "",
+            "title": "Composite / Fiber Boards",
+            "text": "Composite boards are made by binding fibers together under pressure.\nWhile durable, these materials rely on resins and binders that can break down with heat, moisture, and repeated use.\nOnce the surface wears, performance and longevity quickly decline."
+          }
         }
       },
       "block_order": [
@@ -719,7 +730,8 @@
         "card_jA6dHG",
         "card_khxby6",
         "card_Q4daGN",
-        "card_3mn6Cc"
+        "card_3mn6Cc",
+        "card_DY47LW"
       ],
       "name": "Materials Comparison",
       "settings": {
