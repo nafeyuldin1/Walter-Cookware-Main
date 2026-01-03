@@ -1,14 +1,14 @@
 {% comment %}
-  Section: Materials Comparison Tabs
-  Final Fix: Removed variableWidth logic on mobile to prevent 'stuck' slider.
-  Using 'slidesToShow: 1.15' for peek effect without calculation errors.
+  Section: Materials Comparison Tabs (Fully Dynamic)
+  Updates: 
+  - Added 'Cards per row' settings for Desktop & Mobile.
+  - Fixed Range Steps to prevent errors.
 {% endcomment %}
 
 {%- style -%}
   #shopify-section-{{ section.id }} .materials {
     background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
-    overflow: hidden;
   }
 
   #shopify-section-{{ section.id }} .materials__inner {
@@ -40,6 +40,7 @@
   /* Tabs Navigation */
   #shopify-section-{{ section.id }} .materials__tabs {
     display: grid;
+    /* Auto-fit columns based on content count usually, but handled by grid-template-columns below */
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     border: 1.5px solid {{ section.settings.border_color }};
     border-radius: 12px;
@@ -70,17 +71,9 @@
     color: {{ section.settings.tab_active_text }};
   }
 
-  /* Slider & Cards - Desktop Defaults */
+  /* Slider & Cards */
   #shopify-section-{{ section.id }} .slick-list { margin: 0 -16px; }
   #shopify-section-{{ section.id }} .slick-slide { margin: 0 16px; }
-  
-  /* Flex Fix for Equal Height in Slick */
-  #shopify-section-{{ section.id }} .slick-track { 
-    display: flex !important; 
-    touch-action: pan-y; 
-  }
-  #shopify-section-{{ section.id }} .slick-slide { height: auto; display: flex; flex-direction: column; }
-
 
   #shopify-section-{{ section.id }} .comp-card {
     border-radius: 24px;
@@ -88,7 +81,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: auto;
     width: 100%;
     background: {{ section.settings.card_bg }};
   }
@@ -142,30 +135,25 @@
     line-height: 1.5;
   }
 
-  /* =========================================
-      Responsive Mobile (Robust Fix)
-      ========================================= */
+  /* Responsive Mobile */
   @media (max-width: 768px) {
     #shopify-section-{{ section.id }} .materials__inner {
       padding-top: {{ section.settings.pt_m }}px;
       padding-bottom: {{ section.settings.pb_m }}px;
       padding-left: {{ section.settings.pad_x_m }}px;
-      padding-right: 0; 
+      padding-right: {{ section.settings.pad_x_m }}px;
     }
 
     #shopify-section-{{ section.id }} .materials__title {
       font-size: {{ section.settings.heading_size_m }}px;
-      padding-right: {{ section.settings.pad_x_m }}px;
     }
 
     #shopify-section-{{ section.id }} .materials__sub {
       font-size: {{ section.settings.sub_size_m }}px;
-      padding-right: {{ section.settings.pad_x_m }}px;
     }
 
     #shopify-section-{{ section.id }} .materials__tabs {
-      grid-template-columns: 1fr 1fr; 
-      margin-right: {{ section.settings.pad_x_m }}px;
+      grid-template-columns: 1fr 1fr; /* 2 per row on mobile */
     }
     
     #shopify-section-{{ section.id }} .materials__tab {
@@ -175,31 +163,12 @@
       border-bottom: 1.5px solid {{ section.settings.border_color }};
     }
     
-    #shopify-section-{{ section.id }} .materials__tab:nth-child(2n) { border-right: 0; }
-    #shopify-section-{{ section.id }} .materials__tab:nth-last-child(-n+2) { border-bottom: 0; }
-
-    /* MOBILE SLIDER STYLES */
-    #shopify-section-{{ section.id }} .materials__slider {
-      display: block;
-      width: 100%;
+    /* Remove borders for layout logic 2x2 */
+    #shopify-section-{{ section.id }} .materials__tab:nth-child(2n) {
+       border-right: 0;
     }
-
-    #shopify-section-{{ section.id }} .slick-list {
-      margin: 0;
-      padding: 0;
-      overflow: visible; 
-    }
-
-    /* Reset Margins for Mobile to let Slick handle spacing via settings */
-    #shopify-section-{{ section.id }} .slick-slide {
-      margin: 0 8px; /* Safe standard margin */
-      flex: 0 0 auto;
-    }
-    
-    /* Important: Remove fixed width, let slidesToShow: 1.15 handle sizing */
-    #shopify-section-{{ section.id }} .comp-card {
-      width: 100%; 
-      max-width: none;
+    #shopify-section-{{ section.id }} .materials__tab:nth-last-child(-n+2) {
+       border-bottom: 0;
     }
   }
 {%- endstyle -%}
@@ -275,22 +244,21 @@ document.addEventListener('DOMContentLoaded', function(){
   var $slider    = $wrap.find('.js-materials-slider-' + SECTION_ID);
   var $cards     = $slider.children('.comp-card');
   
+  // Variables from Schema
   var colsDesktop = {{ section.settings.cols_desktop }};
+  var colsMobile  = {{ section.settings.cols_mobile }}; // Can be float e.g. 1.2
 
   // Find first category ID to set active initially
   var $firstTab = $wrap.find('.materials__tab').first();
   var activeCat = $firstTab.length ? $firstTab.attr('data-cat') : 'cat1';
 
   function equalizeHeights(){
-    setTimeout(function(){
-      var maxH = 0;
-      $slider.find('.comp-card').css('height','100%'); 
-      $slider.find('.comp-card:visible').each(function(){
-        var h = $(this).outerHeight();
-        if (h > maxH) maxH = h;
-      });
-      if (maxH > 0) $slider.find('.slick-slide').css('height', maxH + 'px');
-    }, 150);
+    var maxH = 0;
+    $slider.find('.comp-card:visible').css('height','auto').each(function(){
+      var h = this.offsetHeight;
+      if (h > maxH) maxH = h;
+    });
+    if (maxH > 0) $slider.find('.comp-card').css('height', maxH + 'px');
   }
 
   function initSlick(itemsToShowDesktop) {
@@ -302,9 +270,7 @@ document.addEventListener('DOMContentLoaded', function(){
       infinite: false,
       slidesToShow: itemsToShowDesktop,
       slidesToScroll: 1,
-      swipeToSlide: true, 
-      touchThreshold: 50,
-      waitForAnimate: false, 
+      swipeToSlide: true,
       variableWidth: false,
       responsive: [
         { 
@@ -316,21 +282,15 @@ document.addEventListener('DOMContentLoaded', function(){
         { 
           breakpoint: 768,  
           settings: { 
-            /* THE FIX: Use slidesToShow decimal instead of variableWidth */
-            slidesToShow: 1.15, /* Shows 1 full card + 15% of next (Peek effect) */
-            slidesToScroll: 1,
-            variableWidth: false, /* DISABLED: This caused the stuck issue */
-            centerMode: false,
-            swipeToSlide: true,
-            touchThreshold: 100,
-            waitForAnimate: false,
-            infinite: false
+            slidesToShow: colsMobile, 
+            variableWidth: false,
+            centerMode: false 
           } 
         }
       ]
     });
-    
     $slider.on('setPosition', equalizeHeights);
+    setTimeout(equalizeHeights, 50);
   }
 
   function destroySlick(){
@@ -342,18 +302,23 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function showCategory(cat){
     destroySlick();
+    // Filter logic
     var $visible = $cards.hide().filter('[data-cat="'+cat+'"]').show();
     
+    // Determine responsive columns: Don't exceed available items
     var actualCols = Math.min($visible.length, colsDesktop);
+    // Ensure at least 1
     actualCols = Math.max(actualCols, 1);
     
     initSlick(actualCols);
     
+    // Reset position
     if ($slider.hasClass('slick-initialized')) {
       $slider.slick('slickGoTo', 0, true);
+      $slider.slick('setPosition');
+    } else {
+      equalizeHeights();
     }
-    
-    equalizeHeights();
   }
 
   function setActiveTab(cat){
@@ -380,12 +345,14 @@ document.addEventListener('DOMContentLoaded', function(){
     t = setTimeout(function(){ showCategory(activeCat); }, 150);
   });
 
+  // Shopify Editor Event
   document.addEventListener('shopify:section:load', function(e){
     if (e.detail.sectionId !== SECTION_ID) return;
     $wrap   = $('#materials-sec-' + SECTION_ID);
     $slider = $wrap.find('.js-materials-slider-' + SECTION_ID);
     $cards  = $slider.children('.comp-card');
     
+    // Reset to first tab on reload
     var $first = $wrap.find('.materials__tab').first();
     if($first.length) {
       var cat = $first.attr('data-cat');
@@ -412,6 +379,16 @@ document.addEventListener('DOMContentLoaded', function(){
       "step": 1,
       "label": "Cards per row (Desktop)",
       "default": 4
+    },
+    {
+      "type": "range",
+      "id": "cols_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 0.1,
+      "label": "Cards per row (Mobile)",
+      "default": 1.1,
+      "info": "Use decimals (e.g. 1.2) to show part of the next card."
     },
     {
       "type": "header",
