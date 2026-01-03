@@ -379,7 +379,7 @@
         "icon_height": 40,
         "font_size_desktop": 20,
         "font_size_mobile": 14,
-        "padding_y": 32,
+        "padding_y": 16,
         "speed": 20,
         "gap_desktop": 100,
         "gap_mobile": 48
