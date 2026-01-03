@@ -950,6 +950,15 @@
             "name": "Lucas",
             "text": "At first I was skeptical because it’s different from what I’m used to. After a week, I get it. Great control, easy maintenance, and no fuss."
           }
+        },
+        "review_X4Yg4b": {
+          "type": "review",
+          "settings": {
+            "cat_id": "pans",
+            "image": "shopify://shop_images/240_F_503416148_p7Bi9dBjXGPu9jDBD8ucNRQsMMXacVZE.jpg",
+            "name": "Nina S.",
+            "text": "This pan replaced two others in my kitchen. I use it for everything now. Simple, sturdy, and does exactly what it’s supposed to do."
+          }
         }
       },
       "block_order": [
@@ -959,7 +968,8 @@
         "review_Un6Egy",
         "review_NfDGni",
         "review_wDRWWV",
-        "review_B6LENH"
+        "review_B6LENH",
+        "review_X4Yg4b"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
