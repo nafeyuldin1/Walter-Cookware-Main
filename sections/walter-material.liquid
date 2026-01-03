@@ -1,9 +1,10 @@
 {% comment %}
-  Section: Materials Comparison Tabs (Final Fix: Removed Flex Track Conflict)
-  Fixes: Slider getting stuck at the last slide on mobile.
+  Section: Materials Comparison Tabs (Ultra Sensitive Touch Fix)
+  Fixes: Hard sliding issue ("Zoor lagana"), Stuck slides, and Smoothness.
 {% endcomment %}
 
 {%- style -%}
+  /* Container Setup */
   #shopify-section-{{ section.id }} .materials {
     background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
@@ -69,19 +70,27 @@
     color: {{ section.settings.tab_active_text }};
   }
 
-  /* Slider & Cards - Desktop Defaults */
+  /* Slider Styling */
+  #shopify-section-{{ section.id }} .materials__slider {
+    /* Critical for touch events */
+    touch-action: pan-y; 
+    -webkit-user-select: none; 
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
   #shopify-section-{{ section.id }} .slick-list { margin: 0 -16px; }
   #shopify-section-{{ section.id }} .slick-slide { 
     margin: 0 16px; 
     height: auto; 
-    float: left; /* Essential for Slick Math */
+    float: left; 
   }
 
   #shopify-section-{{ section.id }} .comp-card {
     border-radius: 24px;
     border: 1.5px solid {{ section.settings.card_border }};
     overflow: hidden;
-    display: block; /* Removed Flex to fix slider stuck issue */
+    display: block;
     height: 100%;
     width: 100%;
     background: {{ section.settings.card_bg }};
@@ -99,6 +108,7 @@
     display: block;
     width: 100%;
     height: 100%;
+    pointer-events: none; /* Prevents image dragging from blocking slide */
   }
 
   #shopify-section-{{ section.id }} .mat-top-badge {
@@ -136,9 +146,7 @@
     line-height: 1.5;
   }
 
-  /* =========================================
-     Responsive Mobile (Stable Layout)
-     ========================================= */
+  /* Responsive Mobile */
   @media (max-width: 768px) {
     #shopify-section-{{ section.id }} .materials__inner {
       padding-top: {{ section.settings.pt_m }}px;
@@ -172,16 +180,18 @@
     #shopify-section-{{ section.id }} .materials__tab:nth-child(2n) { border-right: 0; }
     #shopify-section-{{ section.id }} .materials__tab:nth-last-child(-n+2) { border-bottom: 0; }
 
-    /* MOBILE SLIDER STYLES */
+    /* MOBILE SLIDER FIXES */
     #shopify-section-{{ section.id }} .materials__slider {
       display: block;
       width: 100%;
+      /* Ensure no overflow hidden blocks touch */
+      overflow: visible; 
     }
 
     #shopify-section-{{ section.id }} .slick-list {
       margin: 0;
       padding: 0;
-      overflow: visible; 
+      overflow: visible; /* Important: Allows seeing next slide */
     }
 
     #shopify-section-{{ section.id }} .slick-slide {
@@ -189,7 +199,7 @@
     }
 
     #shopify-section-{{ section.id }} .comp-card {
-      width: 260px; /* Fixed width */
+      width: 260px; /* Reference Site Width */
     }
   }
 {%- endstyle -%}
@@ -271,7 +281,6 @@ document.addEventListener('DOMContentLoaded', function(){
   var $firstTab = $wrap.find('.materials__tab').first();
   var activeCat = $firstTab.length ? $firstTab.attr('data-cat') : 'cat1';
 
-  // JS Based Height Equalizer (Better for Slick Physics than CSS Flex)
   function equalizeHeights(){
     var maxH = 0;
     // Reset heights first
@@ -283,7 +292,6 @@ document.addEventListener('DOMContentLoaded', function(){
       if (h > maxH) maxH = h;
     });
 
-    // Apply max height to all cards (prevents jumping)
     if (maxH > 0) {
       $slider.find('.comp-card').css('height', maxH + 'px');
     }
@@ -301,6 +309,7 @@ document.addEventListener('DOMContentLoaded', function(){
       swipeToSlide: true, 
       touchThreshold: 10,
       variableWidth: false, 
+      accessibility: false, /* Prevents auto-focus scrolling issues */
       responsive: [
         { 
           breakpoint: 1024, 
@@ -312,15 +321,20 @@ document.addEventListener('DOMContentLoaded', function(){
           breakpoint: 768,  
           settings: { 
             slidesToShow: 1,
-            variableWidth: true, /* Mobile Reference Style */
+            variableWidth: true,
+            centerMode: false,
+            swipe: true,
+            draggable: true,
             swipeToSlide: true,
-            infinite: false
+            touchThreshold: 100, /* SUPER SENSITIVE TOUCH */
+            edgeFriction: 0.1,   /* Easier to pull at edges */
+            waitForAnimate: false,
+            speed: 250
           } 
         }
       ]
     });
     
-    // Run height equalizer after Slick calculates positions
     $slider.on('setPosition', function(){
       setTimeout(equalizeHeights, 10);
     });
@@ -339,13 +353,11 @@ document.addEventListener('DOMContentLoaded', function(){
     // Filter logic
     var $visible = $cards.hide().filter('[data-cat="'+cat+'"]').show();
     
-    // Determine responsive columns
     var actualCols = Math.min($visible.length, colsDesktop);
     actualCols = Math.max(actualCols, 1);
     
     initSlick(actualCols);
     
-    // Reset position cleanly
     if ($slider.hasClass('slick-initialized')) {
       $slider.slick('slickGoTo', 0, true);
       $slider.slick('setPosition');
@@ -360,11 +372,9 @@ document.addEventListener('DOMContentLoaded', function(){
     $wrap.find('.materials__tab[data-cat="'+cat+'"]').addClass('is-active').attr('aria-selected','true');
   }
 
-  // Init
   setActiveTab(activeCat);
   showCategory(activeCat);
 
-  // Event Listeners
   $wrap.on('click', '.materials__tab', function(){
     var cat = this.getAttribute('data-cat');
     if (cat === activeCat) return;
