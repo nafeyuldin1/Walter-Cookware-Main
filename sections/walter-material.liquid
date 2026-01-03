@@ -1,6 +1,6 @@
 {% comment %}
-  Section: Materials Comparison Tabs (Mobile Slider Fix: Stuck Issue Resolved)
-  Fixes: variableWidth lock, touch sensitivity, and infinite scroll gaps.
+  Section: Materials Comparison Tabs
+  Fixed: Slick Slider Stuck Issue on Mobile (Edge Friction & Touch Threshold)
 {% endcomment %}
 
 {%- style -%}
@@ -74,7 +74,10 @@
   #shopify-section-{{ section.id }} .slick-slide { margin: 0 16px; }
   
   /* Flex Fix for Equal Height in Slick */
-  #shopify-section-{{ section.id }} .slick-track { display: flex !important; }
+  #shopify-section-{{ section.id }} .slick-track { 
+    display: flex !important; 
+    touch-action: pan-y; /* FIX: Helps mobile scrolling interactions */
+  }
   #shopify-section-{{ section.id }} .slick-slide { height: auto; display: flex; flex-direction: column; }
 
 
@@ -139,8 +142,8 @@
   }
 
   /* =========================================
-     Responsive Mobile (Optimized for Sliding)
-     ========================================= */
+      Responsive Mobile (Optimized for Sliding)
+      ========================================= */
   @media (max-width: 768px) {
     #shopify-section-{{ section.id }} .materials__inner {
       padding-top: {{ section.settings.pt_m }}px;
@@ -297,9 +300,9 @@ document.addEventListener('DOMContentLoaded', function(){
       infinite: false,
       slidesToShow: itemsToShowDesktop,
       slidesToScroll: 1,
-      swipeToSlide: true, /* Allows free sliding */
-      touchThreshold: 20, /* Makes it more sensitive to touch */
-      waitForAnimate: false, /* FIX: Prevents getting stuck at ends */
+      swipeToSlide: true, 
+      touchThreshold: 40, /* Sensitivity for Desktop */
+      waitForAnimate: false, 
       variableWidth: false, 
       responsive: [
         { 
@@ -312,11 +315,14 @@ document.addEventListener('DOMContentLoaded', function(){
           breakpoint: 768,  
           settings: { 
             slidesToShow: 1,
+            slidesToScroll: 1,
             variableWidth: true, /* Enable for mobile */
             centerMode: false,
             swipeToSlide: true,
-            touchThreshold: 20,
-            waitForAnimate: false /* Crucial for mobile experience */
+            touchThreshold: 80, /* FIX: High sensitivity prevents getting stuck */
+            edgeFriction: 0.05, /* FIX: Prevents hard lock at edges */
+            waitForAnimate: false, /* Crucial for mobile experience */
+            infinite: false
           } 
         }
       ]
