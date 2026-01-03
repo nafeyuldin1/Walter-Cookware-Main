@@ -696,6 +696,18 @@
             "title": "Plastic",
             "text": "What many people don’t realize is that plastic cutting boards wear down with every cut.\nOver time, tiny plastic particles can be released onto the surface and into your food.\nAs the board ages, deep grooves form where residue and bacteria can linger."
           }
+        },
+        "card_3mn6Cc": {
+          "type": "card",
+          "settings": {
+            "cat_id": "cat2",
+            "image": "shopify://shop_images/istockphoto-185006794-612x612.jpg",
+            "badge_text": "POROUS SURFACE",
+            "badge_bg": "",
+            "badge_text_color": "",
+            "title": "Wooden",
+            "text": "Wood is naturally porous.\nThat means moisture, food residue, and odors can absorb into the surface over time.\nWithout consistent care and maintenance, wooden boards can become difficult to fully clean."
+          }
         }
       },
       "block_order": [
@@ -706,7 +718,8 @@
         "card_cpfxmP",
         "card_jA6dHG",
         "card_khxby6",
-        "card_Q4daGN"
+        "card_Q4daGN",
+        "card_3mn6Cc"
       ],
       "name": "Materials Comparison",
       "settings": {
