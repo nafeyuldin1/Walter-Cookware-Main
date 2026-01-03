@@ -101,7 +101,7 @@
       "name": "Hero Video & Logos",
       "settings": {
         "enable_overlap": true,
-        "height_desktop": 65,
+        "height_desktop": 100,
         "height_mobile": 65,
         "margin_top": 0,
         "margin_bottom": 0,
@@ -737,7 +737,6 @@
       "name": "Materials Comparison",
       "settings": {
         "cols_desktop": 3,
-        "cols_mobile": 1.2,
         "bg_color": "#121212",
         "text_color": "#ede6da",
         "heading": "Titanium Isn’t an Alternative. It’s the Upgrade.",
