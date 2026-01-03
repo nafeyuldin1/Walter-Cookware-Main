@@ -968,6 +968,15 @@
             "name": "Robert J.",
             "text": "You can tell this isn’t mass-market cookware. The build quality stands out, and I like that there’s nothing to flake or peel over time."
           }
+        },
+        "review_zHtfFC": {
+          "type": "review",
+          "settings": {
+            "cat_id": "cat1",
+            "image": "shopify://shop_images/240_F_118536990_7Rm4ncWkWNUln4zv8w3UZduWAIWpkVDi.jpg",
+            "name": "Laura",
+            "text": "I was mainly looking for something easier to clean. Ended up loving how evenly it cooks as well. Big upgrade from my old pan."
+          }
         }
       },
       "block_order": [
@@ -979,7 +988,8 @@
         "review_wDRWWV",
         "review_B6LENH",
         "review_X4Yg4b",
-        "review_f6MBfY"
+        "review_f6MBfY",
+        "review_zHtfFC"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
