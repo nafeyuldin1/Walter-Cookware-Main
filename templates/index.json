@@ -1058,6 +1058,15 @@
             "name": "Peter L.",
             "text": "Very low maintenance. That’s the biggest win for me."
           }
+        },
+        "review_CJC8fW": {
+          "type": "review",
+          "settings": {
+            "cat_id": "board",
+            "image": "shopify://shop_images/240_F_322272754_zIqTdyYL5MKRy3Bz8ifSSXeTuE3UMMIC.jpg",
+            "name": "Sophie K.",
+            "text": "I didn’t know a cutting board could feel this solid. It doesn’t move or flex."
+          }
         }
       },
       "block_order": [
@@ -1079,7 +1088,8 @@
         "review_XUQj4p",
         "review_8Baryp",
         "review_jfFwHe",
-        "review_iLncxK"
+        "review_iLncxK",
+        "review_CJC8fW"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
