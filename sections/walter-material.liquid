@@ -1,8 +1,8 @@
 {% comment %}
-  Section: Materials Comparison Tabs (Fully Dynamic)
-  Updates: 
-  - Added 'Cards per row' settings for Desktop & Mobile.
-  - Fixed Range Steps to prevent errors.
+  Section: Materials Comparison Tabs (Fixed Spacing)
+  Fixes: 
+  - Switched from Margin to Padding on slides to remove extra black space on scroll end.
+  - Optimized mobile layout.
 {% endcomment %}
 
 {%- style -%}
@@ -40,7 +40,6 @@
   /* Tabs Navigation */
   #shopify-section-{{ section.id }} .materials__tabs {
     display: grid;
-    /* Auto-fit columns based on content count usually, but handled by grid-template-columns below */
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     border: 1.5px solid {{ section.settings.border_color }};
     border-radius: 12px;
@@ -71,9 +70,19 @@
     color: {{ section.settings.tab_active_text }};
   }
 
-  /* Slider & Cards */
-  #shopify-section-{{ section.id }} .slick-list { margin: 0 -16px; }
-  #shopify-section-{{ section.id }} .slick-slide { margin: 0 16px; }
+  /* --- SLIDER FIX START --- */
+  /* We use padding instead of margin to prevent the 'empty space' bug */
+  
+  #shopify-section-{{ section.id }} .slick-list { 
+    margin: 0 -12px; /* Pull back to align edges */
+  }
+  
+  #shopify-section-{{ section.id }} .slick-slide { 
+    margin: 0; 
+    padding: 0 12px; /* Gap between cards */
+    box-sizing: border-box;
+  }
+  /* --- SLIDER FIX END --- */
 
   #shopify-section-{{ section.id }} .comp-card {
     border-radius: 24px;
@@ -152,8 +161,16 @@
       font-size: {{ section.settings.sub_size_m }}px;
     }
 
+    /* Reduce gap slightly on mobile if needed */
+    #shopify-section-{{ section.id }} .slick-list { 
+      margin: 0 -8px; 
+    }
+    #shopify-section-{{ section.id }} .slick-slide { 
+      padding: 0 8px; 
+    }
+
     #shopify-section-{{ section.id }} .materials__tabs {
-      grid-template-columns: 1fr 1fr; /* 2 per row on mobile */
+      grid-template-columns: 1fr 1fr; 
     }
     
     #shopify-section-{{ section.id }} .materials__tab {
@@ -163,7 +180,6 @@
       border-bottom: 1.5px solid {{ section.settings.border_color }};
     }
     
-    /* Remove borders for layout logic 2x2 */
     #shopify-section-{{ section.id }} .materials__tab:nth-child(2n) {
        border-right: 0;
     }
@@ -246,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function(){
   
   // Variables from Schema
   var colsDesktop = {{ section.settings.cols_desktop }};
-  var colsMobile  = {{ section.settings.cols_mobile }}; // Can be float e.g. 1.2
+  var colsMobile  = {{ section.settings.cols_mobile }}; 
 
   // Find first category ID to set active initially
   var $firstTab = $wrap.find('.materials__tab').first();
@@ -305,9 +321,8 @@ document.addEventListener('DOMContentLoaded', function(){
     // Filter logic
     var $visible = $cards.hide().filter('[data-cat="'+cat+'"]').show();
     
-    // Determine responsive columns: Don't exceed available items
+    // Determine responsive columns
     var actualCols = Math.min($visible.length, colsDesktop);
-    // Ensure at least 1
     actualCols = Math.max(actualCols, 1);
     
     initSlick(actualCols);
@@ -345,14 +360,12 @@ document.addEventListener('DOMContentLoaded', function(){
     t = setTimeout(function(){ showCategory(activeCat); }, 150);
   });
 
-  // Shopify Editor Event
   document.addEventListener('shopify:section:load', function(e){
     if (e.detail.sectionId !== SECTION_ID) return;
     $wrap   = $('#materials-sec-' + SECTION_ID);
     $slider = $wrap.find('.js-materials-slider-' + SECTION_ID);
     $cards  = $slider.children('.comp-card');
     
-    // Reset to first tab on reload
     var $first = $wrap.find('.materials__tab').first();
     if($first.length) {
       var cat = $first.attr('data-cat');
