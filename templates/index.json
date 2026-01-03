@@ -689,11 +689,12 @@
           "type": "card",
           "settings": {
             "cat_id": "cat2",
+            "image": "shopify://shop_images/istockphoto-1751939084-612x612.jpg",
             "badge_text": "FOREVER CHEMICALS",
             "badge_bg": "",
             "badge_text_color": "",
-            "title": "Non-Stick / Teflon",
-            "text": "Description of why this material is bad."
+            "title": "Plastic",
+            "text": "Microplastics\n\nWhat many people don’t realize is that plastic cutting boards wear down with every cut.\nOver time, tiny plastic particles can be released onto the surface and into your food.\nAs the board ages, deep grooves form where residue and bacteria can linger."
           }
         }
       },
