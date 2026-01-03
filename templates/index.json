@@ -663,24 +663,12 @@
           "type": "card",
           "settings": {
             "cat_id": "cat1",
-            "image": "shopify://shop_images/ceramic-min_c6855de1-b4bc-4ad4-8545-880b3ec41164.webp",
+            "image": "shopify://shop_images/s7qy1jr2i2vc1.jpg",
             "badge_text": "FOREVER CHEMICALS",
             "badge_bg": "",
             "badge_text_color": "",
-            "title": "Ceramic",
-            "text": "Ceramic coatings are very fragile, once chipped, they expose toxic aluminum base. Most only last 1- 2 years before losing their non-stick. Expensive to replace, unreliable\nlong-term."
-          }
-        },
-        "card_68YLXk": {
-          "type": "card",
-          "settings": {
-            "cat_id": "cat1",
-            "image": "shopify://shop_images/ceramic-min_c6855de1-b4bc-4ad4-8545-880b3ec41164.webp",
-            "badge_text": "FOREVER CHEMICALS",
-            "badge_bg": "",
-            "badge_text_color": "",
-            "title": "Cast Iron",
-            "text": "Ceramic coatings are very fragile, once chipped, they expose toxic aluminum base. Most only last 1- 2 years before losing their non-stick. Expensive to replace, unreliable\nlong-term."
+            "title": "Ceramic Pans",
+            "text": "At first, ceramic pans seem perfect — smooth, safe, and effortless. But the illusion fades fast. Within months, food starts sticking, coatings chip away, and what once felt premium turns into another short-lived disappointment."
           }
         }
       },
@@ -691,8 +679,7 @@
         "category_zVLQ87",
         "card_cpfxmP",
         "card_jA6dHG",
-        "card_khxby6",
-        "card_68YLXk"
+        "card_khxby6"
       ],
       "name": "Materials Comparison",
       "settings": {
