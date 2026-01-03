@@ -985,10 +985,10 @@
         "max_width": 1600,
         "heading_size_d": 48,
         "heading_size_m": 24,
-        "pt_d": 120,
-        "pb_d": 120,
-        "pt_m": 64,
-        "pb_m": 64
+        "pt_d": 105,
+        "pb_d": 105,
+        "pt_m": 50,
+        "pb_m": 50
       }
     },
     "heritage_banner_x9fLfN": {
