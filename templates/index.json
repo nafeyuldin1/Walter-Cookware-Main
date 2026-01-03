@@ -1031,6 +1031,15 @@
             "name": "Thomas B.",
             "text": "At first it felt different, now it feels normal. My old wooden boards feel outdated."
           }
+        },
+        "review_8Baryp": {
+          "type": "review",
+          "settings": {
+            "cat_id": "board",
+            "image": "shopify://shop_images/240_F_604976565_7S9VCiGlwFlYfDnpp9Tect8QptezlU9h.jpg",
+            "name": "Daniel S.",
+            "text": "This feels like something you buy once and don’t think about again."
+          }
         }
       },
       "block_order": [
@@ -1049,7 +1058,8 @@
         "review_MEryHM",
         "review_tnpqGa",
         "review_kPUBLY",
-        "review_XUQj4p"
+        "review_XUQj4p",
+        "review_8Baryp"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
