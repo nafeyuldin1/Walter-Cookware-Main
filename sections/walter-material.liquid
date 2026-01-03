@@ -1,5 +1,5 @@
 {% comment %}
-  Section: Materials Comparison (Fixed Mobile End Spacing)
+  Section: Materials Comparison (Final Fix: Wider Cards + No End Gap)
 {% endcomment %}
 
 {%- style -%}
@@ -70,24 +70,26 @@
   }
 
   /* =========================================
-     SLIDER & CARDS (DESKTOP)
+     SLIDER & CARDS
      ========================================= */
   
   #shopify-section-{{ section.id }} .slick-list { 
     margin: 0; 
     padding: 0;
-    overflow: visible; 
+    overflow: visible; /* Shadows rendering */
   }
 
   #shopify-section-{{ section.id }} .slick-track {
     display: flex;
-    gap: 24px; /* Desktop Gap */
+    gap: 0; /* Handled by margins */
   }
 
   #shopify-section-{{ section.id }} .slick-slide { 
     height: auto; 
     display: flex; 
     flex-direction: column;
+    opacity: 1;
+    transition: opacity 0.3s;
   }
 
   #shopify-section-{{ section.id }} .comp-card {
@@ -151,6 +153,16 @@
     line-height: 1.5;
   }
 
+  /* Desktop Margins */
+  @media (min-width: 769px) {
+    #shopify-section-{{ section.id }} .slick-slide {
+       margin: 0 12px; /* 24px total gap */
+    }
+    #shopify-section-{{ section.id }} .slick-list {
+       margin: 0 -12px;
+    }
+  }
+
   /* =========================================
      MOBILE RESPONSIVE FIXES
      ========================================= */
@@ -188,44 +200,27 @@
       border-bottom: 1.5px solid {{ section.settings.border_color }};
     }
     
-    #shopify-section-{{ section.id }} .materials__tab:nth-child(2n) {
-       border-right: 0;
-    }
-    #shopify-section-{{ section.id }} .materials__tab:nth-last-child(-n+2) {
-       border-bottom: 0;
-    }
+    #shopify-section-{{ section.id }} .materials__tab:nth-child(2n) { border-right: 0; }
+    #shopify-section-{{ section.id }} .materials__tab:nth-last-child(-n+2) { border-bottom: 0; }
 
-    /* SLIDER MOBILE CSS */
+    /* --- MOBILE SLIDER CSS --- */
     #shopify-section-{{ section.id }} .materials__slider {
       display: block;
       width: 100%;
-      /* Left gap for the first card */
+      /* Left padding for the first slide to offset correctly */
       padding-left: {{ section.settings.pad_x_m }}px; 
-      /* Ensure no right padding on container */
-      padding-right: 0; 
       box-sizing: border-box;
     }
 
-    #shopify-section-{{ section.id }} .slick-track {
-      gap: 0; 
-      display: block; 
-    }
-
-    #shopify-section-{{ section.id }} .slick-list {
-      overflow: visible;
-      margin: 0;
-      padding: 0;
-    }
-
     #shopify-section-{{ section.id }} .slick-slide {
-      margin-right: 16px; /* Space between cards */
-      width: 270px;
-      transition: opacity 0.3s;
+      /* Card Width: 85vw fills the screen so no huge black gap remains */
+      width: 85vw; 
+      max-width: 360px; /* Optional cap */
+      margin-right: 16px; /* Gap between cards */
     }
 
-    /* --- THE FIX IS HERE --- */
-    /* Last slide gets 0 margin so it hits the edge */
-    #shopify-section-{{ section.id }} .slick-slide:last-child {
+    /* Target the Last Visible Slide via JS class */
+    #shopify-section-{{ section.id }} .slick-slide.js-last-slide {
       margin-right: 0 !important;
     }
   }
@@ -317,6 +312,19 @@ document.addEventListener('DOMContentLoaded', function(){
     if (maxH > 0) $slider.find('.comp-card').css('height', maxH + 'px');
   }
 
+  // --- NEW FUNCTION: Fix End Margin ---
+  function fixLastSlideMargin() {
+    // Remove class from all
+    $slider.find('.slick-slide').removeClass('js-last-slide');
+    
+    // Find the last VISIBLE slide in the slick list
+    // Note: In slick, we look for the last 'slick-slide' that isn't cloned (if infinite:false)
+    var $slides = $slider.find('.slick-slide');
+    if($slides.length > 0) {
+      $slides.last().addClass('js-last-slide');
+    }
+  }
+
   function initSlick() {
     if ($slider.hasClass('slick-initialized')) {
        $slider.slick('unslick');
@@ -350,6 +358,9 @@ document.addEventListener('DOMContentLoaded', function(){
         }
       ]
     });
+    
+    // Apply fixes
+    fixLastSlideMargin();
     setTimeout(equalizeHeights, 100);
   }
 
@@ -362,6 +373,8 @@ document.addEventListener('DOMContentLoaded', function(){
        return $(element).attr('data-cat') === cat;
     });
     
+    // Re-apply fix after filter
+    fixLastSlideMargin();
     equalizeHeights();
     
     if ($slider.hasClass('slick-initialized')) {
@@ -388,7 +401,10 @@ document.addEventListener('DOMContentLoaded', function(){
   var t;
   $(window).on('resize', function(){
     clearTimeout(t);
-    t = setTimeout(equalizeHeights, 200);
+    t = setTimeout(function(){
+      equalizeHeights();
+      fixLastSlideMargin();
+    }, 200);
   });
 
   document.addEventListener('shopify:section:load', function(e){
