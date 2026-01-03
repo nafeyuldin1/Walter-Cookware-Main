@@ -1004,6 +1004,15 @@
             "name": "Mark J.",
             "text": "I didn’t expect to replace all my boards, but here we are. This one is just easier to live with."
           }
+        },
+        "review_tnpqGa": {
+          "type": "review",
+          "settings": {
+            "cat_id": "board",
+            "image": "shopify://shop_images/240_F_299219009_E5kSuYAUP9FygYqSfLiLcs1ltKLauAtz.jpg",
+            "name": "Kevin R",
+            "text": "Cleaning used to annoy me. With this board it’s a non-issue."
+          }
         }
       },
       "block_order": [
@@ -1019,7 +1028,8 @@
         "review_zHtfFC",
         "review_qab6mW",
         "review_xdQiYp",
-        "review_MEryHM"
+        "review_MEryHM",
+        "review_tnpqGa"
       ],
       "name": "Reviews Slider Custom",
       "settings": {
