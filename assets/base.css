@@ -3643,5 +3643,5 @@ html {
   scroll-margin-top: 100px;
 }
 .pit-image img{
-  width: 50%;
+  width: 50% !important;
 }
