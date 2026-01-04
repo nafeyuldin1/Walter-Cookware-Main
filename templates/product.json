@@ -504,12 +504,23 @@
             "logo_width_mobile": 80,
             "quote": "<p>\"Walter Titanium: The Benchmark for Non-Toxic Cookware That Lasts a Lifetime\"</p>"
           }
+        },
+        "testimonial_cxNH3D": {
+          "type": "testimonial",
+          "settings": {
+            "image_desktop": "shopify://shop_images/Vector.webp",
+            "image_mobile": "shopify://shop_images/Vector.webp",
+            "logo_width": 120,
+            "logo_width_mobile": 80,
+            "quote": "<p>“Non-Stick Pans May Release PTFE Toxins Linked to Flu-Like Symptoms in Humans”</p>"
+          }
         }
       },
       "block_order": [
         "testimonial_VDept8",
         "testimonial_48Rz8m",
-        "testimonial_qhTciH"
+        "testimonial_qhTciH",
+        "testimonial_cxNH3D"
       ],
       "name": "Logo Testimonials",
       "settings": {
