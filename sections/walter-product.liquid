@@ -37,43 +37,43 @@
         padding-bottom: {{ section.settings.padding_bottom }}px;
       }
     }
-   @media screen and (max-width:750px){
-    .impact-note__icon img{
-      height: 50px;
-      width: auto;
+    @media screen and (max-width:750px){
+     .impact-note__icon img{
+       height: 50px;
+       width: auto;
+     }
+     .impact-note__text {
+       font-size: 12px;
+     }
     }
-    .impact-note__text {
-      font-size: 12px;
+    .secure-checkout{
+     line-height: 0;
     }
-   }
-   .secure-checkout{
-    line-height: 0;
-   }
-   .pay-badges {
-    display: flex;
-    align-items: center;
-    gap: 9.55px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.pay-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    line-height: 0;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
-    width: 36px;
-}
-.pay-badge img {
-    width: 100%;
-}
-.pit-copy {
-  font-size: 14px;
-}
-#shopify-section-{{ section.id  }} .accordion__content.rte{
-  font-size: 14px;
-}
+    .pay-badges {
+     display: flex;
+     align-items: center;
+     gap: 9.55px;
+     flex-wrap: wrap;
+     justify-content: center;
+    }
+    .pay-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        line-height: 0;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+        width: 36px;
+    }
+    .pay-badge img {
+        width: 100%;
+    }
+    .pit-copy {
+      font-size: 14px;
+    }
+    #shopify-section-{{ section.id  }} .accordion__content.rte{
+      font-size: 14px;
+    }
     /* --- Global Styles --- */
     .rh-wrap { margin: 15px 0; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px; }
     .rh-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
@@ -194,7 +194,7 @@
             {%- case block.type -%}
               {%- when '@app' -%}
                 {% render block %}
-               
+                
               {%- when 'text' -%}
                 <div id="block-{{ block.id }}" style="margin-bottom: 12px;">
                   <style>
@@ -216,7 +216,7 @@
                       font-size: {{ block.settings.font_size }}px !important;
                     }
                     @media(max-width: 768px) {
-                       #block-{{ block.id }} h1 { font-size: 28px !important; }
+                        #block-{{ block.id }} h1 { font-size: 28px !important; }
                     }
                   </style>
                   <h1 class="product_title">{{ product.title | escape }}</h1>
@@ -229,22 +229,20 @@
 <a href="#looxReviews">
     <div class="loox-rating loox-widget"  style="font-size: 16px;"><div class="loox-rating-content"><svg class="loox-icon" viewBox="0 0 24 24" data-lx-fill="full" style="color: rgb(181, 124, 70);" role="presentation"><title>4.8 rating (2,811 votes)</title><use href="#looxicons-rating-icon"></use></svg><svg class="loox-icon" viewBox="0 0 24 24" data-lx-fill="full" style="color: rgb(181, 124, 70);" aria-hidden="true"><use href="#looxicons-rating-icon"></use></svg><svg class="loox-icon" viewBox="0 0 24 24" data-lx-fill="full" style="color: rgb(181, 124, 70);" aria-hidden="true"><use href="#looxicons-rating-icon"></use></svg><svg class="loox-icon" viewBox="0 0 24 24" data-lx-fill="full" style="color: rgb(181, 124, 70);" aria-hidden="true"><use href="#looxicons-rating-icon"></use></svg><svg class="loox-icon" viewBox="0 0 24 24" data-lx-fill="full" style="color: rgb(181, 124, 70);" aria-hidden="true"><use href="#looxicons-rating-icon"></use></svg><span class="loox-rating-label" style="color: #ffffff;" aria-hidden="true">&nbsp;4.8&nbsp;- {% if product.metafields.custom.product_review_count != blank %}  ({{ product.metafields.custom.product_review_count }}) {% else %} (2,811 reviews) {% endif %} </span></div></div>
   </a>
-             {%- when 'shipping_promise_bar' -%}
+              {%- when 'shipping_promise_bar' -%}
   <div id="shipbar-{{ block.id }}" class="shipbar" {{ block.shopify_attributes }}>
     <div class="shipbar__inner">
-
       <div class="shipbar__left">
         <div class="shipbar__label">{{ block.settings.label_text }}</div>
         <div class="shipbar__value">{{ block.settings.date_text }}</div>
       </div>
-
       <div class="shipbar__listwrap">
         <ul class="shipbar__list" role="list">
           {%- for i in (1..4) -%}
             {%- capture icon_img -%}icon_{{ i }}{%- endcapture -%}
             {%- capture icon_txt -%}text_{{ i }}{%- endcapture -%}
             {%- capture default_img -%}default_icon_{{ i }}{%- endcapture -%}
-            
+             
             {%- assign image = block.settings[icon_img] -%}
             {%- assign text = block.settings[icon_txt] -%}
             {%- assign def_url = block.settings[default_img] -%}
@@ -279,7 +277,7 @@
       padding: 11px 0;
       border: 1px solid {{ block.settings.border_color }};
     }
-    
+     
     /* Left Side Styles */
     #shipbar-{{ block.id }} .shipbar__left {
       min-width: 132px;
@@ -366,7 +364,7 @@
         text-align: left !important;
       }
     }
-    
+     
     /* Responsive: Large Screens (2200px+) */
     @media (min-width: 2200px) {
       #shipbar-{{ block.id }} .shipbar__label { font-size: calc({{ block.settings.fs_label }}px * 1.3); }
@@ -376,20 +374,14 @@
     }
   </style>
   {%- when 'product_icons_block' -%}
-  {%- comment -%}
-    BLOCK NAME: Multiple Icons with Text
-    PLACE THIS INSIDE: {% case block.type %} ... {% endcase %}
-  {%- endcomment -%}
-
   <div class="pf-wrap product-block-icons" {{ block.shopify_attributes }}>
     <div class="pf-track" role="list">
-      
-      {%- comment -%} Loop through 8 possible icons defined in schema {%- endcomment -%}
+       
       {%- for i in (1..8) -%}
         {%- capture icon_img_key -%}icon_{{ i }}{%- endcapture -%}
         {%- capture text_l1_key -%}text_{{ i }}_l1{%- endcapture -%}
         {%- capture text_l2_key -%}text_{{ i }}_l2{%- endcapture -%}
-        
+         
         {%- assign icon_image = block.settings[icon_img_key] -%}
         {%- assign text_line1 = block.settings[text_l1_key] -%}
         {%- assign text_line2 = block.settings[text_l2_key] -%}
@@ -403,7 +395,6 @@
                   alt="{{ text_line1 }} {{ text_line2 }}"
                   width="40" height="40" loading="lazy">
               {%- else -%}
-                {%- comment -%} Fallback Placeholder if no image selected {%- endcomment -%}
                 <div class="pf-icon__ph"></div> 
               {%- endif -%}
             </div>
@@ -434,7 +425,7 @@
       padding-bottom: 5px; /* space for scroll */
     }
     .product-block-icons .pf-track::-webkit-scrollbar { display: none; }
-    
+     
     .product-block-icons .pf-item { width: 87px; flex: 0 0 87px; text-align: center; }
     .product-block-icons .pf-icon { width: 40px; height: 40px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; }
     .product-block-icons .pf-icon img { width: 40px; height: 40px; object-fit: contain; }
@@ -641,16 +632,16 @@
                 <div id="block-{{ block.id }}" {{ block.shopify_attributes }}>
                    <style>
                       #block-{{ block.id }} .product-form__submit {
-                         background: {{ block.settings.atc_bg }} !important;
-                         color: {{ block.settings.atc_text }} !important;
-                         border: 1px solid {{ block.settings.atc_border }} !important;
-                         font-size: {{ block.settings.atc_font_size }}px !important;
-                         transition: 0.3s ease;
+                          background: {{ block.settings.atc_bg }} !important;
+                          color: {{ block.settings.atc_text }} !important;
+                          border: 1px solid {{ block.settings.atc_border }} !important;
+                          font-size: {{ block.settings.atc_font_size }}px !important;
+                          transition: 0.3s ease;
                       }
                       #block-{{ block.id }} .product-form__submit:hover {
-                         background: {{ block.settings.atc_bg_hover }} !important;
-                         color: {{ block.settings.atc_text_hover }} !important;
-                         opacity: 0.9;
+                          background: {{ block.settings.atc_bg_hover }} !important;
+                          color: {{ block.settings.atc_text_hover }} !important;
+                          opacity: 0.9;
                       }
                    </style>
                    {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
@@ -674,7 +665,7 @@
       #pb-bundles-{{ section.id }} .pb-wrap { margin: 24px 0; border-radius: 12px; overflow: hidden; }
       #pb-bundles-{{ section.id }} .pb-option-group { margin-bottom: 20px; }
       #pb-bundles-{{ section.id }} .pb-option-title { margin-bottom: 10px; font-weight: bold; font-size: 14px; display:flex; justify-content:space-between; align-items:center; color:{{ block.settings.label_color }}; }
-      
+       
       /* --- Option Row 1 (e.g. Size/Set) - Flex Style --- */
       #pb-bundles-{{ section.id }} .pb-opt-row-1 { 
         display: flex; gap:10px; flex-wrap:wrap;
@@ -708,7 +699,7 @@
         color: {{ block.settings.color_btn_active_text }};
         font-weight: bold; border-color: {{ block.settings.color_btn_active_bg }};
       }
-      
+       
       /* Bundle Cards */
       #pb-bundles-{{ section.id }} .pb-card { 
         background: {{ block.settings.card_bg }}; 
@@ -717,10 +708,20 @@
         cursor: pointer; transition: 0.3s; 
         color: {{ block.settings.card_text }}; position: relative;
       }
+      /* Modified Active State: White Background, Black Text */
       #pb-bundles-{{ section.id }} .pb-card.active { 
         border: 2px solid {{ block.settings.active_card_border }}; 
-        background: {{ block.settings.active_card_bg }}; 
+        background: #FFFFFF !important; 
+        color: #000000 !important;
       }
+      /* Force child elements to black on active */
+      #pb-bundles-{{ section.id }} .pb-card.active .pb-card__title,
+      #pb-bundles-{{ section.id }} .pb-card.active .pb-card__desc,
+      #pb-bundles-{{ section.id }} .pb-card.active .pb-card__price,
+      #pb-bundles-{{ section.id }} .pb-card.active .pb-card__compare-note {
+          color: #000000 !important;
+      }
+      
       #pb-bundles-{{ section.id }} .pb-card__title { font-weight: bold; font-size: 15px; margin-bottom: 4px; }
       #pb-bundles-{{ section.id }} .pb-card__desc { 
         font-size: {{ block.settings.desc_font_size }}px; 
@@ -772,7 +773,7 @@
               <span>{{ option.name }}</span>
               {% if forloop.index == 1 %}<button type="button" onclick="toggleSizeGuide(true)" style="background:none;border:none;text-decoration:underline;cursor:pointer;color:inherit;font-size:12px;">{{ block.settings.size_guide_text }}</button>{% endif %}
             </div>
-            
+             
             {% comment %} Style 1: Colors (Usually 1st) | Style 2: Sets/Sizes (Usually 2nd) {% endcomment %}
             <div class="{% if forloop.index == 1 %}pb-opt-row-1{% else %}pb-opt-row-2{% endif %}">
               {%- for value in option.values -%}
@@ -799,7 +800,8 @@
         {%- if b_prod != empty -%}
           <div class="pb-card" 
                onclick="selectBundleProduct(this, '{{ b_prod.selected_or_first_available_variant.id }}', '{{ b_prod.price | money }}')"
-               data-id="{{ b_prod.selected_or_first_available_variant.id }}">
+               data-id="{{ b_prod.selected_or_first_available_variant.id }}"
+               data-image="{{ b_prod.featured_image | image_url: width: 1000 }}">
             {% if block.settings[badge_setting] != blank %}
               <span class="pb-card__badge">{{ block.settings[badge_setting] }}</span>
             {% endif %}
@@ -814,7 +816,7 @@
         {%- endif -%}
       {%- endfor -%}
     {% endif %}
-    
+     
     <div class="pb-atc-wrap">
       <form method="post" action="/cart/add" class="product-form" id="bundle-form-{{ section.id }}">
         <input type="hidden" name="id" id="bundle-variant-input" value="{{ product.selected_or_first_available_variant.id }}">
@@ -839,7 +841,7 @@
     (function() {
       // Raw variant data for Main Product
       var bundleVariants = {{ product.variants | json }};
-      
+       
       // State tracker for current selections (Main Product)
       var state = [
         "{{ product.options_with_values[0].selected_value | escape }}",
@@ -847,7 +849,7 @@
         "{{ product.options_with_values[2].selected_value | escape }}"
       ];
 
-      // --- FUNCTION TO SELECT BUNDLE CARD (Fix applied here) ---
+      // --- FUNCTION TO SELECT BUNDLE CARD (Updated with Image Swap) ---
       window.selectBundleProduct = function(card, variantId, priceText) {
          // 1. Remove active class from all bundle cards
          document.querySelectorAll('.pb-card').forEach(function(c) {
@@ -865,11 +867,22 @@
          var btnPrice = document.getElementById('bundle-price-display');
          if(btnPrice) btnPrice.innerText = priceText;
 
-         // 5. Visually "De-select" the main options above to show we are in bundle mode
-         // (Optional logic: you can choose to remove 'active' class from option buttons if you want)
+         // 5. De-select main options
          document.querySelectorAll('.pb-opt-btn-1, .pb-opt-btn-2').forEach(function(btn){
             btn.classList.remove('active');
          });
+
+         // 6. SWAP IMAGE (Feature Added)
+         var newImageSrc = card.getAttribute('data-image');
+         if(newImageSrc && newImageSrc !== "null") {
+             // Try to find the main image element in standard themes
+             var mainImage = document.querySelector('.product__media img') || document.querySelector('.product-media-modal__content img') || document.querySelector('img.global-media-settings');
+             
+             if(mainImage) {
+                 mainImage.src = newImageSrc;
+                 mainImage.srcset = newImageSrc; // clear srcset to force src usage or update it
+             }
+         }
       };
 
       // --- FUNCTION TO HANDLE MAIN OPTIONS CHANGE ---
@@ -956,6 +969,44 @@
 
             {%- when 'info_tabs' -%}
   <div class="pit" id="product-info-tabs-{{ block.id }}" {{ block.shopify_attributes }}>
+    <style>
+      /* Styles for Show More */
+      .pit-content-wrap {
+        position: relative;
+        max-height: 120px; /* Adjust height limit */
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      .pit-content-wrap.expanded {
+        max-height: none;
+      }
+      .pit-show-more-btn {
+        display: block;
+        margin-top: 10px;
+        background: transparent;
+        border: none;
+        color: inherit;
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: 13px;
+        padding: 0;
+        font-weight: 600;
+      }
+      .pit-content-wrap:not(.expanded)::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1)); /* Fade based on dark theme */
+      }
+      /* Adjust gradient for light theme if needed */
+      .gradient.color-scheme-1 .pit-content-wrap:not(.expanded)::after {
+         background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+      }
+    </style>
+
     <div class="pit-tabs" role="tablist">
       <button class="pit-tab is-active" role="tab" onclick="openPitTab(event, 'panel-1-{{ block.id }}', '{{ block.id }}')">
         {{ block.settings.tab_1_label }} <span class="pit-underline"></span>
@@ -967,10 +1018,14 @@
         {{ block.settings.tab_3_label }} <span class="pit-underline"></span>
       </button>
     </div>
-    
+     
     <div class="pit-panels">
       <div id="panel-1-{{ block.id }}" class="pit-panel is-active">
-        <div class="pit-copy rte">{{ block.settings.tab_1_content }}</div>
+        <div class="pit-content-wrap" id="wrap-1-{{ block.id }}">
+          <div class="pit-copy rte">{{ block.settings.tab_1_content }}</div>
+        </div>
+        <button class="pit-show-more-btn" onclick="toggleShowMore('wrap-1-{{ block.id }}', this)">Show More</button>
+
         {% if block.settings.tab_1_image != blank %}
           <div class="pit-image" style="margin-top: 15px;">
             <img src="{{ block.settings.tab_1_image | image_url: width: 800 }}" loading="lazy" style="width:100%; height:auto; border-radius:8px;">
@@ -979,7 +1034,11 @@
       </div>
 
       <div id="panel-2-{{ block.id }}" class="pit-panel">
-        <div class="pit-copy rte">{{ block.settings.tab_2_content }}</div>
+        <div class="pit-content-wrap" id="wrap-2-{{ block.id }}">
+           <div class="pit-copy rte">{{ block.settings.tab_2_content }}</div>
+        </div>
+        <button class="pit-show-more-btn" onclick="toggleShowMore('wrap-2-{{ block.id }}', this)">Show More</button>
+
         {% if block.settings.tab_2_image != blank %}
           <div class="pit-image" style="margin-top: 15px;">
             <img src="{{ block.settings.tab_2_image | image_url: width: 800 }}" loading="lazy" style="width:100%; height:auto; border-radius:8px;">
@@ -988,7 +1047,11 @@
       </div>
 
       <div id="panel-3-{{ block.id }}" class="pit-panel">
-        <div class="pit-copy rte">{{ block.settings.tab_3_content }}</div>
+        <div class="pit-content-wrap" id="wrap-3-{{ block.id }}">
+           <div class="pit-copy rte">{{ block.settings.tab_3_content }}</div>
+        </div>
+        <button class="pit-show-more-btn" onclick="toggleShowMore('wrap-3-{{ block.id }}', this)">Show More</button>
+
         {% if block.settings.tab_3_image != blank %}
           <div class="pit-image" style="margin-top: 15px;">
             <img src="{{ block.settings.tab_3_image | image_url: width: 800 }}" loading="lazy" style="width:100%; height:auto; border-radius:8px;">
@@ -1008,11 +1071,54 @@
       document.getElementById(panelId).classList.add("is-active");
       evt.currentTarget.classList.add("is-active");
     }
+
+    function toggleShowMore(wrapId, btn) {
+      var wrap = document.getElementById(wrapId);
+      if(wrap.classList.contains('expanded')) {
+        wrap.classList.remove('expanded');
+        btn.innerText = "Show More";
+      } else {
+        wrap.classList.add('expanded');
+        btn.innerText = "Show Less";
+      }
+    }
+    
+    // Auto-hide button if content is short
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll('.pit-content-wrap').forEach(function(wrap) {
+            if(wrap.scrollHeight <= 120) {
+                var btn = wrap.nextElementSibling;
+                if(btn && btn.classList.contains('pit-show-more-btn')) {
+                    btn.style.display = 'none';
+                    wrap.style.maxHeight = 'none'; // remove fade
+                    wrap.classList.add('expanded'); // remove fade pseudo
+                }
+            }
+        });
+    });
   </script>
 
               {%- when 'accordion_custom' -%}
                 <div class="pfaq-item" {{ block.shopify_attributes }}>
-                  <details><summary class="pfaq-head"><span class="pfaq-left" style="display: flex; gap: 12px; align-items: center;">{% if block.settings.icon != blank %}<img src="{{ block.settings.icon | image_url: width: 24 }}" width="24" height="24">{% endif %}<span class="pfaq-title">{{ block.settings.heading }}</span></span><span class="pfaq-plus">+</span></summary><div class="pfaq-body rte">{{ block.settings.content }}</div></details>
+                  <details>
+                    <summary class="pfaq-head">
+                      <span class="pfaq-left" style="display: flex; gap: 12px; align-items: center;">
+                        {% if block.settings.icon != blank %}
+                          <img src="{{ block.settings.icon | image_url: width: 24 }}" width="24" height="24">
+                        {% endif %}
+                        <span class="pfaq-title">{{ block.settings.heading }}</span>
+                      </span>
+                      <span class="pfaq-plus">+</span>
+                    </summary>
+                    <div class="pfaq-body rte">
+                      {{ block.settings.content }}
+                      {% if block.settings.button_label != blank %}
+                        <a href="{{ block.settings.button_link }}" class="button button--primary" style="margin-top: 15px; width: 100%; text-align: center; text-decoration:none;">
+                          {{ block.settings.button_label }}
+                        </a>
+                      {% endif %}
+                    </div>
+                  </details>
                 </div>
 
               {%- when 'impact_note' -%}
@@ -1178,7 +1284,7 @@
       {{ product | structured_data }}
     </script>
   </div>
-  
+   
   <div id="sg-modal" class="sg-modal">
     <div class="sg-content">
        <button type="button" onclick="toggleSizeGuide(false)" style="position: absolute; right: 15px; top: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #000;">✕</button>
@@ -1680,14 +1786,14 @@
       "name": "t:sections.main-product.blocks.price.name",
       "limit": 1,
       "settings": [
-         { "type": "header", "content": "Custom Settings" },
-         { "type": "color", "id": "bg_color", "label": "Container Background", "default": "transparent" },
-         { "type": "color", "id": "price_color", "label": "Main Price Color", "default": "#121212" },
-         { "type": "range", "id": "main_price_size", "min": 14, "max": 60, "step": 1, "unit": "px", "label": "Main Price Font Size", "default": 24 },
-         { "type": "header", "content": "Sale & Compare" },
-         { "type": "color", "id": "sale_price_color", "label": "Sale Price Color", "default": "#E23223" },
-         { "type": "color", "id": "compare_price_color", "label": "Compare Price Color", "default": "#888888" },
-         { "type": "range", "id": "compare_price_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Compare Price Font Size", "default": 18 }
+          { "type": "header", "content": "Custom Settings" },
+          { "type": "color", "id": "bg_color", "label": "Container Background", "default": "transparent" },
+          { "type": "color", "id": "price_color", "label": "Main Price Color", "default": "#121212" },
+          { "type": "range", "id": "main_price_size", "min": 14, "max": 60, "step": 1, "unit": "px", "label": "Main Price Font Size", "default": 24 },
+          { "type": "header", "content": "Sale & Compare" },
+          { "type": "color", "id": "sale_price_color", "label": "Sale Price Color", "default": "#E23223" },
+          { "type": "color", "id": "compare_price_color", "label": "Compare Price Color", "default": "#888888" },
+          { "type": "range", "id": "compare_price_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Compare Price Font Size", "default": 18 }
       ]
     },
     {
@@ -1845,16 +1951,16 @@
         { "type": "color", "id": "btn_text", "label": "Button Text", "default": "#FFFFFF" },
         { "type": "color", "id": "btn_hover_bg", "label": "Button Hover BG", "default": "#075e41" },
         { "type": "color", "id": "btn_hover_text", "label": "Button Hover Text", "default": "#FFFFFF" },
-        
+         
         { "type": "header", "content": "Content / Labels" },
         { "type": "color", "id": "label_color", "label": "Top Label Color", "default": "#000000" },
         { "type": "text", "id": "size_label", "label": "Label Text", "default": "Select Size Variant" },
         { "type": "text", "id": "size_guide_text", "label": "Guide Link Text", "default": "Size Guide" },
-        
+         
         { "type": "header", "content": "Guarantee Text" },
         { "type": "color", "id": "guarantee_color", "label": "Text Color", "default": "#000000" },
         { "type": "text", "id": "guarantee_text", "label": "Guarantee Text", "default": "Guaranteed Safe & Secure Checkout" },
-        
+         
         { "type": "header", "content": "Bundles Logic" },
         { "type": "checkbox", "id": "enable_bundles", "label": "Enable Bundle Cards", "default": true },
         { "type": "text", "id": "bundles_heading", "label": "Bundles Heading", "default": "Or Select Bundle & Save" },
@@ -1904,7 +2010,9 @@
       "settings": [
         { "type": "text", "id": "heading", "label": "Heading", "default": "Details" },
         { "type": "image_picker", "id": "icon", "label": "Icon" },
-        { "type": "richtext", "id": "content", "label": "Content" }
+        { "type": "richtext", "id": "content", "label": "Content" },
+        { "type": "text", "id": "button_label", "label": "Button Label", "default": "See More" },
+        { "type": "url", "id": "button_link", "label": "Button Link" }
       ]
     },
     {
