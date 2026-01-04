@@ -3639,3 +3639,6 @@ details-disclosure > details {
 html {
   scroll-behavior: smooth;
 }
+#walter_reviews{
+  scroll-margin-top: 100px;
+}
