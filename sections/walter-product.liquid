@@ -600,6 +600,11 @@
                     <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
                       {{ block.settings.content }}
                       {{ block.settings.page.content }}
+                      {% if block.settings.button_label != blank %}
+                        <a href="{{ block.settings.button_link }}" class="button button--primary" style="display: block; margin-top: 15px; width: 100%; text-align: center; text-decoration:none; padding: 10px; border-radius: 8px;">
+                          {{ block.settings.button_label }}
+                        </a>
+                      {% endif %}
                     </div>
                   </details>
                 </div>
@@ -805,6 +810,11 @@
             {% if block.settings[badge_setting] != blank %}
               <span class="pb-card__badge">{{ block.settings[badge_setting] }}</span>
             {% endif %}
+            {% if b_prod.featured_image != blank %}
+              <div class="pb-card__image" style="margin-bottom: 10px;">
+                 <img src="{{ b_prod.featured_image | image_url: width: 400 }}" loading="lazy" width="100%" height="auto" style="border-radius: 6px; display: block;">
+              </div>
+            {% endif %}
             <div class="pb-card__title">{{ block.settings[title_setting] | default: b_prod.title }}</div>
             <div class="pb-card__desc">{{ block.settings[desc_setting] }}</div>
             <div class="pb-card__price">{{ b_prod.price | money }} 
@@ -1001,20 +1011,10 @@
       .pit-show-more-btn:hover {
         opacity: 0.8;
       }
-
+      /* SHADOW REMOVED as requested */
       .pit-content-wrap:not(.expanded)::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 40px;
-        background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1)); /* Fade based on dark theme */
+         display: none;
       }
-      .pit-image img{
-        width: 50%;
-     }
- 
     </style>
 
     <div class="pit-tabs" role="tablist">
@@ -1863,7 +1863,9 @@
         { "type": "image_picker", "id": "custom_icon", "label": "Custom Icon (Upload)" },
         { "type": "select", "id": "icon", "options": [ { "value": "none", "label": "None" }, { "value": "apple", "label": "Apple" }, { "value": "check_mark", "label": "Check Mark" } ], "default": "check_mark", "label": "Icon (Fallback)" },
         { "type": "richtext", "id": "content", "label": "Content" },
-        { "type": "page", "id": "page", "label": "Page" }
+        { "type": "page", "id": "page", "label": "Page" },
+        { "type": "text", "id": "button_label", "label": "Button Label", "default": "See More" },
+        { "type": "url", "id": "button_link", "label": "Button Link" }
       ]
     },
     { "type": "rating", "name": "t:sections.main-product.blocks.rating.name", "limit": 1 },
