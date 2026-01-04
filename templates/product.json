@@ -659,6 +659,7 @@
         "line_LPJ8ze",
         "line_VTQ4Vz"
       ],
+      "disabled": true,
       "name": "Scroll Text Fade",
       "settings": {
         "bg_color": "#00221c",
@@ -672,6 +673,117 @@
         "pb_d": 240,
         "pt_m": 140,
         "pb_m": 140
+      }
+    },
+    "walter_scroll_text_fade_zNEcyT": {
+      "type": "walter-scroll-text-fade",
+      "blocks": {
+        "line_aFfnfE": {
+          "type": "line",
+          "disabled": true,
+          "settings": {
+            "text": "At Taima®, Non-Toxic Isn’t A Feature.",
+            "visibility": "desktop",
+            "base_opacity": 40,
+            "base_size_d": 64,
+            "base_size_m": 24
+          }
+        },
+        "line_GKEKTx": {
+          "type": "line",
+          "settings": {
+            "text": "At Walter®",
+            "visibility": "mobile",
+            "base_opacity": 40,
+            "base_size_d": 48,
+            "base_size_m": 30
+          }
+        },
+        "line_WV6tND": {
+          "type": "line",
+          "settings": {
+            "text": "Non-Toxic",
+            "visibility": "mobile",
+            "base_opacity": 40,
+            "base_size_d": 48,
+            "base_size_m": 30
+          }
+        },
+        "line_JznQCK": {
+          "type": "line",
+          "settings": {
+            "text": "Isn’t an Extra.",
+            "visibility": "mobile",
+            "base_opacity": 40,
+            "base_size_d": 48,
+            "base_size_m": 28
+          }
+        },
+        "line_UCEWDr": {
+          "type": "line",
+          "settings": {
+            "text": "This is the standard.",
+            "visibility": "always",
+            "base_opacity": 30,
+            "base_size_d": 48,
+            "base_size_m": 24
+          }
+        },
+        "line_YLqWdi": {
+          "type": "line",
+          "settings": {
+            "text": "Excellence isn’t the finish line.",
+            "visibility": "always",
+            "base_opacity": 20,
+            "base_size_d": 48,
+            "base_size_m": 24
+          }
+        },
+        "line_6p7bfE": {
+          "type": "line",
+          "settings": {
+            "text": "It’s the starting point.",
+            "visibility": "always",
+            "base_opacity": 10,
+            "base_size_d": 32,
+            "base_size_m": 24
+          }
+        },
+        "line_T9EggT": {
+          "type": "line",
+          "disabled": true,
+          "settings": {
+            "text": "Your Text Here",
+            "visibility": "always",
+            "base_opacity": 30,
+            "base_size_d": 48,
+            "base_size_m": 24
+          }
+        }
+      },
+      "block_order": [
+        "line_aFfnfE",
+        "line_GKEKTx",
+        "line_WV6tND",
+        "line_JznQCK",
+        "line_UCEWDr",
+        "line_YLqWdi",
+        "line_6p7bfE",
+        "line_T9EggT"
+      ],
+      "name": "Scroll Text Fade",
+      "settings": {
+        "bg_color": "#00221c",
+        "active_color": "#bca588",
+        "inactive_color": "#bca588",
+        "font_family": "bebas_neue_n4",
+        "active_font_size_d": 64,
+        "active_font_size_m": 32,
+        "line_gap": 24,
+        "pt_d": 30,
+        "pb_d": 30,
+        "pt_m": 25,
+        "pb_m": 30
       }
     },
     "walter_rethink_cookware_MyXhDw": {
@@ -1481,6 +1593,7 @@
     "walter_logo_testimonial_FdQhBX",
     "walter_behind_scene_M9aRc7",
     "walter_scroll_text_fade_VVKey4",
+    "walter_scroll_text_fade_zNEcyT",
     "walter_rethink_cookware_MyXhDw",
     "walter_benefits_EAnCxx",
     "scroll_text_with_image_8XhRp4",
