@@ -439,6 +439,7 @@
         },
         "slide_kfgtba": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "video_file": "shopify://files/videos/2294eb1f6ff84074a955b6777905505b (1).mp4",
             "video_url": "",
