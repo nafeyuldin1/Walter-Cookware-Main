@@ -135,7 +135,7 @@
             "btn_hover_text": "#ffffff",
             "label_color": "#ffffff",
             "size_label": "",
-            "size_guide_text": "Size Guide",
+            "size_guide_text": "",
             "guarantee_color": "#ffffff",
             "guarantee_text": "Guaranteed Safe & Secure Checkout",
             "enable_bundles": false,
