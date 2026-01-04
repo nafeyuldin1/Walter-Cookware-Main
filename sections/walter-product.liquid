@@ -600,8 +600,8 @@
                     <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
                       {{ block.settings.content }}
                       {{ block.settings.page.content }}
-                      {% if block.settings.button_label != blank %}
-                        <a href="{{ block.settings.button_link }}" class="button button--primary" style="display: block; margin-top: 15px; width: 100%; text-align: center; text-decoration:none; padding: 10px; border-radius: 8px;">
+                      {% if block.settings.button_link != blank and block.settings.button_label != blank %}
+                        <a href="{{ block.settings.button_link }}" class="button button--primary" style="display: block; margin-top: 15px; width: 100%; text-align: center; text-decoration:none; padding: 10px; border-radius: 8px; background: transparent; border: 1px solid #FFFFFF; color: #FFFFFF;">
                           {{ block.settings.button_label }}
                         </a>
                       {% endif %}
@@ -753,10 +753,14 @@
         font-weight: bold;
       }
       
-      /* Gallery Images below Price */
+      /* Gallery Images below Price - Default Hidden, Visible on Active */
       #pb-bundles-{{ section.id }} .pb-card__gallery {
-        display: flex; gap: 8px; margin-top: 12px;
+        display: none; /* Hidden by default */
+        gap: 8px; margin-top: 12px;
         overflow-x: auto; scrollbar-width: none;
+      }
+      #pb-bundles-{{ section.id }} .pb-card.active .pb-card__gallery {
+        display: flex; /* Show only when active */
       }
       #pb-bundles-{{ section.id }} .pb-card__gallery::-webkit-scrollbar { display: none; }
       #pb-bundles-{{ section.id }} .pb-card__gallery img {
@@ -1139,8 +1143,8 @@
                     </summary>
                     <div class="pfaq-body rte">
                       {{ block.settings.content }}
-                      {% if block.settings.button_label != blank %}
-                        <a href="{{ block.settings.button_link }}" class="button button--primary" style="display: block; margin-top: 15px; width: 100%; text-align: center; text-decoration:none; padding: 10px; border-radius: 8px;">
+                      {% if block.settings.button_link != blank and block.settings.button_label != blank %}
+                        <a href="{{ block.settings.button_link }}" class="button button--primary" style="display: block; margin-top: 15px; width: 100%; text-align: center; text-decoration:none; padding: 10px; border-radius: 8px; background: transparent; border: 1px solid #FFFFFF; color: #FFFFFF;">
                           {{ block.settings.button_label }}
                         </a>
                       {% endif %}
