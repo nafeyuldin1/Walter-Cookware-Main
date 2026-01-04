@@ -76,6 +76,11 @@
     transition: opacity 0.3s ease;
   }
 
+  /* Hide overlay if Autoplay is enabled via CSS class */
+  #shopify-section-{{ section.id }} .bts-video-overlay.is-hidden {
+    display: none !important;
+  }
+
   #shopify-section-{{ section.id }} .bts-thumbnail {
     position: absolute;
     width: 100%;
@@ -236,7 +241,7 @@
     <div class="bts-video">
       <div class="bts-video-wrapper">
         
-        <div class="bts-video-overlay js-video-overlay">
+        <div class="bts-video-overlay js-video-overlay {% if section.settings.enable_autoplay %}is-hidden{% endif %}">
           {%- if section.settings.video_thumbnail != blank -%}
             {{ section.settings.video_thumbnail | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'bts-thumbnail', alt: 'Video Thumbnail' }}
           {%- elsif section.settings.video != blank -%}
@@ -254,7 +259,14 @@
           </div>
         </div>
 
-        <video class="bts-video-el js-video-el" playsinline controls preload="none">
+        <video class="bts-video-el js-video-el" 
+               playsinline 
+               preload="metadata"
+               {% if section.settings.show_controls %}controls{% endif %}
+               {% if section.settings.enable_autoplay %}autoplay muted{% endif %}
+               {% if section.settings.enable_loop %}loop{% endif %}
+               {% if section.settings.start_muted %}muted{% endif %}
+        >
           {%- if section.settings.video != blank -%}
             {%- for source in section.settings.video.sources -%}
               <source data-src="{{ source.url }}" type="{{ source.mime_type }}">
@@ -295,33 +307,43 @@
     const overlay = sectionContainer.querySelector(".js-video-overlay");
     const video   = sectionContainer.querySelector(".js-video-el");
     
-    if (!overlay || !video) return;
+    if (!video) return;
 
-    // Load video source on init (but don't play)
+    // Load video source on init
     const sources = video.querySelectorAll('source[data-src]');
     sources.forEach(srcEl => {
         if(srcEl.dataset.src) srcEl.src = srcEl.dataset.src;
     });
     video.load(); 
 
-    // Play on click
-    overlay.addEventListener("click", function () {
-      try { video.currentTime = 0; } catch(e) {}
-      video.muted = false;
-      video.removeAttribute('muted');
-      video.volume = 1;
+    // If Autoplay is NOT enabled, we use the click handler
+    if (overlay && !overlay.classList.contains('is-hidden')) {
+        overlay.addEventListener("click", function () {
+            try { video.currentTime = 0; } catch(e) {}
+            
+            // If user explicitly clicks play, we can unmute unless "Start Muted" is checked in settings
+            {% unless section.settings.start_muted %}
+            video.muted = false;
+            video.removeAttribute('muted');
+            video.volume = 1;
+            {% endunless %}
 
-      const playVideo = () => {
-        video.play().catch(err => console.log('Autoplay blocked', err));
-        overlay.style.display = "none";
-      };
+            const playVideo = () => {
+                video.play().catch(err => console.log('Playback blocked', err));
+                overlay.style.display = "none";
+                // Show controls after play if enabled
+                {% if section.settings.show_controls %}
+                video.controls = true;
+                {% endif %}
+            };
 
-      if (video.readyState >= 2) {
-        playVideo();
-      } else {
-        video.addEventListener('canplay', playVideo, { once: true });
-      }
-    }, { passive: true });
+            if (video.readyState >= 2) {
+                playVideo();
+            } else {
+                video.addEventListener('canplay', playVideo, { once: true });
+            }
+        }, { passive: true });
+    }
   });
 </script>
 
@@ -538,6 +560,36 @@
       "info": "Shown before video plays"
     },
     {
+      "type": "header",
+      "content": "Video Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Enable Autoplay",
+      "info": "Autoplay forces the video to be Muted.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_loop",
+      "label": "Loop Video",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "start_muted",
+      "label": "Start Muted",
+      "info": "Video starts without sound even if clicked.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_controls",
+      "label": "Show Video Controls",
+      "default": true
+    },
+    {
       "type": "range",
       "id": "video_radius",
       "min": 0,
@@ -566,7 +618,6 @@
       "label": "Desktop Top",
       "default": 80,
       "step": 2,
-      
       "min": 0,
       "max": 150
     },
@@ -576,7 +627,6 @@
       "label": "Desktop Bottom",
       "default": 80,
       "step": 2,
-
       "min": 0,
       "max": 150
     },
@@ -586,17 +636,14 @@
       "label": "Desktop Left",
       "default": 0,
       "step": 2,
-
       "min": 0,
       "max": 150
-      
     },
     {
       "type": "range",
       "id": "pr_d",
       "label": "Desktop Right",
       "step": 2,
-
       "default": 80,
       "min": 0,
       "max": 150
@@ -606,7 +653,6 @@
       "id": "pt_m",
       "label": "Mobile Top",
       "step": 2,
-
       "default": 64,
       "min": 0,
       "max": 100
@@ -616,7 +662,6 @@
       "id": "pb_m",
       "label": "Mobile Bottom",
       "step": 2,
-
       "default": 64,
       "min": 0,
       "max": 100
@@ -626,7 +671,6 @@
       "id": "pad_x_m",
       "label": "Mobile Side Padding",
       "step": 2,
-
       "default": 16,
       "min": 0,
       "max": 50
