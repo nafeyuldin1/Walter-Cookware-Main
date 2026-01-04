@@ -138,7 +138,7 @@
             "size_guide_text": "Size Guide",
             "guarantee_color": "#ffffff",
             "guarantee_text": "Guaranteed Safe & Secure Checkout",
-            "enable_bundles": false,
+            "enable_bundles": true,
             "bundles_heading": "Or Select Bundle & Save",
             "bundle_product_1": "cheese-knife-set",
             "bundle_badge_1": "MOST POPULAR",
@@ -548,8 +548,8 @@
         "pb_d": 80,
         "pl_d": 0,
         "pr_d": 80,
-        "pt_m": 0,
-        "pb_m": 64,
+        "pt_m": 20,
+        "pb_m": 38,
         "pad_x_m": 0
       }
     },
