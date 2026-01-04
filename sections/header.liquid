@@ -174,8 +174,8 @@
 
   /* Price Section */
   .cat-prod__price { display: flex; align-items: center; gap: 8px; font-size: 14px; flex-wrap: wrap; }
-  .cat-prod_cmp-price { text-decoration: line-through; opacity: 0.5; font-weight: 400; }
-  .cat-prod_price { font-weight: 800; color: rgb(var(--color-foreground)); }
+  .cat-prod_cmp-price { text-decoration: line-through; font-weight: 400; /* Removed opacity so color setting works */ }
+  .cat-prod_price { font-weight: 800; /* Color handled by settings */ }
   .price-badge { 
       background: #BCA588; color: black; 
       font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 16px; 
@@ -409,9 +409,9 @@
 
                     <div class="cat-prod__price">
                       {% if product.compare_at_price > product.price %}
-                        <span class="cat-prod_cmp-price">{{ product.compare_at_price | money }}</span>
+                        <span class="cat-prod_cmp-price" style="color: {{ block.settings.compare_price_color }}; font-size: {{ block.settings.compare_price_font_size }}px;">{{ product.compare_at_price | money }}</span>
                       {% endif %}
-                      <span class="cat-prod_price">{{ product.price | money }}</span>
+                      <span class="cat-prod_price" style="color: {{ block.settings.price_color }}; font-size: {{ block.settings.price_font_size }}px;">{{ product.price | money }}</span>
                       
                       {% if product.compare_at_price > product.price %}
                         {% assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
@@ -767,6 +767,12 @@
         { "type": "image_picker", "id": "feature_icon_1", "label": "Icon 1 (Optional)" },
         { "type": "text", "id": "feature_text_2", "label": "Feature Bullet 2", "default": "Antibacterial" },
         { "type": "image_picker", "id": "feature_icon_2", "label": "Icon 2 (Optional)" },
+
+        { "type": "header", "content": "Price Settings" },
+        { "type": "color", "id": "price_color", "label": "Price Color", "default": "#000000" },
+        { "type": "range", "id": "price_font_size", "min": 10, "max": 24, "step": 1, "unit": "px", "label": "Price Font Size", "default": 14 },
+        { "type": "color", "id": "compare_price_color", "label": "Compare Price Color", "default": "#888888" },
+        { "type": "range", "id": "compare_price_font_size", "min": 10, "max": 24, "step": 1, "unit": "px", "label": "Compare Price Font Size", "default": 12 },
 
         { "type": "header", "content": "Sidebar Settings" },
         { "type": "text", "id": "sidebar_title", "label": "Sidebar Title" },
