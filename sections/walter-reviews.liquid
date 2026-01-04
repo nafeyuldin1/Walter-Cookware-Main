@@ -1,6 +1,6 @@
 {% comment %}
   Section: Reviews Slider Custom (Fixed Alignment & Settings)
-  - Mobile: Left Aligned, Dynamic Item Count
+  - Mobile: Left Aligned Properly, Dynamic Item Count (1.2)
   - Desktop: Dynamic Item Count
   - Arrows: Visible & Functional
 {% endcomment %}
@@ -100,13 +100,13 @@
   #shopify-section-{{ section.id }} .reviews-slider {
     max-width: {{ section.settings.max_width }}px;
     margin: 0 auto;
-    /* IMPORTANT: No left padding on desktop to keep it aligned with max-width */
   }
   
   @media (min-width: 1800px) {
      #shopify-section-{{ section.id }} .reviews-slider { margin-left: auto; margin-right: auto; }
   }
 
+  /* DEFAULT DESKTOP MARGINS (Negative Margins logic works fine on desktop) */
   #shopify-section-{{ section.id }} .slick-list { margin: 0 -{{ section.settings.card_gap }}px; }
   #shopify-section-{{ section.id }} .slick-slide { margin: 0 {{ section.settings.card_gap }}px; }
 
@@ -121,7 +121,6 @@
     flex-direction: column;
     height: auto;
     min-height: 240px; 
-    /* Remove fixed widths here to allow Slick to control width */
   }
 
   #shopify-section-{{ section.id }} .review-slide-top-wrapper { display: flex; gap: 12px; align-items: center; }
@@ -180,15 +179,30 @@
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(3) { border-radius: 0 0 0 12px; border-top: 0; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(4) { border-radius: 0 0 12px 0; border-top: 0; border-left: 1.5px solid {{ section.settings.border_color }}; border-right: 1.5px solid {{ section.settings.border_color }}; }
 
-    /* Left Align Logic for Mobile */
+    /* --- FIXED ALIGNMENT LOGIC FOR MOBILE --- */
+    
     #shopify-section-{{ section.id }} .reviews-slider { 
-      padding-left: 16px; /* Adds left padding to container */
+      padding-left: 20px; /* Force visual start padding */
+      padding-right: 0;   /* Let slides bleed to the right */
       width: 100%;
     }
+
+    /* Reset default negative margins on mobile to stop left cut-off */
+    #shopify-section-{{ section.id }} .slick-list { 
+      margin: 0 !important; 
+      padding: 0 !important;
+      overflow: visible; /* Helps with peeking */
+    }
     
-    #shopify-section-{{ section.id }} .review-slide {
-      /* Removed fixed width so settings control it */
-      margin-right: 12px;
+    #shopify-section-{{ section.id }} .slick-track {
+        display: flex; /* Ensures alignment */
+        margin-left: 0;
+    }
+
+    #shopify-section-{{ section.id }} .slick-slide {
+      /* Only right margin for gap, no left margin */
+      margin-left: 0 !important;
+      margin-right: 16px !important;
     }
   }
 {%- endstyle -%}
@@ -289,16 +303,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Dynamic Settings
   var desktopSlides = parseFloat($slider.attr('data-desktop')) || 3;
-  var mobileSlides  = parseFloat($slider.attr('data-mobile')) || 1.1;
+  var mobileSlides  = parseFloat($slider.attr('data-mobile')) || 1.2;
 
   function initSlick() {
     $slider.slick({
       infinite: true,
       slidesToShow: desktopSlides,
       slidesToScroll: 1,
-      variableWidth: false, /* Force width calculation based on slidesToShow */
+      variableWidth: false, 
       arrows: false,
       dots: false,
+      centerMode: false, /* Ensure centerMode is OFF */
       responsive: [
         {
           breakpoint: 1024,
@@ -310,7 +325,8 @@ document.addEventListener("DOMContentLoaded", function () {
           breakpoint: 999,
           settings: {
             slidesToShow: mobileSlides, /* e.g. 1.2 for peek */
-            variableWidth: false 
+            variableWidth: false,
+            centerMode: false /* Explicitly off for mobile */
           }
         }
       ]
