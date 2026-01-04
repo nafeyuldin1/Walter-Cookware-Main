@@ -752,6 +752,18 @@
         border-top-right-radius: 8px; 
         font-weight: bold;
       }
+      
+      /* Gallery Images below Price */
+      #pb-bundles-{{ section.id }} .pb-card__gallery {
+        display: flex; gap: 8px; margin-top: 12px;
+        overflow-x: auto; scrollbar-width: none;
+      }
+      #pb-bundles-{{ section.id }} .pb-card__gallery::-webkit-scrollbar { display: none; }
+      #pb-bundles-{{ section.id }} .pb-card__gallery img {
+        width: 60px; height: 60px; object-fit: contain;
+        border-radius: 4px; border: 1px solid rgba(0,0,0,0.05);
+        background: #fff; flex-shrink: 0;
+      }
 
       /* Button */
       #pb-bundles-{{ section.id }} .pb-atc-btn {
@@ -810,11 +822,6 @@
             {% if block.settings[badge_setting] != blank %}
               <span class="pb-card__badge">{{ block.settings[badge_setting] }}</span>
             {% endif %}
-            {% if b_prod.featured_image != blank %}
-              <div class="pb-card__image" style="margin-bottom: 10px;">
-                 <img src="{{ b_prod.featured_image | image_url: width: 400 }}" loading="lazy" width="100%" height="auto" style="border-radius: 6px; display: block;">
-              </div>
-            {% endif %}
             <div class="pb-card__title">{{ block.settings[title_setting] | default: b_prod.title }}</div>
             <div class="pb-card__desc">{{ block.settings[desc_setting] }}</div>
             <div class="pb-card__price">{{ b_prod.price | money }} 
@@ -822,6 +829,16 @@
                 <span class="pb-card__compare-note">({{ b_prod.compare_at_price | money }} Value)</span>
               {% endif %}
             </div>
+            
+            {% comment %} --- NEW: Display All Bundle Images Below Price --- {% endcomment %}
+            {% if b_prod.images.size > 0 %}
+              <div class="pb-card__gallery">
+                {% for image in b_prod.images %}
+                   <img src="{{ image | image_url: width: 120 }}" loading="lazy" alt="{{ image.alt | escape }}">
+                {% endfor %}
+              </div>
+            {% endif %}
+            
           </div>
         {%- endif -%}
       {%- endfor -%}
