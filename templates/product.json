@@ -1023,190 +1023,6 @@
         "pb_m": 64
       }
     },
-    "walter_not_available_L7GyMg": {
-      "type": "walter-not-available",
-      "blocks": {
-        "icon_9AYkEY": {
-          "type": "icon",
-          "settings": {
-            "icon_image": "shopify://shop_images/Frame_1171274953.png",
-            "icon_width": 40
-          }
-        },
-        "icon_Hw8bmt": {
-          "type": "icon",
-          "settings": {
-            "icon_image": "shopify://shop_images/Frame_1171274951.png",
-            "icon_width": 41
-          }
-        },
-        "icon_qgUFQX": {
-          "type": "icon",
-          "settings": {
-            "icon_image": "shopify://shop_images/Frame_1171274950.png",
-            "icon_width": 41
-          }
-        },
-        "icon_AFDN9z": {
-          "type": "icon",
-          "settings": {
-            "icon_image": "shopify://shop_images/Frame_1171274952.png",
-            "icon_width": 41
-          }
-        }
-      },
-      "block_order": [
-        "icon_9AYkEY",
-        "icon_Hw8bmt",
-        "icon_qgUFQX",
-        "icon_AFDN9z"
-      ],
-      "name": "Not Available Section",
-      "settings": {
-        "bg_image_desktop": "shopify://shop_images/a45b5bb6882d6dd0635f53c1c3a7c6655b5656eb.webp",
-        "height_desktop": 1050,
-        "height_mobile": 680,
-        "heading": "Not on Amazon. Not Anywhere Else.",
-        "subtext": "Beware of imitators & counterfeit listings using our name on Amazon & other platforms. The only place to get certified Taima® Pure Titanium products is right here, through our official website.",
-        "bottom_text": "www.taimatitanium.com",
-        "bottom_link": "",
-        "text_color": "#bca588",
-        "padding_top": 80,
-        "padding_top_m": 64
-      }
-    },
-    "walter_engineered_layers_TWrRby": {
-      "type": "walter-engineered-layers",
-      "blocks": {
-        "layer_yDq3ct": {
-          "type": "layer",
-          "settings": {
-            "image": "shopify://shop_images/pan_first_with_shadow-min.webp",
-            "offset_y": 0,
-            "title": "Pure Titanium With SlipScale Technology",
-            "description": "Benefit of this layer"
-          }
-        },
-        "layer_3g4pcF": {
-          "type": "layer",
-          "settings": {
-            "image": "shopify://shop_images/pan_MID_with_shadow-min.webp",
-            "offset_y": 0,
-            "title": "Third Recycled Aluminum Core",
-            "description": "Benefit of this layer"
-          }
-        },
-        "layer_yUg9LH": {
-          "type": "layer",
-          "settings": {
-            "image": "shopify://shop_images/pan_MID_with_shadow-min_1.webp",
-            "offset_y": 0,
-            "title": "Second Recycled Aluminum Core",
-            "description": "Benefit of this layer"
-          }
-        },
-        "layer_6PqkXa": {
-          "type": "layer",
-          "settings": {
-            "image": "shopify://shop_images/pan_MID_with_shadow-min_2.webp",
-            "offset_y": 0,
-            "title": "First Recycled Aluminum Core",
-            "description": "Benefit of this layer"
-          }
-        },
-        "layer_LF3hE3": {
-          "type": "layer",
-          "settings": {
-            "image": "shopify://shop_images/pan_LAST_with_shadow-min.webp",
-            "offset_y": 0,
-            "title": "Induction-Ready Stainless Steel",
-            "description": "Benefit of this layer"
-          }
-        }
-      },
-      "block_order": [
-        "layer_yDq3ct",
-        "layer_3g4pcF",
-        "layer_yUg9LH",
-        "layer_6PqkXa",
-        "layer_LF3hE3"
-      ],
-      "name": "Engineered Layers",
-      "settings": {
-        "bg_color": "#07231b",
-        "title_color": "#ffffff",
-        "line_color": "#a3835f",
-        "item_title_color": "#ffffff",
-        "item_desc_color": "#b0b0b0",
-        "heading": "Engineered From The Inside Out",
-        "heading_size": 48,
-        "anim_speed": 220,
-        "padding_top": 24,
-        "padding_bottom": 24
-      }
-    },
-    "walter_faqs_JyccRK": {
-      "type": "walter-faqs",
-      "blocks": {
-        "faq_item_QFcyXz": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How does SlipScale™ non-stick surface work?",
-            "answer": "<p>This technology is the very first of its kind, setting a new standard in cookware. SlipScale™ is our engineered, no-coating imprinted surface pattern that increases food release by up to 3x.</p>"
-          }
-        },
-        "faq_item_LqUfqw": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How does titanium cookware help food retain more nutrients?",
-            "answer": "<p>Pure Titanium’s superior thermal conductivity allows you to cook evenly at lower temperatures. Studies show that lower-temp cooking helps retain up to 30% more nutrients.</p>"
-          }
-        },
-        "faq_item_6hF98A": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Why should I switch from my existing pan?",
-            "answer": "<p>Because no other pan protects your health, keeps nutrients intact, and lasts for decades like this one.</p>"
-          }
-        },
-        "faq_item_XkqEiy": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Is titanium safe for food contact?",
-            "answer": "<p>Yes. Titanium never leaches, corrodes, or reacts with your food, at any temperature.</p>"
-          }
-        },
-        "faq_item_D9FLmT": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Is it safe to use on all stovetops and ovens?",
-            "answer": "<p>Yes. The Taima® Titanium cookware works on every cooking surface - gas, electric, ceramic, induction, open flame & oven.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "faq_item_QFcyXz",
-        "faq_item_LqUfqw",
-        "faq_item_6hF98A",
-        "faq_item_XkqEiy",
-        "faq_item_D9FLmT"
-      ],
-      "name": "FAQ Accordion",
-      "settings": {
-        "bg_color": "#121212",
-        "heading_color": "#bca588",
-        "question_color": "#ffffff",
-        "answer_color": "#b0b0b0",
-        "border_color": "#454545",
-        "icon_color": "#ffffff",
-        "heading": "Frequently Asked Questions",
-        "open_first": true,
-        "padding_top": 120,
-        "padding_bottom": 120,
-        "padding_top_m": 64,
-        "padding_bottom_m": 64
-      }
-    },
     "walter_reviews_Jhczj9": {
       "type": "walter-reviews",
       "blocks": {
@@ -1457,6 +1273,191 @@
         "pb_d": 105,
         "pt_m": 50,
         "pb_m": 50
+      }
+    },
+    "walter_not_available_L7GyMg": {
+      "type": "walter-not-available",
+      "blocks": {
+        "icon_9AYkEY": {
+          "type": "icon",
+          "settings": {
+            "icon_image": "shopify://shop_images/Frame_1171274953.png",
+            "icon_width": 40
+          }
+        },
+        "icon_Hw8bmt": {
+          "type": "icon",
+          "settings": {
+            "icon_image": "shopify://shop_images/Frame_1171274951.png",
+            "icon_width": 41
+          }
+        },
+        "icon_qgUFQX": {
+          "type": "icon",
+          "settings": {
+            "icon_image": "shopify://shop_images/Frame_1171274950.png",
+            "icon_width": 41
+          }
+        },
+        "icon_AFDN9z": {
+          "type": "icon",
+          "settings": {
+            "icon_image": "shopify://shop_images/Frame_1171274952.png",
+            "icon_width": 41
+          }
+        }
+      },
+      "block_order": [
+        "icon_9AYkEY",
+        "icon_Hw8bmt",
+        "icon_qgUFQX",
+        "icon_AFDN9z"
+      ],
+      "disabled": true,
+      "name": "Not Available Section",
+      "settings": {
+        "bg_image_desktop": "shopify://shop_images/a45b5bb6882d6dd0635f53c1c3a7c6655b5656eb.webp",
+        "height_desktop": 1050,
+        "height_mobile": 680,
+        "heading": "Not on Amazon. Not Anywhere Else.",
+        "subtext": "Beware of imitators & counterfeit listings using our name on Amazon & other platforms. The only place to get certified Taima® Pure Titanium products is right here, through our official website.",
+        "bottom_text": "www.taimatitanium.com",
+        "bottom_link": "",
+        "text_color": "#bca588",
+        "padding_top": 80,
+        "padding_top_m": 64
+      }
+    },
+    "walter_engineered_layers_TWrRby": {
+      "type": "walter-engineered-layers",
+      "blocks": {
+        "layer_yDq3ct": {
+          "type": "layer",
+          "settings": {
+            "image": "shopify://shop_images/pan_first_with_shadow-min.webp",
+            "offset_y": 0,
+            "title": "Pure Titanium With SlipScale Technology",
+            "description": "Benefit of this layer"
+          }
+        },
+        "layer_3g4pcF": {
+          "type": "layer",
+          "settings": {
+            "image": "shopify://shop_images/pan_MID_with_shadow-min.webp",
+            "offset_y": 0,
+            "title": "Third Recycled Aluminum Core",
+            "description": "Benefit of this layer"
+          }
+        },
+        "layer_yUg9LH": {
+          "type": "layer",
+          "settings": {
+            "image": "shopify://shop_images/pan_MID_with_shadow-min_1.webp",
+            "offset_y": 0,
+            "title": "Second Recycled Aluminum Core",
+            "description": "Benefit of this layer"
+          }
+        },
+        "layer_6PqkXa": {
+          "type": "layer",
+          "settings": {
+            "image": "shopify://shop_images/pan_MID_with_shadow-min_2.webp",
+            "offset_y": 0,
+            "title": "First Recycled Aluminum Core",
+            "description": "Benefit of this layer"
+          }
+        },
+        "layer_LF3hE3": {
+          "type": "layer",
+          "settings": {
+            "image": "shopify://shop_images/pan_LAST_with_shadow-min.webp",
+            "offset_y": 0,
+            "title": "Induction-Ready Stainless Steel",
+            "description": "Benefit of this layer"
+          }
+        }
+      },
+      "block_order": [
+        "layer_yDq3ct",
+        "layer_3g4pcF",
+        "layer_yUg9LH",
+        "layer_6PqkXa",
+        "layer_LF3hE3"
+      ],
+      "name": "Engineered Layers",
+      "settings": {
+        "bg_color": "#07231b",
+        "title_color": "#ffffff",
+        "line_color": "#a3835f",
+        "item_title_color": "#ffffff",
+        "item_desc_color": "#b0b0b0",
+        "heading": "Engineered From The Inside Out",
+        "heading_size": 48,
+        "anim_speed": 220,
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "walter_faqs_JyccRK": {
+      "type": "walter-faqs",
+      "blocks": {
+        "faq_item_QFcyXz": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does SlipScale™ non-stick surface work?",
+            "answer": "<p>This technology is the very first of its kind, setting a new standard in cookware. SlipScale™ is our engineered, no-coating imprinted surface pattern that increases food release by up to 3x.</p>"
+          }
+        },
+        "faq_item_LqUfqw": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does titanium cookware help food retain more nutrients?",
+            "answer": "<p>Pure Titanium’s superior thermal conductivity allows you to cook evenly at lower temperatures. Studies show that lower-temp cooking helps retain up to 30% more nutrients.</p>"
+          }
+        },
+        "faq_item_6hF98A": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why should I switch from my existing pan?",
+            "answer": "<p>Because no other pan protects your health, keeps nutrients intact, and lasts for decades like this one.</p>"
+          }
+        },
+        "faq_item_XkqEiy": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is titanium safe for food contact?",
+            "answer": "<p>Yes. Titanium never leaches, corrodes, or reacts with your food, at any temperature.</p>"
+          }
+        },
+        "faq_item_D9FLmT": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is it safe to use on all stovetops and ovens?",
+            "answer": "<p>Yes. The Taima® Titanium cookware works on every cooking surface - gas, electric, ceramic, induction, open flame & oven.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_QFcyXz",
+        "faq_item_LqUfqw",
+        "faq_item_6hF98A",
+        "faq_item_XkqEiy",
+        "faq_item_D9FLmT"
+      ],
+      "name": "FAQ Accordion",
+      "settings": {
+        "bg_color": "#121212",
+        "heading_color": "#bca588",
+        "question_color": "#ffffff",
+        "answer_color": "#b0b0b0",
+        "border_color": "#454545",
+        "icon_color": "#ffffff",
+        "heading": "Frequently Asked Questions",
+        "open_first": true,
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "padding_top_m": 64,
+        "padding_bottom_m": 64
       }
     }
   },
