@@ -3642,3 +3642,6 @@ html {
 #walter_reviews{
   scroll-margin-top: 100px;
 }
+.pit-image img{
+  width: 50%;
+}
