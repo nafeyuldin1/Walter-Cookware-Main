@@ -130,8 +130,14 @@
     {
       "type": "color",
       "id": "price_color",
-      "label": "Price Color",
+      "label": "Current Price Color",
       "default": "#F6F4F0"
+    },
+    {
+      "type": "color",
+      "id": "compare_price_color",
+      "label": "Compare Price Color",
+      "default": "#BCA588"
     },
     {
       "type": "color",
@@ -188,7 +194,11 @@
     --text-main: {{ section.settings.text_color }};
     --card-bg: {{ section.settings.card_bg }};
     --card-text: {{ section.settings.card_text }};
+    
+    /* Price Colors */
     --price-main: {{ section.settings.price_color }};
+    --price-compare: {{ section.settings.compare_price_color }};
+
     --badge-bg: {{ section.settings.badge_bg }};
     --badge-fg: {{ section.settings.badge_fg }};
     
@@ -331,9 +341,9 @@
     display: flex; gap: 8px; align-items: baseline;
   }
   
-  /* UPDATED PRICE CLASSES WITH VARIABLES */
+  /* UPDATED PRICE CLASSES WITH COLOR SETTINGS */
   #best-sellers-{{ section.id }} .price-compare {
-    color: var(--text-main);
+    color: var(--price-compare);
     font-size: var(--compare-fs-desktop);
     text-decoration: line-through;
   }
