@@ -872,15 +872,18 @@
             btn.classList.remove('active');
          });
 
-         // 6. SWAP IMAGE (Feature Added)
+         // 6. SWAP IMAGE (Force update main image)
          var newImageSrc = card.getAttribute('data-image');
          if(newImageSrc && newImageSrc !== "null") {
-             // Try to find the main image element in standard themes
-             var mainImage = document.querySelector('.product__media img') || document.querySelector('.product-media-modal__content img') || document.querySelector('img.global-media-settings');
+             // Look for standard product image elements
+             var mainImage = document.querySelector('.product__media img') || 
+                             document.querySelector('.product-media-modal__content img') || 
+                             document.querySelector('.global-media-settings');
              
              if(mainImage) {
                  mainImage.src = newImageSrc;
-                 mainImage.srcset = newImageSrc; // clear srcset to force src usage or update it
+                 // Important: Clear or update srcset to prevent browser using old image at different resolutions
+                 mainImage.srcset = newImageSrc; 
              }
          }
       };
@@ -928,7 +931,7 @@
           var btnPrice = document.getElementById('bundle-price-display');
           if(btnPrice) btnPrice.innerText = '$' + (matched.price / 100).toFixed(2);
 
-          // Update Media (if available)
+          // Update Media (if available in main gallery)
           if(matched.featured_media) {
              const sectionId = "{{ section.id }}";
              const gallery = document.querySelector(`product-info[id="MainProduct-${sectionId}"] media-gallery`);
@@ -982,16 +985,23 @@
       }
       .pit-show-more-btn {
         display: block;
-        margin-top: 10px;
+        margin-top: 15px;
         background: transparent;
-        border: none;
         color: inherit;
-        text-decoration: underline;
         cursor: pointer;
-        font-size: 13px;
-        padding: 0;
+        font-size: 14px;
+        padding: 10px 20px;
         font-weight: 600;
+        width: 100%;
+        border: 1px solid currentColor; /* Outlined Border */
+        border-radius: 8px; /* Rounded corners */
+        text-align: center;
+        text-decoration: none;
       }
+      .pit-show-more-btn:hover {
+        opacity: 0.8;
+      }
+
       .pit-content-wrap:not(.expanded)::after {
         content: "";
         position: absolute;
@@ -1113,7 +1123,7 @@
                     <div class="pfaq-body rte">
                       {{ block.settings.content }}
                       {% if block.settings.button_label != blank %}
-                        <a href="{{ block.settings.button_link }}" class="button button--primary" style="margin-top: 15px; width: 100%; text-align: center; text-decoration:none;">
+                        <a href="{{ block.settings.button_link }}" class="button button--primary" style="display: block; margin-top: 15px; width: 100%; text-align: center; text-decoration:none; padding: 10px; border-radius: 8px;">
                           {{ block.settings.button_label }}
                         </a>
                       {% endif %}
