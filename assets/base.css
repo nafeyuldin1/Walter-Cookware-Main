@@ -3606,6 +3606,9 @@ details-disclosure > details {
   .chiild{
     padding-left: 0px !important;
   }
+  .product__info-container  .price  .badge.price__badge-sale{
+  font-size: 12px;
+}
 }
 .pit-tabs .pit-tab.is-active .pit-underline{
   left: 0px !important;
