@@ -498,11 +498,11 @@
         "testimonial_qhTciH": {
           "type": "testimonial",
           "settings": {
-            "image_desktop": "shopify://shop_images/PC_daily_mail-min.png",
-            "image_mobile": "shopify://shop_images/daily_mail_smallest.webp",
+            "image_desktop": "shopify://shop_images/Vector_fc8b58e5-1a0c-4227-92d8-7b81c1e8a2d3.webp",
+            "image_mobile": "shopify://shop_images/Vector_fc8b58e5-1a0c-4227-92d8-7b81c1e8a2d3.webp",
             "logo_width": 120,
             "logo_width_mobile": 80,
-            "quote": "<p>\"non-stick pans can emit toxins of PTFE that can cause flu-like symptoms in humans\"</p>"
+            "quote": "<p>\"Walter Titanium: The Benchmark for Non-Toxic Cookware That Lasts a Lifetime\"</p>"
           }
         }
       },
