@@ -552,7 +552,7 @@
         "line_rGpHLY": {
           "type": "line",
           "settings": {
-            "text": "It’s the Standard.",
+            "text": "This is the standard.",
             "visibility": "always",
             "base_opacity": 30,
             "base_size_d": 48,
@@ -562,7 +562,7 @@
         "line_LPJ8ze": {
           "type": "line",
           "settings": {
-            "text": "Excellence Isn’t the Goal.",
+            "text": "Excellence isn’t the finish line.",
             "visibility": "always",
             "base_opacity": 20,
             "base_size_d": 48,
@@ -572,7 +572,7 @@
         "line_VTQ4Vz": {
           "type": "line",
           "settings": {
-            "text": "It’s the Starting Point.",
+            "text": "It’s the starting point.",
             "visibility": "always",
             "base_opacity": 10,
             "base_size_d": 32,
