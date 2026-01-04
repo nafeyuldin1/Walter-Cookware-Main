@@ -1,8 +1,7 @@
 {% comment %}
-  Section: Reviews Slider Custom (Fixed Alignment & Settings)
-  - Mobile: Left Aligned Properly, Dynamic Item Count (1.2)
-  - Desktop: Dynamic Item Count
-  - Arrows: Visible & Functional
+  Section: Reviews Slider Custom (FINAL FIX - No Left Cut)
+  - Fix: Removed negative margins on mobile to stop cutting.
+  - Mobile: Padding-left added to container.
 {% endcomment %}
 
 {%- style -%}
@@ -45,7 +44,7 @@
   #shopify-section-{{ section.id }} .review-tabs {
     display: flex;
     gap: 0;
-    flex: 1; /* Allow tabs to grow */
+    flex: 1; 
   }
 
   #shopify-section-{{ section.id }} .review-tabs .tab {
@@ -96,21 +95,13 @@
   #shopify-section-{{ section.id }} .arrows.desktop-arrows { display: flex; gap: 12px; }
   #shopify-section-{{ section.id }} .arrows.mobile-arrows { display: none; margin-top: 32px; justify-content: center; gap: 16px; }
 
-  /* Slider Container */
+  /* Slider Container Default */
   #shopify-section-{{ section.id }} .reviews-slider {
     max-width: {{ section.settings.max_width }}px;
     margin: 0 auto;
   }
-  
-  @media (min-width: 1800px) {
-     #shopify-section-{{ section.id }} .reviews-slider { margin-left: auto; margin-right: auto; }
-  }
 
-  /* DEFAULT DESKTOP MARGINS (Negative Margins logic works fine on desktop) */
-  #shopify-section-{{ section.id }} .slick-list { margin: 0 -{{ section.settings.card_gap }}px; }
-  #shopify-section-{{ section.id }} .slick-slide { margin: 0 {{ section.settings.card_gap }}px; }
-
-  /* Review Card */
+  /* Review Card General */
   #shopify-section-{{ section.id }} .review-slide {
     background: {{ section.settings.card_bg }};
     color: {{ section.settings.card_text }};
@@ -145,7 +136,17 @@
     margin-bottom: 0;
   }
 
-  /* Responsive Mobile */
+  /* --- DESKTOP SPECIFIC (Keep Negative Margins Here Only) --- */
+  @media (min-width: 1000px) {
+    #shopify-section-{{ section.id }} .slick-list { margin: 0 -{{ section.settings.card_gap }}px; }
+    #shopify-section-{{ section.id }} .slick-slide { margin: 0 {{ section.settings.card_gap }}px; }
+    
+    @media (min-width: 1800px) {
+       #shopify-section-{{ section.id }} .reviews-slider { margin-left: auto; margin-right: auto; }
+    }
+  }
+
+  /* --- MOBILE SPECIFIC (The Critical Fix) --- */
   @media (max-width: 999px) {
     #shopify-section-{{ section.id }} .reviews-slider-section {
       padding-top: {{ section.settings.pt_m }}px;
@@ -163,47 +164,40 @@
     #shopify-section-{{ section.id }} .arrows.desktop-arrows { display: none; }
     #shopify-section-{{ section.id }} .arrows.mobile-arrows { display: flex; }
     
+    /* Mobile Tabs */
     #shopify-section-{{ section.id }} .review-tabs { flex-wrap: wrap; }
     #shopify-section-{{ section.id }} .review-tabs .tab { 
-      font-size: 14px; 
-      width: 50%; 
-      flex: auto;
-      border-radius: 0; 
+      font-size: 14px; width: 50%; flex: auto; border-radius: 0; 
       border: 1.5px solid {{ section.settings.border_color }};
     }
-    
-    /* 2x2 Grid Tabs Logic */
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(odd) { border-right: 0; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(1) { border-radius: 12px 0 0 0; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(2) { border-radius: 0 12px 0 0; border-left: 1.5px solid {{ section.settings.border_color }}; border-right: 1.5px solid {{ section.settings.border_color }}; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(3) { border-radius: 0 0 0 12px; border-top: 0; }
     #shopify-section-{{ section.id }} .review-tabs .tab:nth-child(4) { border-radius: 0 0 12px 0; border-top: 0; border-left: 1.5px solid {{ section.settings.border_color }}; border-right: 1.5px solid {{ section.settings.border_color }}; }
 
-    /* --- FIXED ALIGNMENT LOGIC FOR MOBILE --- */
-    
+    /* --- FIX START --- */
+    /* 1. Container ko padding do taake content left edge se chipke nahi */
     #shopify-section-{{ section.id }} .reviews-slider { 
-      padding-left: 20px; /* Force visual start padding */
-      padding-right: 0;   /* Let slides bleed to the right */
+      padding-left: 20px; 
+      padding-right: 0;
       width: 100%;
+      display: block;
     }
 
-    /* Reset default negative margins on mobile to stop left cut-off */
+    /* 2. Slick List ka default margin 0 karo taake wo left par cut na ho */
     #shopify-section-{{ section.id }} .slick-list { 
       margin: 0 !important; 
       padding: 0 !important;
-      overflow: visible; /* Helps with peeking */
-    }
-    
-    #shopify-section-{{ section.id }} .slick-track {
-        display: flex; /* Ensures alignment */
-        margin-left: 0;
+      overflow: visible !important; /* Allow shadow/content to breathe */
     }
 
+    /* 3. Slide ko sirf right margin do (gap ke liye), Left margin 0 */
     #shopify-section-{{ section.id }} .slick-slide {
-      /* Only right margin for gap, no left margin */
       margin-left: 0 !important;
       margin-right: 16px !important;
     }
+    /* --- FIX END --- */
   }
 {%- endstyle -%}
 
@@ -307,13 +301,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function initSlick() {
     $slider.slick({
-      infinite: true,
+      infinite: false, /* Set to false for cleaner start position */
       slidesToShow: desktopSlides,
       slidesToScroll: 1,
       variableWidth: false, 
       arrows: false,
       dots: false,
-      centerMode: false, /* Ensure centerMode is OFF */
+      centerMode: false,
       responsive: [
         {
           breakpoint: 1024,
@@ -326,7 +320,8 @@ document.addEventListener("DOMContentLoaded", function () {
           settings: {
             slidesToShow: mobileSlides, /* e.g. 1.2 for peek */
             variableWidth: false,
-            centerMode: false /* Explicitly off for mobile */
+            centerMode: false, /* Force centerMode off */
+            infinite: false /* Keep it false to prevent cloning issues at start */
           }
         }
       ]
