@@ -847,6 +847,7 @@
         "card_FTbHKR",
         "card_76b6RG"
       ],
+      "disabled": true,
       "name": "Rethink Cookware",
       "settings": {
         "bg_color": "#121212",
