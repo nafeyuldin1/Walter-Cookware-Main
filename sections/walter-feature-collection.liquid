@@ -33,7 +33,7 @@
     },
     {
       "type": "header",
-      "content": "TYPOGRAPHY"
+      "content": "SECTION TYPOGRAPHY"
     },
     {
       "type": "range",
@@ -42,7 +42,7 @@
       "max": 80,
       "step": 1,
       "unit": "px",
-      "label": "Title Font Size (Desktop)",
+      "label": "Section Title (Desktop)",
       "default": 48
     },
     {
@@ -52,8 +52,52 @@
       "max": 40,
       "step": 1,
       "unit": "px",
-      "label": "Title Font Size (Mobile)",
+      "label": "Section Title (Mobile)",
       "default": 24
+    },
+    {
+      "type": "header",
+      "content": "PRODUCT PRICE TYPOGRAPHY"
+    },
+    {
+      "type": "range",
+      "id": "price_size_desktop",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Price Size (Desktop)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "price_size_mobile",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Price Size (Mobile)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "compare_size_desktop",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Compare Price Size (Desktop)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "compare_size_mobile",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Compare Price Size (Mobile)",
+      "default": 12
     },
     {
       "type": "header",
@@ -148,10 +192,18 @@
     --badge-bg: {{ section.settings.badge_bg }};
     --badge-fg: {{ section.settings.badge_fg }};
     
-    /* Font Sizes */
+    /* Font Sizes - Section Title */
     --fs-desktop: {{ section.settings.title_size_desktop }}px;
     --fs-mobile: {{ section.settings.title_size_mobile }}px;
     
+    /* Font Sizes - Prices (Desktop Defaults) */
+    --price-fs-desktop: {{ section.settings.price_size_desktop }}px;
+    --compare-fs-desktop: {{ section.settings.compare_size_desktop }}px;
+    
+    /* Font Sizes - Prices (Mobile Defaults) */
+    --price-fs-mobile: {{ section.settings.price_size_mobile }}px;
+    --compare-fs-mobile: {{ section.settings.compare_size_mobile }}px;
+
     /* Layout */
     --desktop-items: {{ section.settings.items_desktop }};
   }
@@ -279,15 +331,16 @@
     display: flex; gap: 8px; align-items: baseline;
   }
   
+  /* UPDATED PRICE CLASSES WITH VARIABLES */
   #best-sellers-{{ section.id }} .price-compare {
     color: var(--text-main);
-    font-size: 14px;
+    font-size: var(--compare-fs-desktop);
     text-decoration: line-through;
   }
   
   #best-sellers-{{ section.id }} .price-current {
     color: var(--price-main);
-    font-size: 18px;
+    font-size: var(--price-fs-desktop);
     font-weight: 600;
   }
 
@@ -310,6 +363,14 @@
     
     #best-sellers-{{ section.id }} .best-sellers__arrow {
       width: 40px; height: 40px;
+    }
+
+    /* Update Price Size for Mobile */
+    #best-sellers-{{ section.id }} .price-compare {
+      font-size: var(--compare-fs-mobile);
+    }
+    #best-sellers-{{ section.id }} .price-current {
+      font-size: var(--price-fs-mobile);
     }
 
     /* Native Horizontal Scroll */
