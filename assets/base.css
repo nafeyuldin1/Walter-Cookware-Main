@@ -3607,7 +3607,7 @@ details-disclosure > details {
     padding-left: 0px !important;
   }
   .product__info-container  .price  .badge.price__badge-sale{
-  font-size: 12px;
+  font-size: 12px !important;
 }
 }
 .pit-tabs .pit-tab.is-active .pit-underline{
