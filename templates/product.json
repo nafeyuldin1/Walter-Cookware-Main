@@ -975,49 +975,43 @@
         "text_line_hA7mgX": {
           "type": "text_line",
           "settings": {
-            "text": "Every choice you make is either a step toward honoring it,"
+            "text": "Every Choice You Make Is"
           }
         },
         "text_line_qqaHmf": {
           "type": "text_line",
           "settings": {
-            "text": "or slowly works against it."
+            "text": "Either A Step Toward"
           }
         },
         "text_line_XNfCFX": {
           "type": "text_line",
           "settings": {
-            "text": "Honor that responsibility"
+            "text": "Respecting That Gift,"
           }
         },
         "text_line_MeRLPV": {
           "type": "text_line",
           "settings": {
-            "text": "honoring that gift,"
+            "text": "Or Slowly Wasting It."
           }
         },
         "text_line_Mp4rDY": {
           "type": "text_line",
           "settings": {
-            "text": "or throwing it away."
+            "text": "Start With"
           }
         },
         "text_line_79DMri": {
           "type": "text_line",
           "settings": {
-            "text": "Start with"
+            "text": "What You Use Every Day."
           }
         },
         "text_line_PgPWiT": {
           "type": "text_line",
           "settings": {
-            "text": "what you use every day."
-          }
-        },
-        "text_line_xnRtVc": {
-          "type": "text_line",
-          "settings": {
-            "text": "Start with Taima®."
+            "text": "Start With Walter®."
           }
         }
       },
@@ -1030,8 +1024,7 @@
         "text_line_MeRLPV",
         "text_line_Mp4rDY",
         "text_line_79DMri",
-        "text_line_PgPWiT",
-        "text_line_xnRtVc"
+        "text_line_PgPWiT"
       ],
       "name": "Scroll Text with Image",
       "settings": {
