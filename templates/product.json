@@ -1031,7 +1031,7 @@
         "bg_color": "#00221c",
         "text_color": "#bca588",
         "focus_color": "#ded2bc",
-        "section_image": "shopify://shop_images/collage_pan_700x700-min.webp",
+        "section_image": "shopify://shop_images/review_collectie.png",
         "btn_label": "Make The Switch Today",
         "btn_link": "shopify://collections/all",
         "btn_bg": "#ffffff",
