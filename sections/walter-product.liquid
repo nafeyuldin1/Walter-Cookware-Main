@@ -598,8 +598,90 @@
                       {{- 'icon-caret.svg' | inline_asset_content -}}
                     </summary>
                     <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
+                      
+                      {% comment %} --- Original Content --- {% endcomment %}
                       {{ block.settings.content }}
                       {{ block.settings.page.content }}
+
+                      {% comment %} --- NEW: Review Highlights Section --- {% endcomment %}
+                      {%- if block.settings.enable_reviews -%}
+                        <style>
+                          .rh-wrap { color:{{ block.settings.review_text_color }}; margin-top: 15px; }
+                          .rh-list { list-style:none; margin:0 0 12px; padding:0; }
+                          .rh-item { padding:16px 0!important; border-top:1px solid rgba(0,0,0,0.1); }
+                          .rh-item:first-child { border-top:0; }
+                          
+                          .rh-stars { display:flex; gap:4px; margin-bottom:8px; color: #B57C46; }
+                          .rh-star svg { width:14px; height:14px; display:block; fill: currentColor; }
+                          
+                          .rh-head { display:flex; align-items:center; gap:16px; margin-bottom:8px; }
+                          .rh-avatar { width:48px; height:48px; border-radius:50%; object-fit:cover; background:#f0f0f0; display:block; }
+                          
+                          .rh-meta { display:flex; flex-direction:column; gap:4px; }
+                          .rh-name { 
+                             font-family: inherit; font-weight: 700; font-size: 16px; 
+                             color: {{ block.settings.review_name_color }}; 
+                             display: flex; align-items: center; gap: 8px; margin: 0; 
+                          }
+                          .rh-role { 
+                             color: {{ block.settings.review_role_color }}; 
+                             font-size: 12px; opacity: 0.9; line-height: 1.2;
+                          }
+                          
+                          .rh-text { 
+                             margin:0; font-size: 14px; line-height: 150%; 
+                             color: {{ block.settings.review_text_color }}; 
+                          }
+                          
+                          .rh-cta { 
+                             display:block; text-align:center; padding:12px 18px; 
+                             border:1px solid {{ block.settings.review_text_color }}; 
+                             color: {{ block.settings.review_text_color }} !important; 
+                             text-decoration:none; border-radius:999px; font-weight:600; 
+                             background:transparent; margin-top: 15px; transition: 0.3s;
+                          }
+                          .rh-cta:hover { opacity: 0.7; }
+                        </style>
+
+                        <div class="rh-wrap">
+                          <ul class="rh-list">
+                            {%- for i in (1..10) -%}
+                              {%- capture r_img -%}rev_img_{{ i }}{%- endcapture -%}
+                              {%- capture r_name -%}rev_name_{{ i }}{%- endcapture -%}
+                              {%- capture r_role -%}rev_role_{{ i }}{%- endcapture -%}
+                              {%- capture r_text -%}rev_text_{{ i }}{%- endcapture -%}
+                              
+                              {%- if block.settings[r_text] != blank -%}
+                                <li class="rh-item">
+                                  <div class="rh-stars" aria-label="5 out of 5 stars">
+                                    {% for s in (1..5) %}<span class="rh-star"><svg viewBox="0 0 14 14" fill="currentColor"><path d="M9.566 8.5L12.14 6L8.59 5.48L7 2.27L5.41 5.48L1.86 6L4.43 8.5L3.82 12.04L7 10.37L10.17 12.04L9.566 8.5Z"/></svg></span>{% endfor %}
+                                  </div>
+                                  <div class="rh-head">
+                                    {% if block.settings[r_img] != blank %}
+                                      <img class="rh-avatar" src="{{ block.settings[r_img] | image_url: width: 100 }}" alt="{{ block.settings[r_name] }}" loading="lazy">
+                                    {% else %}
+                                      <div class="rh-avatar" style="display:flex;align-items:center;justify-content:center;background:#ddd;color:#555;font-size:10px;">User</div>
+                                    {% endif %}
+                                    <div class="rh-meta">
+                                      <div class="rh-name">
+                                        {{ block.settings[r_name] }}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12.893L10.8 14.5L15 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/></svg>
+                                      </div>
+                                      <div class="rh-role">{{ block.settings[r_role] }}</div>
+                                    </div>
+                                  </div>
+                                  <p class="rh-text">{{ block.settings[r_text] }}</p>
+                                </li>
+                              {%- endif -%}
+                            {%- endfor -%}
+                          </ul>
+                          
+                          {% if block.settings.review_link_url != blank %}
+                            <a class="rh-cta" href="{{ block.settings.review_link_url }}">{{ block.settings.review_link_text }}</a>
+                          {% endif %}
+                        </div>
+                      {%- endif -%}
+                      
                       {% if block.settings.button_link != blank and block.settings.button_label != blank %}
                         <a href="{{ block.settings.button_link }}" class="button button--primary" style="display: block; margin-top: 15px; width: 100%; text-align: center; text-decoration:none; padding: 10px; border-radius: 8px; background: transparent; display: flex;align-items: center; color: #FFFFFF;">
                           {{ block.settings.button_label }}
@@ -1894,17 +1976,89 @@
     },
     { "type": "share", "name": "t:sections.main-product.blocks.share.name", "limit": 1, "settings": [ { "type": "text", "id": "share_label", "label": "Label", "default": "Share" } ] },
     { "type": "custom_liquid", "name": "t:sections.custom-liquid.name", "settings": [ { "type": "liquid", "id": "custom_liquid", "label": "Liquid Code" } ] },
-    {
+ {
       "type": "collapsible_tab",
       "name": "t:sections.main-product.blocks.collapsible_tab.name",
       "settings": [
         { "type": "text", "id": "heading", "default": "Heading", "label": "Heading" },
         { "type": "image_picker", "id": "custom_icon", "label": "Custom Icon (Upload)" },
         { "type": "select", "id": "icon", "options": [ { "value": "none", "label": "None" }, { "value": "apple", "label": "Apple" }, { "value": "check_mark", "label": "Check Mark" } ], "default": "check_mark", "label": "Icon (Fallback)" },
-        { "type": "richtext", "id": "content", "label": "Content" },
-        { "type": "page", "id": "page", "label": "Page" },
-        { "type": "text", "id": "button_label", "label": "Button Label", "default": "See More" },
-        { "type": "url", "id": "button_link", "label": "Button Link" }
+        { "type": "richtext", "id": "content", "label": "Standard Content" },
+        { "type": "page", "id": "page", "label": "Page Content" },
+
+        { "type": "header", "content": "Review Settings" },
+        { "type": "checkbox", "id": "enable_reviews", "label": "Enable Reviews Layout", "default": false },
+        { "type": "color", "id": "review_name_color", "label": "Name Color", "default": "#121212" },
+        { "type": "color", "id": "review_role_color", "label": "Role/Info Color", "default": "#555555" },
+        { "type": "color", "id": "review_text_color", "label": "Text Color", "default": "#333333" },
+
+        { "type": "header", "content": "Review 1" },
+        { "type": "image_picker", "id": "rev_img_1", "label": "Image 1" },
+        { "type": "text", "id": "rev_name_1", "label": "Name 1" },
+        { "type": "text", "id": "rev_role_1", "label": "Short Info 1" },
+        { "type": "textarea", "id": "rev_text_1", "label": "Review 1" },
+
+        { "type": "header", "content": "Review 2" },
+        { "type": "image_picker", "id": "rev_img_2", "label": "Image 2" },
+        { "type": "text", "id": "rev_name_2", "label": "Name 2" },
+        { "type": "text", "id": "rev_role_2", "label": "Short Info 2" },
+        { "type": "textarea", "id": "rev_text_2", "label": "Review 2" },
+
+        { "type": "header", "content": "Review 3" },
+        { "type": "image_picker", "id": "rev_img_3", "label": "Image 3" },
+        { "type": "text", "id": "rev_name_3", "label": "Name 3" },
+        { "type": "text", "id": "rev_role_3", "label": "Short Info 3" },
+        { "type": "textarea", "id": "rev_text_3", "label": "Review 3" },
+
+        { "type": "header", "content": "Review 4" },
+        { "type": "image_picker", "id": "rev_img_4", "label": "Image 4" },
+        { "type": "text", "id": "rev_name_4", "label": "Name 4" },
+        { "type": "text", "id": "rev_role_4", "label": "Short Info 4" },
+        { "type": "textarea", "id": "rev_text_4", "label": "Review 4" },
+
+        { "type": "header", "content": "Review 5" },
+        { "type": "image_picker", "id": "rev_img_5", "label": "Image 5" },
+        { "type": "text", "id": "rev_name_5", "label": "Name 5" },
+        { "type": "text", "id": "rev_role_5", "label": "Short Info 5" },
+        { "type": "textarea", "id": "rev_text_5", "label": "Review 5" },
+
+        { "type": "header", "content": "Review 6" },
+        { "type": "image_picker", "id": "rev_img_6", "label": "Image 6" },
+        { "type": "text", "id": "rev_name_6", "label": "Name 6" },
+        { "type": "text", "id": "rev_role_6", "label": "Short Info 6" },
+        { "type": "textarea", "id": "rev_text_6", "label": "Review 6" },
+
+        { "type": "header", "content": "Review 7" },
+        { "type": "image_picker", "id": "rev_img_7", "label": "Image 7" },
+        { "type": "text", "id": "rev_name_7", "label": "Name 7" },
+        { "type": "text", "id": "rev_role_7", "label": "Short Info 7" },
+        { "type": "textarea", "id": "rev_text_7", "label": "Review 7" },
+
+        { "type": "header", "content": "Review 8" },
+        { "type": "image_picker", "id": "rev_img_8", "label": "Image 8" },
+        { "type": "text", "id": "rev_name_8", "label": "Name 8" },
+        { "type": "text", "id": "rev_role_8", "label": "Short Info 8" },
+        { "type": "textarea", "id": "rev_text_8", "label": "Review 8" },
+
+        { "type": "header", "content": "Review 9" },
+        { "type": "image_picker", "id": "rev_img_9", "label": "Image 9" },
+        { "type": "text", "id": "rev_name_9", "label": "Name 9" },
+        { "type": "text", "id": "rev_role_9", "label": "Short Info 9" },
+        { "type": "textarea", "id": "rev_text_9", "label": "Review 9" },
+
+        { "type": "header", "content": "Review 10" },
+        { "type": "image_picker", "id": "rev_img_10", "label": "Image 10" },
+        { "type": "text", "id": "rev_name_10", "label": "Name 10" },
+        { "type": "text", "id": "rev_role_10", "label": "Short Info 10" },
+        { "type": "textarea", "id": "rev_text_10", "label": "Review 10" },
+
+        { "type": "header", "content": "Review Link Button" },
+        { "type": "text", "id": "review_link_text", "label": "Button Text", "default": "Read All Reviews" },
+        { "type": "url", "id": "review_link_url", "label": "Button Link" },
+
+        { "type": "header", "content": "Standard Button (Optional)" },
+        { "type": "text", "id": "button_label", "label": "Standard Button Label" },
+        { "type": "url", "id": "button_link", "label": "Standard Button Link" }
       ]
     },
     { "type": "rating", "name": "t:sections.main-product.blocks.rating.name", "limit": 1 },
