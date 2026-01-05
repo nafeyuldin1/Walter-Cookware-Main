@@ -963,7 +963,7 @@
         "text_line_9kFhmF": {
           "type": "text_line",
           "settings": {
-            "text": "You only get one body."
+            "text": "You get one body."
           }
         },
         "text_line_kcJcmR": {
@@ -975,13 +975,19 @@
         "text_line_hA7mgX": {
           "type": "text_line",
           "settings": {
-            "text": "Every decision you make is"
+            "text": "Every choice you make is either a step toward honoring it,"
+          }
+        },
+        "text_line_qqaHmf": {
+          "type": "text_line",
+          "settings": {
+            "text": "or slowly works against it."
           }
         },
         "text_line_XNfCFX": {
           "type": "text_line",
           "settings": {
-            "text": "either a step toward"
+            "text": "Honor that responsibility"
           }
         },
         "text_line_MeRLPV": {
@@ -1019,6 +1025,7 @@
         "text_line_9kFhmF",
         "text_line_kcJcmR",
         "text_line_hA7mgX",
+        "text_line_qqaHmf",
         "text_line_XNfCFX",
         "text_line_MeRLPV",
         "text_line_Mp4rDY",
