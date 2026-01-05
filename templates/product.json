@@ -478,8 +478,8 @@
         "highlight_color": "#bca588",
         "quote_color": "#e9e2d8",
         "star_color": "#b57c46",
-        "padding_top": 120,
-        "padding_bottom": 120,
+        "padding_top": 68,
+        "padding_bottom": 68,
         "slides_to_show": 7
       }
     },
