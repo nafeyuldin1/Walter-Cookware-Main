@@ -64,13 +64,6 @@
             "option_label": "Something else",
             "option_value": "Something else"
           }
-        },
-        "option_ANqFfV": {
-          "type": "option",
-          "settings": {
-            "option_label": "Alabama",
-            "option_value": "AL"
-          }
         }
       },
       "block_order": [
@@ -78,8 +71,7 @@
         "option_RLB6c9",
         "option_FhHUEn",
         "option_RGUtNx",
-        "option_LjUAQc",
-        "option_ANqFfV"
+        "option_LjUAQc"
       ],
       "name": "Contact Split Form",
       "settings": {
