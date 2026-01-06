@@ -1622,7 +1622,7 @@
             "image": "shopify://shop_images/pan_first_with_shadow-min.webp",
             "offset_y": 0,
             "title": "Pure Titanium With SlipScale Technology",
-            "description": "Benefit of this layer"
+            "description": "Non-toxic. Naturally non-stick."
           }
         },
         "layer_3g4pcF": {
@@ -1630,8 +1630,8 @@
           "settings": {
             "image": "shopify://shop_images/pan_MID_with_shadow-min.webp",
             "offset_y": 0,
-            "title": "Third Recycled Aluminum Core",
-            "description": "Benefit of this layer"
+            "title": "Third Recycled Aluminum Layer",
+            "description": "Distributes heat evenly from center to edge"
           }
         },
         "layer_yUg9LH": {
@@ -1639,8 +1639,8 @@
           "settings": {
             "image": "shopify://shop_images/pan_MID_with_shadow-min_1.webp",
             "offset_y": 0,
-            "title": "Second Recycled Aluminum Core",
-            "description": "Benefit of this layer"
+            "title": "Second Recycled Aluminum Layer",
+            "description": "Heats quickly and responds fast"
           }
         },
         "layer_6PqkXa": {
@@ -1648,8 +1648,8 @@
           "settings": {
             "image": "shopify://shop_images/pan_MID_with_shadow-min_2.webp",
             "offset_y": 0,
-            "title": "First Recycled Aluminum Core",
-            "description": "Benefit of this layer"
+            "title": "Induction-Compatible Stainless Steel Base",
+            "description": "Enhances durability and magnetic performance"
           }
         },
         "layer_LF3hE3": {
