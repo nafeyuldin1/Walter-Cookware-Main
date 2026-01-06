@@ -72,7 +72,7 @@ Antibacterial</li></ul>
                 <div class="drawer__cats-list">
                     {%- assign cat_blocks = section.blocks | where: "type", "mobile_category" -%}
                     {% for block in cat_blocks %}
-                        <button class="d-cat-btn" data-target="step-2-{{ block.id }}" data-cat-title="{{ block.settings.title }}">
+                        <a href="block.settings.collection.url"  class="d-cat-btn" data-target="step-2-{{ block.id }}" data-cat-title="{{ block.settings.title }}">
                             <div class="d-cat-left">
                                 {% if block.settings.icon %}
                                     <img src="{{ block.settings.icon | image_url: width: 64 }}" class="d-cat-icon">
@@ -82,7 +82,7 @@ Antibacterial</li></ul>
                                 <span class="d-cat-name">{{ block.settings.title }}</span>
                             </div>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.916 5.833L12.083 10L7.916 14.166" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path></svg>
-                        </button>
+                        </a>
                     {% endfor %}
                 </div>
             </div>
