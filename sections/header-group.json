@@ -141,6 +141,7 @@
         },
         "mobile_category_LHJYcp": {
           "type": "mobile_category",
+          "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/christmas-min.jpg",
             "title": "HOLIDAY SALE DEALS",
