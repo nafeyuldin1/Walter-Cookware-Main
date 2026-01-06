@@ -33,22 +33,36 @@
         "option_NYBWwU": {
           "type": "option",
           "settings": {
-            "option_label": "New York",
-            "option_value": "NY"
+            "option_label": "Product not received",
+            "option_value": "Product not received"
+          }
+        },
+        "option_RLB6c9": {
+          "type": "option",
+          "settings": {
+            "option_label": "Make change",
+            "option_value": "Make change"
+          }
+        },
+        "option_FhHUEn": {
+          "type": "option",
+          "settings": {
+            "option_label": "Cancel order",
+            "option_value": "Cancel order"
           }
         },
         "option_RGUtNx": {
           "type": "option",
           "settings": {
-            "option_label": "New York",
-            "option_value": "NY"
+            "option_label": "Complaint",
+            "option_value": "Complaint"
           }
         },
         "option_LjUAQc": {
           "type": "option",
           "settings": {
-            "option_label": "Florida",
-            "option_value": "FL"
+            "option_label": "Something else",
+            "option_value": "Something else"
           }
         },
         "option_ANqFfV": {
@@ -61,6 +75,8 @@
       },
       "block_order": [
         "option_NYBWwU",
+        "option_RLB6c9",
+        "option_FhHUEn",
         "option_RGUtNx",
         "option_LjUAQc",
         "option_ANqFfV"
@@ -68,9 +84,9 @@
       "name": "Contact Split Form",
       "settings": {
         "image": "shopify://shop_images/Ontwerp_zonder_titel_15.png",
-        "image_width": 50,
+        "image_width": 45,
         "btn_label": "Submit",
-        "selector_label": "",
+        "selector_label": "Reason",
         "bg_color": "#121212",
         "text_color": "#ffffff",
         "input_text_color": "#ffffff",
