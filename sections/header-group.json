@@ -284,18 +284,18 @@
             "tab_label": "Kichten Essentials",
             "color_scheme": "scheme-4",
             "collection": "kitchen-essentials",
-            "feature_text_1": "100% Toxin-Free",
-            "feature_text_2": "Antibacterial",
+            "feature_text_1": "",
+            "feature_text_2": "",
             "price_color": "#ffffff",
             "price_font_size": 14,
             "compare_price_color": "#888888",
             "compare_price_font_size": 12,
-            "sidebar_title": "Titanium Cutting Boards",
-            "btn_link": "shopify://collections/all",
+            "sidebar_title": "Kichten Essentials",
+            "btn_link": "shopify://collections/kitchen-essentials",
             "btn_label": "Shop All",
-            "review_text": "Taima’s Cookware is a true kitchen workhorse. You get deep sear, caramelization & flawless food release consistently, without the chemicals.",
-            "reviewer_image": "shopify://shop_images/pan_6-min_64797f83-2f85-4671-b699-68f634d1ddf2.webp",
-            "reviewer_name": "Dominique K. (Michelin-Chef)"
+            "review_text": "I’ve removed anything questionable from my kitchen. This pan fits perfectly with a clean, intentional setup. Simple, controlled, and dependable.",
+            "reviewer_image": "shopify://shop_images/coach.jpg",
+            "reviewer_name": "Ryan H. (Coach & Biohacker)"
           }
         },
         "mega_tab_pDTfkR": {
