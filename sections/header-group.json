@@ -199,31 +199,31 @@
             "step2_reviewer": ""
           }
         },
+        "mobile_slider_product_g76yPp": {
+          "type": "mobile_slider_product",
+          "settings": {
+            "product": "titanium-hammered-pan",
+            "custom_badge": "Sale"
+          }
+        },
         "mobile_slider_product_mQ3qpm": {
           "type": "mobile_slider_product",
           "settings": {
-            "product": "altro-flatware",
+            "product": "wok-pan-flat-bottomed",
             "custom_badge": "Sale"
           }
         },
         "mobile_slider_product_QWJEVx": {
           "type": "mobile_slider_product",
           "settings": {
-            "product": "altro-flatware",
+            "product": "high-pan",
             "custom_badge": "Sale"
           }
         },
         "mobile_slider_product_a8HhYw": {
           "type": "mobile_slider_product",
           "settings": {
-            "product": "altro-flatware",
-            "custom_badge": "Sale"
-          }
-        },
-        "mobile_slider_product_g76yPp": {
-          "type": "mobile_slider_product",
-          "settings": {
-            "product": "altro-flatware",
+            "product": "handle-pan",
             "custom_badge": "Sale"
           }
         },
@@ -363,10 +363,10 @@
         "mobile_category_LiPJTc",
         "mobile_category_48zqyw",
         "mobile_category_aCVRPk",
+        "mobile_slider_product_g76yPp",
         "mobile_slider_product_mQ3qpm",
         "mobile_slider_product_QWJEVx",
         "mobile_slider_product_a8HhYw",
-        "mobile_slider_product_g76yPp",
         "mega_tab_bemFeC",
         "mega_tab_bmCwj8",
         "mega_tab_7U4weG",
