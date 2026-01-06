@@ -372,7 +372,7 @@
       "settings": {
         "logo_position": "middle-center",
         "mobile_logo_position": "center",
-        "menu": "collection-sidebar-menu",
+        "menu": "customer-account-main-menu",
         "menu_type_desktop": "dropdown",
         "sticky_header_type": "always",
         "enable_sticky_blur": true,
