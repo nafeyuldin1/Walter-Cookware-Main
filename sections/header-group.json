@@ -241,9 +241,9 @@
         "mega_tab_bmCwj8": {
           "type": "mega_tab",
           "settings": {
-            "tab_label": "Bundle & Save",
+            "tab_label": "Titanium Cookware",
             "color_scheme": "scheme-4",
-            "collection": "bundles",
+            "collection": "pans",
             "feature_text_1": "100% Toxin-Free",
             "feature_text_2": "Antibacterial",
             "price_color": "#ffffff",
@@ -261,9 +261,9 @@
         "mega_tab_7U4weG": {
           "type": "mega_tab",
           "settings": {
-            "tab_label": "Titanium Cookware",
+            "tab_label": "Flatware",
             "color_scheme": "scheme-4",
-            "collection": "bundles",
+            "collection": "luxury-homeware",
             "feature_text_1": "100% Toxin-Free",
             "feature_text_2": "Antibacterial",
             "price_color": "#ffffff",
@@ -281,9 +281,9 @@
         "mega_tab_i8cPBH": {
           "type": "mega_tab",
           "settings": {
-            "tab_label": "Titanium Cutting Boards",
+            "tab_label": "Kichten Essentials",
             "color_scheme": "scheme-4",
-            "collection": "bundles",
+            "collection": "kitchen-essentials",
             "feature_text_1": "100% Toxin-Free",
             "feature_text_2": "Antibacterial",
             "price_color": "#ffffff",
@@ -300,6 +300,7 @@
         },
         "mega_tab_pDTfkR": {
           "type": "mega_tab",
+          "disabled": true,
           "settings": {
             "tab_label": "Titanium Utensils",
             "color_scheme": "scheme-4",
@@ -320,6 +321,7 @@
         },
         "mega_tab_NFTEHM": {
           "type": "mega_tab",
+          "disabled": true,
           "settings": {
             "tab_label": "Titanium Drinkware",
             "color_scheme": "scheme-4",
