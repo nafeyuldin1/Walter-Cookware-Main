@@ -230,11 +230,19 @@
     <div class="loox-rating loox-widget"  style="font-size: 16px;"><div class="loox-rating-content"><svg class="loox-icon" viewBox="0 0 24 24" data-lx-fill="full" style="color: rgb(181, 124, 70);" role="presentation"><title>4.8 rating (2,811 votes)</title><use href="#looxicons-rating-icon"></use></svg><svg class="loox-icon" viewBox="0 0 24 24" data-lx-fill="full" style="color: rgb(181, 124, 70);" aria-hidden="true"><use href="#looxicons-rating-icon"></use></svg><svg class="loox-icon" viewBox="0 0 24 24" data-lx-fill="full" style="color: rgb(181, 124, 70);" aria-hidden="true"><use href="#looxicons-rating-icon"></use></svg><svg class="loox-icon" viewBox="0 0 24 24" data-lx-fill="full" style="color: rgb(181, 124, 70);" aria-hidden="true"><use href="#looxicons-rating-icon"></use></svg><svg class="loox-icon" viewBox="0 0 24 24" data-lx-fill="full" style="color: rgb(181, 124, 70);" aria-hidden="true"><use href="#looxicons-rating-icon"></use></svg><span class="loox-rating-label" style="color: #ffffff;" aria-hidden="true">&nbsp;4.8&nbsp;- {% if product.metafields.custom.product_review_count != blank %}  ({{ product.metafields.custom.product_review_count }}) {% else %} (2,811 reviews) {% endif %} </span></div></div>
   </a>
               {%- when 'shipping_promise_bar' -%}
+  {%- comment -%} --- DATE CALCULATION LOGIC START --- {%- endcomment -%}
+  {%- assign seconds_in_day = 86400 -%}
+  {%- comment -%} 'now' gets current time, plus 86400 adds 1 day. Format "%b %d" results in 'Jan 07' {%- endcomment -%}
+  {%- assign estimated_date = 'now' | date: "%s" | plus: seconds_in_day | date: "%b %d" -%}
+  {%- comment -%} --- DATE CALCULATION LOGIC END --- {%- endcomment -%}
+
   <div id="shipbar-{{ block.id }}" class="shipbar" {{ block.shopify_attributes }}>
     <div class="shipbar__inner">
       <div class="shipbar__left">
         <div class="shipbar__label">{{ block.settings.label_text }}</div>
-        <div class="shipbar__value">{{ block.settings.date_text }}</div>
+        
+        {%- comment -%} Updated line below to use the dynamic variable instead of settings text {%- endcomment -%}
+        <div class="shipbar__value">{{ estimated_date }}</div>
       </div>
       <div class="shipbar__listwrap">
         <ul class="shipbar__list" role="list">
@@ -242,7 +250,7 @@
             {%- capture icon_img -%}icon_{{ i }}{%- endcapture -%}
             {%- capture icon_txt -%}text_{{ i }}{%- endcapture -%}
             {%- capture default_img -%}default_icon_{{ i }}{%- endcapture -%}
-             
+              
             {%- assign image = block.settings[icon_img] -%}
             {%- assign text = block.settings[icon_txt] -%}
             {%- assign def_url = block.settings[default_img] -%}
@@ -277,7 +285,7 @@
       padding: 11px 0;
       border: 1px solid {{ block.settings.border_color }};
     }
-     
+      
     /* Left Side Styles */
     #shipbar-{{ block.id }} .shipbar__left {
       min-width: 132px;
@@ -364,7 +372,7 @@
         text-align: left !important;
       }
     }
-     
+      
     /* Responsive: Large Screens (2200px+) */
     @media (min-width: 2200px) {
       #shipbar-{{ block.id }} .shipbar__label { font-size: calc({{ block.settings.fs_label }}px * 1.3); }
