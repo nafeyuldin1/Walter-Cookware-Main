@@ -64,6 +64,7 @@
         },
         "product_icons_block_HVDikV": {
           "type": "product_icons_block",
+          "disabled": true,
           "settings": {
             "text_color": "#d4c7b4",
             "bar_color": "#333333",
