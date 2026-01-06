@@ -319,7 +319,11 @@
   }
     </style>
   {% endif %}
-  
+  <style>
+  .header__heading-logo-wrapper img{
+     width: {{ settings.logo_width }}px;
+  }
+</style>
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
