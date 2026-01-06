@@ -85,6 +85,7 @@
       "blocks": {
         "mobile_footer_link_KKbbEh": {
           "type": "mobile_footer_link",
+          "disabled": true,
           "settings": {
             "title": "FAQs",
             "url": "shopify://pages/faqs"
@@ -92,6 +93,7 @@
         },
         "mobile_footer_link_BRbTkU": {
           "type": "mobile_footer_link",
+          "disabled": true,
           "settings": {
             "title": "Contact",
             "url": "shopify://pages/contact"
@@ -99,6 +101,7 @@
         },
         "mobile_footer_link_cpHVYt": {
           "type": "mobile_footer_link",
+          "disabled": true,
           "settings": {
             "title": "Our Story",
             "url": "shopify://pages/our-story"
@@ -106,6 +109,7 @@
         },
         "mobile_footer_link_PGWK3g": {
           "type": "mobile_footer_link",
+          "disabled": true,
           "settings": {
             "title": "Science",
             "url": "shopify://pages/science"
