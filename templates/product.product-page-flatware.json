@@ -52,14 +52,14 @@
           "type": "benefits_grid",
           "settings": {
             "text_color": "#b0b0b0",
-            "icon_1": "shopify://shop_images/icons_31.svg",
-            "text_1": "No PFAS, PTFE & PFOA. <strong>No hormone disruptors</strong>",
-            "icon_2": "shopify://shop_images/icons_33.svg",
-            "text_2": "Constructed <strong>Non-Stick SlipScale</strong> surface",
-            "icon_3": "shopify://shop_images/icons_32.svg",
-            "text_3": "Extreme Heat Resistant up to <strong>1112°F / 600°C</strong>",
-            "icon_4": "shopify://shop_images/icons_34.svg",
-            "text_4": "Compatible With All Cooktops"
+            "icon_1": "shopify://shop_images/1_6a214524-a9fc-4e3a-a5d6-d90a9511f71a.png",
+            "text_1": "Handcrafted to Last with <strong>18/10 Stainless Steel</strong>",
+            "icon_2": "shopify://shop_images/2_c5cd0588-89c6-4904-8da1-2fb366334de5.png",
+            "text_2": "Dishwasher <strong>Safe</strong>",
+            "icon_3": "shopify://shop_images/3_ba522b5d-6d7a-4b89-8ea5-1231117ac329.png",
+            "text_3": "Designed For <strong>Perfect Balance</strong>",
+            "icon_4": "shopify://shop_images/4_6af7ed7d-78dd-4cac-83f0-c8a8c72f11a6.png",
+            "text_4": "Maintains Its <strong>Original Color </strong>"
           }
         },
         "product_icons_block_HVDikV": {
