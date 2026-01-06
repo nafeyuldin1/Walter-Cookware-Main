@@ -72,7 +72,7 @@ Antibacterial</li></ul>
                 <div class="drawer__cats-list">
                     {%- assign cat_blocks = section.blocks | where: "type", "mobile_category" -%}
                     {% for block in cat_blocks %}
-                        <a href="block.settings.collection.url"  class="d-cat-btn" data-target="step-2-{{ block.id }}" data-cat-title="{{ block.settings.title }}">
+                        <a style="text-decoration: none;" href="block.settings.collection.url"  class="d-cat-btn" data-target="step-2-{{ block.id }}" data-cat-title="{{ block.settings.title }}">
                             <div class="d-cat-left">
                                 {% if block.settings.icon %}
                                     <img src="{{ block.settings.icon | image_url: width: 64 }}" class="d-cat-icon">
