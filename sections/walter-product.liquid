@@ -977,11 +977,11 @@
       <span class="pay-badge"><img src="//taimatitanium.com/cdn/shop/files/Container_3.png?v=1755249706"></span>
       <span class="pay-badge"><img src="//taimatitanium.com/cdn/shop/files/Container_2.png?v=1755249660"></span>
     </div>
-  <script>
+<script>
     (function() {
       // Raw variant data for Main Product
       var bundleVariants = {{ product.variants | json }};
-        
+       
       // State tracker for current selections (Main Product)
       var state = [
         "{{ product.options_with_values[0].selected_value | escape }}",
@@ -1003,9 +1003,19 @@
          var input = document.getElementById('bundle-variant-input');
          if(input) input.value = variantId;
 
-         // 4. Update Price Display
+         // 4. Update Price on Button (Bundle logic)
          var btnPrice = document.getElementById('bundle-price-display');
          if(btnPrice) btnPrice.innerText = priceText;
+
+         // --- NEW: Update Main Price Display for Bundle Selection ---
+         // Jab bundle card select ho, toh main price bhi update ho jaye
+         var mainSection = document.getElementById('ProductInfo-{{ section.id }}');
+         if(mainSection){
+             var salePrice = mainSection.querySelector('.price-item--sale');
+             var regularPrice = mainSection.querySelector('.price__regular .price-item--regular');
+             if(salePrice) salePrice.innerText = priceText;
+             if(regularPrice) regularPrice.innerText = priceText;
+         }
 
          // 5. De-select main options
          document.querySelectorAll('.pb-opt-btn-1, .pb-opt-btn-2').forEach(function(btn){
@@ -1067,9 +1077,27 @@
           var input = document.getElementById('bundle-variant-input');
           if(input) input.value = matched.id;
 
-          // Update Price on Button
+          // Format Price
+          var formattedPrice = '$' + (matched.price / 100).toFixed(2);
+
+          // Update Price on Add to Cart Button
           var btnPrice = document.getElementById('bundle-price-display');
-          if(btnPrice) btnPrice.innerText = '$' + (matched.price / 100).toFixed(2);
+          if(btnPrice) btnPrice.innerText = formattedPrice;
+
+          // --- FIX: Update Main Product Price (Title k neechay) ---
+          var mainSection = document.getElementById('ProductInfo-{{ section.id }}');
+          if(mainSection){
+              // Dono sale aur regular price check kar k update kar rahe hain
+              var salePrice = mainSection.querySelector('.price-item--sale');
+              var regularPrice = mainSection.querySelector('.price__regular .price-item--regular');
+              
+              if(salePrice) {
+                  salePrice.innerText = formattedPrice;
+              }
+              if(regularPrice) {
+                  regularPrice.innerText = formattedPrice;
+              }
+          }
 
           // Update Media (if available in main gallery)
           if(matched.featured_media) {
