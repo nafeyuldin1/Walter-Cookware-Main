@@ -1654,6 +1654,7 @@
         },
         "layer_LF3hE3": {
           "type": "layer",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/pan_LAST_with_shadow-min.webp",
             "offset_y": 0,
