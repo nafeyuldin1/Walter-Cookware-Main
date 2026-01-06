@@ -137,6 +137,7 @@
     },
     "walter_behind_scene_FizBeJ": {
       "type": "walter-behind-scene",
+      "disabled": true,
       "name": "Behind The Scenes",
       "settings": {
         "bg_color": "#121212",
@@ -164,6 +165,10 @@
         "sig_width_m": 100,
         "video": "shopify://files/videos/1babc7fb06554e9d8da1129320300533_b230aa65-baa8-4bd3-afe2-5258018fb7b2.mp4",
         "video_url_mp4": "",
+        "enable_autoplay": false,
+        "enable_loop": false,
+        "start_muted": false,
+        "show_controls": true,
         "video_radius": 0,
         "overlay_opacity": 30,
         "pt_d": 80,
