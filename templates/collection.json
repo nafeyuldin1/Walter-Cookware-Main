@@ -66,49 +66,55 @@
         "image_nrMWc3": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/review_man-min.webp"
+            "image": "shopify://shop_images/6_45ecdc6a-5ea1-40f6-9524-dffe4f11ab37.png"
           }
         },
         "image_iXgWjT": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/board_4-min_bb0863c9-27f8-4ad3-9f9d-3390584ded28.webp"
+            "image": "shopify://shop_images/9_24e9260c-5888-421e-a267-e966601370b4.png"
           }
         },
         "image_jrdw63": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/board-min_17b1843e-87da-43ae-b30b-95c6c3a5d98a.webp"
+            "image": "shopify://shop_images/8_8516f4b2-f12c-43cd-bb09-acfb71530bf1.png"
           }
         },
         "image_9BDfgY": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/review_man-min.webp"
+            "image": "shopify://shop_images/10_0bbe8944-54b0-42d3-9a3c-559c654b3c98.png"
           }
         },
         "image_nTTEpW": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/pan_6-min_64797f83-2f85-4671-b699-68f634d1ddf2.webp"
+            "image": "shopify://shop_images/5_1fa26ace-00da-417f-bfe4-8018f8ed17ca.png"
           }
         },
         "image_YC9hiT": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/chef_pan-min_59dd09c3-bc24-496b-9866-a37324176598.webp"
+            "image": "shopify://shop_images/3_f718bc4f-abb0-4493-ba60-cae81f5af9d2.png"
           }
         },
         "image_qNpgP4": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/board_9-min_3c8a74f1-e8ef-4d6f-b216-71a175e29248.webp"
+            "image": "shopify://shop_images/7_aaa76b05-5745-4c63-8dec-949e5f0c291a.png"
           }
         },
         "image_YTBhUc": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/chef_2-min_c6fbf5ab-4d72-4741-9c3c-d1cca7fbeae0.webp"
+            "image": "shopify://shop_images/1_c0781936-cfde-4876-aaef-de70fd94b193.png"
+          }
+        },
+        "image_N7RnL8": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/11_54ede970-ecfc-405c-8efc-9e130dfa5cc9.png"
           }
         }
       },
@@ -120,7 +126,8 @@
         "image_nTTEpW",
         "image_YC9hiT",
         "image_qNpgP4",
-        "image_YTBhUc"
+        "image_YTBhUc",
+        "image_N7RnL8"
       ],
       "name": "Trust Band Tiles",
       "settings": {
