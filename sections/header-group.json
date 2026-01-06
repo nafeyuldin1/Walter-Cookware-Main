@@ -144,7 +144,7 @@
           "settings": {
             "icon": "shopify://shop_images/christmas-min.jpg",
             "title": "HOLIDAY SALE DEALS",
-            "collection": "bundles",
+            "collection": "best-sellers",
             "step2_review": "",
             "step2_reviewer": ""
           }
@@ -164,7 +164,17 @@
           "settings": {
             "icon": "shopify://shop_images/cookware_mobile_8275f86c-42fd-42df-b19d-49e251a1690a.jpg",
             "title": "Titanium Cookware",
-            "collection": "bundles",
+            "collection": "pans",
+            "step2_review": "",
+            "step2_reviewer": ""
+          }
+        },
+        "mobile_category_aCVRPk": {
+          "type": "mobile_category",
+          "settings": {
+            "icon": "shopify://shop_images/accessories.jpg",
+            "title": "Flatware",
+            "collection": "luxury-homeware",
             "step2_review": "",
             "step2_reviewer": ""
           }
@@ -174,27 +184,7 @@
           "settings": {
             "icon": "shopify://shop_images/no_color_100x100-min.jpg",
             "title": "Titanium Cutting Boards",
-            "collection": "bundles",
-            "step2_review": "",
-            "step2_reviewer": ""
-          }
-        },
-        "mobile_category_48zqyw": {
-          "type": "mobile_category",
-          "settings": {
-            "icon": "shopify://shop_images/drinkware.jpg",
-            "title": "Drinkware",
-            "collection": "bundles",
-            "step2_review": "",
-            "step2_reviewer": ""
-          }
-        },
-        "mobile_category_aCVRPk": {
-          "type": "mobile_category",
-          "settings": {
-            "icon": "shopify://shop_images/accessories.jpg",
-            "title": "Accessories",
-            "collection": "bundles",
+            "collection": "kitchen-essentials",
             "step2_review": "",
             "step2_reviewer": ""
           }
@@ -360,9 +350,8 @@
         "mobile_category_LHJYcp",
         "mobile_category_iDb9xX",
         "mobile_category_AYT3xq",
-        "mobile_category_LiPJTc",
-        "mobile_category_48zqyw",
         "mobile_category_aCVRPk",
+        "mobile_category_LiPJTc",
         "mobile_slider_product_g76yPp",
         "mobile_slider_product_mQ3qpm",
         "mobile_slider_product_QWJEVx",
