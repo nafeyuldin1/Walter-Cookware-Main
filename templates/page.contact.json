@@ -37,6 +37,13 @@
             "option_value": "NY"
           }
         },
+        "option_RGUtNx": {
+          "type": "option",
+          "settings": {
+            "option_label": "New York",
+            "option_value": "NY"
+          }
+        },
         "option_LjUAQc": {
           "type": "option",
           "settings": {
@@ -54,6 +61,7 @@
       },
       "block_order": [
         "option_NYBWwU",
+        "option_RGUtNx",
         "option_LjUAQc",
         "option_ANqFfV"
       ],
@@ -62,7 +70,7 @@
         "image": "shopify://shop_images/4.pan-min.jpg",
         "image_width": 50,
         "btn_label": "Submit",
-        "selector_label": "State",
+        "selector_label": "",
         "bg_color": "#121212",
         "text_color": "#ffffff",
         "input_text_color": "#ffffff",
