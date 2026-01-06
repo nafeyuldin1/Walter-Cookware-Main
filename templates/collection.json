@@ -43,9 +43,9 @@
       "type": "collections-blocks",
       "name": "Collection Blocks",
       "settings": {
-        "heading": "BIGGEST HOLIDAY SALE",
-        "subheading": "The biggest sale of the year is here! Save up to 55% on pure titanium cookware bundles.",
-        "image_desktop": "shopify://shop_images/underline-min.webp",
+        "heading": "Upgrade Your Cookware",
+        "subheading": "Limited bundle pricing on our most advanced pans",
+        "image_desktop": "shopify://shop_images/Gemini_Generated_Image_obzlmeobzlmeobzl.jpg",
         "image_mobile": "shopify://shop_images/the_best_mobile_green-min_1.webp",
         "menu": "collection-sidebar-menu",
         "collection": "{{ collection }}",
@@ -127,8 +127,8 @@
         "show_stars": true,
         "heading": "Trusted By <strong>500,000+</strong> Kitchens Worldwide",
         "color_bg": "#121212",
-        "color_text": "#FFFFFF",
-        "color_accent": "#BCA588"
+        "color_text": "#ffffff",
+        "color_accent": "#bca588"
       }
     }
   },
