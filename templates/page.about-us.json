@@ -11,13 +11,157 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "rich_text_intro": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_block": {
+          "type": "heading",
+          "settings": {
+            "heading": "A final chapter for Walter Cookware",
+            "heading_size": "h1"
+          }
+        },
+        "text_block": {
+          "type": "text",
+          "settings": {
+            "text": "<p>After years of dedication to healthy cooking, we are saying goodbye. Walter Cookware is closing its doors, but the mission with which it began remains: better cooking starts with better materials.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_block",
+        "text_block"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "image_section": {
+      "type": "image-banner",
+      "settings": {
+        "image": "shopify:\/\/shop_images\/WhatsApp_Image_2025-10-21_at_12.35.13.jpg",
+        "image_overlay_opacity": 0,
+        "image_height": "medium",
+        "desktop_content_position": "middle-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "background-1",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "rich_text_philosophy": {
+      "type": "rich-text",
+      "blocks": {
+        "text_block": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Our philosophy</strong></p><p>From the outset, our vision was clear—to create cookware that is safe, durable, and timeless. No compromises, no short-term trends. Only reliable products that will bring years of enjoyment in the kitchen.</p><p>We have always believed that what you use to cook is just as important as what you cook. Health, quality, and responsibility were central to every design.</p><p><strong>What we stood for</strong></p><ul><li><strong>Purposeful design:</strong> Each product started with a sleek, functional design that improved the cooking experience.</li><li><strong>Reliable production:</strong> We worked exclusively with certified partners who shared our values.</li><li><strong>Strict control:</strong> Each item was carefully tested before it ended up in your kitchen.</li><li><strong>Transparency:</strong> You always had the right to know how and where your cookware was made.</li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "text_block"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": false,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "custom_video_section": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div style='max-width: 1200px; margin: 0 auto; text-align: center;'><video src='https://cdn.shopify.com/videos/c/o/v/39096c381ed148688fa55fc0abf345e7.mp4' controls style='width: 100%; max-height: 500px; border-radius: 8px;'></video></div>",
+        "color_scheme": "background-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "rich_text_ack": {
+      "type": "rich-text",
+      "blocks": {
+        "text_block": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Acknowledgements</strong></p><p>To everyone who chose Walter Cookware: thank you. Your trust gave meaning to our work. Although this is the end of our company, we hope that our pans, pots, and principles will continue to cook in your kitchens for many years to come.</p>"
+          }
+        },
+        "button_block": {
+          "type": "button",
+          "settings": {
+            "button_label": "View our products",
+            "button_link": "shopify:\/\/collections",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "text_block",
+        "button_block"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_details": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_block": {
+          "type": "heading",
+          "settings": {
+            "heading": "Company details:",
+            "heading_size": "h2"
+          }
+        },
+        "text_block": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Name: Nextscale<br/>Chamber of Commerce: 77086937<br/>VAT number: NL003144742B55<br/>Address: Titanstraat 6, 9665HZ Oude Pekela Netherlands<br/></p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_block",
+        "text_block"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": false,
+        "padding_top": 20,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "rich_text_intro",
+    "image_section",
+    "rich_text_philosophy",
+    "custom_video_section",
+    "rich_text_ack",
+    "rich_text_details"
   ]
 }
