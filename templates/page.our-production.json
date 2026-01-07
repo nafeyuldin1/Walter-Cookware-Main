@@ -81,15 +81,16 @@
     "image_sketch_section": {
       "type": "image-banner",
       "settings": {
-        "image": "shopify:\/\/shop_images\/deep_pan_sektch_siraat.webp",
+        "image": "shopify://shop_images/deep_pan_sektch_siraat.webp",
         "image_overlay_opacity": 0,
         "image_height": "adapt",
+        "image_behavior": "none",
         "desktop_content_position": "middle-center",
-        "show_text_box": false,
         "desktop_content_alignment": "center",
+        "show_text_box": false,
         "color_scheme": "background-1",
-        "mobile_content_alignment": "center",
         "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
         "show_text_below": true
       }
     },
@@ -104,10 +105,14 @@
         },
         "button_block": {
           "type": "button",
+          "disabled": true,
           "settings": {
             "button_label": "View our products",
-            "button_link": "shopify:\/\/collections",
-            "button_style_secondary": false
+            "button_link": "shopify://collections",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
           }
         }
       },
