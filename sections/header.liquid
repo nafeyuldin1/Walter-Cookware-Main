@@ -57,65 +57,72 @@
   
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
-  /* --- HEADER STATE STYLING --- */
-  .header-wrapper {
-      width: 100%;
-      background-color: rgb(var(--color-background));
-      color: rgb(var(--color-foreground));
-transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              backdrop-filter 0.4s ease,
-              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              position 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              top 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+/* 1. Base Header Wrapper - Transitions ko clean karein */
+.header-wrapper {
+    width: 100%;
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+    /* Transition sirf un cheezon par jo smooth ho sakti hain */
+    transition: background-color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
+    will-change: transform; 
+}
 
+.header-wrapper.no-transition { 
+    transition: none !important; 
+    animation: none !important;
+}
 
-              ;
-  }
-  .header-wrapper.no-transition { transition: none !important; }
+/* 2. Transparent State (Home Page Top) */
+.header-wrapper[data-state="transparent"] {
+    background-color: transparent !important;
+    border-bottom: none !important;
+    position: absolute;
+    top: 0; left: 0;
+    z-index: 1000;
+}
 
-  /* Transparent State */
-  .header-wrapper[data-state="transparent"] {
-      background-color: transparent !important;
-      border-bottom: none !important;
-      position: absolute;
-      top: 0; left: 0;
-      {% if section.settings.enable_sticky_blur %}
-        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-      {% endif %}
-  }
+/* 3. Sticky State - MAIN SMOOTH FIX */
+.header-wrapper[data-state="sticky"] {
+    position: fixed; 
+    top: 0; left: 0; width: 100%;
+    z-index: 1001;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    
+    /* Background Color with Low Opacity & Blur */
+    background-color: rgba(var(--color-background), 0.7) !important; 
+    {% if section.settings.enable_sticky_blur %}
+      backdrop-filter: blur(12px); 
+      -webkit-backdrop-filter: blur(12px);
+    {% endif %}
 
-  /* Sticky State (Scrolled Down) */
-  .header-wrapper[data-state="sticky"] {
-      position: fixed; 
-      top: 0; left:0; width: 100%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      background-color: rgb(var(--color-background)) !important; 
-      color: rgb(var(--color-foreground)) !important;
-      z-index: 1000;
-      transform: translateY(0);
-      {% if section.settings.enable_sticky_blur %}
-        background-color: rgba(var(--color-background), 0.3) !important;
-        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      {% endif %}
-  }
+    /* Jatka khatam karne ke liye Slide Down Animation */
+    animation: headerReveal 0.4s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+}
 
-  /* Hidden State (Scroll Down + Hide option) */
-  .header-wrapper[data-state="hidden"] {
-      position: fixed;
-      top: 0; left: 0; width: 100%;
-      transform: translateY(-100%); /* Slides Up */
-      z-index: 1000;
-  }
+/* 4. Hidden State (Scroll up/down logic ke liye) */
+.header-wrapper[data-state="hidden"] {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+}
 
-  /* Standard State */
-  .header-wrapper[data-state="standard"] {
-      position: relative;
-      background-color: rgb(var(--color-background));
-      color: rgb(var(--color-foreground));
-      border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
-  }
-  
+/* 5. Standard State (Other Pages Top) */
+.header-wrapper[data-state="standard"] {
+    position: relative;
+    background-color: rgb(var(--color-background));
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+/* --- Smooth Reveal Animation Keyframes --- */
+@keyframes headerReveal {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}  
   /* --- MEGA MENU & PRODUCT CARD STYLES --- */
   .cat-strip { 
       display: flex; justify-content: center; gap: 20px; padding: 0 20px; 
