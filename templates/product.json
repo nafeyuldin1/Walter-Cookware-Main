@@ -249,7 +249,6 @@
         },
         "collapsible_tab_ymbgQi": {
           "type": "collapsible_tab",
-          "disabled": true,
           "settings": {
             "heading": "Review Highlights",
             "custom_icon": "shopify://shop_images/icons_22_1.svg",
