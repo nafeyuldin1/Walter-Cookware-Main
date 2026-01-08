@@ -234,7 +234,7 @@
             "collection": "pans",
             "custom_image": "shopify://shop_images/Ontwerp_zonder_titel_11_3dec7aff-464c-4053-94e7-59a27360361b.png",
             "badge_text": "Up To 55% OFF",
-            "badge_bg": "#d42a2a",
+            "badge_bg": "#962b34",
             "badge_color": "#ffffff"
           }
         },
@@ -244,7 +244,7 @@
             "collection": "bundles",
             "custom_image": "shopify://shop_images/1_3a5aa74f-9f96-432c-8d5c-038cf4e29c24.png",
             "badge_text": "Up To 55% OFF",
-            "badge_bg": "#d42a2a",
+            "badge_bg": "#962b34",
             "badge_color": "#ffffff"
           }
         },
@@ -254,7 +254,7 @@
             "collection": "kitchen-essentials",
             "custom_image": "shopify://shop_images/1_42a53e7f-1fbb-460a-b73d-7037b112c3ac_1.png",
             "badge_text": "Up To 55% OFF",
-            "badge_bg": "#d42a2a",
+            "badge_bg": "#962b34",
             "badge_color": "#ffffff"
           }
         }
