@@ -374,6 +374,14 @@
 {%- endif -%}
 
 <script>
+  setHeaderHeight() {
+    // Header ki real-time height calculate karna
+    const height = this.headerContent ? this.headerContent.offsetHeight : 80;
+    document.documentElement.style.setProperty('--header-height', `${height}px`);
+}
+
+// connectedCallback ke andar isay call zaroori hai:
+this.setHeaderHeight();  
   class StickyHeader extends HTMLElement {
     constructor() { super(); }
     
