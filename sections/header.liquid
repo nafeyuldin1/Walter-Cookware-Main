@@ -25,73 +25,91 @@
 %}
 
 <style>
-  /* --- 1. Layout Fix (Elements ko ek line mein rakhne ke liye) --- */
-.header {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  width: 100%;
-}
+  /* --- CRITICAL FIX: Z-Index and Positioning --- */
+  sticky-header {
+      display: block;
+      position: relative;
+      z-index: 999999999999999999999999999999999999; /* Priority Z-Index */
+  }
 
-/* Page jump rokne ke liye container height */
-sticky-header {
-  display: block;
-  position: relative;
-  height: var(--header-height, auto);
-  z-index: 100;
-}
+  #shopify-section-{{ section.id }}{
+    z-index: 999999999999999999999999999999999999;
+    position: relative;
+  }
+  
+  /* --- BASE HEADER STYLES --- */
+  header-drawer { justify-self: start; margin-left: -1.2rem; }
+  
+  {%- if section.settings.sticky_header_type == 'reduce-logo-size' -%}
+    .scrolled-past-header .header__heading-logo-wrapper { width: 75%; transition: width 0.3s ease; }
+  {%- endif -%}
+  
+  {%- if section.settings.menu_type_desktop != "drawer" -%}
+    @media screen and (min-width: 990px) { header-drawer { display: none; } }
+  {%- endif -%}
+  
+  .menu-drawer-container { display: flex; }
+  .list-menu { list-style: none; padding: 0; margin: 0; }
+  .list-menu--inline { display: inline-flex; flex-wrap: wrap; }
+  summary.list-menu__item { padding-right: 2.7rem; }
+  .list-menu__item { display: flex; align-items: center; line-height: calc(1 + 0.3 / var(--font-body-scale)); }
+  .list-menu__item--link { text-decoration: none; padding-bottom: 1rem; padding-top: 1rem; line-height: calc(1 + 0.8 / var(--font-body-scale)); }
+  
+  @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
+  
+  /* --- HEADER STATE STYLING --- */
+  .header-wrapper {
+      width: 100%;
+      background-color: rgb(var(--color-background));
+      color: rgb(var(--color-foreground));
+transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              backdrop-filter 0.4s ease;
+  }
+  .header-wrapper.no-transition { transition: none !important; }
 
-/* --- 2. Header Wrapper Base Styles --- */
-.header-wrapper {
-  width: 100%;
-  position: absolute; /* Default state mein absolute rahega taake image ke upar aaye */
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  background-color: transparent;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              background-color 0.4s ease, 
-              box-shadow 0.4s ease;
-  will-change: transform;
-}
+  /* Transparent State */
+  .header-wrapper[data-state="transparent"] {
+      background-color: transparent !important;
+      border-bottom: none !important;
+      position: absolute;
+      top: 0; left: 0;
+      {% if section.settings.enable_sticky_blur %}
+        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+      {% endif %}
+  }
 
-/* --- 3. Transparent State (Home Page par background hatane ke liye) --- */
-.header-wrapper[data-state="transparent"] {
-  background-color: transparent !important;
-  border-bottom: none !important;
-  box-shadow: none !important;
-}
+  /* Sticky State (Scrolled Down) */
+  .header-wrapper[data-state="sticky"] {
+      position: fixed; 
+      top: 0; left:0; width: 100%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      background-color: rgb(var(--color-background)) !important; 
+      color: rgb(var(--color-foreground)) !important;
+      z-index: 1000;
+      transform: translateY(0);
+      {% if section.settings.enable_sticky_blur %}
+        background-color: rgba(var(--color-background), 0.3) !important;
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      {% endif %}
+  }
 
-/* --- 4. Standard State (Other pages par solid color) --- */
-.header-wrapper[data-state="standard"] {
-  position: relative;
-  background-color: rgb(var(--color-background));
-  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
-}
+  /* Hidden State (Scroll Down + Hide option) */
+  .header-wrapper[data-state="hidden"] {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      transform: translateY(-100%); /* Slides Up */
+      z-index: 1000;
+  }
 
-/* --- 5. Sticky State (FULLY SMOOTH) --- */
-.header-wrapper[data-state="sticky"] {
-  position: fixed;
-  background-color: rgba(var(--color-background), 0.8) !important; /* Kam opacity taake blur nazar aaye */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transform: translateY(0);
-}
-
-/* Jab header hide ho raha ho scroll down par */
-.header-wrapper[data-state="hidden"] {
-  position: fixed;
-  transform: translateY(-100%);
-}
-
-/* Drawer Menu elements ko row mein alignment fix */
-.header__icons {
-  display: flex !important;
-  align-items: center;
-  gap: 1rem;
-}
+  /* Standard State */
+  .header-wrapper[data-state="standard"] {
+      position: relative;
+      background-color: rgb(var(--color-background));
+      color: rgb(var(--color-foreground));
+      border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+  }
+  
   /* --- MEGA MENU & PRODUCT CARD STYLES --- */
   .cat-strip { 
       display: flex; justify-content: center; gap: 20px; padding: 0 20px; 
