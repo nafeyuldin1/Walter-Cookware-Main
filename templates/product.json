@@ -1403,7 +1403,7 @@
           "settings": {
             "image": "shopify://shop_images/pan_first_with_shadow-min.webp",
             "offset_y": 0,
-            "title": "Pure Titanium With SlipScale Technology",
+            "title": "Titanium SlipScale",
             "description": "Non-toxic. Naturally non-stick."
           }
         },
@@ -1412,8 +1412,8 @@
           "settings": {
             "image": "shopify://shop_images/pan_MID_with_shadow-min.webp",
             "offset_y": 0,
-            "title": "Third Recycled Aluminum Layer",
-            "description": "Distributes heat evenly from center to edge"
+            "title": "Recycled Aluminum III",
+            "description": "Even heat distribution."
           }
         },
         "layer_yUg9LH": {
@@ -1421,8 +1421,8 @@
           "settings": {
             "image": "shopify://shop_images/pan_MID_with_shadow-min_1.webp",
             "offset_y": 0,
-            "title": "Second Recycled Aluminum Layer",
-            "description": "Heats quickly and responds fast"
+            "title": "Recycled Aluminum II",
+            "description": "Fast heat response."
           }
         },
         "layer_6PqkXa": {
@@ -1430,8 +1430,8 @@
           "settings": {
             "image": "shopify://shop_images/pan_MID_with_shadow-min_2.webp",
             "offset_y": 0,
-            "title": "Induction-Compatible Stainless Steel Base",
-            "description": "Enhances durability and magnetic performance"
+            "title": "Induction Steel Base",
+            "description": "Strong magnetic performance."
           }
         },
         "layer_LF3hE3": {
@@ -1439,8 +1439,8 @@
           "settings": {
             "image": "shopify://shop_images/pan_LAST_with_shadow-min.webp",
             "offset_y": 0,
-            "title": "Engineered for Daily Use",
-            "description": "Built to maintain performance over time"
+            "title": "Daily Use Design",
+            "description": "Built to last."
           }
         }
       },
