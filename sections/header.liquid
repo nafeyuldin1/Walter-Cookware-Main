@@ -409,9 +409,9 @@
 
                     <div class="cat-prod__price">
                       {% if product.compare_at_price > product.price %}
-                        <span class="cat-prod_cmp-price" style="color: {{ block.settings.compare_price_color }}; font-size: {{ block.settings.compare_price_font_size }}px;">{{ product.compare_at_price | money }}</span>
+                        <span class="cat-prod_cmp-price" style="color: {{ block.settings.compare_price_color }}; font-size: {{ block.settings.compare_price_font_size }}px;">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
                       {% endif %}
-                      <span class="cat-prod_price" style="color: {{ block.settings.price_color }}; font-size: {{ block.settings.price_font_size }}px;">{{ product.price | money }}</span>
+                      <span class="cat-prod_price" style="color: {{ block.settings.price_color }}; font-size: {{ block.settings.price_font_size }}px;">{{ product.price | money_without_trailing_zeros }}</span>
                       
                       {% if product.compare_at_price > product.price %}
                         {% assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
