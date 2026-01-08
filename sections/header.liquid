@@ -25,82 +25,109 @@
 %}
 
 <style>
-  /* --- CRITICAL FIX: ZERO JERK CSS --- */
+  /* --- CRITICAL FIX: Smooth Sticky Animation --- */
   
-  /* Container: Ye height hold karega taake content jump na ho */
+  /* 1. Container Height Hold Karna */
   sticky-header {
       display: block;
       position: relative;
-      width: 100%;
-      /* Height JS se set hogi, but default avoid collapse */
-      min-height: 1px; 
-      z-index: 4;
+      /* Ye important hai taake page jump na kare jab header fixed ho */
+      min-height: var(--header-height, 80px); 
+      z-index: 999999999999999999999999999999999999;
   }
 
-  /* Main Wrapper */
+  #shopify-section-{{ section.id }}{
+    z-index: 999999999999999999999999999999999999;
+    position: relative;
+  }
+  
+  /* --- BASE HEADER STYLES --- */
+  header-drawer { justify-self: start; margin-left: -1.2rem; }
+  
+  {%- if section.settings.sticky_header_type == 'reduce-logo-size' -%}
+    .scrolled-past-header .header__heading-logo-wrapper { width: 75%; transition: width 0.3s ease; }
+  {%- endif -%}
+  
+  {%- if section.settings.menu_type_desktop != "drawer" -%}
+    @media screen and (min-width: 990px) { header-drawer { display: none; } }
+  {%- endif -%}
+  
+  .menu-drawer-container { display: flex; }
+  .list-menu { list-style: none; padding: 0; margin: 0; }
+  .list-menu--inline { display: inline-flex; flex-wrap: wrap; }
+  summary.list-menu__item { padding-right: 2.7rem; }
+  .list-menu__item { display: flex; align-items: center; line-height: calc(1 + 0.3 / var(--font-body-scale)); }
+  .list-menu__item--link { text-decoration: none; padding-bottom: 1rem; padding-top: 1rem; line-height: calc(1 + 0.8 / var(--font-body-scale)); }
+  
+  @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
+  
+  /* --- HEADER STATE STYLING --- */
   .header-wrapper {
       width: 100%;
-      display: block;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
-      /* Sirf transform aur color animate karein for smoothness */
-      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                  background-color 0.4s ease, 
-                  box-shadow 0.4s ease;
-      will-change: transform, background-color;
-      z-index: 1000;
+      /* Smooth transitions for color changes */
+      transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.3s ease;
+      will-change: transform;
   }
+  .header-wrapper.no-transition { transition: none !important; }
 
-  /* --- STATES --- */
-
-  /* 1. Transparent (Home Top) */
+  /* Transparent State */
   .header-wrapper[data-state="transparent"] {
-      position: absolute;
-      top: 0; left: 0; right: 0;
       background-color: transparent !important;
       border-bottom: none !important;
-      box-shadow: none !important;
-  }
-
-  /* 2. Standard (Other Pages Top) */
-  .header-wrapper[data-state="standard"] {
-      position: relative;
-      border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
-  }
-
-  /* 3. Sticky (Scrolled Down) - SMOOTH SLIDE */
-  .header-wrapper[data-state="sticky"] {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background-color: rgb(var(--color-background)) !important;
-      color: rgb(var(--color-foreground)) !important;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      /* Animation: Slide down from -100% smoothly */
-      animation: smoothSlideIn 0.5s forwards;
-      
+      position: absolute;
+      top: 0; left: 0;
       {% if section.settings.enable_sticky_blur %}
-        background-color: rgba(var(--color-background), 0.95) !important;
-        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
       {% endif %}
   }
 
-  /* 4. Hidden (Scrolled Down + Hide Option) */
+  /* Sticky State (Scrolled Down) - SMOOTH SLIDE ANIMATION */
+  .header-wrapper[data-state="sticky"] {
+      position: fixed; 
+      top: 0; left:0; width: 100%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      background-color: rgb(var(--color-background)) !important; 
+      color: rgb(var(--color-foreground)) !important;
+      z-index: 1000;
+      /* Animation apply ki gayi hai */
+      animation: smoothSlideDown 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      
+      {% if section.settings.enable_sticky_blur %}
+        background-color: rgba(var(--color-background), 0.9) !important;
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      {% endif %}
+  }
+
+  /* Hidden State (Scroll Down + Hide option) */
   .header-wrapper[data-state="hidden"] {
       position: fixed;
-      top: 0; left: 0; right: 0;
-      transform: translateY(-100%); /* Hide upwards */
+      top: 0; left: 0; width: 100%;
+      transform: translateY(-100%); /* Slides Up */
+      transition: transform 0.4s ease;
       z-index: 1000;
   }
 
-  /* Animation Keyframes */
-  @keyframes smoothSlideIn {
-      0% { transform: translateY(-100%); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
+  /* Standard State */
+  .header-wrapper[data-state="standard"] {
+      position: relative;
+      background-color: rgb(var(--color-background));
+      color: rgb(var(--color-foreground));
+      border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
   }
 
-  /* --- MEGA MENU & UTILS --- */
-  .header__heading-logo { transition: width 0.3s ease; }
+  /* --- ANIMATION KEYFRAMES (Slide Down Effect) --- */
+  @keyframes smoothSlideDown {
+      0% {
+          transform: translateY(-100%);
+      }
+      100% {
+          transform: translateY(0);
+      }
+  }
   
+  /* --- MEGA MENU & PRODUCT CARD STYLES --- */
   .cat-strip { 
       display: flex; justify-content: center; gap: 20px; padding: 0 20px; 
       background: transparent; 
@@ -135,23 +162,42 @@
   .cat-portal__grid { width: 75%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
   .cat-prod { text-decoration: none; color: rgb(var(--color-foreground)); text-align: left; display: flex; flex-direction: column; }
   
-  /* Product Styles */
+  /* Product Image & Badge */
   .cat-prod__media { position: relative; display: block; border-radius: 8px; overflow: hidden; margin-bottom: 10px; aspect-ratio: 1; background: rgba(var(--color-foreground), 0.05); }
   .cat-prod__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
   .cat-prod:hover .cat-prod__media img { transform: scale(1.05); }
-  .cat-prod__sale-badge { position: absolute; top: 8px; left: 8px; z-index: 2; background: #932933; color: #fff; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  
+  .cat-prod__sale-badge {
+      position: absolute; top: 8px; left: 8px; z-index: 2;
+      background: #932933; color: #fff;
+      font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  /* Product Body */
   .cat-prod__body { padding: 0 4px; }
+  
+  /* Stars */
   .loox-rating-content { display: flex; align-items: center; gap: 4px; margin-bottom: 6px; }
   .endorse__star svg { width: 12px; height: 12px; display: block; fill: #B57C46; }
   .loox-rating-label { font-size: 11px; color: rgba(var(--color-foreground), 0.6); margin-top: 2px; }
+
+  /* Title */
   .cat-prod__title { font-size: 14px; font-weight: 700; margin: 0 0 8px 0; color: rgb(var(--color-foreground)); line-height: 1.3; }
+
+  /* Bullets */
   .cat-prod__bullets { list-style: none; padding: 0; margin: 0 0 10px 0; display: flex; flex-direction: column; gap: 4px; }
   .cat-bullet { font-size: 11px; color: rgba(var(--color-foreground), 0.8); display: flex; align-items: center; gap: 6px; }
   .cat-bullet img, .cat-bullet svg { width: 14px; height: 14px; object-fit: contain; }
+
+  /* Price Section */
   .cat-prod__price { display: flex; align-items: center; gap: 8px; font-size: 14px; flex-wrap: wrap; }
-  .cat-prod_cmp-price { text-decoration: line-through; font-weight: 400; }
-  .cat-prod_price { font-weight: 800; }
-  .price-badge { background: #BCA588; color: black; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 16px; }
+  .cat-prod_cmp-price { text-decoration: line-through; font-weight: 400; /* Removed opacity so color setting works */ }
+  .cat-prod_price { font-weight: 800; /* Color handled by settings */ }
+  .price-badge { 
+      background: #BCA588; color: black; 
+      font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 16px; 
+  }
 
   @media screen and (max-width: 990px) { .cat-strip, .cat-portals-wrapper { display: none !important; } }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
@@ -159,7 +205,7 @@
 
 {%- style -%}
   .header { padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem; }
-  .section-header { position: sticky; }
+  .section-header { position: sticky; /* Placeholder */ }
   @media screen and (min-width: 750px) { .section-header { margin-bottom: {{ section.settings.margin_bottom }}px; } }
   @media screen and (min-width: 990px) { .header { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; } }
 {%- endstyle -%}
@@ -181,279 +227,301 @@
     data-class-sticky="{{ sticky_scheme_class }}"
     data-is-home="{{ is_home }}"
   {% endif %}
-  class="header-container"
+  data-state="{{ initial_state }}"
+  class="header-wrapper {{ initial_class }} gradient no-transition"
 >
-  <div 
-    class="header-wrapper {{ initial_class }} gradient" 
-    data-state="{{ initial_state }}"
-  >
-    <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}">
-      
-      {%- if section.settings.menu != blank -%}
-        {% render 'header-drawer' %}
-      {%- endif -%}
+  <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}">
+    
+    {%- if section.settings.menu != blank -%}
+      {% render 'header-drawer' %}
+    {%- endif -%}
 
-      {%- if section.settings.logo_position == 'top-center' or section.settings.menu == blank -%}
-        <details-modal class="header__search">
-          <details>
-            <summary class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}">
-              <span>
-                <svg class="modal__toggle-open icon icon-search" aria-hidden="true" focusable="false" role="presentation"><use href="#icon-search"></use></svg>
-                <svg class="modal__toggle-close icon icon-close" aria-hidden="true" focusable="false" role="presentation"><use href="#icon-close"></use></svg>
-              </span>
-            </summary>
-            <div class="search-modal modal__content gradient" role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t }}">
-              <div class="modal-overlay"></div>
-              <div class="search-modal__content" tabindex="-1">
-                  <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
-                    <div class="field">
-                      <input class="search__input field__input" id="Search-In-Modal-1" type="search" name="q" value="" placeholder="{{ 'general.search.search' | t }}">
-                      <label class="field__label" for="Search-In-Modal-1">{{ 'general.search.search' | t }}</label>
-                      <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}"><svg class="icon icon-search" aria-hidden="true" focusable="false" role="presentation"><use href="#icon-search"></use></svg></button>
-                    </div>
-                  </form>
-              </div>
+    {%- if section.settings.logo_position == 'top-center' or section.settings.menu == blank -%}
+      <details-modal class="header__search">
+        <details>
+          <summary class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}">
+            <span>
+              <svg class="modal__toggle-open icon icon-search" aria-hidden="true" focusable="false" role="presentation"><use href="#icon-search"></use></svg>
+              <svg class="modal__toggle-close icon icon-close" aria-hidden="true" focusable="false" role="presentation"><use href="#icon-close"></use></svg>
+            </span>
+          </summary>
+          <div class="search-modal modal__content gradient" role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t }}">
+            <div class="modal-overlay"></div>
+            <div class="search-modal__content" tabindex="-1">
+                <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
+                  <div class="field">
+                    <input class="search__input field__input" id="Search-In-Modal-1" type="search" name="q" value="" placeholder="{{ 'general.search.search' | t }}">
+                    <label class="field__label" for="Search-In-Modal-1">{{ 'general.search.search' | t }}</label>
+                    <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}"><svg class="icon icon-search" aria-hidden="true" focusable="false" role="presentation"><use href="#icon-search"></use></svg></button>
+                  </div>
+                </form>
             </div>
-          </details>
-        </details-modal>
-      {%- endif -%}
+          </div>
+        </details>
+      </details-modal>
+    {%- endif -%}
 
-      {%- if section.settings.logo_position != 'middle-center' -%}
-        {%- if request.page_type == 'index' -%}<h1 class="header__heading">{%- endif -%}
-        <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
-          {%- if settings.logo != blank -%}
-            <div class="header__heading-logo-wrapper">
-              {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-              {{ settings.logo | image_url: width: 600 | image_tag: class: 'header__heading-logo', width: section.settings.logo_width, alt: logo_alt, preload: true }}
-            </div>
-          {%- else -%}
-            <span class="h2">{{ shop.name }}</span>
-          {%- endif -%}
-        </a>
-        {%- if request.page_type == 'index' -%}</h1>{%- endif -%}
-      {%- endif -%}
-
-      {%- if section.settings.menu != blank -%}
-        {%- if section.settings.menu_type_desktop == 'dropdown' -%}
-          {% render 'header-dropdown-menu' %}
-        {%- elsif section.settings.menu_type_desktop != 'drawer' -%}
-          {% render 'header-mega-menu' %}
+    {%- if section.settings.logo_position != 'middle-center' -%}
+      {%- if request.page_type == 'index' -%}<h1 class="header__heading">{%- endif -%}
+      <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
+        {%- if settings.logo != blank -%}
+          <div class="header__heading-logo-wrapper">
+            {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+            {{ settings.logo | image_url: width: 600 | image_tag: class: 'header__heading-logo', width: section.settings.logo_width, alt: logo_alt, preload: true }}
+          </div>
+        {%- else -%}
+          <span class="h2">{{ shop.name }}</span>
         {%- endif -%}
+      </a>
+      {%- if request.page_type == 'index' -%}</h1>{%- endif -%}
+    {%- endif -%}
+
+    {%- if section.settings.menu != blank -%}
+      {%- if section.settings.menu_type_desktop == 'dropdown' -%}
+        {% render 'header-dropdown-menu' %}
+      {%- elsif section.settings.menu_type_desktop != 'drawer' -%}
+        {% render 'header-mega-menu' %}
       {%- endif -%}
+    {%- endif -%}
 
-      {%- if section.settings.logo_position == 'middle-center' -%}
-        {%- if request.page_type == 'index' -%}<h1 class="header__heading">{%- endif -%}
-        <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
-          {%- if settings.logo != blank -%}
-            <div class="header__heading-logo-wrapper">
-              {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-              {{ settings.logo | image_url: width: 600 | image_tag: class: 'header__heading-logo', width: section.settings.logo_width, alt: logo_alt, preload: true }}
+    {%- if section.settings.logo_position == 'middle-center' -%}
+      {%- if request.page_type == 'index' -%}<h1 class="header__heading">{%- endif -%}
+      <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
+        {%- if settings.logo != blank -%}
+          <div class="header__heading-logo-wrapper">
+            {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+            {{ settings.logo | image_url: width: 600 | image_tag: class: 'header__heading-logo', width: section.settings.logo_width, alt: logo_alt, preload: true }}
+          </div>
+        {%- else -%}
+          <span class="h2">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+      {%- if request.page_type == 'index' -%}</h1>{%- endif -%}
+    {%- endif -%}
+
+    <div class="header__icons">
+      <details-modal class="header__search">
+        <details>
+            <summary class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle">
+                <span><svg class="icon icon-search" aria-hidden="true" focusable="false"><use href="#icon-search"></use></svg></span>
+            </summary>
+             <div class="search-modal modal__content gradient" role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t }}">
+                <div class="search-modal__content" tabindex="-1">
+                    <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
+                      <div class="field">
+                        <input class="search__input field__input" id="Search-In-Modal-2" type="search" name="q" value="" placeholder="{{ 'general.search.search' | t }}">
+                        <label class="field__label" for="Search-In-Modal-2">{{ 'general.search.search' | t }}</label>
+                        <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}"><svg class="icon icon-search" aria-hidden="true" focusable="false" role="presentation"><use href="#icon-search"></use></svg></button>
+                      </div>
+                    </form>
+                </div>
+             </div>
+        </details>
+      </details-modal>
+      <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 18C7.55228 18 8 17.5523 8 17C8 16.4477 7.55228 16 7 16C6.44772 16 6 16.4477 6 17C6 17.5523 6.44772 18 7 18Z" fill="currentColor"/>
+          <path d="M16 18C16.5523 18 17 17.5523 17 17C17 16.4477 16.5523 16 16 16C15.4477 16 15 16.4477 15 17C15 17.5523 15.4477 18 16 18Z" fill="currentColor"/>
+          <path d="M2 2H3.5L5.5 13H16L18 5H5" stroke="currentColor" stroke-width="2"/>
+        </svg>  
+        <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+        {%- if cart != empty -%}
+          <div class="cart-count-bubble">
+            {%- if cart.item_count < 100 -%}<span aria-hidden="true">{{ cart.item_count }}</span>{%- endif -%}
+            <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+          </div>
+        {%- endif -%}
+      </a>
+    </div>
+  </header>
+
+  {%- assign mega_tabs = section.blocks | where: "type", "mega_tab" -%}
+  {%- if mega_tabs.size > 0 -%}
+    <div class="cat-strip" role="tablist">
+      {%- for block in mega_tabs -%}
+        <button class="cat-strip__item" role="tab" data-key="block-{{ block.id }}">
+          {{ block.settings.tab_label }}
+        </button>
+      {%- endfor -%}
+    </div>
+
+    <div id="cat-portals-wrapper" class="cat-portals-wrapper">
+      {%- for block in mega_tabs -%}
+        <section class="cat-portal color-{{ block.settings.color_scheme }} gradient" data-key="block-{{ block.id }}" aria-hidden="true">
+          <aside class="cat-portal__left">
+            <div>
+              <h3 class="cat-portal__title">{{ block.settings.sidebar_title }}</h3>
+              {% if block.settings.btn_link != blank %}
+                <a class="cat-portal__link" href="{{ block.settings.btn_link }}">{{ block.settings.btn_label | default: "Shop All" }}</a>
+              {% endif %}
+              <div style="height:2px; width:40px; background:rgb(var(--color-foreground)); margin-top:15px;"></div>
             </div>
-          {%- else -%}
-            <span class="h2">{{ shop.name }}</span>
-          {%- endif -%}
-        </a>
-        {%- if request.page_type == 'index' -%}</h1>{%- endif -%}
-      {%- endif -%}
-
-      <div class="header__icons">
-        <details-modal class="header__search">
-          <details>
-              <summary class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle">
-                  <span><svg class="icon icon-search" aria-hidden="true" focusable="false"><use href="#icon-search"></use></svg></span>
-              </summary>
-               <div class="search-modal modal__content gradient" role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t }}">
-                  <div class="search-modal__content" tabindex="-1">
-                      <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
-                        <div class="field">
-                          <input class="search__input field__input" id="Search-In-Modal-2" type="search" name="q" value="" placeholder="{{ 'general.search.search' | t }}">
-                          <label class="field__label" for="Search-In-Modal-2">{{ 'general.search.search' | t }}</label>
-                          <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}"><svg class="icon icon-search" aria-hidden="true" focusable="false" role="presentation"><use href="#icon-search"></use></svg></button>
-                        </div>
-                      </form>
-                  </div>
-               </div>
-          </details>
-        </details-modal>
-        <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 18C7.55228 18 8 17.5523 8 17C8 16.4477 7.55228 16 7 16C6.44772 16 6 16.4477 6 17C6 17.5523 6.44772 18 7 18Z" fill="currentColor"/>
-            <path d="M16 18C16.5523 18 17 17.5523 17 17C17 16.4477 16.5523 16 16 16C15.4477 16 15 16.4477 15 17C15 17.5523 15.4477 18 16 18Z" fill="currentColor"/>
-            <path d="M2 2H3.5L5.5 13H16L18 5H5" stroke="currentColor" stroke-width="2"/>
-          </svg>  
-          <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
-          {%- if cart != empty -%}
-            <div class="cart-count-bubble">
-              {%- if cart.item_count < 100 -%}<span aria-hidden="true">{{ cart.item_count }}</span>{%- endif -%}
-              <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
-            </div>
-          {%- endif -%}
-        </a>
-      </div>
-    </header>
-
-    {%- assign mega_tabs = section.blocks | where: "type", "mega_tab" -%}
-    {%- if mega_tabs.size > 0 -%}
-      <div class="cat-strip" role="tablist">
-        {%- for block in mega_tabs -%}
-          <button class="cat-strip__item" role="tab" data-key="block-{{ block.id }}">
-            {{ block.settings.tab_label }}
-          </button>
-        {%- endfor -%}
-      </div>
-
-      <div id="cat-portals-wrapper" class="cat-portals-wrapper">
-        {%- for block in mega_tabs -%}
-          <section class="cat-portal color-{{ block.settings.color_scheme }} gradient" data-key="block-{{ block.id }}" aria-hidden="true">
-            <aside class="cat-portal__left">
-              <div>
-                <h3 class="cat-portal__title">{{ block.settings.sidebar_title }}</h3>
-                {% if block.settings.btn_link != blank %}
-                  <a class="cat-portal__link" href="{{ block.settings.btn_link }}">{{ block.settings.btn_label | default: "Shop All" }}</a>
+            {% if block.settings.review_text != blank %}
+            <div>
+              <div class="cat-portal__desc">"{{ block.settings.review_text }}"</div>
+              <div class="cat-portal__endorse" style="background: rgba(var(--color-foreground),0.05); margin-top:20px; padding:10px; border-radius:8px; display:flex; align-items:center; gap:12px;">
+                {% if block.settings.reviewer_image %}
+                  <img src="{{ block.settings.reviewer_image | image_url: width: 100 }}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;" loading="lazy">
                 {% endif %}
-                <div style="height:2px; width:40px; background:rgb(var(--color-foreground)); margin-top:15px;"></div>
-              </div>
-              {% if block.settings.review_text != blank %}
-              <div>
-                <div class="cat-portal__desc">"{{ block.settings.review_text }}"</div>
-                <div class="cat-portal__endorse" style="background: rgba(var(--color-foreground),0.05); margin-top:20px; padding:10px; border-radius:8px; display:flex; align-items:center; gap:12px;">
-                  {% if block.settings.reviewer_image %}
-                    <img src="{{ block.settings.reviewer_image | image_url: width: 100 }}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;" loading="lazy">
-                  {% endif %}
-                  <div style="font-size:12px; font-weight:700;">
-                    <div>{{ block.settings.reviewer_name }}</div>
-                    <div>★★★★★</div>
-                  </div>
+                <div style="font-size:12px; font-weight:700;">
+                  <div>{{ block.settings.reviewer_name }}</div>
+                  <div>★★★★★</div>
                 </div>
               </div>
-              {% endif %}
-            </aside>
-
-            <div class="cat-portal__grid">
-              {% assign collection = collections[block.settings.collection] %}
-              {% if collection != blank %}
-                {% for product in collection.products limit: 4 %}
-                  <a href="{{ product.url }}" class="cat-prod">
-                    <div class="cat-prod__media">
-                      <img src="{{ product.featured_image | image_url: width: 400 }}" loading="lazy" alt="{{ product.title }}">
-                      {%- assign badge_text = "" -%}
-                      {%- if product.available -%}
-                          {%- if product.compare_at_price > product.price -%}
-                              {%- assign badge_text = "Sale" -%}
-                          {%- endif -%}
-                          {%- if product.tags contains 'Low Stock' -%}
-                              {%- assign badge_text = "Low Stock!" -%}
-                          {%- endif -%}
-                          {%- if product.tags contains 'Best Seller' -%}
-                              {%- assign badge_text = "Best Seller" -%}
-                          {%- endif -%}
-                      {%- endif -%}
-
-                      {%- if badge_text != "" -%}
-                        <span class="cat-prod__sale-badge"> {% if product.metafields.custom.badge_text %} {{ product.metafields.custom.badge_text }}  {%else %} {{ badge_text }} {% endif %} </span>
-                      {%- endif -%}
-                    </div>
-
-                    <div class="cat-prod__body">
-                      <div class="loox-rating-content" aria-label="5 out of 5 stars">
-                          <span  style="display: flex;" class="endorse__star">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
-                          </span>
-                          <span class="loox-rating-label"> {% if product.metafields.custom.product_review_count != blank %}  ({{ product.metafields.custom.product_review_count }}) {% else %} (2,811 reviews) {% endif %} </span>
-                      </div>
-
-                      <div class="cat-prod__title">{{ product.title }}</div>
-
-                      <ul class="cat-prod__bullets">
-                          {% if block.settings.feature_text_1 != blank %}
-                          <li class="cat-bullet">
-                              {% if block.settings.feature_icon_1 != blank %}
-                                  <img src="{{ block.settings.feature_icon_1 | image_url: width: 30 }}" loading="lazy">
-                              {% else %}
-                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-                              {% endif %}
-                              {{ block.settings.feature_text_1 }}
-                          </li>
-                          {% endif %}
-                      </ul>
-
-                      <div class="cat-prod__price">
-                        {% if product.compare_at_price > product.price %}
-                          <span class="cat-prod_cmp-price" style="color: {{ block.settings.compare_price_color }}; font-size: {{ block.settings.compare_price_font_size }}px;">{{ product.compare_at_price | money }}</span>
-                        {% endif %}
-                        <span class="cat-prod_price" style="color: {{ block.settings.price_color }}; font-size: {{ block.settings.price_font_size }}px;">{{ product.price | money }}</span>
-                        
-                        {% if product.compare_at_price > product.price %}
-                          {% assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
-                          <span class="price-badge">SAVE {{ savings }}%</span>
-                        {% endif %}
-                      </div>
-                    </div>
-                  </a>
-                {% endfor %}
-              {% else %}
-                <p>Select a collection in settings.</p>
-              {% endif %}
             </div>
-          </section>
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
-  </div>
+            {% endif %}
+          </aside>
+
+          <div class="cat-portal__grid">
+            {% assign collection = collections[block.settings.collection] %}
+            {% if collection != blank %}
+              {% for product in collection.products limit: 4 %}
+                <a href="{{ product.url }}" class="cat-prod">
+                  <div class="cat-prod__media">
+                    <img src="{{ product.featured_image | image_url: width: 400 }}" loading="lazy" alt="{{ product.title }}">
+                    {%- assign badge_text = "" -%}
+                    {%- if product.available -%}
+                        {%- if product.compare_at_price > product.price -%}
+                            {%- assign badge_text = "Sale" -%}
+                        {%- endif -%}
+                        {%- if product.tags contains 'Low Stock' -%}
+                            {%- assign badge_text = "Low Stock!" -%}
+                        {%- endif -%}
+                        {%- if product.tags contains 'Best Seller' -%}
+                            {%- assign badge_text = "Best Seller" -%}
+                        {%- endif -%}
+                    {%- endif -%}
+
+                    {%- if badge_text != "" -%}
+                      <span class="cat-prod__sale-badge"> {% if product.metafields.custom.badge_text %} {{ product.metafields.custom.badge_text }}  {%else %} {{ badge_text }} {% endif %} </span>
+                    {%- endif -%}
+                  </div>
+
+                  <div class="cat-prod__body">
+                    <div class="loox-rating-content" aria-label="5 out of 5 stars">
+                        <span  style="display: flex;" class="endorse__star">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
+                        
+                        </span>
+                        <span class="loox-rating-label"> {% if product.metafields.custom.product_review_count != blank %}  ({{ product.metafields.custom.product_review_count }}) {% else %} (2,811 reviews) {% endif %} </span>
+                    </div>
+
+                    <div class="cat-prod__title">{{ product.title }}</div>
+
+                    <ul class="cat-prod__bullets">
+                        {% if block.settings.feature_text_1 != blank %}
+                        <li class="cat-bullet">
+                            {% if block.settings.feature_icon_1 != blank %}
+                                <img src="{{ block.settings.feature_icon_1 | image_url: width: 30 }}" loading="lazy">
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                            {% endif %}
+                            {{ block.settings.feature_text_1 }}
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                    <div class="cat-prod__price">
+                      {% if product.compare_at_price > product.price %}
+                        <span class="cat-prod_cmp-price" style="color: {{ block.settings.compare_price_color }}; font-size: {{ block.settings.compare_price_font_size }}px;">{{ product.compare_at_price | money }}</span>
+                      {% endif %}
+                      <span class="cat-prod_price" style="color: {{ block.settings.price_color }}; font-size: {{ block.settings.price_font_size }}px;">{{ product.price | money }}</span>
+                      
+                      {% if product.compare_at_price > product.price %}
+                        {% assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
+                        <span class="price-badge">SAVE {{ savings }}%</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </a>
+              {% endfor %}
+            {% else %}
+              <p>Select a collection in settings.</p>
+            {% endif %}
+          </div>
+        </section>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
 </{{ header_tag }}>
+
+{%- if settings.cart_type == 'notification' -%}
+  {%- render 'cart-notification', color_scheme: section.settings.color_scheme, desktop_menu_type: section.settings.menu_type_desktop -%}
+{%- endif -%}
 
 <script>
   class StickyHeader extends HTMLElement {
     constructor() { super(); }
     
     connectedCallback() {
-      // 1. Elements Select Karo
-      this.wrapper = this.querySelector('.header-wrapper');
-      
-      // 2. Settings Load Karo
+      this.wrapper = this; 
+      this.headerContent = this.querySelector('.header');
+
+      // Check settings from data attributes
       this.stickyType = this.getAttribute('data-sticky-type');
       this.headerIsAlwaysSticky = this.stickyType === 'always' || this.stickyType === 'reduce-logo-size';
       
+      // Data Attributes for Colors
       this.classHome = this.getAttribute('data-class-home');
       this.classDefault = this.getAttribute('data-class-default');
       this.classSticky = this.getAttribute('data-class-sticky');
       this.isHome = this.getAttribute('data-is-home') === 'true';
 
-      // 3. FORCE HEIGHT CALCULATION (Is se jatka khatam hoga)
-      this.measureHeight();
-      
-      // Events
-      window.addEventListener('resize', this.measureHeight.bind(this));
-      window.addEventListener('scroll', this.onScroll.bind(this), { passive: true });
+      // Set initial height CSS var
+      this.setHeaderHeight();
+      window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
       
       this.currentScrollTop = 0;
-      this.onScroll(); // Run immediately
+      this.onScrollHandler = this.onScroll.bind(this);
+      
+      window.addEventListener('scroll', this.onScrollHandler, { passive: true });
+      this.onScroll(); // Run immediately to set initial state
+      
+      // Remove loading class
+      setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 300);
+
+      // --- FIX: Menu Drawer Logic ---
+      const details = document.getElementById('Details-menu-drawer-container');
+      if (details) {
+          details.addEventListener('toggle', (event) => {
+              if (details.open) {
+                   this.wrapper.setAttribute('data-state', 'sticky');
+                   this.wrapper.classList.remove(this.classHome, this.classDefault);
+                   if(this.classSticky) this.wrapper.classList.add(this.classSticky);
+              }
+          });
+      }
     }
 
-    measureHeight() {
-       // Wrapper ki height lo
-       const h = this.wrapper.offsetHeight;
-       // Container (sticky-header) ko same height de do taake wo jagah gher k rakhay
-       this.style.height = `${h}px`;
-       document.documentElement.style.setProperty('--header-height', `${h}px`);
+    setHeaderHeight() { 
+        if(this.headerContent) {
+            document.documentElement.style.setProperty('--header-height', `${this.headerContent.offsetHeight}px`); 
+        }
     }
 
     disconnectedCallback() { 
-        window.removeEventListener('scroll', this.onScroll.bind(this)); 
-        window.removeEventListener('resize', this.measureHeight.bind(this));
+        window.removeEventListener('scroll', this.onScrollHandler); 
     }
 
     onScroll() {
-      const scrollTop = window.scrollY;
-      const triggerPoint = this.offsetHeight / 2; // Thora sa scroll karnay par trigger ho
+      // Agar menu drawer open hai, to scroll logic ko bypass karo
+      const menuDrawer = document.querySelector('details[id^="Details-menu-drawer-container"]');
+      if (menuDrawer && menuDrawer.hasAttribute('open')) return;
 
-      // Scroll Direction
+      const scrollTop = window.scrollY;
+      const headerHeight = this.headerContent ? this.headerContent.offsetHeight : 100;
+      const triggerPoint = headerHeight / 2;
+
+      // Scroll Direction Check
       const isScrollDown = scrollTop > this.currentScrollTop && scrollTop > triggerPoint;
       const isScrollUp = scrollTop < this.currentScrollTop && scrollTop > triggerPoint;
-      const isAtTop = scrollTop <= 10; // Top threshold kam kar dia
+      const isAtTop = scrollTop <= triggerPoint;
 
       if (isAtTop) {
-         // Top State: Reset styles
+         // Top par: Home hai to Transparent, warna Standard
          if (this.isHome) {
             this.updateState('transparent');
          } else {
@@ -461,7 +529,7 @@
          }
       } 
       else if (isScrollDown) {
-         // Scrolling Down
+         // Neechay scroll: Hide karo agar "On Scroll Up" setting hai, warna Sticky rakho
          if (this.stickyType === 'on-scroll-up') {
              this.updateState('hidden');
          } else if (this.headerIsAlwaysSticky) {
@@ -469,7 +537,7 @@
          }
       } 
       else if (isScrollUp) {
-         // Scrolling Up: Show Sticky
+         // Upar scroll: Hamesha Show Sticky
          this.updateState('sticky');
       }
 
@@ -483,10 +551,10 @@
        
        this.wrapper.setAttribute('data-state', newState);
        
-       // Remove old classes
+       // Clean old classes
        this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
        
-       // Add new class based on state
+       // Apply new color class based on state
        if(newState === 'sticky') {
            if(this.classSticky) this.wrapper.classList.add(this.classSticky);
        } else if (newState === 'transparent') {
@@ -501,12 +569,12 @@
     customElements.define('sticky-header', StickyHeader);
   }
 
-  // Mega Menu Close Logic (Optimized)
+  // Mega Menu Logic (Unchanged)
   document.addEventListener('DOMContentLoaded', function() {
     const wrapper = document.getElementById('cat-portals-wrapper');
     const tabs = document.querySelectorAll('.cat-strip__item');
     const portals = document.querySelectorAll('.cat-portal');
-    const headerSection = document.querySelector('sticky-header');
+    const headerSection = document.querySelector('sticky-header'); // Fix selector
     
     if(!wrapper) return;
 
@@ -540,6 +608,18 @@
         headerSection.addEventListener('mouseleave', closeMenu);
     }
   });
+</script>
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {% if settings.logo %}
+      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+    {% endif %}
+    "url": {{ request.origin | append: page.url | json }}
+  }
 </script>
 
 {% schema %}
