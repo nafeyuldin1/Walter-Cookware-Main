@@ -72,8 +72,11 @@ Antibacterial</li></ul>
                 <div class="drawer__cats-list">
                     {%- assign cat_blocks = section.blocks | where: "type", "mobile_category" -%}
                     {% for block in cat_blocks %}
-                        {% comment %} FIXED: Added Liquid brackets around the href URL {% endcomment %}
-                        <a style="text-decoration: none;" href="{{ block.settings.collection.url }}"  class="d-cat-btn" data-target="step-2-{{ block.id }}" data-cat-title="{{ block.settings.title }}">
+                        {% comment %} 
+                           FIXED: Removed data-target, removed arrow SVG. 
+                           It is now a simple direct link.
+                        {% endcomment %}
+                        <a style="text-decoration: none;" href="{{ block.settings.collection.url }}" class="d-cat-btn">
                             <div class="d-cat-left">
                                 {% if block.settings.icon %}
                                     <img src="{{ block.settings.icon | image_url: width: 64 }}" class="d-cat-icon">
@@ -82,7 +85,7 @@ Antibacterial</li></ul>
                                 {% endif %}
                                 <span class="d-cat-name">{{ block.settings.title }}</span>
                             </div>
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.916 5.833L12.083 10L7.916 14.166" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path></svg>
+                            {% comment %} Arrow removed {% endcomment %}
                         </a>
                     {% endfor %}
                 </div>
@@ -98,55 +101,10 @@ Antibacterial</li></ul>
             </div>
         </div>
       </div>
-
-      {% for block in cat_blocks %}
-      <div id="step-2-{{ block.id }}" class="drawer__step drawer__step--2" data-step="2">
-        <div class="drawer__header">
-            <div class="drawer__header-left">
-                <button class="drawer__back-btn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-                </button>
-                <span class="drawer__crumb">{{ block.settings.title }}</span>
-            </div>
-            <button class="drawer__close-btn js-close-drawer" type="button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            </button>
-        </div>
-
-        <div class="drawer__scroll">
-            <div class="d-prod-list">
-                {% assign coll = collections[block.settings.collection] %}
-                {% if coll != blank %}
-                    {% for product in coll.products limit: 10 %}
-                        <a href="{{ product.url }}" class="d-prod-item">
-                            <div class="d-prod-item__img">
-                                <img src="{{ product.featured_image | image_url: width: 150 }}" loading="lazy">
-                            </div>
-                            <div class="d-prod-item__info">
-                                <div class="d-prod-item__title">{{ product.title }}</div>
-                                <div class="d-prod-item__price">{{ product.price | money }}</div>
-                            </div>
-                        </a>
-                    {% endfor %}
-                {% else %}
-                    <p style="padding:20px; opacity:0.6;">Select a collection in block settings.</p>
-                {% endif %}
-            </div>
-            {% if block.settings.step2_review != blank %}
-            <div class="d-review">
-                <div class="d-review__text">"{{ block.settings.step2_review }}"</div>
-                <div class="d-review__meta">
-                    {% if block.settings.step2_avatar %}
-                        <img src="{{ block.settings.step2_avatar | image_url: width: 40 }}" class="d-review__avatar">
-                    {% endif %}
-                    <div class="d-review__name">{{ block.settings.step2_reviewer }}</div>
-                    <div>★★★★★</div>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-      </div>
-      {% endfor %}
+      
+      {% comment %} 
+        Step 2 Loop has been removed as per request to prevent sub-menus.
+      {% endcomment %}
 
     </div>
   </details>
@@ -255,28 +213,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // === FORCE SCROLL FUNCTION (UPDATED) ===
     function forceUnlockScroll() {
-        // Aapki request ke mutabiq HTML tag par scroll add kar raha hun
         const htmlTag = document.documentElement;
         const bodyTag = document.body;
-
-        // 1. Pehle purani styles clear karein
         htmlTag.style.overflow = '';
         bodyTag.style.overflow = '';
         htmlTag.classList.remove('overflow-hidden');
         bodyTag.classList.remove('overflow-hidden');
-
-        // 2. Ab ZABARDASTI scroll laga dein
-        htmlTag.style.overflowY = 'scroll'; // Yeh HTML tag pe scroll layega
+        htmlTag.style.overflowY = 'scroll'; 
         bodyTag.style.overflowY = 'scroll'; 
-        
-        // Ensure height is auto
         htmlTag.style.height = 'auto';
         bodyTag.style.height = 'auto';
     }
 
     function lockScroll() {
         document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = 'hidden'; // HTML lock
+        document.documentElement.style.overflow = 'hidden'; 
     }
 
     // Toggle Listener
@@ -285,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
             lockScroll();
         } else {
             forceUnlockScroll();
-            setTimeout(resetDrawerSteps, 300);
+            // Reset logic removed as we don't have step 2 anymore
         }
     });
 
@@ -294,35 +245,12 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             drawerContainer.removeAttribute('open'); 
-            forceUnlockScroll(); // Call immediately
+            forceUnlockScroll(); 
         });
     });
 
-    // Step Logic (Same as before)
-    const catBtns = drawer.querySelectorAll('.d-cat-btn');
-    const backBtns = drawer.querySelectorAll('.drawer__back-btn');
+    // We removed the listener for .d-cat-btn because they are now direct links.
+    // The previous Step 2 listeners were deleted.
 
-    catBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            // Note: Click will now trigger navigation because of href, 
-            // but the animation might still start briefly. 
-            // Since we want navigation, we let it bubble.
-            const targetId = btn.dataset.target;
-            const targetStep = document.getElementById(targetId);
-            if(targetStep) targetStep.classList.add('is-active');
-        });
-    });
-
-    backBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const activeStep = btn.closest('.drawer__step--2');
-            if(activeStep) activeStep.classList.remove('is-active');
-        });
-    });
-
-    function resetDrawerSteps() {
-        const activeSteps = drawer.querySelectorAll('.drawer__step--2.is-active');
-        activeSteps.forEach(step => step.classList.remove('is-active'));
-    }
 });
 </script>
