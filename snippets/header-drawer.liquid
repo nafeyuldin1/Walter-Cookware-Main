@@ -49,7 +49,7 @@
                                         {% endif %}
                                     </div>
                                     <div style="padding: 8px;" class="d-slide__info">
-                                        <div class="d-slide__title">{{ prod.title | truncate: 30 }}</div>
+                                        <div class="d-slide__title">{{ prod.title | truncate: 30 }} {%  if prod.metafields.custom.pieces_count != blank  %}  <span style=" color: #D4C7B4;"> ({{ prod.metafields.custom.pieces_count }}) </span> {%  endif %} </div>
                                         <ul class="mm-prod__bullets"><li class="mm-bullet"><img src="https://cdn.shopify.com/s/files/1/0931/3540/5429/files/icons_9.svg?v=1767370262" alt="100% Toxin-Free" srcset="https://cdn.shopify.com/s/files/1/0931/3540/5429/files/icons_9.svg?v=1767370262" width="16" height="17" loading="lazy" class="mm-bullet__img">
 100% Toxin-Free</li><li class="mm-bullet"><img src="https://cdn.shopify.com/s/files/1/0931/3540/5429/files/icons_10.svg?v=1767370359" alt="Antibacterial" srcset="https://cdn.shopify.com/s/files/1/0931/3540/5429/files/icons_10.svg?v=1767370359" width="16" height="17" loading="lazy" class="mm-bullet__img">
 Antibacterial</li></ul>
