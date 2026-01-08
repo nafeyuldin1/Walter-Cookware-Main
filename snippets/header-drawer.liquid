@@ -55,9 +55,9 @@
 Antibacterial</li></ul>
                                         <div class="d-slide__price">
                                             {% if prod.compare_at_price > prod.price %}
-                                                <span class="cmp">{{ prod.compare_at_price | money }}</span>
+                                                <span class="cmp">{{ prod.compare_at_price | money_without_trailing_zeros }}</span>
                                             {% endif %}
-                                            <span class="prc">{{ prod.price | money }}</span>
+                                            <span class="prc">{{ prod.price | money_without_trailing_zeros }}</span>
                                         </div>
                                     </div>
                                 </a>
