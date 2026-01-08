@@ -42,10 +42,10 @@
           "settings": {
             "bg_color": "rgba(0,0,0,0)",
             "price_color": "#ffffff",
-            "main_price_size": 26,
+            "main_price_size": 30,
             "sale_price_color": "#ffffff",
             "compare_price_color": "#bca588",
-            "compare_price_size": 16
+            "compare_price_size": 25
           }
         },
         "benefits_grid_AbMNV3": {
