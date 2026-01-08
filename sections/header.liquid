@@ -25,19 +25,7 @@
 %}
 
 <style>
-  /* --- 1. SUPER SMOOTH ANIMATION --- */
-  @keyframes slideDownSmooth {
-      0% {
-          transform: translateY(-100%);
-          opacity: 0;
-      }
-      100% {
-          transform: translateY(0);
-          opacity: 1;
-      }
-  }
-
-  /* --- 2. CONTAINER SETUP (Prevents Layout Jump) --- */
+  /* --- 1. CRITICAL FIX: Container Height (No Layout Jump) --- */
   sticky-header {
       display: block;
       position: relative;
@@ -51,14 +39,14 @@
     position: relative;
   }
   
-  /* --- 3. BASE WRAPPER (Transitions) --- */
+  /* --- 2. BASE HEADER (Smooth Transitions) --- */
   .header-wrapper {
       width: 100%;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
-      /* Color aur Shadow change hone par transition */
-      transition: background-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: transform, background-color;
+      /* Sirf color aur shadow transition karein, Position ka jatka nahi */
+      transition: background-color 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease;
+      will-change: background-color, transform;
   }
   .header-wrapper.no-transition { transition: none !important; }
 
@@ -73,25 +61,23 @@
       {% endif %}
   }
 
-  /* State: Sticky (Scrolled Down) - THE FIX */
+  /* State: Sticky (Scrolled Down) - ZERO JERK FIX */
   .header-wrapper[data-state="sticky"] {
       position: fixed; 
       top: 0; left:0; width: 100%;
       
-      /* Subtle Shadow taake alag lage par heavy na ho */
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      /* Animation REMOVED: Ab ye slide nahi karega, bas color change karega */
+      /* animation: none; */
       
-      /* Background logic */
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
       background-color: rgba(var(--color-background), 0.95) !important; 
       color: rgb(var(--color-foreground)) !important;
       z-index: 1000;
-      
-      /* Cubic-Bezier Animation: Starts slightly fast, lands very softly */
-      animation: slideDownSmooth 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-      
+      transform: translateY(0); /* Ensure position is 0 */
+
       {% if section.settings.enable_sticky_blur %}
         background-color: rgba(var(--color-background), 0.85) !important;
-        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       {% endif %}
   }
 
@@ -99,8 +85,7 @@
   .header-wrapper[data-state="hidden"] {
       position: fixed;
       top: 0; left: 0; width: 100%;
-      transform: translateY(-100%);
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(-100%); /* Smooth slide up */
       z-index: 1000;
   }
 
@@ -463,22 +448,17 @@
     constructor() { super(); }
     
     connectedCallback() {
-      // --- CRITICAL FIX: The custom element IS the wrapper ---
-      // Pehlay hum child dhoond rahe thay jo ghalat tha.
       this.wrapper = this; 
       this.headerContent = this.querySelector('.header');
 
-      // Check settings from data attributes
       this.stickyType = this.getAttribute('data-sticky-type');
       this.headerIsAlwaysSticky = this.stickyType === 'always' || this.stickyType === 'reduce-logo-size';
       
-      // Data Attributes for Colors
       this.classHome = this.getAttribute('data-class-home');
       this.classDefault = this.getAttribute('data-class-default');
       this.classSticky = this.getAttribute('data-class-sticky');
       this.isHome = this.getAttribute('data-is-home') === 'true';
 
-      // Set initial height CSS var
       this.setHeaderHeight();
       window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
       
@@ -486,13 +466,10 @@
       this.onScrollHandler = this.onScroll.bind(this);
       
       window.addEventListener('scroll', this.onScrollHandler, { passive: true });
-      this.onScroll(); // Run immediately to set initial state
+      this.onScroll(); 
       
-      // Remove loading class
       setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 300);
 
-      // --- FIX: Menu Drawer Logic ---
-      // Jab drawer open ho, sticky header ko active rakho aur hide mat hone do
       const details = document.getElementById('Details-menu-drawer-container');
       if (details) {
           details.addEventListener('toggle', (event) => {
@@ -516,7 +493,6 @@
     }
 
     onScroll() {
-      // Agar menu drawer open hai, to scroll logic ko bypass karo
       const menuDrawer = document.querySelector('details[id^="Details-menu-drawer-container"]');
       if (menuDrawer && menuDrawer.hasAttribute('open')) return;
 
@@ -524,13 +500,11 @@
       const headerHeight = this.headerContent ? this.headerContent.offsetHeight : 100;
       const triggerPoint = headerHeight / 2;
 
-      // Scroll Direction Check
       const isScrollDown = scrollTop > this.currentScrollTop && scrollTop > triggerPoint;
       const isScrollUp = scrollTop < this.currentScrollTop && scrollTop > triggerPoint;
       const isAtTop = scrollTop <= triggerPoint;
 
       if (isAtTop) {
-         // Top par: Home hai to Transparent, warna Standard
          if (this.isHome) {
             this.updateState('transparent');
          } else {
@@ -538,7 +512,6 @@
          }
       } 
       else if (isScrollDown) {
-         // Neechay scroll: Hide karo agar "On Scroll Up" setting hai, warna Sticky rakho
          if (this.stickyType === 'on-scroll-up') {
              this.updateState('hidden');
          } else if (this.headerIsAlwaysSticky) {
@@ -546,7 +519,6 @@
          }
       } 
       else if (isScrollUp) {
-         // Upar scroll: Hamesha Show Sticky
          this.updateState('sticky');
       }
 
@@ -560,10 +532,8 @@
        
        this.wrapper.setAttribute('data-state', newState);
        
-       // Clean old classes
        this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
        
-       // Apply new color class based on state
        if(newState === 'sticky') {
            if(this.classSticky) this.wrapper.classList.add(this.classSticky);
        } else if (newState === 'transparent') {
@@ -578,12 +548,11 @@
     customElements.define('sticky-header', StickyHeader);
   }
 
-  // Mega Menu Logic (Unchanged)
   document.addEventListener('DOMContentLoaded', function() {
     const wrapper = document.getElementById('cat-portals-wrapper');
     const tabs = document.querySelectorAll('.cat-strip__item');
     const portals = document.querySelectorAll('.cat-portal');
-    const headerSection = document.querySelector('sticky-header'); // Fix selector
+    const headerSection = document.querySelector('sticky-header'); 
     
     if(!wrapper) return;
 
