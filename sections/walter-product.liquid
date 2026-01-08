@@ -222,7 +222,7 @@
                   <h1 class="product_title">{{ product.title | escape }}</h1>
                   <a href="{{ product.url }}" class="product__title">
                     <h2 class="h1">
-                      {{ product.title | escape }}
+                      {{ product.title | escape }} {% if product.metafields.custom.pieces_count %} <span style=" color: #D4C7B4;"> ({{ product.metafields.custom.pieces_count }}) </span> {%  endif %}
                     </h2>
                   </a>
                 </div>
