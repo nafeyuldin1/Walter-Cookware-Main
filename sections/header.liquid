@@ -382,7 +382,7 @@ transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
                         <span class="loox-rating-label"> {% if product.metafields.custom.product_review_count != blank %}  ({{ product.metafields.custom.product_review_count }}) {% else %} (2,811 reviews) {% endif %} </span>
                     </div>
 
-                    <div class="cat-prod__title">{{ product.title }} {%  if product.metafields.custom.pieces_count != blank  %}  <span style=" color: #D4C7B4;"> ({{ product.metafields.custom.pieces_count }}) </span> {%  endif %} </div>
+                    <div class="cat-prod__title">{{ product.title }} {%  if product.metafields.custom.pieces_count != blank  %}  <span style=" color: #D4C7B4;"> {{ product.metafields.custom.pieces_count }} </span> {%  endif %} </div>
 
                     <ul class="cat-prod__bullets">
                         {% if block.settings.feature_text_1 != blank %}
