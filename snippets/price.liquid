@@ -1,16 +1,16 @@
 {% comment %}
-  Renders a list of product's price (regular, sale)
+    Renders a list of product's price (regular, sale)
 
-  Accepts:
-  - product: {Object} Product Liquid object (optional)
-  - placeholder: {Boolean} Renders a placeholder price (optional)
-  - use_variant: {Boolean} Renders selected or first variant price instead of overall product pricing (optional)
-  - show_badges: {Boolean} Renders 'Sale' and 'Sold Out' tags if the product matches the condition (optional)
-  - price_class: {String} Adds a price class to the price element (optional)
-  - show_compare_at_price: {Boolean} Renders the compare at price if the product matches the condition (optional)
+    Accepts:
+    - product: {Object} Product Liquid object (optional)
+    - placeholder: {Boolean} Renders a placeholder price (optional)
+    - use_variant: {Boolean} Renders selected or first variant price instead of overall product pricing (optional)
+    - show_badges: {Boolean} Renders 'Sale' and 'Sold Out' tags if the product matches the condition (optional)
+    - price_class: {String} Adds a price class to the price element (optional)
+    - show_compare_at_price: {Boolean} Renders the compare at price if the product matches the condition (optional)
 
-  Usage:
-  {% render 'price', product: product %}
+    Usage:
+    {% render 'price', product: product %}
 {% endcomment %}
 {%- liquid
   if use_variant
@@ -26,13 +26,18 @@
   assign price_min = product.price_min
   assign price_max = product.price_max
   assign available = target.available | default: false
-  assign money_price = price | money
-  assign money_price_min = price_min | money_with_currency
-  assign money_price_max = price_max | money_with_currency
+  
+  comment 
+    --- FIX: Changed filters to money_without_trailing_zeros ---
+  endcomment
+  assign money_price = price | money_without_trailing_zeros
+  assign money_price_min = price_min | money_without_trailing_zeros
+  assign money_price_max = price_max | money_without_trailing_zeros
+  
   if settings.currency_code_enabled
-    assign money_price = price | money_with_currency
-    assign money_price_min = price_min | money_with_currency
-    assign money_price_max = price_max | money_with_currency
+    assign money_price = price | money_without_trailing_zeros
+    assign money_price_min = price_min | money_without_trailing_zeros
+    assign money_price_max = price_max | money_without_trailing_zeros
   endif
 
   if target == product and product.price_varies
@@ -68,9 +73,9 @@
               <span>
                 <s class="price-item price-item--regular variant-item__old-price">
                   {% if settings.currency_code_enabled %}
-                    {{ compare_at_price | money_with_currency }}
+                    {{ compare_at_price | money_without_trailing_zeros }}
                   {% else %}
-                    {{ compare_at_price | money }}
+                    {{ compare_at_price | money_without_trailing_zeros }}
                   {% endif %}
                 </s>
               </span>
@@ -96,9 +101,9 @@
           <span>
             <s class="price-item price-item--regular">
               {% if settings.currency_code_enabled %}
-                {{ compare_at_price | money_with_currency }}
+                {{ compare_at_price | money_without_trailing_zeros }}
               {% else %}
-                {{ compare_at_price | money }}
+                {{ compare_at_price | money_without_trailing_zeros }}
               {% endif %}
             </s>
           </span>
