@@ -110,14 +110,7 @@ transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
       color: rgb(var(--color-foreground));
       border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
   }
-  .header-wrapper[data-state="standard"],
-.header-wrapper[data-state="transparent"] {
-  position: absolute;
-  top: 0;
-  animation: none;
-}
-
-/* Slide Down Animation Keyframes */
+  /* Slide Down Animation Keyframes */
 @keyframes headerSlideDown {
   0% {
     transform: translateY(-100%);
