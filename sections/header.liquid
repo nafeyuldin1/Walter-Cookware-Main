@@ -374,103 +374,88 @@
 {%- endif -%}
 
 <script>
-  setHeaderHeight() {
-    // Header ki real-time height calculate karna
-    const height = this.headerContent ? this.headerContent.offsetHeight : 80;
-    document.documentElement.style.setProperty('--header-height', `${height}px`);
-}
-
-// connectedCallback ke andar isay call zaroori hai:
-this.setHeaderHeight();  
   class StickyHeader extends HTMLElement {
     constructor() { super(); }
     
     connectedCallback() {
-      // --- CRITICAL FIX: The custom element IS the wrapper ---
-      // Pehlay hum child dhoond rahe thay jo ghalat tha.
       this.wrapper = this; 
       this.headerContent = this.querySelector('.header');
 
-      // Check settings from data attributes
+      // Settings from data attributes
       this.stickyType = this.getAttribute('data-sticky-type');
       this.headerIsAlwaysSticky = this.stickyType === 'always' || this.stickyType === 'reduce-logo-size';
       
-      // Data Attributes for Colors
       this.classHome = this.getAttribute('data-class-home');
       this.classDefault = this.getAttribute('data-class-default');
       this.classSticky = this.getAttribute('data-class-sticky');
       this.isHome = this.getAttribute('data-is-home') === 'true';
 
-      // Set initial height CSS var
-      this.setHeaderHeight();
-      window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
-      
+      // --- CRITICAL FIX: Height Calculation ---
+      // ResizeObserver use karein takay jab bhi logo ya menu ki wajah se height badlay, CSS update ho jaye
+      this.headerObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+          this.setHeaderHeight(entry.contentRect.height);
+        }
+      });
+      if (this.headerContent) this.headerObserver.observe(this.headerContent);
+
       this.currentScrollTop = 0;
       this.onScrollHandler = this.onScroll.bind(this);
       
       window.addEventListener('scroll', this.onScrollHandler, { passive: true });
-      this.onScroll(); // Run immediately to set initial state
-      
-      // Remove loading class
-      setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 300);
+      this.onScroll(); 
 
-      // --- FIX: Menu Drawer Logic ---
-      // Jab drawer open ho, sticky header ko active rakho aur hide mat hone do
+      // Transition enable karein
+      setTimeout(() => { 
+        if(this.wrapper) this.wrapper.classList.remove('no-transition'); 
+      }, 300);
+
+      // Drawer Open Logic
       const details = document.getElementById('Details-menu-drawer-container');
       if (details) {
-          details.addEventListener('toggle', (event) => {
+          details.addEventListener('toggle', () => {
               if (details.open) {
-                   this.wrapper.setAttribute('data-state', 'sticky');
-                   this.wrapper.classList.remove(this.classHome, this.classDefault);
-                   if(this.classSticky) this.wrapper.classList.add(this.classSticky);
+                   this.updateState('sticky');
               }
           });
       }
     }
 
-    setHeaderHeight() { 
-        if(this.headerContent) {
-            document.documentElement.style.setProperty('--header-height', `${this.headerContent.offsetHeight}px`); 
-        }
+    setHeaderHeight(height) { 
+        const h = height || (this.headerContent ? this.headerContent.offsetHeight : 80);
+        // Pure document mein variable set karna takay CSS Padding kaam kare
+        document.documentElement.style.setProperty('--header-height', `${Math.floor(h)}px`); 
     }
 
     disconnectedCallback() { 
         window.removeEventListener('scroll', this.onScrollHandler); 
+        if (this.headerObserver) this.headerObserver.disconnect();
     }
 
     onScroll() {
-      // Agar menu drawer open hai, to scroll logic ko bypass karo
       const menuDrawer = document.querySelector('details[id^="Details-menu-drawer-container"]');
       if (menuDrawer && menuDrawer.hasAttribute('open')) return;
 
-      const scrollTop = window.scrollY;
-      const headerHeight = this.headerContent ? this.headerContent.offsetHeight : 100;
-      const triggerPoint = headerHeight / 2;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Trigger point ko 0 ke kareeb rakhein takay "Invisible" transition ho
+      const triggerPoint = 20; 
 
-      // Scroll Direction Check
-      const isScrollDown = scrollTop > this.currentScrollTop && scrollTop > triggerPoint;
-      const isScrollUp = scrollTop < this.currentScrollTop && scrollTop > triggerPoint;
-      const isAtTop = scrollTop <= triggerPoint;
-
-      if (isAtTop) {
-         // Top par: Home hai to Transparent, warna Standard
-         if (this.isHome) {
-            this.updateState('transparent');
-         } else {
-            this.updateState('standard');
-         }
+      if (scrollTop <= triggerPoint) {
+         // Top par behavior
+         this.updateState(this.isHome ? 'transparent' : 'standard');
       } 
-      else if (isScrollDown) {
-         // Neechay scroll: Hide karo agar "On Scroll Up" setting hai, warna Sticky rakho
-         if (this.stickyType === 'on-scroll-up') {
-             this.updateState('hidden');
-         } else if (this.headerIsAlwaysSticky) {
-             this.updateState('sticky');
-         }
+      else if (scrollTop > this.currentScrollTop && scrollTop > 150) {
+          // Neechay Scroll: Hide ya Sticky
+          if (this.stickyType === 'on-scroll-up') {
+              this.updateState('hidden');
+          } else {
+              this.updateState('sticky');
+          }
       } 
-      else if (isScrollUp) {
-         // Upar scroll: Hamesha Show Sticky
-         this.updateState('sticky');
+      else if (scrollTop < this.currentScrollTop) {
+          // Upar Scroll: Hamesha Show
+          this.updateState('sticky');
       }
 
       this.currentScrollTop = scrollTop;
@@ -483,10 +468,9 @@ this.setHeaderHeight();
        
        this.wrapper.setAttribute('data-state', newState);
        
-       // Clean old classes
+       // Color classes switch
        this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
        
-       // Apply new color class based on state
        if(newState === 'sticky') {
            if(this.classSticky) this.wrapper.classList.add(this.classSticky);
        } else if (newState === 'transparent') {
@@ -501,12 +485,12 @@ this.setHeaderHeight();
     customElements.define('sticky-header', StickyHeader);
   }
 
-  // Mega Menu Logic (Unchanged)
+  // Mega Menu Logic (Pehele wala hi hai)
   document.addEventListener('DOMContentLoaded', function() {
     const wrapper = document.getElementById('cat-portals-wrapper');
     const tabs = document.querySelectorAll('.cat-strip__item');
     const portals = document.querySelectorAll('.cat-portal');
-    const headerSection = document.querySelector('sticky-header'); // Fix selector
+    const headerSection = document.querySelector('sticky-header');
     
     if(!wrapper) return;
 
@@ -522,10 +506,8 @@ this.setHeaderHeight();
         const key = this.dataset.key;
         tabs.forEach(t => t.classList.remove('is-active'));
         portals.forEach(p => p.setAttribute('aria-hidden', 'true'));
-        
         this.classList.add('is-active');
         const target = document.querySelector(`.cat-portal[data-key="${key}"]`);
-        
         if(target) {
           wrapper.style.display = 'block';
           requestAnimationFrame(() => {
