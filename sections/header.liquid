@@ -25,11 +25,13 @@
 %}
 
 <style>
-  /* --- CRITICAL FIX: Z-Index and Positioning --- */
+  /* --- WRAPPER FIX: Prevents Layout Shift (Jhatka) --- */
   sticky-header {
       display: block;
       position: relative;
-      z-index: 999999999999999999999999999999999999; /* Priority Z-Index */
+      /* Height JS se set hogi, lekin min-height rakh rahe hain safety ke liye */
+      min-height: var(--header-height, 70px); 
+      z-index: 999999999999999999999999999999999999; 
   }
 
   #shopify-section-{{ section.id }}{
@@ -57,51 +59,57 @@
   
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
-  /* --- HEADER STATE STYLING --- */
+  /* --- SMOOTH TRANSITION STYLING --- */
   .header-wrapper {
       width: 100%;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
-      /* Default Transition */
-      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+      
+      /* BUTTER SMOOTH TRANSITION: No Animation Keyframes */
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                  background-color 0.4s ease, 
+                  box-shadow 0.4s ease, 
+                  padding 0.4s ease;
   }
   .header-wrapper.no-transition { transition: none !important; }
 
-  /* Transparent State */
+  /* Transparent State (Homepage Top) */
   .header-wrapper[data-state="transparent"] {
       background-color: transparent !important;
       border-bottom: none !important;
       position: absolute;
       top: 0; left: 0;
+      box-shadow: none;
       {% if section.settings.enable_sticky_blur %}
-        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px);
       {% endif %}
   }
 
-  /* Sticky State (Scrolled Down) */
+  /* Sticky State (Scrolled Down) - FIXED POSITION WITHOUT ANIMATION JUMP */
   .header-wrapper[data-state="sticky"] {
       position: fixed; 
       top: 0; left:0; width: 100%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
       z-index: 1000;
-      transform: translateY(0);
+      transform: translateY(0); /* Ensure it stays visible */
+      
       {% if section.settings.enable_sticky_blur %}
-        background-color: rgba(var(--color-background), 0.3) !important;
+        background-color: rgba(var(--color-background), 0.95) !important;
         backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       {% endif %}
   }
 
-  /* Hidden State (Scroll Down + Hide option) */
+  /* Hidden State (Only if 'On Scroll Up' is selected) */
   .header-wrapper[data-state="hidden"] {
       position: fixed;
       top: 0; left: 0; width: 100%;
-      transform: translateY(-100%); /* Slides Up */
+      transform: translateY(-100%); /* Smoothly slide out */
       z-index: 1000;
   }
 
-  /* Standard State */
+  /* Standard State (Other Pages Top) */
   .header-wrapper[data-state="standard"] {
       position: relative;
       background-color: rgb(var(--color-background));
@@ -386,7 +394,6 @@
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
                         
                         </span>
                         <span class="loox-rating-label"> {% if product.metafields.custom.product_review_count != blank %}  ({{ product.metafields.custom.product_review_count }}) {% else %} (2,811 reviews) {% endif %} </span>
@@ -440,22 +447,17 @@
     constructor() { super(); }
     
     connectedCallback() {
-      // --- CRITICAL FIX: The custom element IS the wrapper ---
-      // Pehlay hum child dhoond rahe thay jo ghalat tha.
       this.wrapper = this; 
       this.headerContent = this.querySelector('.header');
 
-      // Check settings from data attributes
       this.stickyType = this.getAttribute('data-sticky-type');
       this.headerIsAlwaysSticky = this.stickyType === 'always' || this.stickyType === 'reduce-logo-size';
       
-      // Data Attributes for Colors
       this.classHome = this.getAttribute('data-class-home');
       this.classDefault = this.getAttribute('data-class-default');
       this.classSticky = this.getAttribute('data-class-sticky');
       this.isHome = this.getAttribute('data-is-home') === 'true';
 
-      // Set initial height CSS var
       this.setHeaderHeight();
       window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
       
@@ -463,13 +465,11 @@
       this.onScrollHandler = this.onScroll.bind(this);
       
       window.addEventListener('scroll', this.onScrollHandler, { passive: true });
-      this.onScroll(); // Run immediately to set initial state
+      this.onScroll(); 
       
-      // Remove loading class
       setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 300);
 
-      // --- FIX: Menu Drawer Logic ---
-      // Jab drawer open ho, sticky header ko active rakho aur hide mat hone do
+      // --- DRAWER FIX ---
       const details = document.getElementById('Details-menu-drawer-container');
       if (details) {
           details.addEventListener('toggle', (event) => {
@@ -484,7 +484,11 @@
 
     setHeaderHeight() { 
         if(this.headerContent) {
-            document.documentElement.style.setProperty('--header-height', `${this.headerContent.offsetHeight}px`); 
+            // Set header height to CSS variable
+            const h = this.headerContent.offsetHeight;
+            document.documentElement.style.setProperty('--header-height', `${h}px`); 
+            // Also force set min-height on wrapper to prevent layout shift
+            this.style.minHeight = `${h}px`;
         }
     }
 
@@ -493,39 +497,38 @@
     }
 
     onScroll() {
-      // Agar menu drawer open hai, to scroll logic ko bypass karo
       const menuDrawer = document.querySelector('details[id^="Details-menu-drawer-container"]');
       if (menuDrawer && menuDrawer.hasAttribute('open')) return;
 
       const scrollTop = window.scrollY;
       const headerHeight = this.headerContent ? this.headerContent.offsetHeight : 100;
-      const triggerPoint = headerHeight / 2;
+      // Increased threshold slightly for smoother feel
+      const triggerPoint = headerHeight + 20; 
 
-      // Scroll Direction Check
       const isScrollDown = scrollTop > this.currentScrollTop && scrollTop > triggerPoint;
       const isScrollUp = scrollTop < this.currentScrollTop && scrollTop > triggerPoint;
       const isAtTop = scrollTop <= triggerPoint;
 
-      if (isAtTop) {
-         // Top par: Home hai to Transparent, warna Standard
-         if (this.isHome) {
-            this.updateState('transparent');
-         } else {
-            this.updateState('standard');
-         }
-      } 
-      else if (isScrollDown) {
-         // Neechay scroll: Hide karo agar "On Scroll Up" setting hai, warna Sticky rakho
-         if (this.stickyType === 'on-scroll-up') {
-             this.updateState('hidden');
-         } else if (this.headerIsAlwaysSticky) {
+      // Use Request Animation Frame to prevent Jitter
+      requestAnimationFrame(() => {
+          if (isAtTop) {
+             if (this.isHome) {
+                this.updateState('transparent');
+             } else {
+                this.updateState('standard');
+             }
+          } 
+          else if (isScrollDown) {
+             if (this.stickyType === 'on-scroll-up') {
+                 this.updateState('hidden');
+             } else if (this.headerIsAlwaysSticky) {
+                 this.updateState('sticky');
+             }
+          } 
+          else if (isScrollUp) {
              this.updateState('sticky');
-         }
-      } 
-      else if (isScrollUp) {
-         // Upar scroll: Hamesha Show Sticky
-         this.updateState('sticky');
-      }
+          }
+      });
 
       this.currentScrollTop = scrollTop;
     }
@@ -540,7 +543,6 @@
        // Clean old classes
        this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
        
-       // Apply new color class based on state
        if(newState === 'sticky') {
            if(this.classSticky) this.wrapper.classList.add(this.classSticky);
        } else if (newState === 'transparent') {
@@ -555,12 +557,12 @@
     customElements.define('sticky-header', StickyHeader);
   }
 
-  // Mega Menu Logic (Unchanged)
+  // Mega Menu Logic
   document.addEventListener('DOMContentLoaded', function() {
     const wrapper = document.getElementById('cat-portals-wrapper');
     const tabs = document.querySelectorAll('.cat-strip__item');
     const portals = document.querySelectorAll('.cat-portal');
-    const headerSection = document.querySelector('sticky-header'); // Fix selector
+    const headerSection = document.querySelector('sticky-header');
     
     if(!wrapper) return;
 
