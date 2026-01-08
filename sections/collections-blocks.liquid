@@ -312,16 +312,7 @@
                 {% else %}
                   {{ 'product-1' | placeholder_svg_tag: 'cbx-card-img' }}
                 {% endif %}
-                {% if product.metafields.custom.badge_text %}    <span class="cbx-top-badge">{{ product.metafields.custom.badge_text }} </span> {%else %} 
-                  
-                
-                   {%- if product.tags contains 'Low Stock' -%}
-                  <span class="cbx-top-badge">LOW STOCK</span>
-                {%- elsif product.tags contains 'Best Seller' -%}
-                  <span class="cbx-top-badge">BEST SELLER</span>
-                {%- elsif product.compare_at_price > product.price -%}
-                  <span class="cbx-top-badge">SALE</span>
-                {%- endif -%}
+                {% if product.metafields.custom.badge_text %}    <span class="cbx-top-badge">{{ product.metafields.custom.badge_text }} </span> 
                {% endif %}
                 
              
