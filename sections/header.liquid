@@ -361,18 +361,7 @@
                 <a href="{{ product.url }}" class="cat-prod">
                   <div class="cat-prod__media">
                     <img src="{{ product.featured_image | image_url: width: 400 }}" loading="lazy" alt="{{ product.title }}">
-                    {%- assign badge_text = "" -%}
-                    {%- if product.available -%}
-                        {%- if product.compare_at_price > product.price -%}
-                            {%- assign badge_text = "Sale" -%}
-                        {%- endif -%}
-                        {%- if product.tags contains 'Low Stock' -%}
-                            {%- assign badge_text = "Low Stock!" -%}
-                        {%- endif -%}
-                        {%- if product.tags contains 'Best Seller' -%}
-                            {%- assign badge_text = "Best Seller" -%}
-                        {%- endif -%}
-                    {%- endif -%}
+                
 
                     {%- if badge_text != "" -%}
                       <span class="cat-prod__sale-badge"> {% if product.metafields.custom.badge_text %} {{ product.metafields.custom.badge_text }}  {%else %} {{ badge_text }} {% endif %} </span>
