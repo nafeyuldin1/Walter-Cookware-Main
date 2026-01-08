@@ -25,14 +25,14 @@
 %}
 
 <style>
-  /* --- CRITICAL FIX: Z-Index and Smooth Animation --- */
+  /* --- CRITICAL FIX: Smooth Sticky Animation --- */
   
-  /* Container ko height hold karne k liye */
+  /* 1. Container Height Hold Karna */
   sticky-header {
       display: block;
       position: relative;
-      /* Ye height JS se set hogi taake page jerk na kare */
-      min-height: var(--header-height); 
+      /* Ye important hai taake page jump na kare jab header fixed ho */
+      min-height: var(--header-height, 80px); 
       z-index: 999999999999999999999999999999999999;
   }
 
@@ -66,8 +66,8 @@
       width: 100%;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
-      /* Default Transition */
-      transition: background-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+      /* Smooth transitions for color changes */
+      transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.3s ease;
       will-change: transform;
   }
   .header-wrapper.no-transition { transition: none !important; }
@@ -83,7 +83,7 @@
       {% endif %}
   }
 
-  /* Sticky State (Scrolled Down) - SMOOTH ANIMATION ADDED */
+  /* Sticky State (Scrolled Down) - SMOOTH SLIDE ANIMATION */
   .header-wrapper[data-state="sticky"] {
       position: fixed; 
       top: 0; left:0; width: 100%;
@@ -91,8 +91,8 @@
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
       z-index: 1000;
-      /* Animation Slide Down */
-      animation: headerSlideDown 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+      /* Animation apply ki gayi hai */
+      animation: smoothSlideDown 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
       
       {% if section.settings.enable_sticky_blur %}
         background-color: rgba(var(--color-background), 0.9) !important;
@@ -105,7 +105,7 @@
       position: fixed;
       top: 0; left: 0; width: 100%;
       transform: translateY(-100%); /* Slides Up */
-      transition: transform 0.3s ease;
+      transition: transform 0.4s ease;
       z-index: 1000;
   }
 
@@ -117,8 +117,8 @@
       border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
   }
 
-  /* --- ANIMATION KEYFRAMES --- */
-  @keyframes headerSlideDown {
+  /* --- ANIMATION KEYFRAMES (Slide Down Effect) --- */
+  @keyframes smoothSlideDown {
       0% {
           transform: translateY(-100%);
       }
@@ -457,7 +457,6 @@
     constructor() { super(); }
     
     connectedCallback() {
-      // --- CRITICAL FIX: The custom element IS the wrapper ---
       this.wrapper = this; 
       this.headerContent = this.querySelector('.header');
 
@@ -485,7 +484,6 @@
       setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 300);
 
       // --- FIX: Menu Drawer Logic ---
-      // Jab drawer open ho, sticky header ko active rakho aur hide mat hone do
       const details = document.getElementById('Details-menu-drawer-container');
       if (details) {
           details.addEventListener('toggle', (event) => {
