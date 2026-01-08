@@ -435,7 +435,7 @@
             {%- if product.compare_at_price > product.price -%}
               {%- assign saved_amt = product.compare_at_price | minus: product.price -%}
               {%- assign saved_pct = saved_amt | times: 100.0 | divided_by: product.compare_at_price | round -%}
-              <div class="product-card__badge"> {% if product.metafields.custom.badge_text %} {{ product.metafields.custom.badge_text }}  {% endif %} </div>
+             {% if product.metafields.custom.badge_text %} <div class="product-card__badge">  {{ product.metafields.custom.badge_text }}   </div> {% endif %}
             {%- endif -%}
 
             <a href="{{ product.url }}" class="product-card__media">
