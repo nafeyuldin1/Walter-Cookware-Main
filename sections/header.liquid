@@ -25,101 +25,76 @@
 %}
 
 <style>
-  /* --- CRITICAL FIX: Z-Index and Positioning --- */
-  sticky-header {
-      display: block;
-      position: relative;
-      z-index: 999999999999999999999999999999999999; /* Priority Z-Index */
-  }
+  /* --- 1. Fix Layout Shift (The Jump Fix) --- */
+sticky-header {
+  display: block;
+  position: relative;
+  z-index: 100;
+  /* Ye line neechay wale content ko upar jump karne se rokti hai */
+  height: var(--header-height, auto); 
+}
 
-  #shopify-section-{{ section.id }}{
-    z-index: 999999999999999999999999999999999999;
-    position: relative;
-  }
-  
-  /* --- BASE HEADER STYLES --- */
-  header-drawer { justify-self: start; margin-left: -1.2rem; }
-  
-  {%- if section.settings.sticky_header_type == 'reduce-logo-size' -%}
-    .scrolled-past-header .header__heading-logo-wrapper { width: 75%; transition: width 0.3s ease; }
-  {%- endif -%}
-  
-  {%- if section.settings.menu_type_desktop != "drawer" -%}
-    @media screen and (min-width: 990px) { header-drawer { display: none; } }
-  {%- endif -%}
-  
-  .menu-drawer-container { display: flex; }
-  .list-menu { list-style: none; padding: 0; margin: 0; }
-  .list-menu--inline { display: inline-flex; flex-wrap: wrap; }
-  summary.list-menu__item { padding-right: 2.7rem; }
-  .list-menu__item { display: flex; align-items: center; line-height: calc(1 + 0.3 / var(--font-body-scale)); }
-  .list-menu__item--link { text-decoration: none; padding-bottom: 1rem; padding-top: 1rem; line-height: calc(1 + 0.8 / var(--font-body-scale)); }
-  
-  @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
-  
-  /* --- HEADER STATE STYLING --- */
-  .header-wrapper {
-      width: 100%;
-      background-color: rgb(var(--color-background));
-      color: rgb(var(--color-foreground));
-transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+#shopify-section-{{ section.id }}{
+  z-index: 101;
+  position: relative;
+}
+
+/* --- 2. Base Header Wrapper --- */
+.header-wrapper {
+  width: 100%;
+  /* Fixed position hamesha rakhein taake layout change na ho */
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  /* Smooth transitions */
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.4s ease, 
+              box-shadow 0.4s ease,
               backdrop-filter 0.4s ease;
-  will-change: transform, opacity;
-  }
-  .header-wrapper.no-transition { transition: none !important; }
+  will-change: transform;
+}
 
-  /* Transparent State */
-  .header-wrapper[data-state="transparent"] {
-      background-color: transparent !important;
-      border-bottom: none !important;
-      position: absolute;
-      top: 0; left: 0;
-      {% if section.settings.enable_sticky_blur %}
-        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-      {% endif %}
-  }
+/* --- 3. States Logic --- */
 
-  /* Sticky State (Scrolled Down) */
-  .header-wrapper[data-state="sticky"] {
-      position: fixed; 
-      top: 0; left:0; width: 100%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      background-color: rgb(var(--color-background)) !important; 
-      color: rgb(var(--color-foreground)) !important;
-      z-index: 1000;
-      {% if section.settings.enable_sticky_blur %}
-        background-color: rgba(var(--color-background), 0.3) !important;
-        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      {% endif %}
-      animation: headerSlideDown 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-  }
+/* Standard (Top) State */
+.header-wrapper[data-state="standard"],
+.header-wrapper[data-state="transparent"] {
+  position: absolute; /* Page ke top par fixed rahega */
+  transform: translateY(0);
+  box-shadow: none;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+}
 
-  /* Hidden State (Scroll Down + Hide option) */
-  .header-wrapper[data-state="hidden"] {
-      position: fixed;
-      top: 0; left: 0; width: 100%;
-      transform: translateY(-100%); /* Slides Up */
-      z-index: 1000;
-  }
+/* Home Transparent State */
+.header-wrapper[data-state="transparent"] {
+  background-color: transparent !important;
+  border-bottom: none !important;
+}
 
-  /* Standard State */
-  .header-wrapper[data-state="standard"] {
-      position: relative;
-      background-color: rgb(var(--color-background));
-      color: rgb(var(--color-foreground));
-      border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
-  }
-  /* Slide Down Animation Keyframes */
-@keyframes headerSlideDown {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+/* Sticky State (When Scrolling) */
+.header-wrapper[data-state="sticky"] {
+  position: fixed;
+  transform: translateY(0);
+  background-color: rgba(var(--color-background), 0.85) !important; /* Low opacity for glass effect */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  
+  {% if section.settings.enable_sticky_blur %}
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  {% endif %}
+}
+
+/* Hidden State (Scroll Down behavior) */
+.header-wrapper[data-state="hidden"] {
+  position: fixed;
+  transform: translateY(-100%); /* Smoothly hide up */
+}
+
+/* Remove default jerky animations if any */
+.header-wrapper.no-transition {
+  transition: none !important;
 }
   /* --- MEGA MENU & PRODUCT CARD STYLES --- */
   .cat-strip { 
