@@ -25,76 +25,72 @@
 %}
 
 <style>
-  /* --- 1. Fix Layout Shift (The Jump Fix) --- */
+  /* --- 1. Layout Fix (Elements ko ek line mein rakhne ke liye) --- */
+.header {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100%;
+}
+
+/* Page jump rokne ke liye container height */
 sticky-header {
   display: block;
   position: relative;
+  height: var(--header-height, auto);
   z-index: 100;
-  /* Ye line neechay wale content ko upar jump karne se rokti hai */
-  height: var(--header-height, auto); 
 }
 
-#shopify-section-{{ section.id }}{
-  z-index: 101;
-  position: relative;
-}
-
-/* --- 2. Base Header Wrapper --- */
+/* --- 2. Header Wrapper Base Styles --- */
 .header-wrapper {
   width: 100%;
-  /* Fixed position hamesha rakhein taake layout change na ho */
-  position: fixed;
+  position: absolute; /* Default state mein absolute rahega taake image ke upar aaye */
   top: 0;
   left: 0;
-  background-color: rgb(var(--color-background));
-  color: rgb(var(--color-foreground));
-  /* Smooth transitions */
+  z-index: 1000;
+  background-color: transparent;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
               background-color 0.4s ease, 
-              box-shadow 0.4s ease,
-              backdrop-filter 0.4s ease;
+              box-shadow 0.4s ease;
   will-change: transform;
 }
 
-/* --- 3. States Logic --- */
-
-/* Standard (Top) State */
-.header-wrapper[data-state="standard"],
-.header-wrapper[data-state="transparent"] {
-  position: absolute; /* Page ke top par fixed rahega */
-  transform: translateY(0);
-  box-shadow: none;
-  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
-}
-
-/* Home Transparent State */
+/* --- 3. Transparent State (Home Page par background hatane ke liye) --- */
 .header-wrapper[data-state="transparent"] {
   background-color: transparent !important;
   border-bottom: none !important;
+  box-shadow: none !important;
 }
 
-/* Sticky State (When Scrolling) */
+/* --- 4. Standard State (Other pages par solid color) --- */
+.header-wrapper[data-state="standard"] {
+  position: relative;
+  background-color: rgb(var(--color-background));
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+/* --- 5. Sticky State (FULLY SMOOTH) --- */
 .header-wrapper[data-state="sticky"] {
   position: fixed;
+  background-color: rgba(var(--color-background), 0.8) !important; /* Kam opacity taake blur nazar aaye */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   transform: translateY(0);
-  background-color: rgba(var(--color-background), 0.85) !important; /* Low opacity for glass effect */
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-  
-  {% if section.settings.enable_sticky_blur %}
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  {% endif %}
 }
 
-/* Hidden State (Scroll Down behavior) */
+/* Jab header hide ho raha ho scroll down par */
 .header-wrapper[data-state="hidden"] {
   position: fixed;
-  transform: translateY(-100%); /* Smoothly hide up */
+  transform: translateY(-100%);
 }
 
-/* Remove default jerky animations if any */
-.header-wrapper.no-transition {
-  transition: none !important;
+/* Drawer Menu elements ko row mein alignment fix */
+.header__icons {
+  display: flex !important;
+  align-items: center;
+  gap: 1rem;
 }
   /* --- MEGA MENU & PRODUCT CARD STYLES --- */
   .cat-strip { 
