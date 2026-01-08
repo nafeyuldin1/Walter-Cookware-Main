@@ -363,8 +363,8 @@
                     <img src="{{ product.featured_image | image_url: width: 400 }}" loading="lazy" alt="{{ product.title }}">
                 
 
-                    {%- if product.metafields.custom.badge_text != "" -%}
-                      <span class="cat-prod__sale-badge"> {% if product.metafields.custom.badge_text %} {{ product.metafields.custom.badge_text }}  {%else %} {{ product.metafields.custom.badge_text }} {% endif %} </span>
+                    {%- if product.metafields.custom.badge_text != blank -%}
+                      <span class="cat-prod__sale-badge"> {% if product.metafields.custom.badge_text != blank %} {{ product.metafields.custom.badge_text }}   {% endif %} </span>
                     {%- endif -%}
                   </div>
 
