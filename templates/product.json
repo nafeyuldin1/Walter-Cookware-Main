@@ -1180,7 +1180,7 @@
       "name": "Scroll Text with Image",
       "settings": {
         "bg_color": "#00221c",
-        "text_color": "#ffffff",
+        "text_color": "#c8beab",
         "focus_color": "#bca588",
         "section_image": "shopify://shop_images/review_collectie.png",
         "btn_label": "",
