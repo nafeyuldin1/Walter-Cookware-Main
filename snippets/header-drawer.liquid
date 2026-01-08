@@ -72,7 +72,8 @@ Antibacterial</li></ul>
                 <div class="drawer__cats-list">
                     {%- assign cat_blocks = section.blocks | where: "type", "mobile_category" -%}
                     {% for block in cat_blocks %}
-                        <a style="text-decoration: none;" href="block.settings.collection.url"  class="d-cat-btn" data-target="step-2-{{ block.id }}" data-cat-title="{{ block.settings.title }}">
+                        {% comment %} FIXED: Added Liquid brackets around the href URL {% endcomment %}
+                        <a style="text-decoration: none;" href="{{ block.settings.collection.url }}"  class="d-cat-btn" data-target="step-2-{{ block.id }}" data-cat-title="{{ block.settings.title }}">
                             <div class="d-cat-left">
                                 {% if block.settings.icon %}
                                     <img src="{{ block.settings.icon | image_url: width: 64 }}" class="d-cat-icon">
@@ -303,6 +304,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     catBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
+            // Note: Click will now trigger navigation because of href, 
+            // but the animation might still start briefly. 
+            // Since we want navigation, we let it bubble.
             const targetId = btn.dataset.target;
             const targetStep = document.getElementById(targetId);
             if(targetStep) targetStep.classList.add('is-active');
