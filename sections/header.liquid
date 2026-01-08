@@ -25,46 +25,25 @@
 %}
 
 <style>
-  /* 1. Animation Define Karein */
-@keyframes slideDownSmooth {
-    0% {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
+  /* --- 1. SUPER SMOOTH ANIMATION --- */
+  @keyframes slideDownSmooth {
+      0% {
+          transform: translateY(-100%);
+          opacity: 0;
+      }
+      100% {
+          transform: translateY(0);
+          opacity: 1;
+      }
+  }
 
-/* 2. Base Header Settings (Transition k liye) */
-.header-wrapper {
-    /* Colors change honay par smooth effect */
-    transition: background-color 0.4s ease, box-shadow 0.4s ease;
-    will-change: transform, background-color;
-}
-
-/* 3. Sticky State (Jab scroll neechay ho) - Main Magic */
-.header-wrapper[data-state="sticky"] {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    
-    /* Background aur Shadow */
-    background-color: rgba(var(--color-background), 0.95) !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    color: rgb(var(--color-foreground)) !important;
-
-    /* Animation Apply Karein (Jatka khatam karne k liye) */
-    animation: slideDownSmooth 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-  /* --- CRITICAL FIX: Z-Index and Positioning --- */
+  /* --- 2. CONTAINER SETUP (Prevents Layout Jump) --- */
   sticky-header {
       display: block;
       position: relative;
-      z-index: 999999999999999999999999999999999999; /* Priority Z-Index */
+      /* Ye page content ko jump hone se rokta hai */
+      min-height: var(--header-height, 80px); 
+      z-index: 999999999999999999999999999999999999;
   }
 
   #shopify-section-{{ section.id }}{
@@ -72,7 +51,68 @@
     position: relative;
   }
   
-  /* --- BASE HEADER STYLES --- */
+  /* --- 3. BASE WRAPPER (Transitions) --- */
+  .header-wrapper {
+      width: 100%;
+      background-color: rgb(var(--color-background));
+      color: rgb(var(--color-foreground));
+      /* Color aur Shadow change hone par transition */
+      transition: background-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform, background-color;
+  }
+  .header-wrapper.no-transition { transition: none !important; }
+
+  /* State: Transparent (Top of Page) */
+  .header-wrapper[data-state="transparent"] {
+      background-color: transparent !important;
+      border-bottom: none !important;
+      position: absolute;
+      top: 0; left: 0;
+      {% if section.settings.enable_sticky_blur %}
+        backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px);
+      {% endif %}
+  }
+
+  /* State: Sticky (Scrolled Down) - THE FIX */
+  .header-wrapper[data-state="sticky"] {
+      position: fixed; 
+      top: 0; left:0; width: 100%;
+      
+      /* Subtle Shadow taake alag lage par heavy na ho */
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      
+      /* Background logic */
+      background-color: rgba(var(--color-background), 0.95) !important; 
+      color: rgb(var(--color-foreground)) !important;
+      z-index: 1000;
+      
+      /* Cubic-Bezier Animation: Starts slightly fast, lands very softly */
+      animation: slideDownSmooth 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      
+      {% if section.settings.enable_sticky_blur %}
+        background-color: rgba(var(--color-background), 0.85) !important;
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      {% endif %}
+  }
+
+  /* State: Hidden (Scroll Down + Hide option) */
+  .header-wrapper[data-state="hidden"] {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      transform: translateY(-100%);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+  }
+
+  /* State: Standard */
+  .header-wrapper[data-state="standard"] {
+      position: relative;
+      background-color: rgb(var(--color-background));
+      color: rgb(var(--color-foreground));
+      border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+  }
+  
+  /* --- EXISTING STYLES --- */
   header-drawer { justify-self: start; margin-left: -1.2rem; }
   
   {%- if section.settings.sticky_header_type == 'reduce-logo-size' -%}
@@ -91,58 +131,6 @@
   .list-menu__item--link { text-decoration: none; padding-bottom: 1rem; padding-top: 1rem; line-height: calc(1 + 0.8 / var(--font-body-scale)); }
   
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
-  
-  /* --- HEADER STATE STYLING --- */
-  .header-wrapper {
-      width: 100%;
-      background-color: rgb(var(--color-background));
-      color: rgb(var(--color-foreground));
-      /* Default Transition */
-      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  .header-wrapper.no-transition { transition: none !important; }
-
-  /* Transparent State */
-  .header-wrapper[data-state="transparent"] {
-      background-color: transparent !important;
-      border-bottom: none !important;
-      position: absolute;
-      top: 0; left: 0;
-      {% if section.settings.enable_sticky_blur %}
-        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-      {% endif %}
-  }
-
-  /* Sticky State (Scrolled Down) */
-  .header-wrapper[data-state="sticky"] {
-      position: fixed; 
-      top: 0; left:0; width: 100%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      background-color: rgb(var(--color-background)) !important; 
-      color: rgb(var(--color-foreground)) !important;
-      z-index: 1000;
-      transform: translateY(0);
-      {% if section.settings.enable_sticky_blur %}
-        background-color: rgba(var(--color-background), 0.3) !important;
-        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      {% endif %}
-  }
-
-  /* Hidden State (Scroll Down + Hide option) */
-  .header-wrapper[data-state="hidden"] {
-      position: fixed;
-      top: 0; left: 0; width: 100%;
-      transform: translateY(-100%); /* Slides Up */
-      z-index: 1000;
-  }
-
-  /* Standard State */
-  .header-wrapper[data-state="standard"] {
-      position: relative;
-      background-color: rgb(var(--color-background));
-      color: rgb(var(--color-foreground));
-      border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
-  }
   
   /* --- MEGA MENU & PRODUCT CARD STYLES --- */
   .cat-strip { 
@@ -422,9 +410,9 @@
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11"><path d="M10 4.42728C10 4.51561 9.94792 4.61186 9.84375 4.71603L7.66208 6.84311L8.17875 9.84811C8.18292 9.87603 8.185 9.91645 8.185 9.96853C8.18739 10.0444 8.16533 10.1191 8.12208 10.1814C8.10126 10.2102 8.07357 10.2332 8.04155 10.2485C8.00953 10.2638 7.97418 10.2708 7.93875 10.2689C7.8625 10.2689 7.7825 10.2448 7.69833 10.1964L5 8.77894L2.30167 10.1973C2.21333 10.2452 2.13333 10.2694 2.06125 10.2694C1.97708 10.2694 1.91417 10.2402 1.87208 10.1819C1.82869 10.1195 1.80648 10.0449 1.80875 9.96895C1.80875 9.94478 1.81292 9.90478 1.82125 9.84853L2.33792 6.84395L0.150417 4.71645C0.05 4.6077 0 4.51186 0 4.42728C0 4.27936 0.1125 4.18686 0.336667 4.15103L3.35333 3.71228L4.70542 0.978112C4.78167 0.813529 4.87958 0.731445 5 0.731445C5.12042 0.731445 5.21833 0.813529 5.29458 0.978112L6.64667 3.71228L9.66333 4.15103C9.88792 4.18686 10 4.27936 10 4.42728Z"></path></svg>
-                        
-                        </span>
-                        <span class="loox-rating-label"> {% if product.metafields.custom.product_review_count != blank %}  ({{ product.metafields.custom.product_review_count }}) {% else %} (2,811 reviews) {% endif %} </span>
+                          
+                          </span>
+                          <span class="loox-rating-label"> {% if product.metafields.custom.product_review_count != blank %}  ({{ product.metafields.custom.product_review_count }}) {% else %} (2,811 reviews) {% endif %} </span>
                     </div>
 
                     <div class="cat-prod__title">{{ product.title }}</div>
