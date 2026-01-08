@@ -25,6 +25,41 @@
 %}
 
 <style>
+  /* 1. Animation Define Karein */
+@keyframes slideDownSmooth {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 2. Base Header Settings (Transition k liye) */
+.header-wrapper {
+    /* Colors change honay par smooth effect */
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+    will-change: transform, background-color;
+}
+
+/* 3. Sticky State (Jab scroll neechay ho) - Main Magic */
+.header-wrapper[data-state="sticky"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    
+    /* Background aur Shadow */
+    background-color: rgba(var(--color-background), 0.95) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    color: rgb(var(--color-foreground)) !important;
+
+    /* Animation Apply Karein (Jatka khatam karne k liye) */
+    animation: slideDownSmooth 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
   /* --- CRITICAL FIX: Z-Index and Positioning --- */
   sticky-header {
       display: block;
