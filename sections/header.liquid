@@ -57,70 +57,65 @@
   
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
-/* --- Height Placeholder: Isay hamesha block rehna chahiye --- */
-sticky-header {
-  display: block;
-  position: relative;
-  width: 100%;
-  /* Ye line content ko jump karne se rokti hai */
-  min-height: var(--header-height, 80px); 
-  z-index: 1000;
-}
+  /* --- HEADER STATE STYLING --- */
+  .header-wrapper {
+      width: 100%;
+      background-color: rgb(var(--color-background));
+      color: rgb(var(--color-foreground));
+transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              backdrop-filter 0.4s ease,
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              position 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              top 0.4s cubic-bezier(0.4, 0, 0.2, 1)
 
-/* --- Base Wrapper --- */
-.header-wrapper {
-  width: 100%;
-  background-color: rgb(var(--color-background));
-  color: rgb(var(--color-foreground));
-  transition: background-color 0.5s ease, box-shadow 0.5s ease;
-  will-change: transform, opacity;
-}
 
-/* 1. Standard State (Sub-pages top par jatka khatam karne ke liye) */
-.header-wrapper[data-state="standard"] {
-  position: absolute; /* Relative ki jagah absolute use karein takay transitions smooth hon */
-  top: 0;
-  left: 0;
-  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
-}
+              ;
+  }
+  .header-wrapper.no-transition { transition: none !important; }
 
-/* 2. Transparent State (Home Page Top) */
-.header-wrapper[data-state="transparent"] {
-  position: absolute;
-  top: 0; left: 0;
-  background-color: transparent !important;
-  border-bottom: none !important;
-}
+  /* Transparent State */
+  .header-wrapper[data-state="transparent"] {
+      background-color: transparent !important;
+      border-bottom: none !important;
+      position: absolute;
+      top: 0; left: 0;
+      {% if section.settings.enable_sticky_blur %}
+        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+      {% endif %}
+  }
 
-/* 3. Sticky State: LIGHT & INVISIBLE REVEAL */
-.header-wrapper[data-state="sticky"] {
-  position: fixed;
-  top: 0; left: 0; width: 100%;
-  z-index: 1001;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+  /* Sticky State (Scrolled Down) */
+  .header-wrapper[data-state="sticky"] {
+      position: fixed; 
+      top: 0; left:0; width: 100%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      background-color: rgb(var(--color-background)) !important; 
+      color: rgb(var(--color-foreground)) !important;
+      z-index: 1000;
+      transform: translateY(0);
+      {% if section.settings.enable_sticky_blur %}
+        background-color: rgba(var(--color-background), 0.3) !important;
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      {% endif %}
+  }
+
+  /* Hidden State (Scroll Down + Hide option) */
+  .header-wrapper[data-state="hidden"] {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      transform: translateY(-100%); /* Slides Up */
+      z-index: 1000;
+  }
+
+  /* Standard State */
+  .header-wrapper[data-state="standard"] {
+      position: relative;
+      background-color: rgb(var(--color-background));
+      color: rgb(var(--color-foreground));
+      border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+  }
   
-  /* Halka background jaisa aapne manga tha */
-  background-color: rgba(var(--color-background), 0.3) !important; 
-  {% if section.settings.enable_sticky_blur %}
-    backdrop-filter: blur(12px); 
-    -webkit-backdrop-filter: blur(12px);
-  {% endif %}
-
-  /* Animation itni smooth ke pta na chale */
-  animation: smoothReveal 0.5s cubic-bezier(0.2, 1, 0.2, 1) forwards;
-}
-
-/* 4. Hidden State */
-.header-wrapper[data-state="hidden"] {
-  position: fixed;
-  top: 0; left: 0; width: 100%;
-  transform: translateY(-100%);
-}
-
-@keyframes smoothReveal {
-  0% { transform: translateY(-20px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
-}  
   /* --- MEGA MENU & PRODUCT CARD STYLES --- */
   .cat-strip { 
       display: flex; justify-content: center; gap: 20px; padding: 0 20px; 
