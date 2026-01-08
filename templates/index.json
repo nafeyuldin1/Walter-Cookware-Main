@@ -218,6 +218,16 @@
     "collection_list_jM7Nq3": {
       "type": "collection-list",
       "blocks": {
+        "featured_collection_eAQJTV": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "best-sellers",
+            "custom_image": "shopify://shop_images/4_af39dd21-1635-4247-815c-d627acb9c4bc.png",
+            "badge_text": "Up To 55% OFF",
+            "badge_bg": "#d42a2a",
+            "badge_color": "#ffffff"
+          }
+        },
         "featured_collection_Cym7wy": {
           "type": "featured_collection",
           "settings": {
@@ -238,21 +248,11 @@
             "badge_color": "#ffffff"
           }
         },
-        "featured_collection_eAQJTV": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "kitchen-essentials",
-            "custom_image": "shopify://shop_images/1_a4e82977-bbe4-4abb-822a-d72a832caafe.png",
-            "badge_text": "Up To 55% OFF",
-            "badge_bg": "#d42a2a",
-            "badge_color": "#ffffff"
-          }
-        },
         "featured_collection_Kgfcff": {
           "type": "featured_collection",
           "settings": {
-            "collection": "luxury-homeware",
-            "custom_image": "shopify://shop_images/1_ac548c12-8a0b-4601-b0f1-5fb0d533f662.jpg",
+            "collection": "kitchen-essentials",
+            "custom_image": "shopify://shop_images/1_42a53e7f-1fbb-460a-b73d-7037b112c3ac_1.png",
             "badge_text": "Up To 55% OFF",
             "badge_bg": "#d42a2a",
             "badge_color": "#ffffff"
@@ -260,9 +260,9 @@
         }
       },
       "block_order": [
+        "featured_collection_eAQJTV",
         "featured_collection_Cym7wy",
         "featured_collection_yj4p78",
-        "featured_collection_eAQJTV",
         "featured_collection_Kgfcff"
       ],
       "custom_css": [
