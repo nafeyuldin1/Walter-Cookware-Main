@@ -736,105 +736,6 @@
         "pad_x_m": 0
       }
     },
-    "walter_scroll_text_fade_VVKey4": {
-      "type": "walter-scroll-text-fade",
-      "blocks": {
-        "line_UCemiJ": {
-          "type": "line",
-          "settings": {
-            "text": "At Taima®, Non-Toxic Isn’t A Feature.",
-            "visibility": "desktop",
-            "base_opacity": 40,
-            "base_size_d": 64,
-            "base_size_m": 24
-          }
-        },
-        "line_NVKppD": {
-          "type": "line",
-          "settings": {
-            "text": "At Taima®",
-            "visibility": "mobile",
-            "base_opacity": 40,
-            "base_size_d": 48,
-            "base_size_m": 30
-          }
-        },
-        "line_t3f397": {
-          "type": "line",
-          "settings": {
-            "text": "Non-Toxic",
-            "visibility": "mobile",
-            "base_opacity": 40,
-            "base_size_d": 48,
-            "base_size_m": 30
-          }
-        },
-        "line_Q8nxN7": {
-          "type": "line",
-          "settings": {
-            "text": "Isn’t A Feature.",
-            "visibility": "mobile",
-            "base_opacity": 40,
-            "base_size_d": 48,
-            "base_size_m": 28
-          }
-        },
-        "line_rGpHLY": {
-          "type": "line",
-          "settings": {
-            "text": "It’s The Foundation.",
-            "visibility": "always",
-            "base_opacity": 30,
-            "base_size_d": 48,
-            "base_size_m": 24
-          }
-        },
-        "line_LPJ8ze": {
-          "type": "line",
-          "settings": {
-            "text": "Perfection Isn't a Goal.",
-            "visibility": "always",
-            "base_opacity": 20,
-            "base_size_d": 48,
-            "base_size_m": 24
-          }
-        },
-        "line_VTQ4Vz": {
-          "type": "line",
-          "settings": {
-            "text": "It's Where We Begin.",
-            "visibility": "always",
-            "base_opacity": 10,
-            "base_size_d": 32,
-            "base_size_m": 24
-          }
-        }
-      },
-      "block_order": [
-        "line_UCemiJ",
-        "line_NVKppD",
-        "line_t3f397",
-        "line_Q8nxN7",
-        "line_rGpHLY",
-        "line_LPJ8ze",
-        "line_VTQ4Vz"
-      ],
-      "disabled": true,
-      "name": "Scroll Text Fade",
-      "settings": {
-        "bg_color": "#00221c",
-        "active_color": "#bca588",
-        "inactive_color": "#bca588",
-        "font_family": "bebas_neue_n4",
-        "active_font_size_d": 64,
-        "active_font_size_m": 32,
-        "line_gap": 24,
-        "pt_d": 240,
-        "pb_d": 240,
-        "pt_m": 140,
-        "pb_m": 140
-      }
-    },
     "walter_scroll_text_fade_zNEcyT": {
       "type": "walter-scroll-text-fade",
       "blocks": {
@@ -1187,125 +1088,6 @@
         "btn_text": "#121212",
         "padding_top": 32,
         "padding_bottom": 32
-      }
-    },
-    "walter_reviews_xyX3x4": {
-      "type": "walter-reviews",
-      "blocks": {
-        "tab_L6HpX4": {
-          "type": "tab",
-          "settings": {
-            "title": "Wellness",
-            "cat_id": "wellness"
-          }
-        },
-        "tab_eLNzFF": {
-          "type": "tab",
-          "settings": {
-            "title": "Chefs",
-            "cat_id": "chefs"
-          }
-        },
-        "tab_HHDHt9": {
-          "type": "tab",
-          "settings": {
-            "title": "Chefs",
-            "cat_id": "chefs"
-          }
-        },
-        "tab_d3YrVH": {
-          "type": "tab",
-          "settings": {
-            "title": "Chefs",
-            "cat_id": "chefs"
-          }
-        },
-        "review_xTpnNE": {
-          "type": "review",
-          "settings": {
-            "cat_id": "wellness",
-            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
-            "name": "Sarah",
-            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
-          }
-        },
-        "review_Un6Egy": {
-          "type": "review",
-          "settings": {
-            "cat_id": "wellness",
-            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
-            "name": "Sarah",
-            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
-          }
-        },
-        "review_NfDGni": {
-          "type": "review",
-          "settings": {
-            "cat_id": "wellness",
-            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
-            "name": "Sarah",
-            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
-          }
-        },
-        "review_wDRWWV": {
-          "type": "review",
-          "settings": {
-            "cat_id": "wellness",
-            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
-            "name": "Sarah",
-            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
-          }
-        },
-        "review_B6LENH": {
-          "type": "review",
-          "settings": {
-            "cat_id": "wellness",
-            "image": "shopify://shop_images/Frame_427318199_5_8b2bc32b-31cb-4649-9ad6-b3d64b514283.png",
-            "name": "Sarah",
-            "text": "\"You spend so much on organic produce… why put it on a surface that leaches toxins? Taima completes the loop.\""
-          }
-        }
-      },
-      "block_order": [
-        "tab_L6HpX4",
-        "tab_eLNzFF",
-        "tab_HHDHt9",
-        "tab_d3YrVH",
-        "review_xTpnNE",
-        "review_Un6Egy",
-        "review_NfDGni",
-        "review_wDRWWV",
-        "review_B6LENH"
-      ],
-      "disabled": true,
-      "name": "Reviews Slider Custom",
-      "settings": {
-        "heading": "5,000+ 5-Star Reviews",
-        "center_heading": false,
-        "slides_desktop": 4,
-        "slides_mobile": 1,
-        "card_gap": 10,
-        "bg_color": "#121212",
-        "heading_color": "#bca588",
-        "border_color": "#454545",
-        "tab_text_inactive": "#b0b0b0",
-        "tab_bg_active": "#a3835f",
-        "tab_text_active": "#121212",
-        "arrow_border": "#454545",
-        "arrow_icon": "#454545",
-        "arrow_bg_active": "#a3835f",
-        "arrow_icon_active": "#121212",
-        "card_bg": "#f6f4f0",
-        "card_text": "#252525",
-        "name_color": "#2c1f1c",
-        "star_color": "#b57c46",
-        "max_width": 1600,
-        "heading_size_d": 48,
-        "heading_size_m": 24,
-        "pt_d": 120,
-        "pb_d": 120,
-        "pt_m": 64,
-        "pb_m": 64
       }
     },
     "walter_reviews_Jhczj9": {
@@ -1753,12 +1535,10 @@
     "walter_trust_video_xJUVTn",
     "walter_logo_testimonial_FdQhBX",
     "walter_behind_scene_M9aRc7",
-    "walter_scroll_text_fade_VVKey4",
     "walter_scroll_text_fade_zNEcyT",
     "walter_rethink_cookware_MyXhDw",
     "walter_benefits_EAnCxx",
     "scroll_text_with_image_8XhRp4",
-    "walter_reviews_xyX3x4",
     "walter_reviews_Jhczj9",
     "walter_not_available_L7GyMg",
     "walter_engineered_layers_TWrRby",
