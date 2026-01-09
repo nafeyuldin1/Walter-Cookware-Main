@@ -58,19 +58,17 @@
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
   /* --- HEADER STATE STYLING --- */
+  /* --- BASE STYLE (Same as yours) --- */
   .header-wrapper {
       width: 100%;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
-transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              backdrop-filter 0.4s ease,
-              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              position 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              top 0.4s cubic-bezier(0.4, 0, 0.2, 1)
-
-
-              ;
+      transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                  box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  backdrop-filter 0.4s ease,
+                  transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  position 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .header-wrapper.no-transition { transition: none !important; }
 
@@ -85,7 +83,7 @@ transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
       {% endif %}
   }
 
-  /* Sticky State (Scrolled Down) */
+  /* --- UPDATED STICKY STATE (Smoother Animation) --- */
   .header-wrapper[data-state="sticky"] {
       position: fixed; 
       top: 0; left:0; width: 100%;
@@ -93,20 +91,43 @@ transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
       z-index: 1000;
-      animation: headeranimate 1s;
+      
+      /* Change: 1s se kam kar k 0.4s kiya hai aur 'ease-out' lagaya hai smooth feeling k liye */
+      animation: headeranimate 0.4s ease-out forwards;
+      
       {% if section.settings.enable_sticky_blur %}
         background-color: rgba(var(--color-background), 0.3) !important;
         backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       {% endif %}
   }
-@keyframes headeranimate{
-0%{
- transform: translateY(-100%);
-}
-100%{
- transform: translateY(0%);
-}
-}
+
+  /* --- UPDATED KEYFRAMES --- */
+  @keyframes headeranimate {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0; /* Shuru mein halka sa invisible hoga */
+    }
+    100% {
+      transform: translateY(0%);
+      opacity: 1; /* Phir visible ho jayega */
+    }
+  }
+
+  /* Hidden State */
+  .header-wrapper[data-state="hidden"] {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      transform: translateY(-100%);
+      z-index: 1000;
+  }
+
+  /* Standard State */
+  .header-wrapper[data-state="standard"] {
+      position: relative;
+      background-color: rgb(var(--color-background));
+      color: rgb(var(--color-foreground));
+      border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+  }
   /* Hidden State (Scroll Down + Hide option) */
   .header-wrapper[data-state="hidden"] {
       position: fixed;
