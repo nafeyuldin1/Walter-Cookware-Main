@@ -449,55 +449,61 @@ transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
 {%- endif -%}
 
 <script>
-  class StickyHeader extends HTMLElement {
-    constructor() { super(); }
+ class StickyHeader extends HTMLElement {
+    constructor() { 
+        super(); 
+        this.lastScrollY = 0;
+        this.currentState = null;
+        this.isTransitioning = false;
+    }
     
     connectedCallback() {
-      // --- CRITICAL FIX: The custom element IS the wrapper ---
-      // Pehlay hum child dhoond rahe thay jo ghalat tha.
-      this.wrapper = this; 
-      this.headerContent = this.querySelector('.header');
+        this.wrapper = this;
+        this.headerContent = this.querySelector('.header');
 
-      // Check settings from data attributes
-      this.stickyType = this.getAttribute('data-sticky-type');
-      this.headerIsAlwaysSticky = this.stickyType === 'always' || this.stickyType === 'reduce-logo-size';
-      
-      // Data Attributes for Colors
-      this.classHome = this.getAttribute('data-class-home');
-      this.classDefault = this.getAttribute('data-class-default');
-      this.classSticky = this.getAttribute('data-class-sticky');
-      this.isHome = this.getAttribute('data-is-home') === 'true';
+        // Settings from data attributes
+        this.stickyType = this.getAttribute('data-sticky-type');
+        this.headerIsAlwaysSticky = this.stickyType === 'always' || this.stickyType === 'reduce-logo-size';
+        
+        // Color classes
+        this.classHome = this.getAttribute('data-class-home');
+        this.classDefault = this.getAttribute('data-class-default');
+        this.classSticky = this.getAttribute('data-class-sticky');
+        this.isHome = this.getAttribute('data-is-home') === 'true';
 
-      // Set initial height CSS var
-      this.setHeaderHeight();
-      window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
-      
-      this.currentScrollTop = 0;
-      this.onScrollHandler = this.onScroll.bind(this);
-      
-      window.addEventListener('scroll', this.onScrollHandler, { passive: true });
-      this.onScroll(); // Run immediately to set initial state
-      
-      // Remove loading class
-      setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 1000);
+        // Set initial height
+        this.setHeaderHeight();
+        window.matchMedia('(max-width: 990px)').addEventListener('change', () => this.setHeaderHeight());
+        
+        // Scroll handler
+        this.onScrollHandler = this.onScroll.bind(this);
+        window.addEventListener('scroll', this.onScrollHandler, { passive: true });
+        
+        // Set initial state
+        setTimeout(() => {
+            this.onScroll();
+            this.wrapper.classList.remove('no-transition');
+        }, 50);
 
-      // --- FIX: Menu Drawer Logic ---
-      // Jab drawer open ho, sticky header ko active rakho aur hide mat hone do
-      const details = document.getElementById('Details-menu-drawer-container');
-      if (details) {
-          details.addEventListener('toggle', (event) => {
-              if (details.open) {
-                   this.wrapper.setAttribute('data-state', 'sticky');
-                   this.wrapper.classList.remove(this.classHome, this.classDefault);
-                   if(this.classSticky) this.wrapper.classList.add(this.classSticky);
-              }
-          });
-      }
+        // Menu drawer handling
+        this.setupMenuDrawer();
+    }
+
+    setupMenuDrawer() {
+        const details = document.getElementById('Details-menu-drawer-container');
+        if (details) {
+            details.addEventListener('toggle', () => {
+                if (details.open) {
+                    this.updateState('sticky');
+                }
+            });
+        }
     }
 
     setHeaderHeight() { 
-        if(this.headerContent) {
-            document.documentElement.style.setProperty('--header-height', `${this.headerContent.offsetHeight}px`); 
+        if (this.headerContent) {
+            const height = this.headerContent.offsetHeight;
+            document.documentElement.style.setProperty('--header-height', `${height}px`); 
         }
     }
 
@@ -506,107 +512,114 @@ transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     }
 
     onScroll() {
-      // Agar menu drawer open hai, to scroll logic ko bypass karo
-      const menuDrawer = document.querySelector('details[id^="Details-menu-drawer-container"]');
-      if (menuDrawer && menuDrawer.hasAttribute('open')) return;
+        // Skip if menu drawer is open
+        const menuDrawer = document.querySelector('details[id^="Details-menu-drawer-container"]');
+        if (menuDrawer && menuDrawer.hasAttribute('open')) return;
 
-      const scrollTop = window.scrollY;
-      const headerHeight = this.headerContent ? this.headerContent.offsetHeight : 100;
-      const triggerPoint = headerHeight / 2;
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        const headerHeight = this.headerContent ? this.headerContent.offsetHeight : 100;
+        
+        // IMPORTANT: Sticky hoga exactly jab header height cross ho
+        const threshold = headerHeight;
 
-      // Scroll Direction Check
-      const isScrollDown = scrollTop > this.currentScrollTop && scrollTop > triggerPoint;
-      const isScrollUp = scrollTop < this.currentScrollTop && scrollTop > triggerPoint;
-      const isAtTop = scrollTop <= triggerPoint;
+        let newState;
 
-      if (isAtTop) {
-         // Top par: Home hai to Transparent, warna Standard
-         if (this.isHome) {
-            this.updateState('transparent');
-         } else {
-            this.updateState('standard');
-         }
-      } 
-      else if (isScrollDown) {
-         // Neechay scroll: Hide karo agar "On Scroll Up" setting hai, warna Sticky rakho
-         if (this.stickyType === 'on-scroll-up') {
-             this.updateState('hidden');
-         } else if (this.headerIsAlwaysSticky) {
-             this.updateState('sticky');
-         }
-      } 
-      else if (isScrollUp) {
-         // Upar scroll: Hamesha Show Sticky
-         this.updateState('sticky');
-      }
+        if (scrollY < threshold) {
+            // Header height se pehle - original state
+            newState = this.isHome ? 'transparent' : 'standard';
+        } else {
+            // Header height cross kar li - ab sticky logic
+            const isScrollingDown = scrollY > this.lastScrollY;
+            
+            if (this.stickyType === 'on-scroll-up') {
+                newState = isScrollingDown ? 'hidden' : 'sticky';
+            } else if (this.headerIsAlwaysSticky) {
+                newState = 'sticky';
+            } else {
+                newState = this.isHome ? 'transparent' : 'standard';
+            }
+        }
 
-      this.currentScrollTop = scrollTop;
+        this.updateState(newState);
+        this.lastScrollY = scrollY;
     }
 
     updateState(newState) {
-       if(!this.wrapper) return;
-       const currentState = this.wrapper.getAttribute('data-state');
-       if(currentState === newState) return;
-       
-       this.wrapper.setAttribute('data-state', newState);
-       
-       // Clean old classes
-       this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
-       
-       // Apply new color class based on state
-       if(newState === 'sticky') {
-           if(this.classSticky) this.wrapper.classList.add(this.classSticky);
-       } else if (newState === 'transparent') {
-           if(this.classHome) this.wrapper.classList.add(this.classHome);
-       } else if (newState === 'standard') {
-           if(this.classDefault) this.wrapper.classList.add(this.classDefault);
-       }
-    }
-  }
-  
-  if (!customElements.get('sticky-header')) {
-    customElements.define('sticky-header', StickyHeader);
-  }
+        if (!this.wrapper || this.currentState === newState || this.isTransitioning) return;
+        
+        this.isTransitioning = true;
+        this.currentState = newState;
+        
+        // Update state
+        this.wrapper.setAttribute('data-state', newState);
+        
+        // Clean old color classes
+        this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
+        
+        // Apply new color class
+        if (newState === 'sticky' && this.classSticky) {
+            this.wrapper.classList.add(this.classSticky);
+        } else if (newState === 'transparent' && this.classHome) {
+            this.wrapper.classList.add(this.classHome);
+        } else if (newState === 'standard' && this.classDefault) {
+            this.wrapper.classList.add(this.classDefault);
+        }
 
-  // Mega Menu Logic (Unchanged)
-  document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+            this.isTransitioning = false;
+        }, 350);
+    }
+}
+
+if (!customElements.get('sticky-header')) {
+    customElements.define('sticky-header', StickyHeader);
+}
+
+// ============================================
+// MEGA MENU LOGIC (Keep as is)
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
     const wrapper = document.getElementById('cat-portals-wrapper');
     const tabs = document.querySelectorAll('.cat-strip__item');
     const portals = document.querySelectorAll('.cat-portal');
-    const headerSection = document.querySelector('sticky-header'); // Fix selector
+    const headerSection = document.querySelector('sticky-header');
     
-    if(!wrapper) return;
+    if (!wrapper) return;
 
     function closeMenu() {
-      wrapper.classList.remove('is-open');
-      setTimeout(() => { if(!wrapper.classList.contains('is-open')) wrapper.style.display = 'none'; }, 300);
-      tabs.forEach(t => t.classList.remove('is-active'));
-      portals.forEach(p => p.setAttribute('aria-hidden', 'true'));
+        wrapper.classList.remove('is-open');
+        setTimeout(() => { 
+            if (!wrapper.classList.contains('is-open')) {
+                wrapper.style.display = 'none'; 
+            }
+        }, 300);
+        tabs.forEach(t => t.classList.remove('is-active'));
+        portals.forEach(p => p.setAttribute('aria-hidden', 'true'));
     }
 
     tabs.forEach(tab => {
-      tab.addEventListener('mouseenter', function() {
-        const key = this.dataset.key;
-        tabs.forEach(t => t.classList.remove('is-active'));
-        portals.forEach(p => p.setAttribute('aria-hidden', 'true'));
-        
-        this.classList.add('is-active');
-        const target = document.querySelector(`.cat-portal[data-key="${key}"]`);
-        
-        if(target) {
-          wrapper.style.display = 'block';
-          requestAnimationFrame(() => {
-              wrapper.classList.add('is-open');
-              target.setAttribute('aria-hidden', 'false');
-          });
-        }
-      });
+        tab.addEventListener('mouseenter', function() {
+            const key = this.dataset.key;
+            tabs.forEach(t => t.classList.remove('is-active'));
+            portals.forEach(p => p.setAttribute('aria-hidden', 'true'));
+            
+            this.classList.add('is-active');
+            const target = document.querySelector(`.cat-portal[data-key="${key}"]`);
+            
+            if (target) {
+                wrapper.style.display = 'block';
+                requestAnimationFrame(() => {
+                    wrapper.classList.add('is-open');
+                    target.setAttribute('aria-hidden', 'false');
+                });
+            }
+        });
     });
     
-    if(headerSection) {
+    if (headerSection) {
         headerSection.addEventListener('mouseleave', closeMenu);
     }
-  });
+});
 </script>
 
 <script type="application/ld+json">
