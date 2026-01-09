@@ -384,45 +384,36 @@
 {%- when 'product_icons_block' -%}
 <div class="pf-wrap product-block-icons" {{ block.shopify_attributes }}>
   
-  <div class="pf-nav-wrapper">
-    <button class="pf-arrow pf-prev" aria-label="Previous" type="button">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
+  {% comment %} --- Buttons removed, just the track remains --- {% endcomment %}
+  <div class="pf-track" role="list">
+    {%- for i in (1..8) -%}
+      {%- capture icon_img_key -%}icon_{{ i }}{%- endcapture -%}
+      {%- capture text_l1_key -%}text_{{ i }}_l1{%- endcapture -%}
+      {%- capture text_l2_key -%}text_{{ i }}_l2{%- endcapture -%}
+        
+      {%- assign icon_image = block.settings[icon_img_key] -%}
+      {%- assign text_line1 = block.settings[text_l1_key] -%}
+      {%- assign text_line2 = block.settings[text_l2_key] -%}
 
-    <div class="pf-track" role="list">
-      {%- for i in (1..8) -%}
-        {%- capture icon_img_key -%}icon_{{ i }}{%- endcapture -%}
-        {%- capture text_l1_key -%}text_{{ i }}_l1{%- endcapture -%}
-        {%- capture text_l2_key -%}text_{{ i }}_l2{%- endcapture -%}
-          
-        {%- assign icon_image = block.settings[icon_img_key] -%}
-        {%- assign text_line1 = block.settings[text_l1_key] -%}
-        {%- assign text_line2 = block.settings[text_l2_key] -%}
-
-        {%- if text_line1 != blank or icon_image != blank -%}
-          <div class="pf-item" role="listitem">
-            <div class="pf-icon">
-              {%- if icon_image != blank -%}
-                <img
-                  src="{{ icon_image | img_url: '80x80' }}"
-                  alt="{{ text_line1 }} {{ text_line2 }}"
-                  width="40" height="40" loading="lazy">
-              {%- else -%}
-                <div class="pf-icon__ph"></div> 
-              {%- endif -%}
-            </div>
-            <div class="pf-text">
-              <span class="pf-line1">{{ text_line1 }}</span>
-              <span class="pf-line2">{{ text_line2 }}</span>
-            </div>
+      {%- if text_line1 != blank or icon_image != blank -%}
+        <div class="pf-item" role="listitem">
+          <div class="pf-icon">
+            {%- if icon_image != blank -%}
+              <img
+                src="{{ icon_image | img_url: '80x80' }}"
+                alt="{{ text_line1 }} {{ text_line2 }}"
+                width="40" height="40" loading="lazy">
+            {%- else -%}
+              <div class="pf-icon__ph"></div> 
+            {%- endif -%}
           </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
-
-    <button class="pf-arrow pf-next" aria-label="Next" type="button">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
+          <div class="pf-text">
+            <span class="pf-line1">{{ text_line1 }}</span>
+            <span class="pf-line2">{{ text_line2 }}</span>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
   </div>
 
   <div class="pf-progress" aria-hidden="true">
@@ -437,19 +428,13 @@
     max-width: 100%; position: relative;
   }
 
-  .pf-nav-wrapper {
-    display: flex;
-    align-items: center;
-    position: relative;
-    gap: 5px;
-  }
-
   .product-block-icons .pf-track {
     display: flex; gap: 12px; align-items: flex-start;
     overflow-x: auto; scrollbar-width: none;
-    scroll-behavior: smooth; /* Smooth sliding for arrows */
+    scroll-behavior: smooth; 
     padding: 10px 0;
     flex: 1;
+    width: 100%;
   }
   .product-block-icons .pf-track::-webkit-scrollbar { display: none; }
     
@@ -460,26 +445,6 @@
 
   .product-block-icons .pf-text { font-size: 12px; line-height: 1.4; color: inherit; }
   .product-block-icons .pf-line1, .product-block-icons .pf-line2 { display: block; }
-
-  /* Arrow Styles */
-  .pf-arrow {
-    background: #fff;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    z-index: 2;
-    flex-shrink: 0;
-    color: #000;
-    transition: all 0.3s ease;
-  }
-  .pf-arrow:hover { background: #f8f8f8; transform: scale(1.1); }
-  .pf-arrow svg { width: 15px; height: 15px; }
 
   /* Progress Bar */
   .product-block-icons .pf-progress {
@@ -494,38 +459,26 @@
   @media (max-width: 768px){
     .product-block-icons .pf-track { gap: 8px; }
     .product-block-icons .pf-item { width: 80px; flex: 0 0 80px; }
+    .product-block-icons .pf-progress { display: block; }
   }
 </style>
 
 <script>
   (function(){
+    // Find the wrapper relative to this script
     var wrap = document.currentScript.previousElementSibling.previousElementSibling;
     if(!wrap) return;
      
     var track = wrap.querySelector('.pf-track');
     var bar = wrap.querySelector('.pf-progress__bar');
-    var nextBtn = wrap.querySelector('.pf-next');
-    var prevBtn = wrap.querySelector('.pf-prev');
 
-    if(track){
-      // Arrow Click Logic
-      if(nextBtn) {
-        nextBtn.addEventListener('click', function() {
-          track.scrollBy({ left: 150, behavior: 'smooth' });
-        });
-      }
-      if(prevBtn) {
-        prevBtn.addEventListener('click', function() {
-          track.scrollBy({ left: -150, behavior: 'smooth' });
-        });
-      }
-
-      // Progress Bar Logic
+    if(track && bar){
+      // Progress Bar Logic (Kept mostly for mobile scroll indication)
       track.addEventListener('scroll', function(){
         var max = track.scrollWidth - track.clientWidth;
         if(max <= 0) return;
         var percent = (track.scrollLeft / max) * 100;
-        if(bar) bar.style.width = percent + '%';
+        bar.style.width = percent + '%';
       });
     }
   })();
