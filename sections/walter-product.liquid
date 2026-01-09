@@ -501,7 +501,7 @@
   (function(){
     var wrap = document.currentScript.previousElementSibling.previousElementSibling;
     if(!wrap) return;
-    
+     
     var track = wrap.querySelector('.pf-track');
     var bar = wrap.querySelector('.pf-progress__bar');
     var nextBtn = wrap.querySelector('.pf-next');
@@ -814,7 +814,7 @@
       #pb-bundles-{{ section.id }} .pb-wrap { margin: 24px 0; border-radius: 12px; overflow: hidden; }
       #pb-bundles-{{ section.id }} .pb-option-group { margin-bottom: 20px; }
       #pb-bundles-{{ section.id }} .pb-option-title { margin-bottom: 10px; font-weight: bold; font-size: 14px; display:flex; justify-content:space-between; align-items:center; color:{{ block.settings.label_color }}; }
-        
+       
       /* --- Option Row 1 (e.g. Size/Set) - Flex Style --- */
       #pb-bundles-{{ section.id }} .pb-opt-row-1 { 
         display: flex; gap:10px; flex-wrap:wrap;
@@ -848,7 +848,7 @@
         color: {{ block.settings.color_btn_active_text }};
         font-weight: bold; border-color: {{ block.settings.color_btn_active_bg }};
       }
-        
+       
       /* Bundle Cards */
       #pb-bundles-{{ section.id }} .pb-card { 
         background: {{ block.settings.card_bg }}; 
@@ -1035,7 +1035,7 @@
     (function() {
       // Raw variant data for Main Product
       var bundleVariants = {{ product.variants | json }};
-       
+        
       // State tracker for current selections (Main Product)
       var state = [
         "{{ product.options_with_values[0].selected_value | escape }}",
@@ -1062,7 +1062,6 @@
          if(btnPrice) btnPrice.innerText = priceText;
 
          // --- NEW: Update Main Price Display for Bundle Selection ---
-         // Jab bundle card select ho, toh main price bhi update ho jaye
          var mainSection = document.getElementById('ProductInfo-{{ section.id }}');
          if(mainSection){
              var salePrice = mainSection.querySelector('.price-item--sale');
@@ -1079,14 +1078,12 @@
          // 6. SWAP IMAGE (Force update main image)
          var newImageSrc = card.getAttribute('data-image');
          if(newImageSrc && newImageSrc !== "null") {
-             // Look for standard product image elements
              var mainImage = document.querySelector('.product__media img') || 
                              document.querySelector('.product-media-modal__content img') || 
                              document.querySelector('.global-media-settings');
              
              if(mainImage) {
                  mainImage.src = newImageSrc;
-                 // Important: Clear or update srcset to prevent browser using old image at different resolutions
                  mainImage.srcset = newImageSrc; 
              }
          }
@@ -1117,11 +1114,8 @@
         // 4. Find Matching Variant
         var matched = bundleVariants.find(function(v) {
           var match = true;
-          // Option 1 Check
           if(state[0] && v.option1 !== state[0]) match = false;
-          // Option 2 Check (if exists)
           if(state[1] && v.option2 !== state[1]) match = false;
-          // Option 3 Check (if exists)
           if(state[2] && v.option3 !== state[2]) match = false;
           return match;
         });
@@ -1131,8 +1125,9 @@
           var input = document.getElementById('bundle-variant-input');
           if(input) input.value = matched.id;
 
-          // Format Price
-          var formattedPrice = '$' + (matched.price / 100).toFixed(2);
+          // Format Prices - Using toFixed(0) so no decimals as per requested style
+          var formattedPrice = '$' + (matched.price / 100).toFixed(0);
+          var formattedCompare = '$' + (matched.compare_at_price / 100).toFixed(0);
 
           // Update Price on Add to Cart Button
           var btnPrice = document.getElementById('bundle-price-display');
@@ -1141,15 +1136,28 @@
           // --- FIX: Update Main Product Price (Title k neechay) ---
           var mainSection = document.getElementById('ProductInfo-{{ section.id }}');
           if(mainSection){
-              // Dono sale aur regular price check kar k update kar rahe hain
+              var priceContainer = mainSection.querySelector('.price'); // Main container to toggle classes
               var salePrice = mainSection.querySelector('.price-item--sale');
               var regularPrice = mainSection.querySelector('.price__regular .price-item--regular');
-              
-              if(salePrice) {
-                  salePrice.innerText = formattedPrice;
-              }
-              if(regularPrice) {
-                  regularPrice.innerText = formattedPrice;
+              // Try to find the compare s tag, fallback if structure varies
+              var comparePrice = mainSection.querySelector('.price__sale s.price-item--regular');
+              if(!comparePrice) comparePrice = mainSection.querySelector('.price__sale .price-item--regular');
+
+              if(matched.compare_at_price > matched.price) {
+                  // --- SHOW COMPARE PRICE (SALE ACTIVE) ---
+                  if(priceContainer) {
+                      priceContainer.classList.add('price--on-sale');
+                      priceContainer.classList.remove('price--no-compare');
+                  }
+                  if(salePrice) salePrice.innerText = formattedPrice;
+                  if(comparePrice) comparePrice.innerText = formattedCompare;
+              } else {
+                  // --- HIDE COMPARE PRICE (NORMAL PRICE) ---
+                  if(priceContainer) {
+                      priceContainer.classList.remove('price--on-sale');
+                      priceContainer.classList.add('price--no-compare');
+                  }
+                  if(regularPrice) regularPrice.innerText = formattedPrice;
               }
           }
 
@@ -1239,7 +1247,7 @@
         {{ block.settings.tab_3_label }} <span class="pit-underline"></span>
       </button>
     </div>
-     
+      
     <div class="pit-panels">
       <div id="panel-1-{{ block.id }}" class="pit-panel is-active">
         <div class="pit-content-wrap" id="wrap-1-{{ block.id }}">
@@ -1303,7 +1311,7 @@
         btn.innerText = "Show Less";
       }
     }
-    
+     
     // Auto-hide button if content is short
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll('.pit-content-wrap').forEach(function(wrap) {
