@@ -69,7 +69,7 @@
         "text_block": {
           "type": "text",
           "settings": {
-            "text": "<p>Titanium offers something rare in modern cookware: strength, stability, and reliability without constant replacement. It does not rely on temporary coatings, does not degrade through normal use, and remains consistent over time. The result is cookware that supports your cooking instead of working against it.</p><h3>Our philosophy</h3><p>We design cookware for people who take cooking seriously. Not professionally, necessarily, but intentionally. People who value tools they can trust, day after day.</p><p>Every Walter Cookware product is created with a focus on:</p><ul><li><br/>Long-term durability<br/></li><li><br/>Honest construction<br/></li><li><br/>Consistent performance in real kitchens<br/></li></ul><p>We work with carefully selected production partners who share these values. Each piece is inspected and tested to meet strict standards before it reaches your kitchen. No shortcuts, no unnecessary additions.</p>"
+            "text": "<p>Titanium offers something rare in modern cookware: strength, stability, and reliability without constant replacement. It does not rely on temporary coatings, does not degrade through normal use, and remains consistent over time. The result is cookware that supports your cooking instead of working against it.</p><h3>Our philosophy</h3><p>We design cookware for people who take cooking seriously. Not professionally, necessarily, but intentionally. People who value tools they can trust, day after day.</p><p>Every Walter Cookware product is created with a focus on:</p><ul><li>Long-term durability<br/></li><li>Honest construction<br/></li><li>Consistent performance in real kitchens</li></ul><p>We work with carefully selected production partners who share these values. Each piece is inspected and tested to meet strict standards before it reaches your kitchen. No shortcuts, no unnecessary additions.</p>"
           }
         }
       },
@@ -100,7 +100,7 @@
         "text_block": {
           "type": "text",
           "settings": {
-            "text": "<p><strong>Acknowledgements</strong></p><p>To everyone who chose Walter Cookware: thank you. Your trust gave meaning to our work. Although this is the end of our company, we hope that our pans, pots, and principles will continue to cook in your kitchens for many years to come.</p>"
+            "text": "<h3>Built for everyday cooking</h3><p>Walter Cookware is not about trends or quick solutions. It is about creating cookware that becomes part of your routine, your habits, and your way of cooking. Pieces you reach for instinctively, because they simply work.</p><p>Whether you cook for yourself, your family, or the people you care about most, our goal is to provide cookware that feels dependable, balanced, and built to last.</p><p>Thank you for choosing Walter Cookware and for being part of our story.</p>"
           }
         },
         "button_block": {
