@@ -58,80 +58,55 @@
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
   /* --- HEADER STATE STYLING --- */
-  <style>
-  /* --- Global Header Wrapper Transition --- */
-  /* Ye transition har state change (Sticky <-> Transparent) ko smooth banaye gi */
   .header-wrapper {
       width: 100%;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
-      /* Smooth transition properties */
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                  background-color 0.4s ease, 
-                  box-shadow 0.4s ease, 
-                  top 0.4s ease;
-      will-change: transform, background-color; /* Performance Optimization */
-  }
+transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              backdrop-filter 0.4s ease,
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              position 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              top 0.4s cubic-bezier(0.4, 0, 0.2, 1)
 
-  /* --- 1. Transparent State (Top of Page) --- */
+
+              ;
+  }
+  .header-wrapper.no-transition { transition: none !important; }
+
+  /* Transparent State */
   .header-wrapper[data-state="transparent"] {
       background-color: transparent !important;
       border-bottom: none !important;
       position: absolute;
-      top: 0; 
-      left: 0;
-      transform: translateY(0); /* Apni jagah par smooth wapis aye ga */
-      z-index: 1000;
+      top: 0; left: 0;
       {% if section.settings.enable_sticky_blur %}
-        backdrop-filter: blur(0px); /* Blur remove smooth transition k sath */
-        -webkit-backdrop-filter: blur(0px);
+        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
       {% endif %}
   }
 
-  /* --- 2. Sticky State (Scrolled Down) --- */
+  /* Sticky State (Scrolled Down) */
   .header-wrapper[data-state="sticky"] {
       position: fixed; 
-      top: 0; 
-      left: 0; 
-      width: 100%;
+      top: 0; left:0; width: 100%;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
       z-index: 1000;
-      
-      /* Slide Down Animation Logic using Transform */
-      animation: slideDown 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
-
+      animation: headeranimate 1s;
       {% if section.settings.enable_sticky_blur %}
-        background-color: rgba(var(--color-background), 0.85) !important;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background-color: rgba(var(--color-background), 0.3) !important;
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       {% endif %}
   }
-
-  /* --- 3. Hidden State (Scroll Up Logic) --- */
-  .header-wrapper[data-state="hidden"] {
-      position: fixed;
-      top: 0; 
-      left: 0; 
-      width: 100%;
-      transform: translateY(-100%); /* Smoothly Upar Chupa dega */
-      z-index: 1000;
-      transition: transform 0.4s ease; /* Ensure exit is smooth */
-  }
-
-  /* --- Smooth Animation Keyframes --- */
-  @keyframes slideDown {
-      0% {
-          transform: translateY(-100%);
-          opacity: 0;
-      }
-      100% {
-          transform: translateY(0);
-          opacity: 1;
-      }
-  }
-</style>
+@keyframes headeranimate{
+0%{
+ transform: translateY(-100%);
+}
+100%{
+ transform: translateY(0%);
+}
+}
   /* Hidden State (Scroll Down + Hide option) */
   .header-wrapper[data-state="hidden"] {
       position: fixed;
