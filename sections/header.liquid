@@ -29,11 +29,11 @@
   sticky-header {
       display: block;
       position: relative;
-      z-index: 1000; /* Adjusted for better stacking */
+      z-index: 999999999999999999999999999999999999; /* Priority Z-Index */
   }
 
   #shopify-section-{{ section.id }}{
-    z-index: 1000;
+    z-index: 999999999999999999999999999999999999;
     position: relative;
   }
   
@@ -57,16 +57,20 @@
   
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
-  /* --- HEADER STATE STYLING (UPDATED FOR SMOOTHNESS) --- */
+  /* --- HEADER STATE STYLING --- */
   .header-wrapper {
       width: 100%;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
-      /* Smooth transitions for all properties */
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                  background-color 0.4s ease,
-                  box-shadow 0.4s ease;
-      will-change: transform; /* Performance optimization */
+transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              backdrop-filter 0.4s ease,
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              position 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              top 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+
+
+              ;
   }
   .header-wrapper.no-transition { transition: none !important; }
 
@@ -89,10 +93,9 @@
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
       z-index: 1000;
-      /* Animation Slide Down */
-      animation: smoothSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      transform: translateY(0);
       {% if section.settings.enable_sticky_blur %}
-        background-color: rgba(var(--color-background), 0.85) !important; /* Slightly more opaque for readability */
+        background-color: rgba(var(--color-background), 0.3) !important;
         backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       {% endif %}
   }
@@ -101,9 +104,8 @@
   .header-wrapper[data-state="hidden"] {
       position: fixed;
       top: 0; left: 0; width: 100%;
-      transform: translateY(-100%); /* Slides Up Smoothly */
+      transform: translateY(-100%); /* Slides Up */
       z-index: 1000;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Standard State */
@@ -112,17 +114,6 @@
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
       border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
-      transform: translateY(0);
-  }
-
-  /* Keyframes for Smooth Entrance */
-  @keyframes smoothSlideDown {
-    0% {
-      transform: translateY(-100%);
-    }
-    100% {
-      transform: translateY(0);
-    }
   }
   
   /* --- MEGA MENU & PRODUCT CARD STYLES --- */
@@ -445,6 +436,7 @@
     
     connectedCallback() {
       // --- CRITICAL FIX: The custom element IS the wrapper ---
+      // Pehlay hum child dhoond rahe thay jo ghalat tha.
       this.wrapper = this; 
       this.headerContent = this.querySelector('.header');
 
@@ -472,6 +464,7 @@
       setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 300);
 
       // --- FIX: Menu Drawer Logic ---
+      // Jab drawer open ho, sticky header ko active rakho aur hide mat hone do
       const details = document.getElementById('Details-menu-drawer-container');
       if (details) {
           details.addEventListener('toggle', (event) => {
@@ -479,7 +472,6 @@
                    this.wrapper.setAttribute('data-state', 'sticky');
                    this.wrapper.classList.remove(this.classHome, this.classDefault);
                    if(this.classSticky) this.wrapper.classList.add(this.classSticky);
-                   this.style.height = this.headerContent.offsetHeight + 'px';
               }
           });
       }
@@ -502,8 +494,7 @@
 
       const scrollTop = window.scrollY;
       const headerHeight = this.headerContent ? this.headerContent.offsetHeight : 100;
-      // --- UPDATE: Trigger only after full height to avoid glitching visual ---
-      const triggerPoint = headerHeight; 
+      const triggerPoint = headerHeight / 2;
 
       // Scroll Direction Check
       const isScrollDown = scrollTop > this.currentScrollTop && scrollTop > triggerPoint;
@@ -541,15 +532,6 @@
        
        this.wrapper.setAttribute('data-state', newState);
        
-       // --- JATKA FIX: Reserve Height Logic ---
-       // Jab element fixed hota hai, to parent container (sticky-header) ki height 0 ho jati hai.
-       // Hum manually height set karengay taake page jump na kare.
-       if (newState === 'sticky' || newState === 'hidden') {
-           this.style.height = this.headerContent.offsetHeight + 'px';
-       } else {
-           this.style.height = 'auto'; // Reset for standard/transparent
-       }
-
        // Clean old classes
        this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
        
