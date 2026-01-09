@@ -483,9 +483,9 @@ summary.list-menu__item { padding-right: 2.7rem; }
 class StickyHeader extends HTMLElement {
     constructor() { 
         super(); 
-        this.lastScrollTop = 0;
-        this.scrollThreshold = 10; // Minimum scroll to trigger
-        this.ticking = false;
+        this.lastScrollY = 0;
+        this.currentState = null;
+        this.isTransitioning = false;
     }
     
     connectedCallback() {
@@ -506,40 +506,18 @@ class StickyHeader extends HTMLElement {
         this.setHeaderHeight();
         window.matchMedia('(max-width: 990px)').addEventListener('change', () => this.setHeaderHeight());
         
-        // Optimized scroll handler with requestAnimationFrame
-        this.onScrollHandler = () => {
-            if (!this.ticking) {
-                window.requestAnimationFrame(() => {
-                    this.onScroll();
-                    this.ticking = false;
-                });
-                this.ticking = true;
-            }
-        };
-        
+        // Scroll handler
+        this.onScrollHandler = this.onScroll.bind(this);
         window.addEventListener('scroll', this.onScrollHandler, { passive: true });
         
-        // Set initial state immediately
-        this.setInitialState();
-        
-        // Remove loading class after a brief delay
-        requestAnimationFrame(() => {
-            setTimeout(() => this.wrapper.classList.remove('no-transition'), 100);
-        });
+        // Set initial state
+        setTimeout(() => {
+            this.onScroll();
+            this.wrapper.classList.remove('no-transition');
+        }, 50);
 
         // Menu drawer handling
         this.setupMenuDrawer();
-    }
-
-    setInitialState() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const headerHeight = this.headerContent ? this.headerContent.offsetHeight : 100;
-        
-        if (scrollTop <= headerHeight / 2) {
-            this.updateState(this.isHome ? 'transparent' : 'standard', false);
-        } else {
-            this.updateState('sticky', false);
-        }
     }
 
     setupMenuDrawer() {
@@ -547,7 +525,7 @@ class StickyHeader extends HTMLElement {
         if (details) {
             details.addEventListener('toggle', () => {
                 if (details.open) {
-                    this.updateState('sticky', false);
+                    this.updateState('sticky');
                 }
             });
         }
@@ -569,45 +547,37 @@ class StickyHeader extends HTMLElement {
         const menuDrawer = document.querySelector('details[id^="Details-menu-drawer-container"]');
         if (menuDrawer && menuDrawer.hasAttribute('open')) return;
 
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
         const headerHeight = this.headerContent ? this.headerContent.offsetHeight : 100;
-        const triggerPoint = headerHeight / 2;
+        const threshold = headerHeight * 0.5;
 
-        // Determine scroll direction
-        const scrollDelta = scrollTop - this.lastScrollTop;
-        const isScrollingDown = scrollDelta > this.scrollThreshold;
-        const isScrollingUp = scrollDelta < -this.scrollThreshold;
-        const isAtTop = scrollTop <= triggerPoint;
+        let newState;
 
-        // State logic
-        if (isAtTop) {
-            // At top of page
-            this.updateState(this.isHome ? 'transparent' : 'standard');
-        } 
-        else if (isScrollingDown && scrollTop > triggerPoint) {
-            // Scrolling down
+        if (scrollY <= threshold) {
+            // At top
+            newState = this.isHome ? 'transparent' : 'standard';
+        } else {
+            // Scrolled down
+            const isScrollingDown = scrollY > this.lastScrollY;
+            
             if (this.stickyType === 'on-scroll-up') {
-                this.updateState('hidden');
+                newState = isScrollingDown ? 'hidden' : 'sticky';
             } else if (this.headerIsAlwaysSticky) {
-                this.updateState('sticky');
+                newState = 'sticky';
+            } else {
+                newState = this.isHome ? 'transparent' : 'standard';
             }
-        } 
-        else if (isScrollingUp && scrollTop > triggerPoint) {
-            // Scrolling up - always show sticky
-            this.updateState('sticky', true);
         }
 
-        this.lastScrollTop = scrollTop;
+        this.updateState(newState);
+        this.lastScrollY = scrollY;
     }
 
-    updateState(newState, withReveal = false) {
-        if (!this.wrapper) return;
+    updateState(newState) {
+        if (!this.wrapper || this.currentState === newState || this.isTransitioning) return;
         
-        const currentState = this.wrapper.getAttribute('data-state');
-        if (currentState === newState) return;
-        
-        // Remove reveal class first
-        this.wrapper.classList.remove('reveal');
+        this.isTransitioning = true;
+        this.currentState = newState;
         
         // Update state
         this.wrapper.setAttribute('data-state', newState);
@@ -616,18 +586,17 @@ class StickyHeader extends HTMLElement {
         this.wrapper.classList.remove(this.classHome, this.classDefault, this.classSticky);
         
         // Apply new color class
-        switch(newState) {
-            case 'sticky':
-                if (this.classSticky) this.wrapper.classList.add(this.classSticky);
-                if (withReveal) this.wrapper.classList.add('reveal');
-                break;
-            case 'transparent':
-                if (this.classHome) this.wrapper.classList.add(this.classHome);
-                break;
-            case 'standard':
-                if (this.classDefault) this.wrapper.classList.add(this.classDefault);
-                break;
+        if (newState === 'sticky' && this.classSticky) {
+            this.wrapper.classList.add(this.classSticky);
+        } else if (newState === 'transparent' && this.classHome) {
+            this.wrapper.classList.add(this.classHome);
+        } else if (newState === 'standard' && this.classDefault) {
+            this.wrapper.classList.add(this.classDefault);
         }
+
+        setTimeout(() => {
+            this.isTransitioning = false;
+        }, 350);
     }
 }
 
