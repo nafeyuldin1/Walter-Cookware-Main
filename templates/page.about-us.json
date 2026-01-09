@@ -23,14 +23,14 @@
         "heading_block": {
           "type": "heading",
           "settings": {
-            "heading": "A final chapter for Walter Cookware",
+            "heading": "Walter Cookware",
             "heading_size": "h1"
           }
         },
         "text_block": {
           "type": "text",
           "settings": {
-            "text": "<p>After years of dedication to healthy cooking, we are saying goodbye. Walter Cookware is closing its doors, but the mission with which it began remains: better cooking starts with better materials.</p>"
+            "text": "<p>At Walter Cookware, we believe that the tools you cook with matter just as much as the ingredients you choose. Not because it sounds good, but because it shows up every single time you step into the kitchen.</p><p>We started Walter Cookware after seeing the same problem over and over again: cookware that looks good at first, but quickly shows wear, loses performance, or introduces unnecessary compromises into everyday cooking. We knew there had to be a better standard. One built on materials that last, thoughtful design, and a clear purpose.</p><p>That belief led us to titanium.</p>"
           }
         }
       },
@@ -50,15 +50,16 @@
     "image_section": {
       "type": "image-banner",
       "settings": {
-        "image": "shopify:\/\/shop_images\/WhatsApp_Image_2025-10-21_at_12.35.13.jpg",
+        "image": "shopify://shop_images/WhatsApp_Image_2025-10-21_at_12.35.13.jpg",
         "image_overlay_opacity": 0,
         "image_height": "medium",
+        "image_behavior": "none",
         "desktop_content_position": "middle-center",
-        "show_text_box": false,
         "desktop_content_alignment": "center",
+        "show_text_box": false,
         "color_scheme": "background-1",
-        "mobile_content_alignment": "center",
         "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
         "show_text_below": true
       }
     },
@@ -68,7 +69,7 @@
         "text_block": {
           "type": "text",
           "settings": {
-            "text": "<p><strong>Our philosophy</strong></p><p>From the outset, our vision was clear—to create cookware that is safe, durable, and timeless. No compromises, no short-term trends. Only reliable products that will bring years of enjoyment in the kitchen.</p><p>We have always believed that what you use to cook is just as important as what you cook. Health, quality, and responsibility were central to every design.</p><p><strong>What we stood for</strong></p><ul><li><strong>Purposeful design:</strong> Each product started with a sleek, functional design that improved the cooking experience.</li><li><strong>Reliable production:</strong> We worked exclusively with certified partners who shared our values.</li><li><strong>Strict control:</strong> Each item was carefully tested before it ended up in your kitchen.</li><li><strong>Transparency:</strong> You always had the right to know how and where your cookware was made.</li></ul>"
+            "text": "<p>Titanium offers something rare in modern cookware: strength, stability, and reliability without constant replacement. It does not rely on temporary coatings, does not degrade through normal use, and remains consistent over time. The result is cookware that supports your cooking instead of working against it.</p><h3>Our philosophy</h3><p>We design cookware for people who take cooking seriously. Not professionally, necessarily, but intentionally. People who value tools they can trust, day after day.</p><p>Every Walter Cookware product is created with a focus on:</p><ul><li><br/>Long-term durability<br/></li><li><br/>Honest construction<br/></li><li><br/>Consistent performance in real kitchens<br/></li></ul><p>We work with carefully selected production partners who share these values. Each piece is inspected and tested to meet strict standards before it reaches your kitchen. No shortcuts, no unnecessary additions.</p>"
           }
         }
       },
@@ -106,8 +107,11 @@
           "type": "button",
           "settings": {
             "button_label": "View our products",
-            "button_link": "shopify:\/\/collections",
-            "button_style_secondary": false
+            "button_link": "shopify://collections",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
           }
         }
       },
