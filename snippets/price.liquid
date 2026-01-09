@@ -119,7 +119,7 @@
     </div>
     {%- if show_badges -%}
       <span class="badge price__badge-sale color-{{ settings.sale_badge_color_scheme }}">
-        SALE ENDS SOON!
+       {% if block.settings.badge_text  != blank %}  {{ block.settings.badge_text }} {%else %} SALE ENDS SOON! {% endif %}
       </span>
 
       <span class="badge price__badge-sold-out color-{{ settings.sold_out_badge_color_scheme }}">
