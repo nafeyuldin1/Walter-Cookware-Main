@@ -57,32 +57,110 @@
   
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
-  /* Sticky State (Scrolled Down) */
+  /* --- CRITICAL FIX: Z-Index and Positioning --- */
+  sticky-header {
+      display: block;
+      position: relative;
+      z-index: 9999999999;
+  }
+
+  #shopify-section-{{ section.id }}{
+    z-index: 9999999999;
+    position: relative;
+  }
+  
+  /* --- BASE HEADER STYLES --- */
+  header-drawer { justify-self: start; margin-left: -1.2rem; }
+  
+  {%- if section.settings.sticky_header_type == 'reduce-logo-size' -%}
+    .scrolled-past-header .header__heading-logo-wrapper { width: 75%; transition: width 0.3s ease; }
+  {%- endif -%}
+  
+  {%- if section.settings.menu_type_desktop != "drawer" -%}
+    @media screen and (min-width: 990px) { header-drawer { display: none; } }
+  {%- endif -%}
+  
+  .menu-drawer-container { display: flex; }
+  .list-menu { list-style: none; padding: 0; margin: 0; }
+  .list-menu--inline { display: inline-flex; flex-wrap: wrap; }
+  summary.list-menu__item { padding-right: 2.7rem; }
+  .list-menu__item { display: flex; align-items: center; line-height: calc(1 + 0.3 / var(--font-body-scale)); }
+  .list-menu__item--link { text-decoration: none; padding-bottom: 1rem; padding-top: 1rem; line-height: calc(1 + 0.8 / var(--font-body-scale)); }
+  
+  @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
+  
+  /* --- FIXED HEADER WRAPPER (Jatka Resolved) --- */
+  .header-wrapper {
+      width: 100%;
+      background-color: rgb(var(--color-background));
+      color: rgb(var(--color-foreground));
+      
+      /* FIX 1: Yahan se 'position' aur 'transform' hata diya hai ta k wapis jate hue jerk na lage */
+      transition: background-color 0.4s ease, 
+                  box-shadow 0.4s ease,
+                  backdrop-filter 0.4s ease;
+  }
+  
+  .header-wrapper.no-transition { transition: none !important; }
+
+  /* Transparent State (Home Top) */
+  .header-wrapper[data-state="transparent"] {
+      background-color: transparent !important;
+      border-bottom: none !important;
+      position: absolute;
+      top: 0; left: 0;
+      {% if section.settings.enable_sticky_blur %}
+        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+      {% endif %}
+  }
+
+  /* Sticky State (Jab scroll down ho) */
   .header-wrapper[data-state="sticky"] {
       position: fixed; 
       top: 0; left:0; width: 100%;
-      z-index: 1000;
-
-      /* Same background as your theme (No change) */
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      z-index: 1000;
       
-      /* --- MAIN FIX: Transition band karni parti hai ta k Animation smooth chalay --- */
-      transition: none !important; 
+      /* FIX 2: Sticky hotay waqt smooth animation */
+      animation: headerSlideDown 0.4s ease-out forwards;
       
-      /* Smooth Slide Animation */
-      animation: headeranimate 0.4s ease-out forwards;
+      {% if section.settings.enable_sticky_blur %}
+        background-color: rgba(var(--color-background), 0.3) !important;
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      {% endif %}
   }
 
-  /* Keyframes for sliding down */
-  @keyframes headeranimate {
-      0% {
-          transform: translateY(-100%);
-      }
-      100% {
-          transform: translateY(0);
-      }
+  /* Standard State (Jab wapis normal ho) */
+  .header-wrapper[data-state="standard"] {
+      position: relative;
+      background-color: rgb(var(--color-background));
+      color: rgb(var(--color-foreground));
+      border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+      /* FIX 3: Wapis atay waqt koi animation nahi ta k apni jagah foran fit ho jaye */
+      transform: none !important;
+  }
+
+  /* Animation Keyframes */
+  @keyframes headerSlideDown {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Hidden State */
+  .header-wrapper[data-state="hidden"] {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      transform: translateY(-100%);
+      transition: transform 0.4s ease; /* Hide/Show smooth rakhne k liye */
+      z-index: 1000;
   }
   /* Hidden State (Scroll Down + Hide option) */
   .header-wrapper[data-state="hidden"] {
