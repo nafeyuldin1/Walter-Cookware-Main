@@ -57,36 +57,6 @@
   
   @media screen and (min-width: 750px) { .list-menu__item--link { padding-bottom: 0.5rem; padding-top: 0.5rem; } }
   
-  /* --- HEADER STATE STYLING --- */
-  .header-wrapper {
-      width: 100%;
-      background-color: rgb(var(--color-background));
-      color: rgb(var(--color-foreground));
-transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              backdrop-filter 0.4s ease,
-              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              position 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              top 0.4s cubic-bezier(0.4, 0, 0.2, 1)
-
-
-              ;
-  }
-  .header-wrapper.no-transition { transition: none !important; }
-
-  /* Transparent State */
-  .header-wrapper[data-state="transparent"] {
-      background-color: transparent !important;
-      border-bottom: none !important;
-      position: absolute;
-      top: 0; left: 0;
-      {% if section.settings.enable_sticky_blur %}
-        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-      {% endif %}
-      animation: headeranimatee 0.5s;
-
-  }
-
   /* Sticky State (Scrolled Down) */
   .header-wrapper[data-state="sticky"] {
       position: fixed; 
@@ -95,32 +65,30 @@ transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
       z-index: 1000;
-      animation: headeranimate 0.5s;
+      
+      /* --- CRITICAL FIX: Transition ko off karein taake Animation work kare --- */
+      transition: none !important; 
+
+      /* Smooth Slide Down Animation */
+      animation: headerSlideDown 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      
       {% if section.settings.enable_sticky_blur %}
         background-color: rgba(var(--color-background), 0.3) !important;
         backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       {% endif %}
   }
-@keyframes headeranimate{
-0%{
- transform: translateY(-100%);
- position: unset;
-}
-100%{
- transform: translateY(0%);
- position: fixed;
 
-}
-}
-@keyframes headeranimatee{
-0%{
- position: fixed;
-}
-100%{
- position: unset;
-
-}
-}
+  /* --- ANIMATION KEYFRAMES --- */
+  @keyframes headerSlideDown {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
   /* Hidden State (Scroll Down + Hide option) */
   .header-wrapper[data-state="hidden"] {
       position: fixed;
