@@ -62,15 +62,10 @@
       width: 100%;
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
-transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              backdrop-filter 0.4s ease,
-              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              position 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              top 0.4s cubic-bezier(0.4, 0, 0.2, 1)
-
-
-              ;
+      /* FIX: Main transition for smooth glide */
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                  background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.4s ease;
   }
   .header-wrapper.no-transition { transition: none !important; }
 
@@ -80,11 +75,10 @@ transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
       border-bottom: none !important;
       position: absolute;
       top: 0; left: 0;
+      transform: translateY(0);
       {% if section.settings.enable_sticky_blur %}
         backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
       {% endif %}
-      animation: headeranimatee 0.5s;
-
   }
 
   /* Sticky State (Scrolled Down) */
@@ -95,36 +89,20 @@ transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
       z-index: 1000;
-      animation: headeranimate 0.5s;
+      transform: translateY(0); /* Smooth slide to 0 */
       {% if section.settings.enable_sticky_blur %}
         background-color: rgba(var(--color-background), 0.3) !important;
         backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       {% endif %}
   }
-@keyframes headeranimate{
-0%{
- transform: translateY(-100%);
-}
-100%{
- transform: translateY(0%);
 
-}
-}
-@keyframes headeranimatee{
-0%{
- transform: translateY(10%);
-}
-100%{
- transform: translateY(0%);
-
-}
-}
   /* Hidden State (Scroll Down + Hide option) */
   .header-wrapper[data-state="hidden"] {
       position: fixed;
       top: 0; left: 0; width: 100%;
-      transform: translateY(-100%); /* Slides Up */
+      transform: translateY(-100%); /* Slides Up Smoothly */
       z-index: 1000;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Standard State */
@@ -133,6 +111,7 @@ transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
       background-color: rgb(var(--color-background));
       color: rgb(var(--color-foreground));
       border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+      transform: translateY(0);
   }
   
   /* --- MEGA MENU & PRODUCT CARD STYLES --- */
