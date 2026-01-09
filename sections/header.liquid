@@ -479,7 +479,7 @@ transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
       this.onScroll(); // Run immediately to set initial state
       
       // Remove loading class
-      setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 300);
+      setTimeout(() => { if(this.wrapper) this.wrapper.classList.remove('no-transition'); }, 1000);
 
       // --- FIX: Menu Drawer Logic ---
       // Jab drawer open ho, sticky header ko active rakho aur hide mat hone do
