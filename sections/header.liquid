@@ -61,33 +61,28 @@
   .header-wrapper[data-state="sticky"] {
       position: fixed; 
       top: 0; left:0; width: 100%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      z-index: 1000;
+
+      /* Same background as your theme (No change) */
       background-color: rgb(var(--color-background)) !important; 
       color: rgb(var(--color-foreground)) !important;
-      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       
-      /* --- CRITICAL FIX: Transition ko off karein taake Animation work kare --- */
+      /* --- MAIN FIX: Transition band karni parti hai ta k Animation smooth chalay --- */
       transition: none !important; 
-
-      /* Smooth Slide Down Animation */
-      animation: headerSlideDown 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
       
-      {% if section.settings.enable_sticky_blur %}
-        background-color: rgba(var(--color-background), 0.3) !important;
-        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      {% endif %}
+      /* Smooth Slide Animation */
+      animation: headeranimate 0.4s ease-out forwards;
   }
 
-  /* --- ANIMATION KEYFRAMES --- */
-  @keyframes headerSlideDown {
-    0% {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
+  /* Keyframes for sliding down */
+  @keyframes headeranimate {
+      0% {
+          transform: translateY(-100%);
+      }
+      100% {
+          transform: translateY(0);
+      }
   }
   /* Hidden State (Scroll Down + Hide option) */
   .header-wrapper[data-state="hidden"] {
