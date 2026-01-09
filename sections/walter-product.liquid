@@ -530,85 +530,51 @@
     }
   })();
 </script>
-           {%- when 'price' -%}
-  <div id="block-{{ block.id }}" role="status" {{ block.shopify_attributes }}>
-    <style>
-      /* --- Price Block Settings --- */
-      #block-{{ block.id }} {
-        background-color: {{ block.settings.bg_color }};
-        border-radius: 8px;
-        /* Padding optional based on design */
-      }
+              {%- when 'price' -%}
+                <div id="block-{{ block.id }}" role="status" {{ block.shopify_attributes }}>
+                <style>
+  /* Base/Desktop Styles */
+  #block-{{ block.id }} {
+    background-color: {{ block.settings.bg_color }};
+    border-radius: 8px;
+  }
 
-      /* Main Price */
-      #block-{{ block.id }} .price-item--regular, 
-      #block-{{ block.id }} .price-item--sale {
-        font-size: {{ block.settings.main_price_size }}px !important;
-        color: {{ block.settings.price_color }} !important;
-      }
+  #block-{{ block.id }} .price-item--regular, 
+  #block-{{ block.id }} .price-item--sale {
+    font-size: {{ block.settings.main_price_size }}px !important;
+    color: {{ block.settings.price_color }} !important;
+  }
 
-      /* Sale Price Specific Color */
-      #block-{{ block.id }} .price-item--sale {
-        color: {{ block.settings.sale_price_color }} !important;
-      }
+  #block-{{ block.id }} .price-item--sale {
+    color: {{ block.settings.sale_price_color }} !important;
+  }
 
-      /* Compare At Price (Crossed Out) */
-      #block-{{ block.id }} .price__sale .price-item--regular,
-      #block-{{ block.id }} s.price-item {
-        font-size: {{ block.settings.compare_price_size }}px !important;
-        color: {{ block.settings.compare_price_color }} !important;
-        text-decoration: line-through;
-      }
+  #block-{{ block.id }} .price__sale .price-item--regular {
+    font-size: {{ block.settings.compare_price_size }}px !important;
+    color: {{ block.settings.compare_price_color }} !important;
+    text-decoration: line-through;
+  }
 
-      /* --- Percentage / Sale Badge Settings --- */
-      #block-{{ block.id }} .badge,
-      #block-{{ block.id }} .price__badge-sale {
-        background-color: {{ block.settings.badge_bg }} !important;
-        color: {{ block.settings.badge_text }} !important;
-        font-size: {{ block.settings.badge_font_size }}px !important;
-        border: 1px solid {{ block.settings.badge_bg }} !important; /* Matches BG */
-        border-radius: 4px; /* Optional rounded corners */
-        padding: 4px 8px;
-      }
+  /* Mobile Media Query (under 749px) */
+  @media screen and (max-width: 749px) {
+    #block-{{ block.id }} .price-item--regular, 
+    #block-{{ block.id }} .price-item--sale {
+      /* 20% reduction: multiplying by 0.8 */
+      font-size: {{ block.settings.main_price_size | times: 0.8 | round }}px !important;
+    }
 
-      /* Mobile Media Query (Scale down by 20% on mobile) */
-      @media screen and (max-width: 749px) {
-        #block-{{ block.id }} .price-item--regular, 
-        #block-{{ block.id }} .price-item--sale {
-          font-size: {{ block.settings.main_price_size | times: 0.8 | round }}px !important;
-        }
-        #block-{{ block.id }} .price__sale .price-item--regular,
-        #block-{{ block.id }} s.price-item {
-          font-size: {{ block.settings.compare_price_size | times: 0.8 | round }}px !important;
-        }
-        #block-{{ block.id }} .badge,
-        #block-{{ block.id }} .price__badge-sale {
-          font-size: {{ block.settings.badge_font_size | times: 0.9 | round }}px !important;
-        }
-      }
-    </style>
-
-    {%- render 'price',
-      product: product,
-      use_variant: true,
-      show_badges: true,
-      price_class: 'price--large'
-    -%}
-  </div>
-
-  {%- if product.quantity_price_breaks_configured? -%}
-    <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
-      <span>{{ 'products.product.volume_pricing.note' | t }}</span>
-    </div>
-  {%- endif -%}
-
-  <div {{ block.shopify_attributes }}>
-    {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
-    {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
-      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-      {{ form | payment_terms }}
-    {%- endform -%}
-  </div>
+    #block-{{ block.id }} .price__sale .price-item--regular {
+      /* 20% reduction for compare price */
+      font-size: {{ block.settings.compare_price_size | times: 0.8 | round }}px !important;
+    }
+  }
+</style>
+                  {%- render 'price',
+                    product: product,
+                    use_variant: true,
+                    show_badges: true,
+                    price_class: 'price--large'
+                  -%}
                 </div>
                 {%- if product.quantity_price_breaks_configured? -%}
                   <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
