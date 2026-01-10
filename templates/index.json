@@ -105,6 +105,8 @@
         "height_mobile": 90,
         "margin_top": 0,
         "margin_bottom": 0,
+        "video_desktop": "shopify://files/videos/iStock-802972818 (1).mp4",
+        "video_mobile": "shopify://files/videos/iStock-802972818 (1).mp4",
         "overlay_color": "#000000",
         "overlay_opacity": 30,
         "kicker": "🎁 Seasonal Offers — Limited Time 🎁",
@@ -399,6 +401,7 @@
           "settings": {
             "image": "shopify://shop_images/macaron_2-min.webp",
             "pill_text": "TITANIUM PAN",
+            "video": "shopify://files/videos/Amazon.com Plateful Titanium Pan For Cooking 12 - Pure No Coatin.mp4",
             "video_url": "",
             "title": "Fantastic!",
             "quote": "Best pan I have ever used.",
@@ -410,6 +413,7 @@
           "settings": {
             "image": "shopify://shop_images/steak_2-min.webp",
             "pill_text": "TITANIUM PAN",
+            "video": "shopify://files/videos/istockphoto-802972818-640_adpp_is.mp4",
             "video_url": "",
             "title": "Fantastic!",
             "quote": "Best pan I have ever used.",
@@ -421,6 +425,7 @@
           "settings": {
             "image": "shopify://shop_images/steak-min.jpg",
             "pill_text": "TITANIUM PAN",
+            "video": "shopify://files/videos/8e2184d2bfc6463c89ac775fec60d5d5.mp4",
             "video_url": "",
             "title": "Fantastic!",
             "quote": "Best pan I have ever used.",
@@ -495,6 +500,7 @@
         "signature_img": "shopify://shop_images/Gemini_Generated_Image_yxffpiyxffpiyxff.png",
         "sig_width_d": 120,
         "sig_width_m": 100,
+        "video": "shopify://files/videos/730e5c408b13408498a7fc7f26683aaf_36b40784-70ce-4a0c-951f-6e1b22c04abc.mp4",
         "video_url_mp4": "",
         "enable_autoplay": true,
         "enable_loop": true,
