@@ -102,8 +102,8 @@
       "settings": {
         "enable_overlap": true,
         "height_desktop": 900,
-        "height_mobile": 90,
-        "margin_top": 0,
+        "height_mobile": 80,
+        "margin_top": -100,
         "margin_bottom": 0,
         "video_desktop": "shopify://files/videos/iStock-802972818 (1).mp4",
         "video_mobile": "shopify://files/videos/iStock-802972818 (1).mp4",
