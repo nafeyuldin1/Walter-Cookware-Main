@@ -1048,9 +1048,6 @@
     </div>
 <script>
     (function() {
-      // Global variable to track selected bundle
-      window.selectedBundleAddonId = null;
-
       // Raw variant data for Main Product
       var bundleVariants = {{ product.variants | json }};
         
@@ -1061,12 +1058,11 @@
         "{{ product.options_with_values[2].selected_value | escape }}"
       ];
 
-      // --- FUNCTION TO SELECT BUNDLE CARD (Updated) ---
+      // --- FUNCTION TO SELECT BUNDLE CARD ---
       window.selectBundleProduct = function(card, variantId, priceText) {
          // 1. Check if already active (toggle off)
          if (card.classList.contains('active')) {
              card.classList.remove('active');
-             window.selectedBundleAddonId = null; // Clear bundle ID
              
              // Reset price display to Main Product Price (optional logic)
              var mainPrice = "{{ product.selected_or_first_available_variant.price | money }}";
@@ -1084,32 +1080,25 @@
          // 3. Add active class to clicked card
          card.classList.add('active');
 
-         // 4. Store Bundle ID in global variable
-         window.selectedBundleAddonId = variantId;
-
-         // 5. Update Price on Button (Visual only)
+         // 4. Update Price on Button (Visual only)
          var btnPrice = document.getElementById('bundle-price-display');
          if(btnPrice) btnPrice.innerText = priceText;
       };
 
       // --- FUNCTION TO HANDLE MAIN OPTIONS CHANGE ---
       window.handleBundleOptionChange = function(element) {
-        // 1. Identify which Option Group this belongs to (0, 1, or 2)
         var group = element.closest('.pb-option-group');
         var optionIndex = parseInt(group.getAttribute('data-option-index'));
 
-        // 2. UI: Update Active Class (Only within THIS group)
         var buttons = group.querySelectorAll('div[data-value]');
         buttons.forEach(function(btn) {
           btn.classList.remove('active');
         });
         element.classList.add('active');
 
-        // 3. Update State
         var value = element.getAttribute('data-value');
         state[optionIndex] = value;
 
-        // 4. Find Matching Variant
         var matched = bundleVariants.find(function(v) {
           var match = true;
           if(state[0] && v.option1 !== state[0]) match = false;
@@ -1127,12 +1116,13 @@
           var formattedPrice = '$' + (matched.price / 100).toFixed(0);
 
           // Update Price on Add to Cart Button (Only if no bundle selected)
-          if (!window.selectedBundleAddonId) {
+          var activeCard = document.querySelector('.pb-card.active');
+          if (!activeCard) {
               var btnPrice = document.getElementById('bundle-price-display');
               if(btnPrice) btnPrice.innerText = formattedPrice;
           }
 
-          // Update Media (if available in main gallery)
+          // Update Media
           if(matched.featured_media) {
              const sectionId = "{{ section.id }}";
              const gallery = document.querySelector(`product-info[id="MainProduct-${sectionId}"] media-gallery`);
@@ -1143,40 +1133,47 @@
         }
       };
 
-      // --- HYBRID ADD TO CART FUNCTION ---
+      // --- ROBUST ADD TO CART FUNCTION ---
       window.handleAddToCart = function(e) {
-         // If NO bundle is selected, do NOTHING (let the form submit naturally = Drawer Opens)
-         if (!window.selectedBundleAddonId) {
+         const btn = document.getElementById('bundle-atc-btn');
+         
+         // 1. Check if we should BYPASS our custom logic (flag set by us previously)
+         if (btn.getAttribute('data-bypass') === 'true') {
+             btn.removeAttribute('data-bypass');
+             return; // Let the form submit naturally -> Theme handles drawer
+         }
+
+         // 2. CHECK DOM: Is any bundle card visually selected?
+         const activeCard = document.querySelector('.pb-card.active');
+         
+         // If NO bundle selected, do nothing (Standard behavior)
+         if (!activeCard) {
              return; 
          }
 
-         // If Bundle IS selected, intercept submission
+         // 3. If Bundle IS selected -> INTERCEPT
          e.preventDefault();
-         const btn = document.getElementById('bundle-atc-btn');
          const originalText = btn.innerHTML;
-         
-         // 1. Add BUNDLE ITEM via AJAX
          btn.innerText = 'Adding...';
+         
+         // Get ID from the DOM element directly
+         const bundleId = activeCard.getAttribute('data-id');
 
+         // 4. Add BUNDLE ITEM via AJAX
          fetch(window.Shopify.routes.root + 'cart/add.js', {
              method: 'POST',
              headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify({ items: [{ id: window.selectedBundleAddonId, quantity: 1 }] })
+             body: JSON.stringify({ items: [{ id: bundleId, quantity: 1 }] })
          })
-         .then(response => {
-             // 2. On success, remove the bundle ID tracker so the next click counts as "No Bundle"
-             window.selectedBundleAddonId = null;
-             
-             // 3. Restore Button Text
-             btn.innerHTML = originalText;
-             
-             // 4. TRIGGER THE BUTTON CLICK AGAIN
-             // Since selectedBundleAddonId is now null, this click will pass through step 1 above,
-             // submitting the form normally. This adds the Main Product AND triggers the Theme Drawer.
-             btn.click();
+         .then(() => {
+             // 5. Success -> Set BYPASS flag and re-click button
+             // This will submit the Main Product Form via the Theme's standard handler
+             btn.innerText = originalText;
+             btn.setAttribute('data-bypass', 'true');
+             btn.click(); 
          })
          .catch((error) => {
-             console.error('Error:', error);
+             console.error('Error adding bundle:', error);
              btn.innerHTML = originalText;
          });
       };
