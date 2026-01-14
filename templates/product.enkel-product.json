@@ -119,7 +119,7 @@
             "card_bg": "rgba(0,0,0,0)",
             "card_border": "#f6f4f0",
             "card_text": "#ffffff",
-            "card_price_color": "#ffffff",
+            "card_price_color": "#bca588",
             "active_card_bg": "rgba(0,0,0,0)",
             "active_card_border": "#03231a",
             "badge_bg": "#bca588",
