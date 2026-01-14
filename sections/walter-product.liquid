@@ -1022,14 +1022,15 @@
     {% endif %}
       
     <div class="pb-atc-wrap">
-      {% comment %} --- CHANGED FORM TO DIV TO PREVENT STANDARD SUBMIT --- {% endcomment %}
-      <div class="product-form" id="bundle-form-{{ section.id }}">
+      {% comment %} --- RESTORED FORM TAG --- {% endcomment %}
+      <form method="post" action="/cart/add" class="product-form" id="bundle-form-{{ section.id }}" novalidate="novalidate">
         <input type="hidden" name="id" id="bundle-variant-input" value="{{ product.selected_or_first_available_variant.id }}">
-        {% comment %} --- Button type changed to button and onclick added --- {% endcomment %}
-        <button type="button" class="pb-atc-btn" id="bundle-atc-btn" onclick="handleAddToCart(event)">
+        
+        {% comment %} --- Button type changed back to submit, onclick retained for interception --- {% endcomment %}
+        <button type="submit" class="pb-atc-btn" id="bundle-atc-btn" onclick="handleAddToCart(event)">
             {{ 'products.product.add_to_cart' | t }} - <span id="bundle-price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
         </button>
-      </div>
+      </form>
     </div>
     <div class="secure-checkout" style="margin-top:15px; text-align:center;">
       <div class="secure-note" style="font-size: 12px; opacity: 1; ">
@@ -1083,14 +1084,12 @@
          // 3. Add active class to clicked card
          card.classList.add('active');
 
-         // 4. Store Bundle ID in global variable (DO NOT OVERWRITE MAIN INPUT)
+         // 4. Store Bundle ID in global variable
          window.selectedBundleAddonId = variantId;
 
          // 5. Update Price on Button (Visual only)
          var btnPrice = document.getElementById('bundle-price-display');
          if(btnPrice) btnPrice.innerText = priceText;
-
-         // --- IMAGE SWAP REMOVED AS REQUESTED ---
       };
 
       // --- FUNCTION TO HANDLE MAIN OPTIONS CHANGE ---
@@ -1144,48 +1143,37 @@
         }
       };
 
-      // --- NEW ADD TO CART FUNCTION (HANDLES BOTH ITEMS) ---
+      // --- HYBRID ADD TO CART FUNCTION ---
       window.handleAddToCart = function(e) {
+         // If NO bundle is selected, do NOTHING (let the form submit naturally = Drawer Opens)
+         if (!window.selectedBundleAddonId) {
+             return; 
+         }
+
+         // If Bundle IS selected, intercept submission
          e.preventDefault();
          const btn = document.getElementById('bundle-atc-btn');
          const originalText = btn.innerHTML;
          
-         // Get Main Product ID
-         const mainVariantId = document.getElementById('bundle-variant-input').value;
-         
-         // Prepare Items Array
-         const itemsToAdd = [];
-         
-         // 1. Always add Main Product
-         itemsToAdd.push({
-             id: mainVariantId,
-             quantity: 1
-         });
-
-         // 2. If Bundle is selected, add Bundle Product
-         if (window.selectedBundleAddonId) {
-             itemsToAdd.push({
-                 id: window.selectedBundleAddonId,
-                 quantity: 1
-             });
-         }
-
+         // 1. Add BUNDLE ITEM via AJAX
          btn.innerText = 'Adding...';
 
-         // AJAX Request to Shopify Cart
          fetch(window.Shopify.routes.root + 'cart/add.js', {
              method: 'POST',
-             headers: {
-                 'Content-Type': 'application/json'
-             },
-             body: JSON.stringify({ items: itemsToAdd })
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({ items: [{ id: window.selectedBundleAddonId, quantity: 1 }] })
          })
          .then(response => {
-             return response.json();
-         })
-         .then(data => {
-             // Redirect to Cart (or open drawer if configured)
-             window.location.href = '/cart';
+             // 2. On success, remove the bundle ID tracker so the next click counts as "No Bundle"
+             window.selectedBundleAddonId = null;
+             
+             // 3. Restore Button Text
+             btn.innerHTML = originalText;
+             
+             // 4. TRIGGER THE BUTTON CLICK AGAIN
+             // Since selectedBundleAddonId is now null, this click will pass through step 1 above,
+             // submitting the form normally. This adds the Main Product AND triggers the Theme Drawer.
+             btn.click();
          })
          .catch((error) => {
              console.error('Error:', error);
