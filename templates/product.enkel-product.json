@@ -121,7 +121,7 @@
             "card_text": "#ffffff",
             "card_price_color": "#bca588",
             "active_card_bg": "rgba(0,0,0,0)",
-            "active_card_border": "#03231a",
+            "active_card_border": "#f3f3f3",
             "badge_bg": "#bca588",
             "badge_text": "#03231a",
             "badge_font_size": 10,
