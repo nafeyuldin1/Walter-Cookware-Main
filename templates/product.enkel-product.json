@@ -45,7 +45,8 @@
             "main_price_size": 35,
             "sale_price_color": "#ffffff",
             "compare_price_color": "#bca588",
-            "compare_price_size": 30
+            "compare_price_size": 30,
+            "badge_text": ""
           }
         },
         "benefits_grid_AbMNV3": {
@@ -140,7 +141,7 @@
             "size_guide_text": "",
             "guarantee_color": "#ffffff",
             "guarantee_text": "Guaranteed Safe & Secure Checkout",
-            "enable_bundles": false,
+            "enable_bundles": true,
             "bundles_heading": "Or Select Bundle & Save",
             "bundle_product_1": "titanium-hammered-pan",
             "bundle_title_1": "",
