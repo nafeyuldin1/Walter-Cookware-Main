@@ -1133,7 +1133,7 @@
         }
       };
 
-      // --- ROBUST ADD TO CART FUNCTION ---
+      // --- ROBUST ADD TO CART FUNCTION (FIXED) ---
       window.handleAddToCart = function(e) {
          const btn = document.getElementById('bundle-atc-btn');
          
@@ -1153,7 +1153,7 @@
 
          // 3. If Bundle IS selected -> INTERCEPT
          e.preventDefault();
-         const originalText = btn.innerHTML;
+         const originalText = btn.innerHTML; // Save correct HTML
          btn.innerText = 'Adding...';
          
          // Get ID from the DOM element directly
@@ -1167,19 +1167,20 @@
          })
          .then(() => {
              // 5. Success -> Set BYPASS flag and re-click button
-             // This will submit the Main Product Form via the Theme's standard handler
-             btn.innerText = originalText;
+             // FIX: Use innerHTML instead of innerText to restore spans/tags
+             btn.innerHTML = originalText; 
              btn.setAttribute('data-bypass', 'true');
              btn.click(); 
          })
          .catch((error) => {
              console.error('Error adding bundle:', error);
+             // FIX: Use innerHTML here too
              btn.innerHTML = originalText;
          });
       };
 
     })();
-  </script>
+</script>
 
               {%- when 'shipping_bar' -%}
                 <div class="shipbar" style="background: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};" {{ block.shopify_attributes }}>
