@@ -939,15 +939,14 @@
                     </p>
                   </div>
                 {%- endif -%}
-
-              {%- when 'bundle_widget' -%}
+{%- when 'bundle_widget' -%}
                 <div id="pb-bundles-{{ section.id }}" class="pb-wrap" {{ block.shopify_attributes }}>
                   <style>
                     #pb-bundles-{{ section.id }} .pb-wrap { margin: 24px 0; border-radius: 12px; overflow: hidden; }
                     #pb-bundles-{{ section.id }} .pb-option-group { margin-bottom: 20px; }
                     #pb-bundles-{{ section.id }} .pb-option-title { margin-bottom: 10px; font-weight: bold; font-size: 14px; display:flex; justify-content:space-between; align-items:center; color:{{ block.settings.label_color }}; }
 
-                    /* --- Option Row 1 (e.g. Size/Set) - Flex Style --- */
+                    /* --- Option Row 1 (e.g. Size/Set) --- */
                     #pb-bundles-{{ section.id }} .pb-opt-row-1 {
                       display: flex; gap:10px; flex-wrap:wrap;
                     }
@@ -964,7 +963,7 @@
                       font-weight: bold; border-color: {{ block.settings.tab_bg_active }};
                     }
 
-                    /* --- Option Row 2 (e.g. Color) - Grid Style (Select Set) --- */
+                    /* --- Option Row 2 (e.g. Color) --- */
                     #pb-bundles-{{ section.id }} .pb-opt-row-2 {
                         display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
                     }
@@ -989,31 +988,26 @@
                       cursor: pointer; transition: 0.3s;
                       color: {{ block.settings.card_text }}; position: relative;
                     }
-                    /* Modified Active State: White Background, Black Text */
+                    
+                    /* --- FIXED: ACTIVE STATE BACKGROUND --- */
                     #pb-bundles-{{ section.id }} .pb-card.active {
                       border: 2px solid {{ block.settings.active_card_border }};
-                      background: #FFFFFF !important;
+                      /* Force background color explicitly */
+                      background-color: {{ block.settings.active_card_bg }} !important; 
                       color: #000000 !important;
                     }
-                    /* Force child elements to black on active */
-                    #pb-bundles-{{ section.id }} .pb-card.active .pb-card__title,
-                    #pb-bundles-{{ section.id }} .pb-card.active .pb-card__info,
-                    #pb-bundles-{{ section.id }} .pb-card.active .pb-card__desc,
-                    #pb-bundles-{{ section.id }} .pb-card.active .pb-card__price,
-                    #pb-bundles-{{ section.id }} .pb-card.active .pb-card__compare-note {
-                        color: #000000 !important;
+                    
+                    /* Force child elements color on active so they are visible against white/light bg */
+                    #pb-bundles-{{ section.id }} .pb-card.active * {
+                        color: inherit !important;
                     }
 
                     #pb-bundles-{{ section.id }} .pb-card__title { font-weight: bold; font-size: 15px; margin-bottom: 4px; }
-
-                    /* NEW SHORT INFO STYLE */
                     #pb-bundles-{{ section.id }} .pb-card__info {
                       font-size: {{ block.settings.info_font_size }}px;
                       color: {{ block.settings.info_color }};
-                      margin-bottom: 6px;
-                      line-height: 1.3;
+                      margin-bottom: 6px; line-height: 1.3;
                     }
-
                     #pb-bundles-{{ section.id }} .pb-card__desc {
                       font-size: {{ block.settings.desc_font_size }}px;
                       color: {{ block.settings.desc_color }};
@@ -1039,15 +1033,12 @@
                       font-weight: bold;
                     }
 
-                    /* Gallery Images below Price - Default Hidden, Visible on Active */
+                    /* Gallery Images */
                     #pb-bundles-{{ section.id }} .pb-card__gallery {
-                      display: none; /* Hidden by default */
-                      gap: 8px; margin-top: 12px;
+                      display: none; gap: 8px; margin-top: 12px;
                       overflow-x: auto; scrollbar-width: none;
                     }
-                    #pb-bundles-{{ section.id }} .pb-card.active .pb-card__gallery {
-                      display: flex; /* Show only when active */
-                    }
+                    #pb-bundles-{{ section.id }} .pb-card.active .pb-card__gallery { display: flex; }
                     #pb-bundles-{{ section.id }} .pb-card__gallery::-webkit-scrollbar { display: none; }
                     #pb-bundles-{{ section.id }} .pb-card__gallery img {
                       width: 60px; height: 60px; object-fit: contain;
@@ -1071,7 +1062,7 @@
                     #pb-bundles-{{ section.id }} .secure-note { color: {{ block.settings.guarantee_color }}; }
                   </style>
 
-                  {% comment %} --- DYNAMIC VARIANT OPTIONS RENDERER --- {% endcomment %}
+                  {% comment %} --- MAIN VARIANT OPTIONS --- {% endcomment %}
                   {%- unless product.has_only_default_variant -%}
                     <div class="pb-options-container" id="pb-options-{{ section.id }}">
                       {%- for option in product.options_with_values -%}
@@ -1079,17 +1070,9 @@
                           <div class="pb-option-title">
                             <span>{{ option.name }}</span>
                             {% if forloop.index == 1 -%}
-                              <button
-                                type="button"
-                                onclick="toggleSizeGuide(true)"
-                                style="background:none;border:none;text-decoration:underline;cursor:pointer;color:inherit;font-size:12px;"
-                              >
-                                {{ block.settings.size_guide_text }}
-                              </button>
+                              <button type="button" onclick="toggleSizeGuide(true)" style="background:none;border:none;text-decoration:underline;cursor:pointer;color:inherit;font-size:12px;">{{ block.settings.size_guide_text }}</button>
                             {%- endif %}
                           </div>
-
-                          {% comment %} Style 1: Colors (Usually 1st) | Style 2: Sets/Sizes (Usually 2nd) {% endcomment %}
                           <div class="{% if forloop.index == 1 %}pb-opt-row-1{% else %}pb-opt-row-2{% endif %}">
                             {%- for value in option.values -%}
                               <div
@@ -1106,11 +1089,9 @@
                     </div>
                   {%- endunless -%}
 
+                  {% comment %} --- BUNDLE CARDS --- {% endcomment %}
                   {% if block.settings.enable_bundles %}
-                    <div
-                      class="pb-title"
-                      style="margin: 20px 0 10px; font-weight:500; color: {{ block.settings.label_color }}"
-                    >
+                    <div class="pb-title" style="margin: 20px 0 10px; font-weight:500; color: {{ block.settings.label_color }}">
                       {{ block.settings.bundles_heading }}
                     </div>
                     {%- for i in (1..3) -%}
@@ -1119,8 +1100,6 @@
                       {%- capture info_setting -%}bundle_info_{{ i }}{%- endcapture -%}
                       {%- capture desc_setting -%}bundle_desc_{{ i }}{%- endcapture -%}
                       {%- capture badge_setting -%}bundle_badge_{{ i }}{%- endcapture -%}
-
-                      {%- comment -%} Capture Custom Image Logic Variables {%- endcomment -%}
                       {%- capture enable_custom_key -%}enable_custom_img_{{ i }}{%- endcapture -%}
                       {%- assign show_custom_images = block.settings[enable_custom_key] -%}
 
@@ -1130,48 +1109,34 @@
                           class="pb-card"
                           onclick="selectBundleProduct(this, '{{ b_prod.selected_or_first_available_variant.id }}', '{{ b_prod.price | money }}')"
                           data-id="{{ b_prod.selected_or_first_available_variant.id }}"
-                          data-image="{{ b_prod.featured_image | image_url: width: 1000 }}"
                         >
                           {% if block.settings[badge_setting] != blank %}
                             <span class="pb-card__badge">{{ block.settings[badge_setting] }}</span>
                           {% endif %}
-
                           <div class="pb-card__title">{{ block.settings[title_setting] | default: b_prod.title }}</div>
-
-                          {% comment %} --- NEW: Short Info Under Title --- {% endcomment %}
                           {% if block.settings[info_setting] != blank %}
                             <div class="pb-card__info">{{ block.settings[info_setting] }}</div>
                           {% endif %}
-
                           <div class="pb-card__desc">{{ block.settings[desc_setting] }}</div>
-
                           <div class="pb-card__price">
                             {{ b_prod.price | money }}
                             {% if b_prod.compare_at_price > b_prod.price %}
                               <span class="pb-card__compare-note">({{ b_prod.compare_at_price | money }} Value)</span>
                             {% endif %}
                           </div>
-
-                          {% comment %} --- Display Images Below Price (Custom vs Product) --- {% endcomment %}
                           <div class="pb-card__gallery">
                             {%- if show_custom_images -%}
-                              {%- comment -%} Loop through 6 custom images {%- endcomment -%}
                               {%- for j in (1..6) -%}
                                 {%- capture img_key -%}b{{ i }}_img_{{ j }}{%- endcapture -%}
                                 {%- assign custom_img = block.settings[img_key] -%}
                                 {%- if custom_img != blank -%}
-                                  <img src="{{ custom_img | image_url: width: 120 }}" loading="lazy" alt="Bundle Image">
+                                  <img src="{{ custom_img | image_url: width: 120 }}" loading="lazy">
                                 {%- endif -%}
                               {%- endfor -%}
                             {%- else -%}
-                              {%- comment -%} Standard Product Images {%- endcomment -%}
                               {%- if b_prod.images.size > 0 -%}
                                 {%- for image in b_prod.images -%}
-                                  <img
-                                    src="{{ image | image_url: width: 120 }}"
-                                    loading="lazy"
-                                    alt="{{ image.alt | escape }}"
-                                  >
+                                  <img src="{{ image | image_url: width: 120 }}" loading="lazy">
                                 {%- endfor -%}
                               {%- endif -%}
                             {%- endif -%}
@@ -1182,7 +1147,6 @@
                   {% endif %}
 
                   <div class="pb-atc-wrap">
-                    {% comment %} --- RESTORED FORM TAG --- {% endcomment %}
                     <form
                       method="post"
                       action="/cart/add"
@@ -1196,9 +1160,7 @@
                         id="bundle-variant-input"
                         value="{{ product.selected_or_first_available_variant.id }}"
                       >
-
-                      {% comment %} --- Button type changed back to submit, onclick retained for interception --- {% endcomment %}
-                      <button type="submit" class="pb-atc-btn" id="bundle-atc-btn" onclick="handleAddToCart(event)">
+                      <button type="submit" class="pb-atc-btn">
                         {{ 'products.product.add_to_cart' | t }} -
                         <span id="bundle-price-display">
                           {{- product.selected_or_first_available_variant.price | money -}}
@@ -1213,79 +1175,20 @@
                     </div>
                   </div>
                 </div>
-                <div class="pay-badges" aria-label="Accepted payment methods">
-                  <span class="pay-badge"
-                    ><img src="//taimatitanium.com/cdn/shop/files/Container_7.png?v=1755250343"
-                  ></span>
-                  <span class="pay-badge"
-                    ><img src="//taimatitanium.com/cdn/shop/files/Container_6.png?v=1755250307"
-                  ></span>
-                  <span class="pay-badge"
-                    ><img src="//taimatitanium.com/cdn/shop/files/Container_5.png?v=1755250282"
-                  ></span>
-                  <span class="pay-badge"
-                    ><img src="//taimatitanium.com/cdn/shop/files/Container_4.png?v=1755250247"
-                  ></span>
-                  <span class="pay-badge"
-                    ><img src="//taimatitanium.com/cdn/shop/files/Container_3.png?v=1755249706"
-                  ></span>
-                  <span class="pay-badge"
-                    ><img src="//taimatitanium.com/cdn/shop/files/Container_2.png?v=1755249660"
-                  ></span>
-                </div>
+
                 <script>
     (function() {
-      // Raw variant data for Main Product
+      // 1. Setup Data
       var bundleVariants = {{ product.variants | json }};
-        
-      // State tracker for current selections (Main Product)
+      
       var state = [
         "{{ product.options_with_values[0].selected_value | escape }}",
         "{{ product.options_with_values[1].selected_value | escape }}",
         "{{ product.options_with_values[2].selected_value | escape }}"
       ];
 
-      // --- FUNCTION TO SELECT BUNDLE CARD ---
-      window.selectBundleProduct = function(card, variantId, priceText) {
-         // 1. Check if already active (toggle off)
-         if (card.classList.contains('active')) {
-             card.classList.remove('active');
-             
-             // Reset price display to Main Product Price (optional logic)
-             var mainPrice = "{{ product.selected_or_first_available_variant.price | money }}";
-             var btnPrice = document.getElementById('bundle-price-display');
-             if(btnPrice) btnPrice.innerText = mainPrice;
-
-             return; 
-         }
-
-         // 2. Remove active class from all other bundle cards
-         document.querySelectorAll('.pb-card').forEach(function(c) {
-            c.classList.remove('active');
-         });
-         
-         // 3. Add active class to clicked card
-         card.classList.add('active');
-
-         // 4. Update Price on Button (Visual only)
-         var btnPrice = document.getElementById('bundle-price-display');
-         if(btnPrice) btnPrice.innerText = priceText;
-      };
-
-      // --- FUNCTION TO HANDLE MAIN OPTIONS CHANGE ---
-      window.handleBundleOptionChange = function(element) {
-        var group = element.closest('.pb-option-group');
-        var optionIndex = parseInt(group.getAttribute('data-option-index'));
-
-        var buttons = group.querySelectorAll('div[data-value]');
-        buttons.forEach(function(btn) {
-          btn.classList.remove('active');
-        });
-        element.classList.add('active');
-
-        var value = element.getAttribute('data-value');
-        state[optionIndex] = value;
-
+      // Helper to find main variant ID from state
+      function getMainVariantId() {
         var matched = bundleVariants.find(function(v) {
           var match = true;
           if(state[0] && v.option1 !== state[0]) match = false;
@@ -1293,82 +1196,102 @@
           if(state[2] && v.option3 !== state[2]) match = false;
           return match;
         });
+        return matched;
+      }
+
+      // --- FUNCTION 1: HANDLE BUNDLE CLICK ---
+      window.selectBundleProduct = function(card, bundleVariantId, priceText) {
+         var input = document.getElementById('bundle-variant-input');
+         var btnPrice = document.getElementById('bundle-price-display');
+
+         // Case A: Toggle OFF (if clicking already active bundle)
+         if (card.classList.contains('active')) {
+             card.classList.remove('active');
+             
+             // Re-select Main Product (Visually restore active class on buttons)
+             document.querySelectorAll('.pb-option-group').forEach(function(group) {
+                 var idx = parseInt(group.getAttribute('data-option-index'));
+                 var val = state[idx];
+                 var btn = group.querySelector('div[data-value="'+val+'"]');
+                 if(btn) btn.classList.add('active');
+             });
+
+             // Revert Input ID to Main Product
+             var mainVar = getMainVariantId();
+             if(mainVar) {
+                input.value = mainVar.id;
+                if(btnPrice) btnPrice.innerText = '$' + (mainVar.price / 100).toFixed(0);
+             }
+             return; 
+         }
+
+         // Case B: Select New Bundle
+         // 1. Remove active from all other bundle cards
+         document.querySelectorAll('.pb-card').forEach(function(c) { c.classList.remove('active'); });
+         
+         // 2. Add active to clicked bundle
+         card.classList.add('active');
+
+         // 3. *** KEY CHANGE: DESELECT MAIN PRODUCT VARIANTS ***
+         // Removes '.active' class from all main variant buttons
+         document.querySelectorAll('#pb-bundles-{{ section.id }} .pb-opt-btn-1, #pb-bundles-{{ section.id }} .pb-opt-btn-2').forEach(function(btn) {
+             btn.classList.remove('active');
+         });
+
+         // 4. Update Form Input ID to the Bundle ID
+         if(input) input.value = bundleVariantId;
+
+         // 5. Update Price Text
+         if(btnPrice) btnPrice.innerText = priceText;
+      };
+
+
+      // --- FUNCTION 2: HANDLE MAIN VARIANT CLICK ---
+      window.handleBundleOptionChange = function(element) {
+        
+        // 1. *** KEY CHANGE: DESELECT BUNDLE ***
+        // If user clicks a Size/Color, remove active state from any Bundle Card
+        document.querySelectorAll('#pb-bundles-{{ section.id }} .pb-card').forEach(function(c) {
+            c.classList.remove('active');
+        });
+
+        // 2. Handle Visual Buttons (Standard Logic)
+        var group = element.closest('.pb-option-group');
+        var optionIndex = parseInt(group.getAttribute('data-option-index'));
+        var buttons = group.querySelectorAll('div[data-value]');
+        
+        buttons.forEach(function(btn) { btn.classList.remove('active'); });
+        element.classList.add('active');
+
+        // 3. Update Internal State
+        state[optionIndex] = element.getAttribute('data-value');
+
+        // 4. Find Matching Main Variant
+        var matched = getMainVariantId();
 
         if(matched) {
-          // Update Hidden Input ID (THIS IS THE MAIN PRODUCT ID)
+          // 5. Swap Form Input ID back to Main Product ID
           var input = document.getElementById('bundle-variant-input');
           if(input) input.value = matched.id;
 
-          // Format Prices
+          // 6. Update Price
+          var btnPrice = document.getElementById('bundle-price-display');
           var formattedPrice = '$' + (matched.price / 100).toFixed(0);
-
-          // Update Price on Add to Cart Button (Only if no bundle selected)
-          var activeCard = document.querySelector('.pb-card.active');
-          if (!activeCard) {
-              var btnPrice = document.getElementById('bundle-price-display');
-              if(btnPrice) btnPrice.innerText = formattedPrice;
-          }
-
-          // Update Media
+          if(btnPrice) btnPrice.innerText = formattedPrice;
+          
+          // 7. Update Media (Optional)
           if(matched.featured_media) {
-              const sectionId = "{{ section.id }}";
-              const gallery = document.querySelector(`product-info[id="MainProduct-${sectionId}"] media-gallery`);
-              if (gallery && gallery.setActiveMedia) { 
+             const sectionId = "{{ section.id }}";
+             const gallery = document.querySelector(`product-info[id="MainProduct-${sectionId}"] media-gallery`);
+             if (gallery && gallery.setActiveMedia) { 
                gallery.setActiveMedia(`${sectionId}-${matched.featured_media.id}`, true); 
-              }
+             }
           }
         }
       };
 
-      // --- ROBUST ADD TO CART FUNCTION (FIXED) ---
-      window.handleAddToCart = function(e) {
-          const btn = document.getElementById('bundle-atc-btn');
-          
-          // 1. Check if we should BYPASS our custom logic (flag set by us previously)
-          if (btn.getAttribute('data-bypass') === 'true') {
-              btn.removeAttribute('data-bypass');
-              return; // Let the form submit naturally -> Theme handles drawer
-          }
-
-          // 2. CHECK DOM: Is any bundle card visually selected?
-          const activeCard = document.querySelector('.pb-card.active');
-          
-          // If NO bundle selected, do nothing (Standard behavior)
-          if (!activeCard) {
-              return; 
-          }
-
-          // 3. If Bundle IS selected -> INTERCEPT
-          e.preventDefault();
-          const originalText = btn.innerHTML; // Save correct HTML
-          btn.innerText = 'Adding...';
-          
-          // Get ID from the DOM element directly
-          const bundleId = activeCard.getAttribute('data-id');
-
-          // 4. Add BUNDLE ITEM via AJAX
-          fetch(window.Shopify.routes.root + 'cart/add.js', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ items: [{ id: bundleId, quantity: 1 }] })
-          })
-          .then(() => {
-              // 5. Success -> Set BYPASS flag and re-click button
-              // FIX: Use innerHTML instead of innerText to restore spans/tags
-              btn.innerHTML = originalText; 
-              btn.setAttribute('data-bypass', 'true');
-              btn.click(); 
-          })
-          .catch((error) => {
-              console.error('Error adding bundle:', error);
-              // FIX: Use innerHTML here too
-              btn.innerHTML = originalText;
-          });
-      };
-
     })();
                 </script>
-
               {%- when 'shipping_bar' -%}
                 <div
                   class="shipbar"
@@ -2717,6 +2640,13 @@
   "limit": 1,
   "settings": [
     { "type": "header", "content": "Variant Tabs (Top)" },
+    {
+  "type": "checkbox",
+  "id": "enable_single_mode",
+  "label": "Enable Single Product Mode",
+  "default": true,
+  "info": "When enabled: Selecting a variant deselects the bundle, and selecting a bundle overrides the variant."
+},
     { "type": "color", "id": "tab_text_inactive", "label": "Inactive Tab Text", "default": "#000000" },
     { "type": "color", "id": "tab_bg_inactive", "label": "Inactive Tab BG", "default": "transparent" },
     { "type": "color", "id": "tab_text_active", "label": "Active Tab Text", "default": "#000000" },
